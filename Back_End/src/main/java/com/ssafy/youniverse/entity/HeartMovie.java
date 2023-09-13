@@ -6,18 +6,19 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class KeywordMember {
+public class HeartMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer keywordMemberId;
+    private Integer heartMovieId;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "keyword_id")
-    private Keyword keyword;
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
 
 }

@@ -3,6 +3,8 @@ package com.ssafy.youniverse.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -12,8 +14,9 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer genreId;
 
-//    private Movie movie;
     @Column(length = 20, nullable = false)
     private String movieGenre;
 
+    @OneToMany(mappedBy = "genre")
+    private List<GenreMovie> genreMovies = new ArrayList<>();
 }

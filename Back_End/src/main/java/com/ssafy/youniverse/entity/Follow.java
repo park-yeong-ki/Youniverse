@@ -2,10 +2,7 @@ package com.ssafy.youniverse.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -15,7 +12,12 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer followId;
 
-//    private Member member1;
-//    private Member member2;
+    @ManyToOne
+    @JoinColumn(name = "follower_id")
+    private Member follower;
+
+    @ManyToOne
+    @JoinColumn(name = "following_id")
+    private Member following;
 
 }

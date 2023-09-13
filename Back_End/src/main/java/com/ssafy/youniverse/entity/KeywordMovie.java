@@ -12,8 +12,12 @@ public class KeywordMovie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer keywordMovieId;
 
-//    private Keyword keyword;
+    @ManyToOne
+    @JoinColumn(name = "keyword_id")
+    private Keyword keyword;
 
-//    private Movie movie;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 
 }

@@ -2,10 +2,7 @@ package com.ssafy.youniverse.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -15,7 +12,12 @@ public class DirectorMovie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer directorMovieId;
 
-//    private Director director;
-//    private Movie movie;
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 
 }
