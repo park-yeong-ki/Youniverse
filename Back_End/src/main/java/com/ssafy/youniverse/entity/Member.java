@@ -1,5 +1,6 @@
 package com.ssafy.youniverse.entity;
 
+import com.ssafy.youniverse.util.Auditable;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,8 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Member {
-
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
@@ -29,7 +29,7 @@ public class Member {
     @Column(length = 255, nullable = false)
     private String introduce;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = true)
     private String memberImage;
 
     @OneToMany(mappedBy="follower")

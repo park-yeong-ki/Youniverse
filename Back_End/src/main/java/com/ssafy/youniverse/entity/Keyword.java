@@ -17,6 +17,9 @@ public class Keyword {
     @Column(length = 10, nullable = false)
     private String keywordName;
 
+    @Column(nullable = false)
+    private int source;
+
     @OneToMany(mappedBy = "keyword")
     private List<KeywordMember> keywordMembers = new ArrayList<>();
 
