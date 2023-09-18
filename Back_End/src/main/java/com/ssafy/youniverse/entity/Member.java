@@ -32,14 +32,17 @@ public class Member extends Auditable {
     @Column(length = 255, nullable = true)
     private String memberImage;
 
-    @OneToMany(mappedBy="follower")
-    private List<Follow> followings = new ArrayList<>();
-
-    @OneToMany(mappedBy="following")
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
     private List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
+    private List<Follow> followings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<OttMember> ottMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<KeywordMember> keywordMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<HeartMovie> heartMovies = new ArrayList<>();
@@ -52,5 +55,4 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
-
 }

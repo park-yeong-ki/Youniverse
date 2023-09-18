@@ -26,9 +26,9 @@ public class Ott {
     @Column(nullable = false)
     private Integer ottPrice;
 
-    @OneToMany(mappedBy = "ott")
+    @OneToMany(mappedBy = "ott", cascade = CascadeType.ALL)
     private List<OttMovie> ottMovies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ott")
+    @OneToMany(mappedBy = "ott", cascade = CascadeType.ALL)
     private List<OttMember> ottMembers = new ArrayList<>();
 }

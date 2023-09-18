@@ -1,6 +1,9 @@
 package com.ssafy.youniverse.service;
 
+import com.ssafy.youniverse.entity.KeywordMember;
 import com.ssafy.youniverse.entity.Member;
+import com.ssafy.youniverse.entity.Ott;
+import com.ssafy.youniverse.entity.OttMember;
 import com.ssafy.youniverse.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,10 +21,28 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final S3Service s3Service;
+    private final OttService ottService;
+    private final OttMemberService ottMemberService;
+    private final KeywordService keywordService;
+    private final KeywordMemberService keywordMemberService;
 
     //회원생성
     public Member createMember(Member member) {
-        return memberRepository.save(member);
+        Member createdMember = memberRepository.save(member);
+
+        createdMember.getKeywordMembers().stream().forEach(keywordMember -> {
+            keywordMember.setMember(createdMember);
+            keywordMember.setKeyword(keywordService.readKeyword(keywordMember.getKeyword().getKeywordId()));
+            keywordMemberService.createKeywordMember(keywordMember);
+        });
+
+        createdMember.getOttMembers().stream().forEach(ottMember -> {
+            ottMember.setMember(createdMember);
+            ottMember.setOtt(ottService.readOtt(ottMember.getOtt().getOttId()));
+            ottMemberService.createOttMember(ottMember);
+        });
+
+        return createdMember;
     }
 
     //회원조회
@@ -40,7 +61,7 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    //회원정보 수정
+    //회원정보 수정 -> 수정 후 지연 조회 해결하기
     public Member updateMember(Member member, MultipartFile multipartFile) throws IOException {
         Member findMember = readMember(member.getMemberId()); //회원정보에서 회원 불러오기
 
@@ -63,7 +84,33 @@ public class MemberService {
             findMember.setMemberImage(null);
         }
 
-        return memberRepository.save(findMember);
+        Member updatedMember = memberRepository.save(findMember);
+
+        //기존 키워드, 멤버 삭제
+        updatedMember.getKeywordMembers().stream().forEach(keywordMember -> {
+            keywordMemberService.deleteKeywordMember(keywordMember.getKeywordMemberId());
+        });
+
+        //기존 ott, 멤버 삭제
+        updatedMember.getOttMembers().stream().forEach(ottMember -> {
+            ottMemberService.deleteOttMember(ottMember.getOttMemberId());
+        });
+
+        //새로운 키워드, 멤버 등록
+        member.getKeywordMembers().stream().forEach(keywordMember -> {
+            keywordMember.setMember(updatedMember);
+            keywordMember.setKeyword(keywordService.readKeyword(keywordMember.getKeyword().getKeywordId()));
+            keywordMemberService.createKeywordMember(keywordMember);
+        });
+
+        //새로운 ott, 멤버 등록
+        member.getOttMembers().stream().forEach(ottMember -> {
+            ottMember.setMember(updatedMember);
+            ottMember.setOtt(ottService.readOtt(ottMember.getOtt().getOttId()));
+            ottMemberService.createOttMember(ottMember);
+        });
+
+        return updatedMember;
     }
 
     //회원삭제
