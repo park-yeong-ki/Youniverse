@@ -21,7 +21,7 @@ type ButtonSize =
 /** 버튼 COLOR */
 type ButtonColor = "White" | "Black" | "Ghost" | "Purple" | "BlackStroke";
 
-/** 버튼 STYLE 타입 지정 */
+/** 버튼 스타일 타입 지정 */
 type ButtonStyle = {
   height: string;
   width?: string;
@@ -29,7 +29,7 @@ type ButtonStyle = {
   borderRadius?: string;
 };
 
-/** 버튼 COLOR, STROKE, HOVER 타입 지정 */
+/** 버튼 BGCOLOR, COLOR, STROKE, BORDER, HOVER 타입 지정 */
 type ButtonColorStyle = {
   backgroundColor: string;
   border?: string;
@@ -39,8 +39,8 @@ type ButtonColorStyle = {
   color?: string;
 };
 
-/** 버튼 STYLE */
-const buttonStyles: Record<ButtonSize, ButtonStyle> = {
+/** 버튼 스타일 */
+const ButtonStyles: Record<ButtonSize, ButtonStyle> = {
   "X-Large": {
     height: "56px",
     fontSize: "24px",
@@ -70,8 +70,8 @@ const buttonStyles: Record<ButtonSize, ButtonStyle> = {
   },
 };
 
-/** 버튼 COLOR, STROKE, HOVER STYLE 지정 */
-const buttonColors: Record<ButtonColor, ButtonColorStyle> = {
+/** 버튼 BGCOLOR, COLOR, STROKE, BORDER, HOVER 스타일 지정 */
+const ButtonColors: Record<ButtonColor, ButtonColorStyle> = {
   White: {
     backgroundColor: "#fff",
     hover: {
@@ -86,7 +86,7 @@ const buttonColors: Record<ButtonColor, ButtonColorStyle> = {
     color: "#fff",
   },
   Ghost: {
-    backgroundColor: "#ffffff80",
+    backgroundColor: "#ffffff80", // 투명도 50%
     hover: {
       boxShadow: "0px 0px 12px 0px rgba(255, 255, 255, 0.70)",
     },
@@ -108,15 +108,15 @@ const buttonColors: Record<ButtonColor, ButtonColorStyle> = {
 
 /** styled-component => 버튼 */
 const StyledButton = styled.button<ButtonProps>`
-  width: ${(props) => buttonStyles[props.size]?.width ?? "100%"};
-  height: ${(props) => buttonStyles[props.size].height};
-  font-size: ${(props) => buttonStyles[props.size].fontSize};
-  border-radius: ${(props) => buttonStyles[props.size]?.borderRadius ?? "12px"};
-  background-color: ${(props) => buttonColors[props.color].backgroundColor};
-  border: ${(props) => buttonColors[props.color]?.border ?? "none"};
-  color: ${(props) => buttonColors[props.color]?.color ?? "#000"};
+  width: ${(props) => ButtonStyles[props.size]?.width ?? "100%"};
+  height: ${(props) => ButtonStyles[props.size].height};
+  font-size: ${(props) => ButtonStyles[props.size].fontSize};
+  border-radius: ${(props) => ButtonStyles[props.size]?.borderRadius ?? "12px"};
+  background-color: ${(props) => ButtonColors[props.color].backgroundColor};
+  border: ${(props) => ButtonColors[props.color]?.border ?? "none"};
+  color: ${(props) => ButtonColors[props.color]?.color ?? "#000"};
   &:hover {
-    box-shadow: ${(props) => buttonColors[props.color]?.hover?.boxShadow};
+    box-shadow: ${(props) => ButtonColors[props.color]?.hover?.boxShadow};
   }
   cursor: pointer;
 `;
