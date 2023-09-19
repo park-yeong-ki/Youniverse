@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { HiHeart } from "react-icons/hi";
 
 import StarryBackground from "./commons/style/StarryBackground";
-import Container from "./components/atoms/Container";
+import Wrapper from "./components/atoms/Wrapper";
 import Btn from "./components/atoms/Btn";
 import HashTag from "./components/atoms/HashTag";
 import InputBox from "./components/atoms/InputBox";
@@ -65,26 +65,26 @@ function App() {
             </div>
 
             <div></div>
-            <Container size={"Standard"} color={"WhiteGhost"} padding={"Wide"}>
-                <Container size={"Small"} color={"Clear"} padding={"Wide"}>
+            <Wrapper size={"Standard"} color={"WhiteGhost"} padding={"Wide"}>
+                <Wrapper size={"Small"} color={"Clear"} padding={"Wide"}>
                     투명 고스트 컨테이너
-                </Container>
-                <Container
+                </Wrapper>
+                <Wrapper
                     size={"Small"}
                     color={"BlackGhost"}
                     padding={"Medium"}
                 >
                     검은색 고스트 컨테이너
-                </Container>
-                <Container
+                </Wrapper>
+                <Wrapper
                     size={"Small"}
                     color={"WhiteGhost"}
                     padding={"Narrow"}
                 >
                     흰색 고스트 컨테이너
-                </Container>
+                </Wrapper>
                 표준 컨테이너
-            </Container>
+            </Wrapper>
 
             {/* 해시태그 예제 */}
             <div>

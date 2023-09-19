@@ -31,6 +31,7 @@ body {
     animation-name: estrela;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    z-index: -1;
 }
 
 .estrela.style1 {
@@ -114,6 +115,7 @@ body {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-duration: 1s;
+    z-index: -1;
 }
 
 .meteoro:before {
