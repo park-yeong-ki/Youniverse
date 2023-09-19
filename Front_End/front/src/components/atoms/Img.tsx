@@ -6,7 +6,6 @@ interface ImageProps {
     size: ImageSize;
     src: string;
     $point?: boolean;
-    // hover?: boolean;
     onClick?: () => void;
 }
 
@@ -84,7 +83,6 @@ const Img = ({
             src={src}
             onClick={onClick}
             $point={$point}
-            // hover={hover}
         />
     );
 };

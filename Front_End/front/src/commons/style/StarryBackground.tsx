@@ -43,9 +43,7 @@ const StarryBackground: React.FC = () => {
             }
         }
 
-        setTimeout(() => {
-            carregarMeteoro();
-        }, numeroAleatorio);
+        setTimeout(carregarMeteoro, numeroAleatorio);
 
     }, []);
 
