@@ -1,9 +1,7 @@
 package com.ssafy.youniverse.mapper;
 
 import com.ssafy.youniverse.dto.req.MemberReqDto;
-import com.ssafy.youniverse.dto.res.KeywordResDto;
-import com.ssafy.youniverse.dto.res.MemberResDto;
-import com.ssafy.youniverse.dto.res.OttResDto;
+import com.ssafy.youniverse.dto.res.*;
 import com.ssafy.youniverse.entity.*;
 import org.mapstruct.Mapper;
 
@@ -85,7 +83,7 @@ public interface MemberMapper {
                 })
                 .collect(Collectors.toList())
         );
-        
+
         memberResDto.setKeywordResDtos(member.getKeywordMembers().stream()
                 .map(keywordMember -> {
                     Keyword keyword = keywordMember.getKeyword();
@@ -99,6 +97,30 @@ public interface MemberMapper {
                 .collect(Collectors.toList())
         );
 
+        //나를 팔로워한 목록
+        memberResDto.setFollowers(member.getFollowings().stream()
+                .map(follow -> {
+                    FollowResDto followResDto = new FollowResDto();
+                    followResDto.setFollowId(follow.getFollowId());
+                    followResDto.setFollowerResDto(memberToMemberSimpleResDto(follow.getFollower()));
+                    return followResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
+        //내가 팔로잉한 목록
+        memberResDto.setFollowings(member.getFollowers().stream()
+                .map(follow -> {
+                    FollowResDto followResDto = new FollowResDto();
+                    followResDto.setFollowId(follow.getFollowId());
+                    followResDto.setFollowingResDto(memberToMemberSimpleResDto(follow.getFollowing()));
+                    return followResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
         return memberResDto;
     }
+
+    MemberSimpleResDto memberToMemberSimpleResDto(Member member);
 }

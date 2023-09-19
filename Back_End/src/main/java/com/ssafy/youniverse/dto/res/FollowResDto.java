@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class FollowResDto {
     private Integer followId;
-    private MemberResDto followerResDto;
-    private MemberResDto followingResDto;
+    private MemberSimpleResDto followerResDto;
+    private MemberSimpleResDto followingResDto;
 }

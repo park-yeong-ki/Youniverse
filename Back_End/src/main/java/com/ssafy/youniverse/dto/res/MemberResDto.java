@@ -1,6 +1,5 @@
 package com.ssafy.youniverse.dto.res;
 
-import com.ssafy.youniverse.entity.OttMember;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +17,6 @@ public class MemberResDto {
     private String memberImage;
     private List<OttResDto> ottResDtos;
     private List<KeywordResDto> keywordResDtos;
-    private List<MemberResDto> followers;
-    private List<MemberResDto> followings;
+    private List<FollowResDto> followers;
+    private List<FollowResDto> followings;
 }

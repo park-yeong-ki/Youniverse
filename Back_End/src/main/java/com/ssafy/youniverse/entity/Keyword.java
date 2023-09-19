@@ -20,7 +20,7 @@ public class Keyword {
     @Column(nullable = false)
     private int source;
 
-    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeywordMember> keywordMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL)

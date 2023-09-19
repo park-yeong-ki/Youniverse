@@ -2,55 +2,24 @@ package com.ssafy.youniverse.mapper;
 
 import com.ssafy.youniverse.dto.req.FollowReqDto;
 import com.ssafy.youniverse.dto.res.FollowResDto;
-import com.ssafy.youniverse.dto.res.MemberResDto;
+import com.ssafy.youniverse.dto.res.KeywordResDto;
 import com.ssafy.youniverse.entity.Follow;
-import com.ssafy.youniverse.entity.Member;
+import com.ssafy.youniverse.entity.Keyword;
+import com.ssafy.youniverse.entity.KeywordMember;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface FollowMapper {
-    default Follow followReqDtoToFollow(FollowReqDto followReqDto){
-        if (followReqDto == null) {
-            return null;
-        }
+    @Mapping(source = "followReqDto.followerId", target = "follower.memberId")
+    @Mapping(source = "followReqDto.followingId", target = "following.memberId")
+    Follow followReqDtoToFollow(FollowReqDto followReqDto);
 
-        Follow follow = new Follow();
+    @Mapping(source = "follow.follower", target = "followerResDto")
+    @Mapping(source = "follow.following", target = "followingResDto")
+    FollowResDto followToFollowResDto(Follow follow);
 
-        Member follower = new Member();
-        follower.setMemberId(followReqDto.getFollowerId());
-        follow.setFollower(follower);
-
-        Member following = new Member();
-        following.setMemberId(followReqDto.getFollowingId());
-        follow.setFollowing(following);
-
-        return follow;
-    }
-
-    default FollowResDto followToFollowResDto(Follow follow){
-        if (follow == null) {
-            return null;
-        }
-
-        FollowResDto followResDto = new FollowResDto();
-        followResDto.setFollowId(follow.getFollowId());
-        followResDto.setFollowerResDto(memberToMemberResDto(follow.getFollower()));
-        followResDto.setFollowingResDto(memberToMemberResDto(follow.getFollowing()));
-
-        return followResDto;
-    }
-
-    MemberResDto memberToMemberResDto(Member member);
-
-    default List<FollowResDto> followsToFollowResDtos(List<Follow> follows){
-        List<FollowResDto> followResDtos = follows.stream()
-                .map(follow -> followToFollowResDto(follow))
-                .collect(Collectors.toList());
-
-        return followResDtos;
-    }
+    List<FollowResDto> followsToFollowResDtos(List<Follow> follows);
 }

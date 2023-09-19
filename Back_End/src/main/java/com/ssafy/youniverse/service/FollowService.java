@@ -21,6 +21,10 @@ public class FollowService {
     public Follow createFollow(Follow follow) {
         Member follower = memberService.readMember(follow.getFollower().getMemberId());
         Member following = memberService.readMember(follow.getFollowing().getMemberId());
+
+        //팔로우된 관계인지 검증
+        isFollow(follower, following);
+
         follow.setFollower(follower);
         follow.setFollowing(following);
 
@@ -48,4 +52,11 @@ public class FollowService {
         followRepository.delete(follow);
     }
 
+    //팔로우 관계 검증
+    private void isFollow(Member follower, Member following) {
+        Optional<Follow> optionalFollow = followRepository.findByFollowerAndFollowing(follower, following);
+        if (optionalFollow.isPresent()) { //존재하는 팔로우인 경우
+            throw new RuntimeException("이미 존재하는 팔로우입니다."); //임시 예외
+        }
+    }
 }

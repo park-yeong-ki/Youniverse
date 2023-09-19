@@ -1,12 +1,13 @@
 package com.ssafy.youniverse.entity;
 
+import com.ssafy.youniverse.util.Auditable;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-public class Follow {
+public class Follow extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -61,7 +61,7 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    //회원정보 수정 -> 수정 후 지연 조회 해결하기
+    //회원정보 수정 -> 수정 후 지연 조회 해결(@ManyToOne 관계에서의 변경이 아닌 @OneToMany를 통해 해결)
     public Member updateMember(Member member, MultipartFile multipartFile) throws IOException {
         Member findMember = readMember(member.getMemberId()); //회원정보에서 회원 불러오기
 
@@ -87,27 +87,31 @@ public class MemberService {
         Member updatedMember = memberRepository.save(findMember);
 
         //기존 키워드, 멤버 삭제
-        updatedMember.getKeywordMembers().stream().forEach(keywordMember -> {
-            keywordMemberService.deleteKeywordMember(keywordMember.getKeywordMemberId());
-        });
+        updatedMember.getKeywordMembers().clear();
+//        updatedMember.getKeywordMembers().stream().forEach(keywordMember -> {
+//            keywordMemberService.deleteKeywordMember(keywordMember.getKeywordMemberId());
+//        });
 
         //기존 ott, 멤버 삭제
-        updatedMember.getOttMembers().stream().forEach(ottMember -> {
-            ottMemberService.deleteOttMember(ottMember.getOttMemberId());
-        });
+        updatedMember.getOttMembers().clear();
+//        updatedMember.getOttMembers().stream().forEach(ottMember -> {
+//            ottMemberService.deleteOttMember(ottMember.getOttMemberId());
+//        });
 
         //새로운 키워드, 멤버 등록
         member.getKeywordMembers().stream().forEach(keywordMember -> {
             keywordMember.setMember(updatedMember);
             keywordMember.setKeyword(keywordService.readKeyword(keywordMember.getKeyword().getKeywordId()));
-            keywordMemberService.createKeywordMember(keywordMember);
+//            keywordMemberService.createKeywordMember(keywordMember);
+            updatedMember.getKeywordMembers().add(keywordMember);
         });
 
         //새로운 ott, 멤버 등록
         member.getOttMembers().stream().forEach(ottMember -> {
             ottMember.setMember(updatedMember);
             ottMember.setOtt(ottService.readOtt(ottMember.getOtt().getOttId()));
-            ottMemberService.createOttMember(ottMember);
+//            ottMemberService.createOttMember(ottMember);
+            updatedMember.getOttMembers().add(ottMember);
         });
 
         return updatedMember;
