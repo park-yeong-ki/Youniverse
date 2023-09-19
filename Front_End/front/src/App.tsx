@@ -5,6 +5,8 @@ import Btn from "./components/atoms/Btn";
 import HashTag from "./components/atoms/HashTag";
 import InputBox from "./components/atoms/InputBox";
 import Img from "./components/atoms/Img";
+import Text from "./components/atoms/Text";
+import {MAIN_NOT_LOGIN} from "./commons/constants/String"
 import { GlobalStyles } from "./commons/style/GlobalStyle";
 
 const sayHelloHandler = () => {
@@ -99,6 +101,9 @@ function App() {
         // hover
         //$point
       />
+      
+      {/* TEXT 예제 */}
+      <Text size="Large" color="White" fontFamily="PyeongChang-Bold"> {MAIN_NOT_LOGIN} </Text>
     </div>
   );
 }
