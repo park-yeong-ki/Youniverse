@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
 import StarryBackground from "./commons/style/StarryBackground";
 import Container from "./components/atoms/Container";
-=======
-
-import { GlobalStyles } from "./commons/style/GlobalStyle";
-import StarryBackground from "./commons/style/StarryBackground";
-
->>>>>>> 8677a43b08c2e3f0a918e086c92bab9a39bb78e3
 import Btn from "./components/atoms/Btn";
 import HashTag from "./components/atoms/HashTag";
 import InputBox from "./components/atoms/InputBox";
 import Img from "./components/atoms/Img";
+import { GlobalStyles } from "./commons/style/GlobalStyle";
 
 const sayHelloHandler = () => {
   console.log("안뇽~");
@@ -29,7 +23,6 @@ function App() {
     setInputValue2(e.target.value);
   };
 
-<<<<<<< HEAD
   return (
     <div>
       <GlobalStyles />
@@ -44,22 +37,6 @@ function App() {
       />
       {/* 입력된 값 표시 (옵션) */}
       <div>{inputValue1}</div>
-=======
-    return (
-        <div>
-            <GlobalStyles />
-            <StarryBackground />
-            {/* InputBox 사용 예제 */}
-            <InputBox
-                placeholder="이름을 입력해주세요"
-                type="text"
-                value={inputValue1}
-                onChange={handleChange1}
-                color="WhiteStroke"
-            />
-            {/* 입력된 값 표시 (옵션) */}
-            <div>{inputValue1}</div>
->>>>>>> 8677a43b08c2e3f0a918e086c92bab9a39bb78e3
 
       <InputBox
         placeholder="이름을 입력해주세요"
@@ -72,7 +49,6 @@ function App() {
       {/* 입력된 값 표시 (옵션) */}
       <div>{inputValue2}</div>
 
-<<<<<<< HEAD
       {/* 버튼 예제 */}
       <div>
         <Btn size={"X-Small"} color={"Purple"}>
@@ -82,17 +58,6 @@ function App() {
           💖
         </Btn>
       </div>
-=======
-            {/* 버튼 예제 */}
-            <div>
-                <Btn size={"X-Small"} color={"Purple"}>
-                    저장
-                </Btn>
-                <Btn size={"Circle"} color={"Black"}>
-                    💖
-                </Btn>
-            </div>
->>>>>>> 8677a43b08c2e3f0a918e086c92bab9a39bb78e3
 
       <div></div>
       <Container size={"Standard"} color={"WhiteGhost"} padding={"Wide"}>
@@ -127,7 +92,6 @@ function App() {
         </HashTag>
       </div>
 
-<<<<<<< HEAD
       <Img
         size={"X-Large"}
         src={"/assets/ㄷㅇㅅㅇ.png"}
@@ -137,17 +101,6 @@ function App() {
       />
     </div>
   );
-=======
-            <Img
-                size={"X-Large"}
-                src={"/assets/ㄷㅇㅅㅇ.png"}
-                onClick={sayHelloHandler}
-                // hover
-                // $point
-            />
-        </div>
-    );
->>>>>>> 8677a43b08c2e3f0a918e086c92bab9a39bb78e3
 }
 
 export default App;
