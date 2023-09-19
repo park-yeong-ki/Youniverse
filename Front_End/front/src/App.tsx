@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+
+import { GlobalStyles } from "./commons/style/GlobalStyle";
+import StarryBackground from "./commons/style/StarryBackground";
+
 import Btn from "./components/atoms/Btn";
 import HashTag from "./components/atoms/HashTag";
 import InputBox from "./components/atoms/InputBox";
-import { GlobalStyles } from "./commons/style/GlobalStyle";
 import Img from "./components/atoms/Img";
 
 const sayHelloHandler = () => {
@@ -22,7 +25,9 @@ function App() {
     };
 
     return (
-        <div style={{ backgroundColor: "purple" }}>
+        <div>
+            <GlobalStyles />
+            <StarryBackground />
             {/* InputBox 사용 예제 */}
             <InputBox
                 placeholder="이름을 입력해주세요"
@@ -47,7 +52,6 @@ function App() {
 
             {/* 버튼 예제 */}
             <div>
-                <GlobalStyles />
                 <Btn size={"X-Small"} color={"Purple"}>
                     저장
                 </Btn>
@@ -82,7 +86,7 @@ function App() {
                 src={"/assets/ㄷㅇㅅㅇ.png"}
                 onClick={sayHelloHandler}
                 // hover
-                $point
+                // $point
             />
         </div>
     );
