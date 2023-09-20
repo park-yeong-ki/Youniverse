@@ -1,7 +1,7 @@
-function MyProfilePage() {
+const MyProfilePage = () => {
     return (
       <div>
-  
+        마이페이지
       </div>
     );
   }
