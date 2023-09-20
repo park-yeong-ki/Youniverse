@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+#유튜브 키워드 매칭 모델
 class Test(Base):
     __tablename__ = "actor"
 
