@@ -1,123 +1,15 @@
-import React, { useState } from "react";
-import { HiHeart } from "react-icons/hi";
+import React from "react";
 
 import StarryBackground from "./commons/style/StarryBackground";
-import Wrapper from "./components/atoms/Wrapper";
-import Btn from "./components/atoms/Btn";
-import HashTag from "./components/atoms/HashTag";
-import InputBox from "./components/atoms/InputBox";
-import Img from "./components/atoms/Img";
-import Text from "./components/atoms/Text";
-import IconBox from "./components/atoms/IconBox";
-import { LOGO, MAIN_NOT_LOGIN } from "./commons/constants/String";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
-const sayHelloHandler = () => {
-  console.log("안뇽~");
-};
 
 function App() {
-  const [inputValue1, setInputValue1] = useState("");
-  const [inputValue2, setInputValue2] = useState("");
-
-  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue1(e.target.value);
-  };
-
-  const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue2(e.target.value);
-  };
 
   return (
     <div>
       <GlobalStyles />
       <StarryBackground />
 
-      {/* InputBox 사용 예제 */}
-      <InputBox
-        placeholder="이름을 입력해주세요"
-        type="text"
-        value={inputValue1}
-        onChange={handleChange1}
-        color="WhiteStroke"
-      />
-      {/* 입력된 값 표시 (옵션) */}
-      <div>{inputValue1}</div>
-
-      <InputBox
-        placeholder="이름을 입력해주세요"
-        type="text"
-        value={inputValue2}
-        onChange={handleChange2}
-        color="BlackStroke"
-      />
-
-      {/* 입력된 값 표시 (옵션) */}
-      <div>{inputValue2}</div>
-
-      {/* 버튼 예제 */}
-      <div>
-        <Btn size={"X-Small"} color={"Purple"}>
-          저장
-        </Btn>
-        <Btn size={"Circle"} color={"Black"}>
-          💖
-        </Btn>
-      </div>
-
-      <div></div>
-      <Wrapper size={"Standard"} color={"WhiteGhost"} padding={"Wide"}>
-        <Wrapper size={"Small"} color={"Clear"} padding={"Wide"}>
-          투명 고스트 컨테이너
-        </Wrapper>
-        <Wrapper size={"Small"} color={"BlackGhost"} padding={"Medium"}>
-          검은색 고스트 컨테이너
-        </Wrapper>
-        <Wrapper size={"Small"} color={"WhiteGhost"} padding={"Narrow"}>
-          흰색 고스트 컨테이너
-        </Wrapper>
-        표준 컨테이너
-      </Wrapper>
-
-      {/* 해시태그 예제 */}
-      <div>
-        <HashTag size={"Huge"} color={"BlackGhost"}>
-          # 메인 별자리
-        </HashTag>
-        <HashTag size={"Standard"} color={"White"}>
-          # 수사물
-        </HashTag>
-        <HashTag size={"Standard"} color={"Black"}>
-          # 스릴러
-        </HashTag>
-        <HashTag size={"Standard"} color={"WhiteGhost"}>
-          # 정해인
-        </HashTag>
-        <HashTag size={"Standard"} color={"BlackGhost"}>
-          # 김태리
-        </HashTag>
-      </div>
-
-      <Img
-        size={"X-Large"}
-        src={"/assets/ㄷㅇㅅㅇ.png"}
-        onClick={sayHelloHandler}
-        // $point
-      />
-      {/* TEXT 예제 */}
-      <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-        {" "}
-        {LOGO}
-      </Text>
-      <Text size="Large" color="White" fontFamily="PyeongChang-Light">
-        {" "}
-        {MAIN_NOT_LOGIN}{" "}
-      </Text>
-      <IconBox
-        Icon={HiHeart}
-        size={24}
-        color={"white"}
-        onClick={sayHelloHandler}
-      />
     </div>
   );
 }
