@@ -2,6 +2,7 @@ import React from "react";
 
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
+import GoogleLoginBtn from "./components/@commons/GoogleLoginBtn";
 
 function App() {
 
@@ -9,7 +10,8 @@ function App() {
     <div>
       <GlobalStyles />
       <StarryBackground />
-
+      
+      <GoogleLoginBtn />
     </div>
   );
 }

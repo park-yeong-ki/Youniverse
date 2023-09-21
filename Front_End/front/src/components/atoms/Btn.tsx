@@ -7,6 +7,7 @@ interface ButtonProps {
   color: ButtonColor;
   onClick?: () => void;
   children: ReactNode;
+  className?: string;
 }
 
 /** 버튼 SIZE */
@@ -121,9 +122,14 @@ const StyledButton = styled.button<ButtonProps>`
   cursor: pointer;
 `;
 /** 버튼 컴포넌트 */
-const Btn = ({ size, onClick, children, color }: ButtonProps) => {
+const Btn = ({ size, onClick, children, color, className }: ButtonProps) => {
   return (
-    <StyledButton size={size} onClick={onClick} color={color}>
+    <StyledButton
+      size={size}
+      onClick={onClick}
+      color={color}
+      className={className}
+    >
       {children}
     </StyledButton>
   );
