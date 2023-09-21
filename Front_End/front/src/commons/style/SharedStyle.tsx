@@ -14,6 +14,7 @@ export const AlignCenter = css`
 /** 기본 flex + 정가운데 정렬 */
 export const FlexCenter = css`
   ${FlexBase}
+  flex-direction: column; /**  */
   align-items: center;
   justify-content: center;
 `;
