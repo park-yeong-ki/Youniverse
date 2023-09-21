@@ -105,18 +105,6 @@ const StyledMoviePoster = styled.img`
   object-fit: cover;
 `;
 
-/** 영화 카드 Wrap */
-const StyledCardWrapper = styled.div`
-  --card-width: 20rem;
-  width: var(--card-width);
-  height: calc(var(--card-width) * 1.3);
-  background-color: #ccc;
-  border-radius: 0.75rem;
-  overflow: hidden;
-
-  position: relative;
-`;
-
 /** hover 혹은 focus일 때 영화 정보 */
 const StyledCardHover = styled.div`
   ${FlexCenter}
@@ -129,6 +117,25 @@ const StyledCardHover = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+
+  opacity: 0; // 초기 상태에서 숨김
+  transition: opacity 0.2s; // 부드러운 효과를 위한 트랜지션
+`;
+
+/** 영화 카드 Wrap */
+const StyledCardWrapper = styled.div`
+  --card-width: 20rem;
+  width: var(--card-width);
+  height: calc(var(--card-width) * 1.3);
+  background-color: #ccc;
+  border-radius: 0.75rem;
+  overflow: hidden;
+
+  position: relative;
+
+  &:hover ${StyledCardHover} {
+    opacity: 1;
+  }
 `;
 
 /** 영화 정보 1차 Wrap */
