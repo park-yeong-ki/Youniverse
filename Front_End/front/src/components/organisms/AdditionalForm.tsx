@@ -1,6 +1,6 @@
 import React, { FC, ChangeEvent, useState } from "react";
 import { styled } from "styled-components";
-//import axios from "axios";
+import axios from "axios";
 import {
   ADDITIONAL_INFO_NICKNAME,
   ADDITIONAL_INFO_NICKNAME_PLACEHOLDER,
@@ -39,19 +39,19 @@ const AdditionalForm: FC = () => {
   };
 
   const handleSaveClick = async () => {
-    // try {
-    //   const response = await axios.post("api 주소", {
-    //     nickName,
-    //     age,
-    //     gender,
-    //     introduction,
-    //   });
-    //   console.log("Response:", response.data);
-    //   // 요청이 성공하면 사용자에게 성공 메시지 표시?
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   // 요청이 실패하면 사용자에게 오류 메시지 표시?
-    // }
+    try {
+      const response = await axios.post("api 주소", {
+        nickName,
+        age,
+        gender,
+        introduction,
+      });
+      console.log("Response:", response.data);
+      // 요청이 성공하면 사용자에게 성공 메시지 표시?
+    } catch (error) {
+      console.error("Error:", error);
+      // 요청이 실패하면 사용자에게 오류 메시지 표시?
+    }
   };
 
   return (
