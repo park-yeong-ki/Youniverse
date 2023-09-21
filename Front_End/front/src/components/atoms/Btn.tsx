@@ -20,7 +20,7 @@ type ButtonSize =
   | "Circle";
 
 /** 버튼 COLOR */
-type ButtonColor = "White" | "Black" | "Ghost" | "Purple" | "BlackStroke";
+export type ButtonColor = "White" | "Black" | "Ghost" | "Purple" | "BlackStroke";
 
 /** 버튼 스타일 타입 지정 */
 type ButtonStyle = {

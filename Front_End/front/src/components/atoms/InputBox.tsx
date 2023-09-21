@@ -11,7 +11,7 @@ interface InputProps {
 }
 
 /** INPUT 테두리 색상 */
-type InputColor = "WhiteStroke" | "BlackStroke" | "Clear";
+export type InputColor = "WhiteStroke" | "BlackStroke" | "Clear";
 
 /** INPUT 테두리 색상 타입 지정 */
 type InputColorStyle = {

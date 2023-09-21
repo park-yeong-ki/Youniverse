@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import Btn from "../atoms/Btn";
 import styled from "styled-components";
 import { FlexCenter } from "../../commons/style/SharedStyle";
+import { GOOGLE_LOGIN } from "../../commons/constants/String"
 
 const GoogleLoginBtn = () => {
   const clientId: string = process.env.REACT_APP_GOOGLE_CLIENTID!;
@@ -37,7 +38,7 @@ const GoogleInnerComponent = () => {
     <>
       <StyledLoginBtn color="White" size="Medium" onClick={() => handleGoogleLogin()}>
         <StyledGoogleLogo src="assets/Logo/GoogleLogo.svg" alt="GoogleLogo" />
-        별자리 그리러 가기
+        {GOOGLE_LOGIN}
       </StyledLoginBtn>
     </>
   );
