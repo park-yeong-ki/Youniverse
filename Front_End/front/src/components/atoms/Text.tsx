@@ -6,7 +6,8 @@ interface TextProps {
   size: TextSize;
   color: TextColor;
   fontFamily: TextFontFamily;
-  children?: ReactNode; 
+  children?: ReactNode;
+  className?: string;
 }
 
 /** 텍스트 SIZE */
@@ -16,7 +17,11 @@ type TextSize = "X-Large" | "Large" | "Medium" | "Small" | "X-Small";
 export type TextColor = "White" | "Black" | "Gray";
 
 /** 텍스트 FONT */
-type TextFontFamily = "PyeongChang-Bold" | "PyeongChang-Light" | "YESGothic-Bold" | "YESGothic-Regular";
+type TextFontFamily =
+  | "PyeongChang-Bold"
+  | "PyeongChang-Light"
+  | "YESGothic-Bold"
+  | "YESGothic-Regular";
 
 /** 텍스트 스타일 타입 지정 */
 type TextStyle = {
@@ -68,7 +73,8 @@ const fontFamilies = {
 const StyledText = styled.span<TextProps>`
   font-size: ${(props) => TextStyles[props.size].fontSize};
   color: ${(props) => TextColors[props.color].color};
-  font-family: ${(props) => fontFamilies[props.fontFamily] || "'YESGothic-Regular'"};
+  font-family: ${(props) =>
+    fontFamilies[props.fontFamily] || "'YESGothic-Regular'"};
 `;
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
