@@ -55,92 +55,84 @@ const AdditionalForm: FC = () => {
   };
 
   return (
-    <div>
-      <StyledStandardWhiteGhostWrapper
-        size={"Standard"}
-        color={"WhiteGhost"}
-        padding={"Medium"}
-      >
-        <StyledContainerBetweenCol>
-          <StyledContainerRowBetween>
-            <StyledLabelContainer>
-              {ADDITIONAL_INFO_NICKNAME}
-            </StyledLabelContainer>
-            <StyledInputContainer>
-              <StyledClearInput
-                type="text"
-                placeholder={ADDITIONAL_INFO_NICKNAME_PLACEHOLDER}
-                value={nickName}
-                onChange={handleChange(setNickName)}
-              />
-            </StyledInputContainer>
-          </StyledContainerRowBetween>
-          <StyledContainerRowBetween>
-            <StyledLabelContainer>
-              {ADDITIONAL_INFO_GENDER}
-            </StyledLabelContainer>
-            <StyledInputContainer>
-              <StyledFemaleContainer>
-                <Btn
-                  size="Medium"
-                  color={
-                    gender === ADDITIONAL_INFO_GENDER_F ? "Black" : "White"
-                  }
-                  onClick={() => handleGenderClick(ADDITIONAL_INFO_GENDER_F)}
-                >
-                  {ADDITIONAL_INFO_GENDER_F}
-                </Btn>
-              </StyledFemaleContainer>
-              <StyledMaleContainer>
-                <Btn
-                  size="Medium"
-                  color={
-                    gender === ADDITIONAL_INFO_GENDER_M ? "Black" : "White"
-                  }
-                  onClick={() => handleGenderClick(ADDITIONAL_INFO_GENDER_M)}
-                >
-                  {ADDITIONAL_INFO_GENDER_M}
-                </Btn>
-              </StyledMaleContainer>
-            </StyledInputContainer>
-          </StyledContainerRowBetween>
-          <StyledContainerRowBetween>
-            <StyledLabelContainer>{ADDITIONAL_INFO_AGE}</StyledLabelContainer>
-            <StyledInputContainer>
-              <StyledClearInput
-                type="number"
-                placeholder={ADDITIONAL_INFO_AGE_PLACEHOLDER}
-                value={age}
-                onChange={(e) => setAge(e.target.valueAsNumber)}
-              />
-            </StyledInputContainer>
-          </StyledContainerRowBetween>
-          <StyledContainerRowBetween>
-            <StyledLabelContainer>
-              {ADDITIONAL_INFO_INTRODUCE}
-            </StyledLabelContainer>
-            <StyledInputContainer>
-              <StyledTextArea
-                id="introduction"
-                value={introduction}
-                placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}
-                onChange={handleChange(setIntroduction)}
-                maxLength={30}
-              ></StyledTextArea>
-            </StyledInputContainer>
-          </StyledContainerRowBetween>
-          <StyledContainerCenter>
-            <StyledSaveButton
-              size={"Medium"}
-              color={"Black"}
-              onClick={handleSaveClick}
-            >
-              {SAVE}
-            </StyledSaveButton>
-          </StyledContainerCenter>
-        </StyledContainerBetweenCol>
-      </StyledStandardWhiteGhostWrapper>
-    </div>
+    <StyledStandardWhiteGhostWrapper
+      size="Standard"
+      color="WhiteGhost"
+      padding="Medium"
+    >
+      <StyledContainerBetweenCol>
+        <StyledContainerRowBetween>
+          <StyledLabelContainer>
+            {ADDITIONAL_INFO_NICKNAME}
+          </StyledLabelContainer>
+          <StyledInputContainer>
+            <StyledClearInput
+              type="text"
+              placeholder={ADDITIONAL_INFO_NICKNAME_PLACEHOLDER}
+              value={nickName}
+              onChange={handleChange(setNickName)}
+            />
+          </StyledInputContainer>
+        </StyledContainerRowBetween>
+        <StyledContainerRowBetween>
+          <StyledLabelContainer>{ADDITIONAL_INFO_GENDER}</StyledLabelContainer>
+          <StyledInputContainer>
+            <StyledFemaleContainer>
+              <Btn
+                size="Medium"
+                color={gender === ADDITIONAL_INFO_GENDER_F ? "Black" : "White"}
+                onClick={() => handleGenderClick(ADDITIONAL_INFO_GENDER_F)}
+              >
+                {ADDITIONAL_INFO_GENDER_F}
+              </Btn>
+            </StyledFemaleContainer>
+            <StyledMaleContainer>
+              <Btn
+                size="Medium"
+                color={gender === ADDITIONAL_INFO_GENDER_M ? "Black" : "White"}
+                onClick={() => handleGenderClick(ADDITIONAL_INFO_GENDER_M)}
+              >
+                {ADDITIONAL_INFO_GENDER_M}
+              </Btn>
+            </StyledMaleContainer>
+          </StyledInputContainer>
+        </StyledContainerRowBetween>
+        <StyledContainerRowBetween>
+          <StyledLabelContainer>{ADDITIONAL_INFO_AGE}</StyledLabelContainer>
+          <StyledInputContainer>
+            <StyledClearInput
+              type="number"
+              placeholder={ADDITIONAL_INFO_AGE_PLACEHOLDER}
+              value={age}
+              onChange={(e) => setAge(e.target.valueAsNumber)}
+            />
+          </StyledInputContainer>
+        </StyledContainerRowBetween>
+        <StyledContainerRowBetween>
+          <StyledLabelContainer>
+            {ADDITIONAL_INFO_INTRODUCE}
+          </StyledLabelContainer>
+          <StyledInputContainer>
+            <StyledTextArea
+              id="introduction"
+              value={introduction}
+              placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}
+              onChange={handleChange(setIntroduction)}
+              maxLength={30}
+            ></StyledTextArea>
+          </StyledInputContainer>
+        </StyledContainerRowBetween>
+        <StyledContainerCenter>
+          <StyledSaveButton
+            size="Medium"
+            color="Black"
+            onClick={handleSaveClick}
+          >
+            {SAVE}
+          </StyledSaveButton>
+        </StyledContainerCenter>
+      </StyledContainerBetweenCol>
+    </StyledStandardWhiteGhostWrapper>
   );
 };
 
@@ -148,7 +140,7 @@ export default AdditionalForm;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  width: 60%;
+  width: 100%;
   margin: 0 auto;
 `;
 
