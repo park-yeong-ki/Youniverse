@@ -11,6 +11,7 @@ import {
 } from "./../../commons/constants/String";
 import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
+import GoogleLoginBtn from "./GoogleLoginBtn";
 
 interface Menu {
   name: string;
@@ -55,7 +56,10 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
     <StyledSidebar ref={sidebarRef} className="sidebar open">
       <StyledMenu>
         {/* 로그인 버튼, 검색 */}
-          <SearchBox theme="light" type="movie" />
+        <div>
+        <GoogleLoginBtn />
+        <SearchBox theme="light" type="movie" />
+        </div>
 
         {/* 메뉴 아이템 렌더링 */}
         <div>
@@ -96,9 +100,18 @@ const StyledMenu = styled.div`
 
   /* 로그인 버튼, 검색에 대한 스타일 */
   > div:first-child {
+    display: flex; /* 수직 배치를 수평 배치로 변경 */
+    flex-direction: column; /* 자식 요소들을 수직 배치 */
+    gap: 15px; /* 로그인 버튼과 검색박스 사이의 간격 설정 */
+
     margin-bottom: 28px; /* 검색박스 아래에 마진 추가 */
     border-bottom: 1px solid #fff; /* 선 추가 */
     padding-bottom: 20px; /* border-bottom 위에 padding 추가하여 공간 확보 */
+
+    /* Google 로그인 버튼에 대한 스타일 */
+    > button {
+      margin: 10px 0; /* 위아래에 마진 추가 */
+    }
   }
 
   /* 메뉴 아이템 렌더링에 대한 스타일 */
@@ -114,4 +127,3 @@ const StyledMenu = styled.div`
     }
   }
 `;
-
