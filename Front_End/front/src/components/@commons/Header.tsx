@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <div>
-        <img src="/assets/Logo/Logo.svg" onClick={handleToMain} alt="Logo" />
+        <LogoImage src="/assets/Logo/Logo.svg" onClick={handleToMain} alt="Logo" />
       </div>
       <IconBox
         Icon={isSidebarOpen ? HiX : HiMenu}
@@ -50,3 +50,7 @@ const Header = () => {
 };
 
 export default Header;
+
+const LogoImage = styled.img`
+  cursor: pointer;
+`;

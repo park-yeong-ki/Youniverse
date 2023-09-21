@@ -9,6 +9,7 @@ import {
   SIDE_BAR_SEARCH_USER,
   SIDE_BAR_MY_PAGE,
 } from "./../../commons/constants/String";
+import { ROUTES } from "../../commons/constants/Routes"
 import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
@@ -28,10 +29,10 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
 
   // 사이드바 메뉴 정의
   const menus: Menu[] = [
-    { name: SIDE_BAR_USER_STAR, path: "/" },
-    { name: SIDE_BAR_RECOMMEND, path: "/" },
-    { name: SIDE_BAR_SEARCH_USER, path: "/" },
-    { name: SIDE_BAR_MY_PAGE, path: "/" },
+    { name: SIDE_BAR_USER_STAR, path: ROUTES.MAIN },
+    { name: SIDE_BAR_RECOMMEND, path: ROUTES.RECOMMEND },
+    { name: SIDE_BAR_SEARCH_USER, path: ROUTES.PROFILE },
+    { name: SIDE_BAR_MY_PAGE, path: ROUTES.MYPAGE },
   ];
 
   useEffect(() => {
@@ -120,9 +121,9 @@ const StyledMenu = styled.div`
       display: block;
       margin-bottom: 28px; /* 메뉴 아이템 간의 간격 추가 */
 
-      /* 링크에 대한 스타일 (예: 호버 효과) */
+      /** 호버했을 때 반짝이게 */
       &:hover {
-        color: #fff; /* 링크 호버 시 글자색 변경 */
+        text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
       }
     }
   }
