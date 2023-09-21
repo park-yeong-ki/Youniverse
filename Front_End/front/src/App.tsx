@@ -1,14 +1,15 @@
 import React from "react";
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
-import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
+import GoogleLoginBtn from "./components/@commons/GoogleLoginBtn";
 
 function App() {
   return (
     <div>
       <GlobalStyles />
       <StarryBackground />
-      <AdditionalInfoPage />
+      
+      <GoogleLoginBtn />
     </div>
   );
 }
