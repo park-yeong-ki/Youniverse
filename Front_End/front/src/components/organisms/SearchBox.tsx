@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { HiSearch } from "react-icons/hi";
 
-import { FlexRowBetween } from "./../../commons/style/SharedStyle";
-import Dropdown, { OptionType } from "../@commons/Dropdown";
+import { FlexCenter } from "./../../commons/style/SharedStyle";
+import Dropdown from "../@commons/Dropdown";
 import InputBox, { InputColor } from "../atoms/InputBox";
 import Btn, { ButtonColor } from "../atoms/Btn";
 import IconBox from "../atoms/IconBox";
@@ -76,18 +76,20 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 
 export default SearchBox;
 
-// 스타일드 컴포넌트: 검색박스 전체 스타일
+// 검색박스 전체 스타일
 const StyledSearchBox = styled.div`
-  ${FlexRowBetween}
+  ${FlexCenter}
 
   // 드롭다운, 입력 필드, 검색 버튼의 flex 비율 설정
   & > *:nth-child(1) {
     flex: 2;
+    margin-right: 8px; // 드롭다운의 오른쪽 마진 추가
   } // Dropdown
   & > *:nth-child(2) {
     flex: 7;
+    margin-right: 8px; // 입력 필드의 오른쪽 마진 추가
   } // InputBox
   & > *:nth-child(3) {
-    flex: 1;
+    width: 44px;
   } // Btn
 `;

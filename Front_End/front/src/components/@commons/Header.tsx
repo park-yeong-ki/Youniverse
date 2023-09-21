@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HiMenu } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi";
 import styled from "styled-components";
 
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
@@ -37,10 +37,11 @@ const Header = () => {
         <img src="/assets/Logo/Logo.svg" onClick={handleToMain} alt="Logo" />
       </div>
       <IconBox
-        Icon={HiMenu}
+        Icon={isSidebarOpen ? HiX : HiMenu}
         size={24}
         color={"white"}
         onClick={toggleSidebar}
+        style={{ position: 'relative', zIndex: 1100 }} // HiX 아이콘이 사이드바 위에 위치하도록 zIndex 적용
       />
       {/* Sidebar가 표시될 때만 렌더링, */}
       {isSidebarOpen && <SideBar onClose={toggleSidebar} />}

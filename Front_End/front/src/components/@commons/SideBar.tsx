@@ -55,9 +55,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
     <StyledSidebar ref={sidebarRef} className="sidebar open">
       <StyledMenu>
         {/* 로그인 버튼, 검색 */}
-        <div>
-          <SearchBox />
-        </div>
+          <SearchBox theme="light" type="movie" />
 
         {/* 메뉴 아이템 렌더링 */}
         <div>
@@ -84,8 +82,8 @@ const StyledSidebar = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   transform: translateX(100%);
-  transition: transform 0.3s ease-out;
   z-index: 1000;
+  padding: 20px; /* 사이드바 내부의 패딩 추가 */
 
   &.open {
     transform: translateX(0);
@@ -94,4 +92,26 @@ const StyledSidebar = styled.div`
 
 const StyledMenu = styled.div`
   ${FlexColAround}
+  margin-top: 80px; /* 메뉴 시작 부분에 마진 추가 */
+
+  /* 로그인 버튼, 검색에 대한 스타일 */
+  > div:first-child {
+    margin-bottom: 28px; /* 검색박스 아래에 마진 추가 */
+    border-bottom: 1px solid #fff; /* 선 추가 */
+    padding-bottom: 20px; /* border-bottom 위에 padding 추가하여 공간 확보 */
+  }
+
+  /* 메뉴 아이템 렌더링에 대한 스타일 */
+  > div:last-child {
+    > a {
+      display: block;
+      margin-bottom: 28px; /* 메뉴 아이템 간의 간격 추가 */
+
+      /* 링크에 대한 스타일 (예: 호버 효과) */
+      &:hover {
+        color: #fff; /* 링크 호버 시 글자색 변경 */
+      }
+    }
+  }
 `;
+
