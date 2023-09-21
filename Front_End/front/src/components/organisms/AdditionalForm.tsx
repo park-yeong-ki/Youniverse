@@ -47,7 +47,7 @@ const AdditionalForm: FC = () => {
         introduction,
       });
       console.log("Response:", response.data);
-      // 요청이 성공하면 사용자에게 성공 메시지 표시?
+      // 요청이 성공하면 사용자에게 성공 메시지 표시? 
     } catch (error) {
       console.error("Error:", error);
       // 요청이 실패하면 사용자에게 오류 메시지 표시?
