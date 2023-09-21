@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { styled } from "styled-components";
 import AdditionalForm from "../../components/organisms/AdditionalForm";
 import { ADDITIONAL_INFO_PAGE } from "../../commons/constants/String";
