@@ -13,7 +13,7 @@ interface TextProps {
 type TextSize = "X-Large" | "Large" | "Medium" | "Small" | "X-Small";
 
 /** 텍스트 COLOR */
-type TextColor = "White" | "Black" | "Gray";
+export type TextColor = "White" | "Black" | "Gray";
 
 /** 텍스트 FONT */
 type TextFontFamily = "PyeongChang-Bold" | "PyeongChang-Light" | "YESGothic-Bold" | "YESGothic-Regular";

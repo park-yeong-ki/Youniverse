@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
+import { ROUTES } from "./commons/constants/Routes";
 import Header from "./components/@commons/Header";
 
 import {
@@ -17,9 +18,9 @@ import {
   RECOMMEND_MORE,
   MOVIE_DETAIL,
   NOTFOUND,
-} from './pages/Pages';
+} from "./pages/Pages";
 
-import { ROUTES } from "./commons/constants/Routes";
+
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path={ROUTES.MOVIE_DETAIL} Component={MOVIE_DETAIL} />
         <Route Component={NOTFOUND} />
       </Routes>
+
     </Router>
   );
 }

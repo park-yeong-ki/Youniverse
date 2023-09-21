@@ -11,7 +11,7 @@ interface InputProps {
 }
 
 /** INPUT 테두리 색상 */
-type InputColor = "WhiteStroke" | "BlackStroke" | "Clear";
+export type InputColor = "WhiteStroke" | "BlackStroke" | "Clear";
 
 /** INPUT 테두리 색상 타입 지정 */
 type InputColorStyle = {
@@ -54,7 +54,7 @@ const InputColors: Record<InputColor, InputColorStyle> = {
 /** color가 지정되지 않거나 유효한 값이 아니면 기본값으로 Clear이 됨 */
 const StyledInput = styled.input<InputProps>`
   width: 100%;
-  height: 32px;
+  height: 44px;
   font-size: 16px;
   border-radius: 12px;
   box-sizing: border-box;
