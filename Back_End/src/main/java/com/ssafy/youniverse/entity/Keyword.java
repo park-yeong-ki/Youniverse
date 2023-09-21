@@ -23,6 +23,6 @@ public class Keyword {
     @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeywordMember> keywordMembers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeywordMovie> keywordMovies = new ArrayList<>();
 }

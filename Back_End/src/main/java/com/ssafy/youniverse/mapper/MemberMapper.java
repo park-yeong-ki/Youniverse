@@ -119,8 +119,48 @@ public interface MemberMapper {
                 .collect(Collectors.toList())
         );
 
+        //좋아요한 영화 목록
+        memberResDto.setHeartMovieResDtos(member.getHeartMovies().stream()
+                .map(heartMovie -> {
+                    HeartMovieResDto heartMovieResDto = new HeartMovieResDto();
+                    heartMovieResDto.setHeartMovieId(heartMovie.getHeartMovieId());
+//                    heartMovieResDto.setMemberSimpleResDto(memberToMemberSimpleResDto(heartMovie.getMember()));
+                    heartMovieResDto.setMovieSimpleResDto(movieToMovieSimpleResDto(heartMovie.getMovie()));
+                    return heartMovieResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
+        //인생 영화 목록
+        memberResDto.setBestMovieResDtos(member.getBestMovies().stream()
+                .map(bestMovie -> {
+                    BestMovieResDto bestMovieResDto = new BestMovieResDto();
+                    bestMovieResDto.setBestMovieId(bestMovie.getBestMovieId());
+//                    bestMovieResDto.setMemberSimpleResDto(memberToMemberSimpleResDto(bestMovie.getMember()));
+                    bestMovieResDto.setMovieSimpleResDto(movieToMovieSimpleResDto(bestMovie.getMovie()));
+                    return bestMovieResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
+        //작성한 영화 리뷰 목록
+        memberResDto.setReviewResDtos(member.getReviews().stream()
+                .map(review -> {
+                    ReviewResDto reviewResDto = new ReviewResDto();
+                    reviewResDto.setReviewId(review.getReviewId());
+//                    reviewResDto.setMemberSimpleResDto(memberToMemberSimpleResDto(review.getMember()));
+                    reviewResDto.setMovieSimpleResDto(movieToMovieSimpleResDto(review.getMovie()));
+                    reviewResDto.setReviewContent(review.getReviewContent());
+                    reviewResDto.setReviewRate(review.getReviewRate());
+                    return reviewResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
         return memberResDto;
     }
 
     MemberSimpleResDto memberToMemberSimpleResDto(Member member);
+
+    MovieSimpleResDto movieToMovieSimpleResDto(Movie movie);
 }

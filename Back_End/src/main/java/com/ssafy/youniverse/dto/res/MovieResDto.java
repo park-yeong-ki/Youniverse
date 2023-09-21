@@ -7,19 +7,18 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MemberResDto {
-    private Integer memberId;
-    private String nickname;
-    private String email;
-    private String gender;
-    private Byte age;
-    private String introduce;
-    private String memberImage;
+public class MovieResDto {
+    private Integer movieId;
+    private String title;
+    private String language;
+    private String overView;
+    private Float rate;
+    private Integer runtime;
+    private String movieImage;
     private List<OttResDto> ottResDtos;
     private List<KeywordResDto> keywordResDtos;
-    private List<FollowResDto> followers;
-    private List<FollowResDto> followings;
     private List<HeartMovieResDto> heartMovieResDtos;
+    private List<HateMovieResDto> hateMovieResDtos;
     private List<BestMovieResDto> bestMovieResDtos;
     private List<ReviewResDto> reviewResDtos;
 }
