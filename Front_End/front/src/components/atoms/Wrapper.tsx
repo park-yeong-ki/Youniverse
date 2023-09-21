@@ -8,6 +8,7 @@ interface WrapperProps {
   onClick?: () => void;
   children: ReactNode;
   padding: WrapperPadding;
+  className?: string;
 }
 
 /** Wrapper SIZE */
@@ -77,18 +78,17 @@ const WrapperColors: Record<WrapperColor, WrapperColorStyle> = {
 };
 
 /** Wrapper PADDING 스타일 */
-const WrapperPaddingStyles: Record<WrapperPadding, WrapperPaddingStyle> =
-  {
-    Wide: {
-      padding: "5rem 2rem", // 상하 (5rem), 좌우 (2rem)
-    },
-    Medium: {
-      padding: "3rem 1.5rem", // 상하 (3rem), 좌우 (1.5rem)
-    },
-    Narrow: {
-      padding: "1.5rem 1rem ", // 상하 (1.5rem), 좌우 (1rem)
-    },
-  };
+const WrapperPaddingStyles: Record<WrapperPadding, WrapperPaddingStyle> = {
+  Wide: {
+    padding: "5rem 2rem", // 상하 (5rem), 좌우 (2rem)
+  },
+  Medium: {
+    padding: "3rem 1.5rem", // 상하 (3rem), 좌우 (1.5rem)
+  },
+  Narrow: {
+    padding: "1.5rem 1rem ", // 상하 (1.5rem), 좌우 (1rem)
+  },
+};
 
 /** styled-component => Wrapper */
 const StyledWrapper = styled.div<WrapperProps>`
@@ -111,6 +111,7 @@ const Wrapper = ({
   children,
   color,
   padding,
+  className,
 }: WrapperProps) => {
   return (
     <StyledWrapper
@@ -118,6 +119,7 @@ const Wrapper = ({
       onClick={onClick}
       color={color}
       padding={padding}
+      className={className}
     >
       {children}
     </StyledWrapper>
