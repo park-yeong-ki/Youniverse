@@ -28,7 +28,6 @@ function App() {
       <GlobalStyles />
       <StarryBackground />
       <Header />
-      <OTTSelectionPage />
 
       <Routes>
         <Route path={ROUTES.MAIN} Component={MAIN} />
