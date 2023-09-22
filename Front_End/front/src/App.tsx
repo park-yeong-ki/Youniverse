@@ -18,10 +18,10 @@ import {
   NOTFOUND,
 } from "./pages/Pages";
 
-import OTTSelectionPage from "./pages/auth/OTTSelectionPage";
+// import OTTSelectionPage from "./pages/auth/OTTSelectionPage";
 
 function App() {
-  const handlePlanetClick = () => {};
+  // const handlePlanetClick = () => {};
   return (
     <Router>
       <GlobalStyles />

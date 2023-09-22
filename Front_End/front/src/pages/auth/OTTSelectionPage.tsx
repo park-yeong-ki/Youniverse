@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import OTTForm from "../../components/organisms/OTTForm";
-import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
+import { FlexCenter } from "../../commons/style/SharedStyle";
 import { OTT_SELECT } from "../../commons/constants/String";
 import Text from "../../components/atoms/Text";
 
