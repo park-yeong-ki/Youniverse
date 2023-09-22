@@ -36,19 +36,18 @@ const StyledPlanet = styled.div<PlanetProps & { selected: boolean }>`
   background: url(${(props) => props.src}) center/cover;
   position: relative;
   box-shadow: ${(props) =>
-    props.selected ? "0 0 10px 2px rgba(255, 255, 255, 0.9)" : "none"};
+    props.size === "Standard" && props.selected
+      ? "0 0 10px 2px rgba(255, 255, 255, 0.9)"
+      : "none"};
 
+  // Standard의 경우에만 커서 형태 변경 및 hover 시 빛 번짐 적용
   ${(props) =>
     props.size === "Standard"
-      ? "cursor: ponter;"
-      : ""} // Standard 사이즈인 경우에만 클릭 가능함
-
-  
-
-  &:hover {
-    // 호버 시에 빛 번짐 효과
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.9);
-  }
+      ? `cursor: pointer;
+      &:hover{
+        box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.9);
+      }`
+      : `cursor:default;`}
 `;
 
 /** Planet 컴포넌트 정의 */

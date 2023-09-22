@@ -22,7 +22,7 @@ import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
 import Planet from "./components/atoms/Planet";
 
 function App() {
-  const handlePlanetSelect = () => {};
+  const handlePlanetClick = () => {};
   return (
     <Router>
       <GlobalStyles />
@@ -31,8 +31,9 @@ function App() {
       <Planet
         size="Standard"
         src="assets/Logo/Logo.svg"
-        onClick={handlePlanetSelect}
+        onClick={handlePlanetClick}
       />
+      <Planet size="Small" src="assets/Logo/Logo.svg" />
       <AdditionalInfoPage />
 
       <Routes>
