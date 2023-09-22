@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
@@ -18,7 +17,6 @@ import {
   MOVIE_DETAIL,
   NOTFOUND,
 } from "./pages/Pages";
-
 
 function App() {
   return (
