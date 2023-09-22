@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { HiSearch } from "react-icons/hi";
 
+import { SEARCH_PLACEHOLDER } from "./../../commons/constants/String";
 import { FlexCenter } from "./../../commons/style/SharedStyle";
 import Dropdown from "../@commons/Dropdown";
 import InputBox, { InputColor } from "../atoms/InputBox";
@@ -60,10 +61,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         options={options}
         theme={theme}
         onSelectedChange={(selected) => console.log(selected)} // 이 부분은 콘솔 로그 대신 원하는 로직으로 변경하세요.
-
       />
       <InputBox
-        placeholder="검색어를 입력하세요"
+        placeholder={SEARCH_PLACEHOLDER}
         type="text"
         color={inputColor}
       />
