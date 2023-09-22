@@ -19,7 +19,7 @@ import {
   NOTFOUND,
 } from "./pages/Pages";
 import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
-import Planet from "./components/atoms/Planet";
+import OTTForm from "./components/organisms/OTTForm";
 
 function App() {
   const handlePlanetClick = () => {};
@@ -28,12 +28,7 @@ function App() {
       <GlobalStyles />
       <StarryBackground />
       <Header />
-      <Planet
-        size="Standard"
-        src="assets/Logo/Logo.svg"
-        onClick={handlePlanetClick}
-      />
-      <Planet size="Small" src="assets/Logo/Logo.svg" />
+      <OTTForm />
       <AdditionalInfoPage />
 
       <Routes>

@@ -184,7 +184,7 @@ const StyledSaveButton = styled(Btn)`
   width: 200px;
 `;
 
-const StyledTextArea = styled.textarea`
+export const StyledTextArea = styled.textarea`
   width: 100%;
   height: 52px;
   font-size: 16px;
