@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import { css } from "styled-components";
 
 /** 기본 flex */
 export const FlexBase = css`

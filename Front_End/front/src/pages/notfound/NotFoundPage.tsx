@@ -1,7 +1,7 @@
-function NotFoundPage() {
+const NotFoundPage = () => {
     return (
       <div>
-  
+        NotFound
       </div>
     );
   }
