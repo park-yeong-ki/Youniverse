@@ -4,6 +4,7 @@ import com.ssafy.youniverse.dto.req.MemberReqDto;
 import com.ssafy.youniverse.dto.res.MemberResDto;
 import com.ssafy.youniverse.entity.Member;
 import com.ssafy.youniverse.mapper.MemberMapper;
+import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import com.ssafy.youniverse.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/register")
-    public ResponseEntity<?> registerMember(@RequestBody MemberReqDto memberReqDto) {
+    public ResponseEntity<?> registerMember(@RequestBody MemberReqDto memberReqDto, OAuth2UserInfo oAuth2UserInfo) {
         Member member = memberMapper.memberReqDtoToMember(memberReqDto);
         Member createdMember = memberService.createMember(member);
         MemberResDto memberResDto = memberMapper.memberToMemberResDto(createdMember);

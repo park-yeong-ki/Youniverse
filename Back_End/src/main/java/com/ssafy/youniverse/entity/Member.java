@@ -1,13 +1,17 @@
 package com.ssafy.youniverse.entity;
 
+import com.ssafy.youniverse.security.Role;
 import com.ssafy.youniverse.util.Auditable;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Entity
 public class Member extends Auditable {
     @Id
@@ -31,6 +35,13 @@ public class Member extends Auditable {
 
     @Column(length = 255, nullable = true)
     private String memberImage;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public void authorizeUser() {
+        this.role = Role.USER;
+    }
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();

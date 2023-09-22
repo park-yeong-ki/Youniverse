@@ -3,6 +3,8 @@ package com.ssafy.youniverse.mapper;
 import com.ssafy.youniverse.dto.req.MemberReqDto;
 import com.ssafy.youniverse.dto.res.*;
 import com.ssafy.youniverse.entity.*;
+import com.ssafy.youniverse.security.Role;
+import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -21,9 +23,11 @@ public interface MemberMapper {
         member.setMemberId( memberReqDto.getMemberId() );
         member.setNickname( memberReqDto.getNickname() );
         member.setEmail( memberReqDto.getEmail() );
+//        member.setEmail( oAuth2UserInfo.getEmail() );
         member.setGender( memberReqDto.getGender() );
         member.setAge( memberReqDto.getAge() );
         member.setIntroduce( memberReqDto.getIntroduce() );
+        member.setRole(Role.GUEST);
 
         if (memberReqDto.getOttList() != null) { //ott 목록이 존재하는 경우
             List<OttMember> ottMembers = new ArrayList<>();
