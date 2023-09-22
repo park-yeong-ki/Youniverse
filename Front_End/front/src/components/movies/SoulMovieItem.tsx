@@ -8,7 +8,7 @@ const SoulMovieItem = ({ ...props }) => {
   const displayMovieName =
     movieName.length > 4 ? movieName.substring(0, 4) + "..." : movieName;
   return (
-    <div>
+    <StyledSoulMovieWrapper>
       {/* 영화 포스터 */}
       <StyledPosterImage>
         <StyledMoviePoster src={props.src} />
@@ -30,7 +30,7 @@ const SoulMovieItem = ({ ...props }) => {
         </Text>
       </div>
 
-    </div>
+    </StyledSoulMovieWrapper>
   );
 };
 
@@ -63,3 +63,12 @@ const StyledPosterCover = styled.div`
 `;
 
 /** 인생영화 Wrapper */
+const StyledSoulMovieWrapper = styled.div`
+  width: 11rem;
+  height: auto;
+`
+
+/** 인생영화 텍스트 Wrapper */
+const StyledSoulTextWrapper = styled.div`
+  
+`
