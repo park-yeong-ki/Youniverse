@@ -1,7 +1,9 @@
+import Review from "../../components/review/Review";
+
 const ContentDetailPage = () => {
     return (
       <div>
-        영화 상세페이지
+        <Review />
       </div>
     );
   }

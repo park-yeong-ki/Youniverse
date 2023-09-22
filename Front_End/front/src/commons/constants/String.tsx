@@ -1,7 +1,8 @@
 // 메인페이지
 export const LOGO = "Youniverse";
-export const MAIN_NOT_LOGIN =
-  "과 함께 취향 별자리를 그리고 맞춤형 콘텐츠를 만나요";
+export const MAIN_NOT_LOGIN_PART = "와 함께";
+export const MAIN_NOT_LOGIN_PART1 = "취향 별자리를 그리고";
+export const MAIN_NOT_LOGIN_PART2 = "맞춤형 컨텐츠를 만나요";
 export const MAIN_LOGIN = "님의 별자리";
 export const GOOGLE_LOGIN = "별자리 그리러 가기";
 export const MAIN_RECOMMEND = "별자리로 추천 받기";
