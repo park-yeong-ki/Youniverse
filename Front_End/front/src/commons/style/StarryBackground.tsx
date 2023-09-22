@@ -1,59 +1,94 @@
-import React, { useEffect } from 'react';
-import './StarryBackground.css';
+import React, { memo, useEffect } from "react";
+import "./StarryBackground.css";
 
 const StarryBackground: React.FC = () => {
+  // useEffect(() => {
+  //     const style = ["style1", "style2", "style3", "style4"];
+  //     const tam = ["tam1", "tam1", "tam1", "tam2", "tam3"];
+  //     const opacity = ["opacity1", "opacity1", "opacity1", "opacity2", "opacity2", "opacity3"];
 
-    useEffect(() => {
-        const style = ["style1", "style2", "style3", "style4"];
-        const tam = ["tam1", "tam1", "tam1", "tam2", "tam3"];
-        const opacity = ["opacity1", "opacity1", "opacity1", "opacity2", "opacity2", "opacity3"];
-        
-        const getRandomArbitrary = (min: number, max: number) => {
-            return Math.floor(Math.random() * (max - min)) + min;
-        }
+  //     const getRandomArbitrary = (min: number, max: number) => {
+  //         return Math.floor(Math.random() * (max - min)) + min;
+  //     }
 
-        let estrela = "";
-        const qtdeEstrelas = 250;
-        const noite = document.querySelector(".constelacao");
-        const widthWindow = window.innerWidth;
-        const heightWindow = window.innerHeight;
+  //     let estrela = "";
+  //     const qtdeEstrelas = 250;
+  //     const noite = document.querySelector(".constelacao");
+  //     const widthWindow = window.innerWidth;
+  //     const heightWindow = window.innerHeight;
 
-        for (let i = 0; i < qtdeEstrelas; i++) {
-            estrela += `<span class='estrela ${style[getRandomArbitrary(0, 4)]} ${opacity[getRandomArbitrary(0, 6)]} 
-                ${tam[getRandomArbitrary(0, 5)]}' style='animation-delay: .${getRandomArbitrary(0, 9)}s; left: 
-                ${getRandomArbitrary(0, widthWindow)}px; top: ${getRandomArbitrary(0, heightWindow)}px;'></span>`;
-        }
+  //     for (let i = 0; i < qtdeEstrelas; i++) {
+  //         estrela += `<span class='estrela ${style[getRandomArbitrary(0, 4)]} ${opacity[getRandomArbitrary(0, 6)]}
+  //             ${tam[getRandomArbitrary(0, 5)]}' style='animation-delay: .${getRandomArbitrary(0, 9)}s; left:
+  //             ${getRandomArbitrary(0, widthWindow)}px; top: ${getRandomArbitrary(0, heightWindow)}px;'></span>`;
+  //     }
 
-        if (noite) {
-            noite.innerHTML = estrela;
-        }
+  //     if (noite) {
+  //         noite.innerHTML = estrela;
+  //     }
 
-        let numeroAleatorio = 5000;
+  //     // let numeroAleatorio = 5000;
 
-        const carregarMeteoro = () => {
-            setTimeout(carregarMeteoro, numeroAleatorio);
-            numeroAleatorio = getRandomArbitrary(5000, 10000);
-            const meteoro = `<div class='meteoro ${style[getRandomArbitrary(0, 4)]}'></div>`;
-            const chuvaMeteoro = document.getElementsByClassName('chuvaMeteoro')[0];
-            if (chuvaMeteoro) {
-                chuvaMeteoro.innerHTML = meteoro;
-                setTimeout(() => {
-                    chuvaMeteoro.innerHTML = "";
-                }, 1000);
-            }
-        }
+  //     // const carregarMeteoro = () => {
+  //     //     setTimeout(carregarMeteoro, numeroAleatorio);
+  //     //     numeroAleatorio = getRandomArbitrary(5000, 10000);
+  //     //     const meteoro = `<div class='meteoro ${style[getRandomArbitrary(0, 4)]}'></div>`;
+  //     //     const chuvaMeteoro = document.getElementsByClassName('chuvaMeteoro')[0];
+  //     //     if (chuvaMeteoro) {
+  //     //         chuvaMeteoro.innerHTML = meteoro;
+  //     //         setTimeout(() => {
+  //     //             chuvaMeteoro.innerHTML = "";
+  //     //         }, 1000);
+  //     //     }
+  //     // }
 
-        setTimeout(carregarMeteoro, numeroAleatorio);
+  //     // setTimeout(carregarMeteoro, numeroAleatorio);
 
-    }, []);
+  // }, []);
+  useEffect(() => {
+    const style = ["style1", "style2", "style3", "style4"];
+    const tam = ["tam1", "tam1", "tam1", "tam2", "tam3"];
+    const opacity = [
+      "opacity1",
+      "opacity1",
+      "opacity1",
+      "opacity2",
+      "opacity2",
+      "opacity3",
+    ];
 
-    return (
-        <>
-            <div className="noite"></div>
-            <div className="constelacao"></div>
-            <div className="chuvaMeteoro"></div>
-        </>
-    );
-}
+    const getRandomArbitrary = (min: number, max: number) => {
+      return Math.floor(Math.random() * (max - min)) + min;
+    };
 
-export default StarryBackground;
+    const noite = document.querySelector(".constelacao");
+    const widthWindow = window.innerWidth;
+    const heightWindow = window.innerHeight;
+
+    for (let i = 0; i < 250; i++) {
+      const starElem = document.createElement("span");
+      starElem.classList.add(
+        "estrela",
+        style[getRandomArbitrary(0, 4)],
+        opacity[getRandomArbitrary(0, 6)],
+        tam[getRandomArbitrary(0, 5)]
+      );
+      starElem.style.animationDelay = `.${getRandomArbitrary(0, 9)}s`;
+      starElem.style.left = `${getRandomArbitrary(0, widthWindow)}px`;
+      starElem.style.top = `${getRandomArbitrary(0, heightWindow)}px`;
+
+      if (noite) {
+        noite.appendChild(starElem);
+      }
+    }
+  }, []);
+  return (
+    <>
+      <div className="noite"></div>
+      <div className="constelacao"></div>
+      {/* <div className="chuvaMeteoro"></div> */}
+    </>
+  );
+};
+
+export default memo(StarryBackground);

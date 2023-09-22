@@ -15,8 +15,16 @@ const RecommendationMainPage = () => {
     <div>
       <SectionsContainer {...options}>
         <CustomSection><MainContainer><RecommendSection/></MainContainer></CustomSection>
-        <CustomSection><MainContainer><RecommendNotYouTube/></MainContainer></CustomSection>
-        <CustomSection><MainContainer><RecommendNotYouTube/></MainContainer></CustomSection>
+        <CustomSection>
+          <MainContainer>
+            <RecommendNotYouTube lists={["선호도기반 추천", "인생영화 추천"]} />
+          </MainContainer>
+        </CustomSection>
+        <CustomSection>
+          <MainContainer>
+            <RecommendNotYouTube lists={["평점 기반 추천", "20대 여성 추천"]} />
+          </MainContainer>
+        </CustomSection>
       </SectionsContainer>
     </div>
   );
