@@ -42,11 +42,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 /**
                  * !!!!!!!!!!!!! 프론트 연결 시 수정 !!!!!!!!
                  */
+                response.sendRedirect("http://localhost:3000/addinfo");
 
-//                response.sendRedirect("http://localhost:3000/oauth2/sign-up");
 //?type
-
-
                 /**
                  *프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
                  */
@@ -79,6 +77,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
          * !!!!!!!!!!!!! 프론트 연결 시 수정 !!!!!!!!
          */
 
-//        response.sendRedirect("http://localhost:3000/login/success");
+        response.sendRedirect("http://localhost:3000/");
     }
 }
