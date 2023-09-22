@@ -18,19 +18,19 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = true)
     private String nickname;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = true)
     private String email;
 
-    @Column(length = 2, nullable = false)
+    @Column(length = 2, nullable = true)
     private String gender;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Byte age;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = true)
     private String introduce;
 
     @Column(length = 255, nullable = true)
