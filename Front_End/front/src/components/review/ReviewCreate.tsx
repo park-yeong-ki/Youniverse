@@ -1,14 +1,12 @@
-import React from "react";
+import React from "react"
 
-import Wrapper from "../atoms/Wrapper";
-import ReviewCreateForm from "../organisms/ReviewCreateForm";
+import ReviewCreateForm from "../organisms/ReviewCreateForm"
 
 const ReviewCreate = () => {
-  return (
-    <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
-      <ReviewCreateForm />
-    </Wrapper>
-  );
-};
-
-export default ReviewCreate;
+    return (
+        <div>
+            <ReviewCreateForm />
+        </div>
+    )
+}
+export default ReviewCreate
