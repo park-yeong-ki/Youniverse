@@ -19,6 +19,4 @@ public class OttMember {
     @ManyToOne
     @JoinColumn(name = "ott_id")
     private Ott ott;
-
-
 }

@@ -14,12 +14,15 @@ public class Keyword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer keywordId;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = false, unique = true)
     private String keywordName;
 
-    @OneToMany(mappedBy = "keyword")
+    @Column(nullable = false)
+    private int source;
+
+    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeywordMember> keywordMembers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "keyword")
+    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeywordMovie> keywordMovies = new ArrayList<>();
 }
