@@ -12,7 +12,7 @@ interface WrapperProps {
 }
 
 /** Wrapper SIZE */
-type WrapperSize = "Standard" | "Small";
+type WrapperSize = "Standard" | "Small" | "YouTube";
 
 /** Wrapper COLOR
  * (적용 예시)
@@ -28,7 +28,7 @@ type WrapperPadding = "Wide" | "Medium" | "Narrow";
 type WrapperStyle = {
   height: string;
   width: string;
-  borderRadius: string;
+  borderRadius?: string;
 };
 
 /** Wrapper BGCOLOR 스타일 타입 지정 */
@@ -56,6 +56,10 @@ const WrapperStyles: Record<WrapperSize, WrapperStyle> = {
     width: "100%",
     borderRadius: "12px",
   },
+  YouTube: {
+    height: "32%",
+    width: "100%",
+  }
 };
 
 /** Wrapper BGCOLOR 스타일 지정 */

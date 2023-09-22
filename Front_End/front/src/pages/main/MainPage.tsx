@@ -14,6 +14,7 @@ import {
 const MainPage = () => {
   return (
     <>
+      {/* 로그인 안했을 때 */}
       <StyeldFlexColBetween>
         <div>
           <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">

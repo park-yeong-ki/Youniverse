@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { FlexColAround } from "../../commons/style/SharedStyle";
 import {
@@ -9,7 +9,7 @@ import {
   SIDE_BAR_SEARCH_USER,
   SIDE_BAR_MY_PAGE,
 } from "./../../commons/constants/String";
-import { ROUTES } from "../../commons/constants/Routes"
+import { ROUTES } from "../../commons/constants/Routes";
 import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
@@ -58,8 +58,8 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
       <StyledMenu>
         {/* 로그인 버튼, 검색 */}
         <div>
-        <GoogleLoginBtn />
-        <SearchBox theme="light" type="movie" />
+          <GoogleLoginBtn />
+          <SearchBox theme="light" type="movie" />
         </div>
 
         {/* 메뉴 아이템 렌더링 */}
@@ -79,6 +79,16 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
 
 export default SideBar;
 
+// 슬라이드 애니메이션
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
 const StyledSidebar = styled.div`
   position: fixed;
   top: 0;
@@ -88,10 +98,14 @@ const StyledSidebar = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
   transform: translateX(100%);
   z-index: 1000;
-  padding: 20px; /* 사이드바 내부의 패딩 추가 */
+  padding: 20px;
 
+  /* 사이드바가 기본적으로 화면 밖에 위치하도록 설정 */
+  transform: translateX(100%);
+
+  /* 사이드바가 열릴 때 슬라이드 인 애니메이션 적용 */
   &.open {
-    transform: translateX(0);
+    animation: ${slideIn} 0.2s forwards;
   }
 `;
 
