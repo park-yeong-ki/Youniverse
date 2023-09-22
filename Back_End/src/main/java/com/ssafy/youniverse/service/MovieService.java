@@ -19,6 +19,12 @@ public class MovieService {
     private final OttService ottService;
     private final KeywordMovieService keywordMovieService;
     private final OttMovieService ottMovieService;
+    private final ActorMovieService actorMovieService;
+    private final ActorService actorService;
+    private final GenreMovieService genreMovieService;
+    private final GenreService genreService;
+    private final DirectorMovieService directorMovieService;
+    private final DirectorService directorService;
 
     //영화 생성
     public Movie createMovie(Movie movie) {
@@ -34,6 +40,24 @@ public class MovieService {
             ottMovie.setMovie(createdMovie);
             ottMovie.setOtt(ottService.readOtt(ottMovie.getOtt().getOttId()));
             ottMovieService.createOttMovie(ottMovie);
+        });
+
+        createdMovie.getActorMovies().stream().forEach(actorMovie -> {
+            actorMovie.setMovie(createdMovie);
+            actorMovie.setActor(actorService.readActor(actorMovie.getActor().getActorId()));
+            actorMovieService.createActorMovie(actorMovie);
+        });
+
+        createdMovie.getGenreMovies().stream().forEach(genreMovie -> {
+            genreMovie.setMovie(createdMovie);
+            genreMovie.setGenre(genreService.readGenre(genreMovie.getGenre().getGenreId()));
+            genreMovieService.createGenreMovie(genreMovie);
+        });
+
+        createdMovie.getDirectorMovies().stream().forEach(directorMovie -> {
+            directorMovie.setMovie(movie);
+            directorMovie.setDirector(directorService.readDirector(directorMovie.getDirector().getDirectorId()));
+            directorMovieService.createDirectorMovie(directorMovie);
         });
 
         return createdMovie;
@@ -70,6 +94,12 @@ public class MovieService {
 
         updatedMovie.getOttMovies().clear();
 
+        updatedMovie.getActorMovies().clear();
+
+        updatedMovie.getGenreMovies().clear();
+
+        updatedMovie.getDirectorMovies().clear();
+
         movie.getKeywordMovies().stream().forEach(keywordMovie -> {
             keywordMovie.setMovie(updatedMovie);
             keywordMovie.setKeyword(keywordService.readKeyword(keywordMovie.getKeyword().getKeywordId()));
@@ -80,6 +110,24 @@ public class MovieService {
             ottMovie.setMovie(updatedMovie);
             ottMovie.setOtt(ottService.readOtt(ottMovie.getOtt().getOttId()));
             updatedMovie.getOttMovies().add(ottMovie);
+        });
+
+        movie.getActorMovies().stream().forEach(actorMovie -> {
+            actorMovie.setMovie(updatedMovie);
+            actorMovie.setActor(actorService.readActor(actorMovie.getActor().getActorId()));
+            updatedMovie.getActorMovies().add(actorMovie);
+        });
+
+        movie.getGenreMovies().stream().forEach(genreMovie -> {
+            genreMovie.setMovie(updatedMovie);
+            genreMovie.setGenre(genreService.readGenre(genreMovie.getGenre().getGenreId()));
+            updatedMovie.getGenreMovies().add(genreMovie);
+        });
+
+        movie.getDirectorMovies().stream().forEach(directorMovie -> {
+            directorMovie.setMovie(updatedMovie);
+            directorMovie.setDirector(directorService.readDirector(directorMovie.getDirector().getDirectorId()));
+            updatedMovie.getDirectorMovies().add(directorMovie);
         });
 
         return updatedMovie;

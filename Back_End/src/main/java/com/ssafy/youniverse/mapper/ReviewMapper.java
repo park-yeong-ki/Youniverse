@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface ReviewMapper {
+public interface ReviewMapper extends CustomMapper {
     @Mapping(source = "movieReqDto.memberId", target = "member.memberId")
     @Mapping(source = "movieReqDto.movieId", target = "movie.movieId")
     Review myMovieReqDtoToReview(MyMovieReqDto movieReqDto);

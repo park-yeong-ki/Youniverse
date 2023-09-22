@@ -21,4 +21,7 @@ public class MovieResDto {
     private List<HateMovieResDto> hateMovieResDtos;
     private List<BestMovieResDto> bestMovieResDtos;
     private List<ReviewResDto> reviewResDtos;
+    private List<ActorResDto> actorResDtos;
+    private List<GenreResDto> genreResDtos;
+    private List<DirectorResDto> directorResDtos;
 }
