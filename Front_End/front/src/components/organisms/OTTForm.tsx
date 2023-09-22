@@ -9,6 +9,7 @@ import {
   APPLE_TV,
   DISNEY_PLUS,
 } from "../../commons/constants/String";
+import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 
 const OTTForm = () => {
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
@@ -46,7 +47,7 @@ const OTTForm = () => {
   };
 
   return (
-    <div>
+    <StyledPlanetContainer>
       <PlanetWrapper $isSelected={planetSelectedStates[NETFLIX]}>
         <Planet
           size="Standard"
@@ -92,13 +93,21 @@ const OTTForm = () => {
         />
         <div>{DISNEY_PLUS}</div>
       </PlanetWrapper>
-    </div>
+    </StyledPlanetContainer>
   );
 };
 
 export default OTTForm;
 
+const StyledPlanetContainer = styled.div`
+  ${FlexCenter}
+  height: 300px;
+`;
+
 const PlanetWrapper = styled.div<{ $isSelected: boolean }>`
+  ${FlexColBetween}
+  height: 100%;
+  width: 20%;
   div {
     color: ${(props) =>
       props.$isSelected ? "rgba(255, 255, 255, 0.9)" : "black"};
@@ -109,7 +118,8 @@ const PlanetWrapper = styled.div<{ $isSelected: boolean }>`
   &:hover > div:first-child {
     cursor: pointer;
   }
-  /* // 빛번짐 속도가 행성과 다름
+
+  /* // 빛번짐 속도가 행성과 달라서 일단 주석 처리
   &:hover div {
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9); // 빛 번짐 효과

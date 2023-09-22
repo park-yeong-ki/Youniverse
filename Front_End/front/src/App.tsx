@@ -29,7 +29,6 @@ function App() {
       <StarryBackground />
       <Header />
       <OTTForm />
-      <AdditionalInfoPage />
 
       <Routes>
         <Route path={ROUTES.MAIN} Component={MAIN} />
