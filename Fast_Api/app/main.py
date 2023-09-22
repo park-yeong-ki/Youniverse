@@ -1,17 +1,15 @@
 from fastapi import FastAPI
-from youtube import api
+from starlette.middleware.cors import CORSMiddleware
+
+from app.youniverse.routers import test
 
 def include_router(app):
-    app.include_router(api.router, prefix='/main')
+    app.include_router(test.router)
 
-def start_application():
-    app = FastAPI()
-    include_router(app)
-    return app
 
-app = start_application()
+app = FastAPI()
+include_router(app)
 
-# GET / 경로에 대한 핸들러 추가
 @app.get("/", tags=["get"])
-async def root():
-    return "Hello, World!"
+async def get_Test():
+    return "hello python"

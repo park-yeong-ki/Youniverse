@@ -1,8 +1,12 @@
-version: '3'
+version: "3"
+
 services:
-  fastapi_app:
+  fastapi:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: fast_api-fastapi
+    volumes:
+      - /home/ubuntu/youniverse-fastapi/Fast_Api/app:/app
     ports:
-      - "8000:8000"
+      - "8000:8000"  # 호스트 포트와 컨테이너 포트를 연결

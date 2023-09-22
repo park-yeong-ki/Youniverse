@@ -8,6 +8,7 @@ WORKDIR /app
 COPY ./app/requirements.txt /app/requirements.txt
 
 # Install FastAPI and Uvicorn
+RUN pip install uvicorn fastapi
 RUN pip install -r /app/requirements.txt
 
 # Copy the application code into the container
@@ -17,4 +18,5 @@ COPY ./app /app
 EXPOSE 8000
 
 # Command to run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+#uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
