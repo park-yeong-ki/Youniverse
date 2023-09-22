@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
@@ -19,14 +18,22 @@ import {
   MOVIE_DETAIL,
   NOTFOUND,
 } from "./pages/Pages";
-
+import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
+import Planet from "./components/atoms/Planet";
 
 function App() {
+  const handlePlanetSelect = () => {};
   return (
     <Router>
       <GlobalStyles />
       <StarryBackground />
       <Header />
+      <Planet
+        size="Standard"
+        src="assets/Logo/Logo.svg"
+        onClick={handlePlanetSelect}
+      />
+      <AdditionalInfoPage />
 
       <Routes>
         <Route path={ROUTES.MAIN} Component={MAIN} />

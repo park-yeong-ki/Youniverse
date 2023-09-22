@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { styled } from "styled-components";
 import axios from "axios";
 import {
@@ -22,7 +22,7 @@ import Wrapper from "../atoms/Wrapper";
 import InputBox from "../atoms/InputBox";
 import Btn from "../atoms/Btn";
 
-const AdditionalForm: FC = () => {
+const AdditionalForm = () => {
   const [nickName, setNickName] = useState<string>("");
   const [age, setAge] = useState<number>();
   const [gender, setGender] = useState<string>("");

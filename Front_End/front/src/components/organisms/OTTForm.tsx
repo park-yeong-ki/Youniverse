@@ -1,7 +1,13 @@
-const OTTForm = () => {
-    return (
-        <div></div>
-    )
-}
+import React from "react";
+import { styled } from "styled-components";
+// import axios from "axios";
+import Planet from "../atoms/Planet";
 
-export default OTTForm
+const OTTForm = () => {
+  return (
+    <div>
+      <Planet size="Standard" src="public\assets\Logo\Logo.svg" />
+    </div>
+  );
+};
+export default OTTForm;
