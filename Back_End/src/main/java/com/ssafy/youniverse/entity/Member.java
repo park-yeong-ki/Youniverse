@@ -3,8 +3,10 @@ package com.ssafy.youniverse.entity;
 import com.ssafy.youniverse.security.Role;
 import com.ssafy.youniverse.util.Auditable;
 import lombok.*;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @Entity
+@Transactional
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +46,7 @@ public class Member extends Auditable {
         this.role = Role.USER;
     }
 
+    @Lazy
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 

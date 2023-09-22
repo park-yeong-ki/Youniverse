@@ -49,7 +49,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes extractAttributes = OAuthAttributes.ofGoogle(userNameAttributeName, attributes);
 
         Member createdMember = getMember(extractAttributes); // getUser() 메소드로 User 객체 생성 후 반환
-        log.info("createdUser : {} " , createdMember.toString()); /////2222
+
         // DefaultOAuth2User를 구현한 CustomOAuth2User 객체를 생성해서 반환
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(createdMember.getRole().getKey())),
