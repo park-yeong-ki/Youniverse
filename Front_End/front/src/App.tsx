@@ -32,7 +32,7 @@ function App() {
     <RecoilRoot>
       <Router>
         <GlobalStyles />
-        <StarryBackground />
+        {/* <StarryBackground /> */}
         <Header />
 
         <Routes>

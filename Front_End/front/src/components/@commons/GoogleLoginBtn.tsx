@@ -9,6 +9,7 @@ import Btn from "../atoms/Btn";
 import styled from "styled-components";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import { GOOGLE_LOGIN } from "../../commons/constants/String";
+import axios from "axios";
 
 const GoogleLoginBtn = () => {
   // const clientId: string = process.env.REACT_APP_GOOGLE_CLIENTID!;
@@ -37,6 +38,7 @@ const GoogleInnerComponent = () => {
   const setLogin = useSetRecoilState(LoginState);
 
   const handleGoogleLogin = useGoogleLogin({
+    scope: "email profile",
     onSuccess: async (res) => {
       console.log(res);
       // await axios({
@@ -50,6 +52,23 @@ const GoogleInnerComponent = () => {
       //   .catch((e) => console.log(e));
 
       // res.access_token
+
+      // const CheckAuth = async (accessToken: string) => {
+      await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+            Authorization: `Bearer ${res.access_token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          // alert(res.data.email);
+        })
+        .catch((err) => {
+          alert("oAuth token expired");
+          window.location.assign("http://localhost:3000");
+        });
+      // };
 
       setUserInfo({
         accessToken: res.access_token,
