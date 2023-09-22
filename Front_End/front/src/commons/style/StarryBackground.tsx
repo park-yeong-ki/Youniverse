@@ -28,22 +28,22 @@ const StarryBackground: React.FC = () => {
             noite.innerHTML = estrela;
         }
 
-        let numeroAleatorio = 5000;
+        // let numeroAleatorio = 5000;
 
-        const carregarMeteoro = () => {
-            setTimeout(carregarMeteoro, numeroAleatorio);
-            numeroAleatorio = getRandomArbitrary(5000, 10000);
-            const meteoro = `<div class='meteoro ${style[getRandomArbitrary(0, 4)]}'></div>`;
-            const chuvaMeteoro = document.getElementsByClassName('chuvaMeteoro')[0];
-            if (chuvaMeteoro) {
-                chuvaMeteoro.innerHTML = meteoro;
-                setTimeout(() => {
-                    chuvaMeteoro.innerHTML = "";
-                }, 1000);
-            }
-        }
+        // const carregarMeteoro = () => {
+        //     setTimeout(carregarMeteoro, numeroAleatorio);
+        //     numeroAleatorio = getRandomArbitrary(5000, 10000);
+        //     const meteoro = `<div class='meteoro ${style[getRandomArbitrary(0, 4)]}'></div>`;
+        //     const chuvaMeteoro = document.getElementsByClassName('chuvaMeteoro')[0];
+        //     if (chuvaMeteoro) {
+        //         chuvaMeteoro.innerHTML = meteoro;
+        //         setTimeout(() => {
+        //             chuvaMeteoro.innerHTML = "";
+        //         }, 1000);
+        //     }
+        // }
 
-        setTimeout(carregarMeteoro, numeroAleatorio);
+        // setTimeout(carregarMeteoro, numeroAleatorio);
 
     }, []);
 
@@ -51,7 +51,7 @@ const StarryBackground: React.FC = () => {
         <>
             <div className="noite"></div>
             <div className="constelacao"></div>
-            <div className="chuvaMeteoro"></div>
+            {/* <div className="chuvaMeteoro"></div> */}
         </>
     );
 }
