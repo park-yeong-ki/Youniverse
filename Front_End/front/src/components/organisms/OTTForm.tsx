@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-// import axios from "axios";
+import axios from "axios";
 import Planet from "../atoms/Planet";
+import Btn from "../atoms/Btn";
+import Text from "../../components/atoms/Text";
 import {
   NETFLIX,
   WAVVE,
   WATCHA,
   APPLE_TV,
   DISNEY_PLUS,
+  NEXT,
 } from "../../commons/constants/String";
-import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
+import {
+  FlexColBetween,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
 
 const OTTForm = () => {
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
@@ -46,68 +52,94 @@ const OTTForm = () => {
     }));
   };
 
+  const handleSaveClick = async () => {
+    try {
+      const response = await axios.post("api 주소", {
+        planets: selectedPlanets,
+      });
+      // 응답 처리 (예: 성공 메시지 표시)
+      console.log("Response:", response.data);
+    } catch (error) {
+      // 오류 처리 (예: 오류 메시지 표시)
+      console.error("Error", error);
+    }
+  };
+
   return (
-    <StyledPlanetContainer>
-      <PlanetWrapper $isSelected={planetSelectedStates[NETFLIX]}>
-        <Planet
-          size="Standard"
-          src="assets/Logo/Logo.svg"
-          name={NETFLIX}
-          handleClickedPlanets={handleClickedPlanets}
-        />
-        <div>{NETFLIX}</div>
-      </PlanetWrapper>
-      <PlanetWrapper $isSelected={planetSelectedStates[WAVVE]}>
-        <Planet
-          size="Standard"
-          src="assets/Logo/Logo.svg"
-          name={WAVVE}
-          handleClickedPlanets={handleClickedPlanets}
-        />
-        <div>{WAVVE}</div>
-      </PlanetWrapper>
-      <PlanetWrapper $isSelected={planetSelectedStates[WATCHA]}>
-        <Planet
-          size="Standard"
-          src="assets/Logo/Logo.svg"
-          name={WATCHA}
-          handleClickedPlanets={handleClickedPlanets}
-        />
-        <div>{WATCHA}</div>
-      </PlanetWrapper>
-      <PlanetWrapper $isSelected={planetSelectedStates[APPLE_TV]}>
-        <Planet
-          size="Standard"
-          src="assets/Logo/Logo.svg"
-          name={APPLE_TV}
-          handleClickedPlanets={handleClickedPlanets}
-        />
-        <div>{APPLE_TV}</div>
-      </PlanetWrapper>
-      <PlanetWrapper $isSelected={planetSelectedStates[DISNEY_PLUS]}>
-        <Planet
-          size="Standard"
-          src="assets/Logo/Logo.svg"
-          name={DISNEY_PLUS}
-          handleClickedPlanets={handleClickedPlanets}
-        />
-        <div>{DISNEY_PLUS}</div>
-      </PlanetWrapper>
-    </StyledPlanetContainer>
+    <OTTFormContainer>
+      <StyledContainer>
+        <PlanetWrapper $isSelected={planetSelectedStates[NETFLIX]}>
+          <Planet
+            size="Standard"
+            src="assets/Logo/Logo.svg"
+            name={NETFLIX}
+            handleClickedPlanets={handleClickedPlanets}
+          />
+          <div>{NETFLIX}</div>
+        </PlanetWrapper>
+        <PlanetWrapper $isSelected={planetSelectedStates[WAVVE]}>
+          <Planet
+            size="Standard"
+            src="assets/Logo/Logo.svg"
+            name={WAVVE}
+            handleClickedPlanets={handleClickedPlanets}
+          />
+          <div>{WAVVE}</div>
+        </PlanetWrapper>
+        <PlanetWrapper $isSelected={planetSelectedStates[WATCHA]}>
+          <Planet
+            size="Standard"
+            src="assets/Logo/Logo.svg"
+            name={WATCHA}
+            handleClickedPlanets={handleClickedPlanets}
+          />
+          <div>{WATCHA}</div>
+        </PlanetWrapper>
+        <PlanetWrapper $isSelected={planetSelectedStates[APPLE_TV]}>
+          <Planet
+            size="Standard"
+            src="assets/Logo/Logo.svg"
+            name={APPLE_TV}
+            handleClickedPlanets={handleClickedPlanets}
+          />
+          <div>{APPLE_TV}</div>
+        </PlanetWrapper>
+        <PlanetWrapper $isSelected={planetSelectedStates[DISNEY_PLUS]}>
+          <Planet
+            size="Standard"
+            src="assets/Logo/Logo.svg"
+            name={DISNEY_PLUS}
+            handleClickedPlanets={handleClickedPlanets}
+          />
+          <div>{DISNEY_PLUS}</div>
+        </PlanetWrapper>
+      </StyledContainer>
+      <StyledNextButton size="X-Large" color="Ghost" onClick={handleSaveClick}>
+        <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
+          {NEXT}
+        </Text>
+      </StyledNextButton>
+    </OTTFormContainer>
   );
 };
 
 export default OTTForm;
 
-const StyledPlanetContainer = styled.div`
-  ${FlexCenter}
-  height: 300px;
+const OTTFormContainer = styled.div`
+  ${FlexColBetween}
+  height: 500px;
+`;
+
+const StyledContainer = styled.div`
+  ${FlexRowBetween}
+  height: 80%;
+  width: 100%;
 `;
 
 const PlanetWrapper = styled.div<{ $isSelected: boolean }>`
   ${FlexColBetween}
-  height: 100%;
-  width: 20%;
+  height: 70%;
+
   div {
     color: ${(props) =>
       props.$isSelected ? "rgba(255, 255, 255, 0.9)" : "black"};
@@ -124,4 +156,8 @@ const PlanetWrapper = styled.div<{ $isSelected: boolean }>`
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9); // 빛 번짐 효과
   } */
+`;
+
+const StyledNextButton = styled(Btn)`
+  width: 200px;
 `;

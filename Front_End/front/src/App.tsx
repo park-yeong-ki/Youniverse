@@ -18,8 +18,8 @@ import {
   MOVIE_DETAIL,
   NOTFOUND,
 } from "./pages/Pages";
-import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
-import OTTForm from "./components/organisms/OTTForm";
+
+import OTTSelectionPage from "./pages/auth/OTTSelectionPage";
 
 function App() {
   const handlePlanetClick = () => {};
@@ -28,7 +28,7 @@ function App() {
       <GlobalStyles />
       <StarryBackground />
       <Header />
-      <OTTForm />
+      <OTTSelectionPage />
 
       <Routes>
         <Route path={ROUTES.MAIN} Component={MAIN} />
