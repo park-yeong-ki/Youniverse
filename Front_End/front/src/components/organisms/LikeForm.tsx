@@ -1,7 +1,8 @@
-const LikeForm = () => {
-    return (
-        <div></div>
-    )
-}
+import { styled } from "styled-components";
+import Btn from "../atoms/Btn";
 
-export default LikeForm
+const LikeForm = () => {
+  return <div></div>;
+};
+
+export default LikeForm;

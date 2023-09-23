@@ -6,7 +6,7 @@ import RecommendSection from "../../components/movies/RecommendSection";
 import RecommendNotYouTube from "../../components/movies/RecommendNotYouTube";
 import { MainContainer } from './../../commons/style/layoutStyle';
 
-const RecommendationMainPage = () => {
+const RecommendationMainPage = () => {git
   let options = {
     anchors: ["YouTube", "Recommend1", "Recommend2"],
   };
