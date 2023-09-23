@@ -13,7 +13,9 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.0",
+    "chart.js": "^4.4.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-fullpage": "^0.1.19",
     "react-icons": "^4.11.0",
@@ -51,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/faker": "^6.6.9",
     "@types/styled-components": "^5.1.27"
   }
 }

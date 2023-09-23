@@ -36,8 +36,10 @@ function App() {
         <Route path={ROUTES.RECOMMEND} Component={RECOMMEND} />
         <Route path={ROUTES.RECOMMEND_MORE} Component={RECOMMEND_MORE} />
         <Route path={ROUTES.MOVIE_DETAIL} Component={MOVIE_DETAIL} />
-        <Route Component={NOTFOUND} />
+        <Route path={ROUTES.NOTFOUND} Component={NOTFOUND} />
       </Routes>
+
+
     </Router>
   );
 }
