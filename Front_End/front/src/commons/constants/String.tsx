@@ -98,6 +98,7 @@ export const FOLLOWER = "팔로워";
 export const FOLLOW = "팔로우";
 export const UNFOLLOW = "팔로우 취소";
 export const NEXT = "다음으로";
+export const TO_MAIN = "메인으로";
 export const SAVE = "저장";
 export const CANCLE = "취소";
 export const MODIFY = "수정";

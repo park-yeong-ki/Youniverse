@@ -180,7 +180,7 @@ const StyledClearInput = styled(InputBox)`
   padding: 5px 10px;
 `;
 
-const StyledSaveButton = styled(Btn)`
+export const StyledSaveButton = styled(Btn)`
   width: 200px;
 `;
 
