@@ -4,6 +4,7 @@ import com.ssafy.youniverse.dto.req.MemberReqDto;
 import com.ssafy.youniverse.dto.res.MemberResDto;
 import com.ssafy.youniverse.entity.Member;
 import com.ssafy.youniverse.mapper.MemberMapper;
+import com.ssafy.youniverse.security.jwt.service.JwtService;
 import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import com.ssafy.youniverse.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/members")
@@ -24,6 +27,7 @@ import java.io.IOException;
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
+    private final JwtService jwtService;
 
     //회원가입
     @PostMapping("/register")
@@ -68,4 +72,18 @@ public class MemberController {
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutMember(HttpServletRequest request){
+        return jwtService.extractAccessToken(request)
+                .filter(jwtService::isAccessTokenValid)
+                .map(accessToken -> {
+                    jwtService.saveBlackList(accessToken);
+                    jwtService.deleteRefreshToken(accessToken);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
+
 }

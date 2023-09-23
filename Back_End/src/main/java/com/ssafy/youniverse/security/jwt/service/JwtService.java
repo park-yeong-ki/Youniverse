@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ssafy.youniverse.handler.exception.InvalidAccessTokenException;
 import com.ssafy.youniverse.repository.MemberRepository;
 import com.ssafy.youniverse.repository.RedisRepository;
 import lombok.Getter;
@@ -91,6 +92,7 @@ public class JwtService {
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
+//        log.info(" response: {} ", response);
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
 
@@ -125,6 +127,7 @@ public class JwtService {
         } catch (Exception e) {
             log.error("액세스 토큰이 유효하지 않습니다.");
             return Optional.empty(); //유효하지 않다면 빈 Optional 객체 반환
+//            return ResponseE
         }
     }
 
@@ -133,6 +136,7 @@ public class JwtService {
      */
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
         response.setHeader(accessHeader, BEARER+accessToken);
+        log.info(" setAccessTokenHeader 실행 완료");
     }
 
     /**
@@ -155,15 +159,29 @@ public class JwtService {
                 () -> { throw new RuntimeException("일치하는 회원이 없습니다."); }
         );
     }
-    public boolean isTokenValid(String token) {
+    public boolean isAccessTokenValid(String accessToken) {
+        Optional<String> blackListOption = Optional.ofNullable(redisRepository.getValues(accessToken));
+
         try {
-            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+            if(blackListOption.isPresent()) throw new InvalidAccessTokenException(InvalidAccessTokenException.INVALID_ACCESS_TOKEN);
+            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken);
+            return true;
+        } catch (Exception e) {
+            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            throw new InvalidAccessTokenException(InvalidAccessTokenException.INVALID_ACCESS_TOKEN);
+        }
+    }
+
+    public boolean isRefreshTokenValid(String refreshToken) {
+        try {
+            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(refreshToken);
             return true;
         } catch (Exception e) {
             log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
             return false;
         }
     }
+
 
     public String extractEmailFromRefreshToken(String refreshToken) {
         try {
@@ -182,6 +200,44 @@ public class JwtService {
         } catch (JWTDecodeException e) {
             // JWT 파싱 오류 처리
             throw new IllegalArgumentException("Invalid RefreshToken format.");
+        }
+    }
+
+
+    public void saveBlackList(String accessToken){
+        DecodedJWT jwt = JWT.decode(accessToken);
+        Date expiresAt = jwt.getExpiresAt();
+        long remainingTime = expiresAt.getTime() - System.currentTimeMillis();
+
+        if (remainingTime > 0) {
+            Duration duration = Duration.ofMillis(remainingTime);
+            redisRepository.setValues(accessToken, "logout", duration);
+        }
+    }
+
+    public void deleteRefreshToken(String accessToken){
+        String email = extractEmailFromAccessToken(accessToken);
+        redisRepository.deleteValues(email);
+
+    }
+
+    public String extractEmailFromAccessToken(String accessToken) {
+        try {
+            // 주어진 리프레시 토큰을 파싱하여 JWT 객체 생성
+            DecodedJWT jwt = JWT.decode(accessToken);
+
+            // JWT에서 이메일 클레임 값을 추출
+            Claim emailClaim = jwt.getClaim("email");
+            if (emailClaim.isNull()) {
+                // 이메일 클레임이 존재하지 않을 경우 처리
+                throw new IllegalArgumentException("AccessToken does not contain email claim.");
+            }
+
+            // 이메일 클레임 값을 문자열로 반환
+            return emailClaim.asString();
+        } catch (JWTDecodeException e) {
+            // JWT 파싱 오류 처리
+            throw new IllegalArgumentException("Invalid AccessToken format.");
         }
     }
 

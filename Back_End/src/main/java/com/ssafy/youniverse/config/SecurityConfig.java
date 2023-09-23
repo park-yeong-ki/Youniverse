@@ -21,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -56,13 +57,13 @@ public class SecurityConfig {
                                 // Cors 허용 패턴
                                 CorsConfiguration config = new CorsConfiguration();
                                 config.setAllowedOrigins(
-                                        List.of("*")
+                                        List.of("*") // 모든 출처 허용
                                 );
                                 config.setAllowedMethods(
-                                        List.of("*")
+                                        List.of("*") // 모든 메서드 허용
                                 );
                                 config.setAllowedHeaders(
-                                        List.of("*")
+                                        List.of("*") // 모든 헤더 허용
                                 );
                                 return config;
                             };
@@ -89,6 +90,12 @@ public class SecurityConfig {
                 .antMatchers("/sign-up").permitAll() // 회원가입 접근 가능
                 .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
+                .logout() // 로그아웃시 이동
+                .logoutUrl("/members/logout")
+//                .logoutSuccessUrl("http://localhost:3000/")
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
                 //== 소셜 로그인 설정 ==//
                 .oauth2Login()
                 .successHandler(oAuth2LoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정
@@ -101,6 +108,11 @@ public class SecurityConfig {
 
 //        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
 //        http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
+
+        http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        //jwt 필터링 순서
+
 
         return http.build();
     }

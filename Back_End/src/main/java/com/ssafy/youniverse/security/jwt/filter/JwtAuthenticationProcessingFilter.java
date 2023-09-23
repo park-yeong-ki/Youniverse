@@ -64,7 +64,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         // 사용자의 요청 헤더에 RefreshToken이 있는 경우는, AccessToken이 만료되어 클라이언트가 RefreshToken을 요청에 담아 보낸 경우밖에 없다.
         // 따라서, 위의 경우를 제외하면 추출한 refreshToken은 모두 null (RefreshToken 비교 후 AccessToken을 재발급)
         String refreshToken = jwtService.extractRefreshToken(request)
-                .filter(jwtService::isTokenValid) //
+                .filter(jwtService::isRefreshTokenValid) //
                 .orElse(null); // 유효하지않다면 null
 
 
@@ -132,7 +132,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                                                    FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
         jwtService.extractAccessToken(request) // 엑세스 토큰 추출
-                .filter(jwtService::isTokenValid) // 유효한 토큰이면,  // 클래스이름 :: 메서드이름
+                .filter(jwtService::isAccessTokenValid) // 유효한 토큰이면,  // 클래스이름 :: 메서드이름
                 .ifPresent(accessToken -> jwtService.extractEmail(accessToken) //액세스 토큰에서 extractEmail로 Email을 추출
                         .ifPresent(email -> memberRepository.findByEmail(email) //해당 이메일을 사용하는 유저 객체 반환
                                 .ifPresent(this::saveAuthentication))); //그 유저 객체를 인증 처리 +인증 허가 처리된 객체를 SecurityContextHolder에 담기
@@ -153,7 +153,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         // 빌더의 유저 : UserDetails의 User 객체
         UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
                 .username(myMember.getEmail())
-//                .password(password)
+                .password("null")
                 .roles(myMember.getRole().name())
                 .build();
 
