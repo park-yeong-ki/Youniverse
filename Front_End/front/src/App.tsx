@@ -25,7 +25,7 @@ function App() {
   return (
     <Router>
       <GlobalStyles />
-      <StarryBackground />
+      {/* <StarryBackground /> */}
       <Header />
 
       <Routes>

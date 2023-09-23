@@ -1,14 +1,18 @@
 import styled from "styled-components";
 import Text from "../atoms/Text";
 import { StyledMoviePoster } from "./MovieItem";
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 
 const SoulMovieItem = ({ ...props }) => {
+  const handleClickMovie = () => {
+    console.log("영화 클릭함");
+  };
   // 받아온 영화 이름
-  const movieName = "안냐세용";
+  const movieName = props.movie;
   const displayMovieName =
     movieName.length > 4 ? movieName.substring(0, 4) + "..." : movieName;
   return (
-    <StyledSoulMovieWrapper>
+    <StyledSoulMovieWrapper onClick={handleClickMovie}>
       {/* 영화 포스터 */}
       <StyledPosterImage>
         <StyledMoviePoster src={props.src} />
@@ -16,7 +20,7 @@ const SoulMovieItem = ({ ...props }) => {
         <StyledPosterCover />
       </StyledPosterImage>
       {/* 인생영화 순위 + 제목 텍스트 */}
-      <div>
+      <StyledSoulTextWrapper>
         <Text size="X-Large" color="Black" fontFamily="PyeongChang-Bold">
           1
         </Text>
@@ -28,8 +32,7 @@ const SoulMovieItem = ({ ...props }) => {
         >
           {displayMovieName}
         </Text>
-      </div>
-
+      </StyledSoulTextWrapper>
     </StyledSoulMovieWrapper>
   );
 };
@@ -37,9 +40,8 @@ const SoulMovieItem = ({ ...props }) => {
 export default SoulMovieItem;
 
 const StyledPosterImage = styled.div`
-  --card-width: 11rem;
-  width: var(--card-width);
-  height: calc(var(--card-width) * 1.3);
+  width: 100%;
+  padding-top: 130%; // 너비의 1.3배에 해당하는 높이 설정
   border-radius: 0.75rem;
   overflow: hidden;
 
@@ -64,11 +66,14 @@ const StyledPosterCover = styled.div`
 
 /** 인생영화 Wrapper */
 const StyledSoulMovieWrapper = styled.div`
-  width: 11rem;
-  height: auto;
-`
+  width: 100%;
+  cursor: pointer;
+`;
 
 /** 인생영화 텍스트 Wrapper */
 const StyledSoulTextWrapper = styled.div`
-  
-`
+  ${FlexRowBetween}
+  width: 85%;
+  margin: -1.25rem auto 0 auto; // 20px만큼 위로 이동
+  position: relative;
+`;
