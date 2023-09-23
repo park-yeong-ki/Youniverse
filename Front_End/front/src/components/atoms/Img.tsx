@@ -17,7 +17,7 @@ type ImageStyle = {
   height: string;
 };
 
-/** 버튼 STYLE */
+/** 이미지 STYLE */
 const ImageStyles: Record<ImageSize, ImageStyle> = {
   "X-Large": {
     height: "224px",
