@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException
-from app.youniverse.repository import testRepository
+from fastapi import APIRouter
+from youniverse.repository import testRepository
 
 router = APIRouter(
     prefix="/test",

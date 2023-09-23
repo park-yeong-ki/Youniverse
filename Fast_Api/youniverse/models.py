@@ -1,6 +1,6 @@
-from sqlalchemy import Column, ForeignKey, Integer, VARCHAR, FLOAT, TIMESTAMP, BIGINT, TEXT, Boolean, JSON
+from sqlalchemy import Column, Integer, VARCHAR
 
-from app.youniverse.database import declarative_base
+from youniverse.database import declarative_base
 
 Base = declarative_base()
 

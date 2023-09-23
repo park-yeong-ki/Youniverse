@@ -1,5 +1,5 @@
-from app.youniverse import models
-from app.youniverse.database import engineconn
+from youniverse import models
+from youniverse.database import engineconn
 
 engine = engineconn()
 session = engine.sessionmaker()
