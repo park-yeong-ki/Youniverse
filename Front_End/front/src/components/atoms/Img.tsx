@@ -1,4 +1,3 @@
-import React, { ReactNode } from "react";
 import { styled } from "styled-components";
 
 /** 이미지 타입 지정 */
