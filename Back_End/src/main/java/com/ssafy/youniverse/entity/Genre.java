@@ -15,8 +15,8 @@ public class Genre {
     private Integer genreId;
 
     @Column(length = 20, nullable = false)
-    private String movieGenre;
+    private String genreName;
 
-    @OneToMany(mappedBy = "genre")
+    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GenreMovie> genreMovies = new ArrayList<>();
 }

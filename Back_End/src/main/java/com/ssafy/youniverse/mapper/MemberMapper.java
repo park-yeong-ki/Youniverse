@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface MemberMapper {
+public interface MemberMapper extends CustomMapper {
     default Member memberReqDtoToMember(MemberReqDto memberReqDto){
         if ( memberReqDto == null ) {
             return null;
@@ -159,8 +159,4 @@ public interface MemberMapper {
 
         return memberResDto;
     }
-
-    MemberSimpleResDto memberToMemberSimpleResDto(Member member);
-
-    MovieSimpleResDto movieToMovieSimpleResDto(Movie movie);
 }

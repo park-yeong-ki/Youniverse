@@ -3,14 +3,16 @@ package com.ssafy.youniverse.mapper;
 import com.ssafy.youniverse.dto.req.MovieReqDto;
 import com.ssafy.youniverse.dto.res.*;
 import com.ssafy.youniverse.entity.*;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface MovieMapper {
+public interface MovieMapper extends CustomMapper {
     default Movie movieReqDtoToMovie(MovieReqDto movieReqDto){
         if ( movieReqDto == null ) {
             return null;
@@ -50,6 +52,45 @@ public interface MovieMapper {
                 keywordMovies.add(keywordMovie);
             }
             movie.setKeywordMovies(keywordMovies);
+        }
+
+        if (movieReqDto.getActorList() != null) { //영화 배우 목록이 존재하는 경우
+            List<ActorMovie> actorMovies = new ArrayList<>();
+            for (int actorId : movieReqDto.getActorList()) {
+                Actor actor = new Actor();
+                actor.setActorId(actorId);
+                ActorMovie actorMovie = new ActorMovie();
+                actorMovie.setActor(actor);
+                actorMovie.setMovie(movie);
+                actorMovies.add(actorMovie);
+            }
+            movie.setActorMovies(actorMovies);
+        }
+
+        if (movieReqDto.getGenreList() != null) { // 영화 장르 목록이 존재하는 경우
+            List<GenreMovie> genreMovies = new ArrayList<>();
+            for (int genreId : movieReqDto.getGenreList()) {
+                Genre genre = new Genre();
+                genre.setGenreId(genreId);
+                GenreMovie genreMovie = new GenreMovie();
+                genreMovie.setGenre(genre);
+                genreMovie.setMovie(movie);
+                genreMovies.add(genreMovie);
+            }
+            movie.setGenreMovies(genreMovies);
+        }
+
+        if (movieReqDto.getDirectorList() != null) { // 영화 감독 목록이 존재하는 경우
+            List<DirectorMovie> directorMovies = new ArrayList<>();
+            for (int directorId : movieReqDto.getDirectorList()) {
+                Director director = new Director();
+                director.setDirectorId(directorId);
+                DirectorMovie directorMovie = new DirectorMovie();
+                directorMovie.setDirector(director);
+                directorMovie.setMovie(movie);
+                directorMovies.add(directorMovie);
+            }
+            movie.setDirectorMovies(directorMovies);
         }
 
         return movie;
@@ -148,10 +189,41 @@ public interface MovieMapper {
                 .collect(Collectors.toList())
         );
 
+        //영화 배우 목록
+        movieResDto.setActorResDtos(movie.getActorMovies().stream()
+                .map(actorMovie -> {
+                    ActorResDto actorResDto = new ActorResDto();
+                    actorResDto.setActorId(actorMovie.getActor().getActorId());
+                    actorResDto.setActorName(actorMovie.getActor().getActorName());
+                    actorResDto.setActorImage(actorMovie.getActor().getActorImage());
+                    return actorResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
+        //영화 장르 목록
+        movieResDto.setGenreResDtos(movie.getGenreMovies().stream()
+                .map(genreMovie -> {
+                    GenreResDto genreResDto = new GenreResDto();
+                    genreResDto.setGenreId(genreMovie.getGenre().getGenreId());
+                    genreResDto.setGenreName(genreMovie.getGenre().getGenreName());
+                    return genreResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
+        //영화 감독 목록
+        movieResDto.setDirectorResDtos(movie.getDirectorMovies().stream()
+                .map(directorMovie -> {
+                    DirectorResDto directorResDto = new DirectorResDto();
+                    directorResDto.setDirectorId(directorMovie.getDirector().getDirectorId());
+                    directorResDto.setDirectorName(directorMovie.getDirector().getDirectorName());
+                    directorResDto.setDirectorImage(directorMovie.getDirector().getDirectorImage());
+                    return directorResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
         return movieResDto;
     }
-
-    MemberSimpleResDto memberToMemberSimpleResDto(Member member);
-
-    MovieSimpleResDto movieToMovieSimpleResDto(Movie movie);
 }

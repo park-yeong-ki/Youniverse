@@ -31,7 +31,7 @@ const ImageStyles: Record<ImageSize, ImageStyle> = {
     height: "44px",
   },
 };
-/** styled-component => 버튼 */
+/** styled-component => 이미지 */
 const StyledImage = styled.div<ImageProps>`
   /* 세로 값과 동일하게 가로 값 지정 */
   width: ${(props) => ImageStyles[props.size].height};

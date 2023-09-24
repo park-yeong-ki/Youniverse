@@ -32,6 +32,8 @@ body {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   z-index: -1;
+
+  will-change: box-shadow, opacity;
 }
 
 .estrela.style1 {

@@ -21,6 +21,6 @@ public class Actor {
     @Column(length = 255, nullable = false)
     private String actorImage;
 
-    @OneToMany(mappedBy = "actor")
+    @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ActorMovie> actorMovies = new ArrayList<>();
 }
