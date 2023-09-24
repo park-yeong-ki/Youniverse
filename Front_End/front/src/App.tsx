@@ -1,25 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import { RecoilRoot } from "recoil";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import StarryBackground from "./commons/style/StarryBackground";
+import { GlobalStyles } from "./commons/style/GlobalStyle";
+import { ROUTES } from "./commons/constants/Routes";
+import Header from "./components/@commons/Header";
+import {
+  MAIN,
+  ADDINFO,
+  SURVEY,
+  OTTSELECT,
+  MYPAGE,
+  PROFILE,
+  SEARCH,
+  RECOMMEND,
+  RECOMMEND_MORE,
+  MOVIE_DETAIL,
+  NOTFOUND,
+} from "./pages/Pages";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RecoilRoot>
+      <Router>
+        <GlobalStyles />
+        <StarryBackground />
+        <Header />
+
+      <Routes>
+        <Route path={ROUTES.MAIN} Component={MAIN} />
+        <Route path={ROUTES.ADDINFO} Component={ADDINFO} />
+        <Route path={ROUTES.SURVEY} Component={SURVEY} />
+        <Route path={ROUTES.OTTSELECT} Component={OTTSELECT} />
+        <Route path={ROUTES.MYPAGE} Component={MYPAGE} />
+        <Route path={ROUTES.PROFILE} Component={PROFILE} />
+        <Route path={ROUTES.SEARCH} Component={SEARCH} />
+        <Route path={ROUTES.RECOMMEND} Component={RECOMMEND} />
+        <Route path={ROUTES.RECOMMEND_MORE} Component={RECOMMEND_MORE} />
+        <Route path={ROUTES.MOVIE_DETAIL} Component={MOVIE_DETAIL} />
+        <Route path={ROUTES.NOTFOUND} Component={NOTFOUND} />
+      </Routes>
+
+
+    </Router>
   );
 }
 
