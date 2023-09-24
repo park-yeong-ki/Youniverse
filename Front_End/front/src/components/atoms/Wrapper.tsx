@@ -12,7 +12,14 @@ interface WrapperProps {
 }
 
 /** Wrapper SIZE */
-type WrapperSize = "Standard" | "Small";
+/** 별자리 차트 Wrapper 메인, 마이페이지, 추천페이지에서 크기 지정 */
+export type WrapperSize =
+  | "Standard"
+  | "Small"
+  | "YouTube"
+  | "MainChart"
+  | "MyPageChart"
+  | "RecommendedChart";
 
 /** Wrapper COLOR
  * (적용 예시)
@@ -28,7 +35,7 @@ type WrapperPadding = "Wide" | "Medium" | "Narrow";
 type WrapperStyle = {
   height: string;
   width: string;
-  borderRadius: string;
+  borderRadius?: string;
 };
 
 /** Wrapper BGCOLOR 스타일 타입 지정 */
@@ -54,6 +61,25 @@ const WrapperStyles: Record<WrapperSize, WrapperStyle> = {
   Small: {
     height: "100%",
     width: "100%",
+    borderRadius: "12px",
+  },
+  YouTube: {
+    height: "32%",
+    width: "100%",
+  },
+  MainChart: {
+    height: "80%",
+    width: "80%",
+    borderRadius: "28px",
+  },
+  MyPageChart: {
+    height: "10%",
+    width: "30%",
+    borderRadius: "12px",
+  },
+  RecommendedChart: {
+    height: "70%",
+    width: "70%",
     borderRadius: "12px",
   },
 };

@@ -1,5 +1,6 @@
 package com.ssafy.youniverse.entity;
 
+import com.ssafy.youniverse.util.Auditable;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,8 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Member {
-
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
@@ -29,28 +29,30 @@ public class Member {
     @Column(length = 255, nullable = false)
     private String introduce;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = true)
     private String memberImage;
 
-    @OneToMany(mappedBy="follower")
-    private List<Follow> followings = new ArrayList<>();
-
-    @OneToMany(mappedBy="following")
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> followings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OttMember> ottMembers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<KeywordMember> keywordMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HeartMovie> heartMovies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HateMovie> hateMovies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BestMovie> bestMovies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
-
 }

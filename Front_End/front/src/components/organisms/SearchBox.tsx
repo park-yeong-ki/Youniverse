@@ -2,6 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { HiSearch } from "react-icons/hi";
 
+import {
+  SEARCH_PLACEHOLDER,
+  DROP_DOWN_ALL,
+  DROP_DOWN_NICKNAME,
+  DROP_DOWN_KEYWORD,
+  DROP_DOWN_DIRECTOR,
+  DROP_DOWN_TITLE,
+} from "./../../commons/constants/String";
 import { FlexCenter } from "./../../commons/style/SharedStyle";
 import Dropdown from "../@commons/Dropdown";
 import InputBox, { InputColor } from "../atoms/InputBox";
@@ -35,16 +43,16 @@ const THEME_STYLES: Record<"light" | "dark", ThemeStyle> = {
 };
 
 const USER_OPTIONS = [
-  { label: "전체", value: "all" },
-  { label: "닉네임", value: "nickname" },
-  { label: "키워드", value: "keyword" },
+  { label: DROP_DOWN_ALL, value: "all" },
+  { label: DROP_DOWN_NICKNAME, value: "nickname" },
+  { label: DROP_DOWN_KEYWORD, value: "keyword" },
 ];
 
 const MOVIE_OPTIONS = [
-  { label: "전체", value: "all" },
-  { label: "제목", value: "title" },
-  { label: "감독", value: "director" },
-  { label: "배우", value: "actor" },
+  { label: DROP_DOWN_ALL, value: "all" },
+  { label: DROP_DOWN_TITLE, value: "title" },
+  { label: DROP_DOWN_DIRECTOR, value: "director" },
+  { label: DROP_DOWN_KEYWORD, value: "keyword" },
 ];
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -60,10 +68,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         options={options}
         theme={theme}
         onSelectedChange={(selected) => console.log(selected)} // 이 부분은 콘솔 로그 대신 원하는 로직으로 변경하세요.
-
       />
       <InputBox
-        placeholder="검색어를 입력하세요"
+        placeholder={SEARCH_PLACEHOLDER}
         type="text"
         color={inputColor}
       />
