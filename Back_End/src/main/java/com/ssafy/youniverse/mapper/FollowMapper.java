@@ -12,7 +12,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface FollowMapper {
+public interface FollowMapper extends CustomMapper {
     @Mapping(source = "followReqDto.followerId", target = "follower.memberId")
     @Mapping(source = "followReqDto.followingId", target = "following.memberId")
     Follow followReqDtoToFollow(FollowReqDto followReqDto);

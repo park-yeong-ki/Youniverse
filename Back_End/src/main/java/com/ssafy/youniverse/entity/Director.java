@@ -20,7 +20,7 @@ public class Director {
     @Column(length = 255, nullable = false)
     private String directorImage;
 
-    @OneToMany(mappedBy = "director")
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DirectorMovie> directorMovies = new ArrayList<>();
 
 }

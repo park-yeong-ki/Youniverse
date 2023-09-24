@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -19,6 +20,12 @@ public class MovieService {
     private final OttService ottService;
     private final KeywordMovieService keywordMovieService;
     private final OttMovieService ottMovieService;
+    private final ActorMovieService actorMovieService;
+    private final ActorService actorService;
+    private final GenreMovieService genreMovieService;
+    private final GenreService genreService;
+    private final DirectorMovieService directorMovieService;
+    private final DirectorService directorService;
 
     //영화 생성
     public Movie createMovie(Movie movie) {
@@ -36,6 +43,24 @@ public class MovieService {
             ottMovieService.createOttMovie(ottMovie);
         });
 
+        createdMovie.getActorMovies().stream().forEach(actorMovie -> {
+            actorMovie.setMovie(createdMovie);
+            actorMovie.setActor(actorService.readActor(actorMovie.getActor().getActorId()));
+            actorMovieService.createActorMovie(actorMovie);
+        });
+
+        createdMovie.getGenreMovies().stream().forEach(genreMovie -> {
+            genreMovie.setMovie(createdMovie);
+            genreMovie.setGenre(genreService.readGenre(genreMovie.getGenre().getGenreId()));
+            genreMovieService.createGenreMovie(genreMovie);
+        });
+
+        createdMovie.getDirectorMovies().stream().forEach(directorMovie -> {
+            directorMovie.setMovie(movie);
+            directorMovie.setDirector(directorService.readDirector(directorMovie.getDirector().getDirectorId()));
+            directorMovieService.createDirectorMovie(directorMovie);
+        });
+
         return createdMovie;
     }
 
@@ -50,8 +75,21 @@ public class MovieService {
     }
 
     //영화 전체 조회
-    public Page<Movie> readMovies(Pageable pageable) {
-        return movieRepository.findAll(pageable);
+    public Page<Movie> readMovies(Pageable pageable, Integer memberId, String director, String actor, String title) {
+        Page<Movie> moviePage = null;
+        if (memberId != null) { //선호도 조사 -> 로그인 회원 키워드와 일치하는 키워드를 가진 영화 목록 추천
+            moviePage = movieRepository.findAllByMemberKeyword(memberId, pageable);
+        } else if (StringUtils.hasText(director)) { //감독 기반
+            moviePage = movieRepository.findAllByDirector(director, pageable);
+        } else if (StringUtils.hasText(actor)) { //배우 기반
+            moviePage = movieRepository.findAllByActor(actor, pageable);
+        } else if (StringUtils.hasText(title)) { //제목 기반 완전히 일치하지 않아도 검색
+            moviePage = movieRepository.findAllByTitleContains(title, pageable);
+        }else { //전체 영화
+            moviePage = movieRepository.findAll(pageable);
+        }
+
+        return moviePage;
     }
 
     //영화 수정
@@ -70,6 +108,12 @@ public class MovieService {
 
         updatedMovie.getOttMovies().clear();
 
+        updatedMovie.getActorMovies().clear();
+
+        updatedMovie.getGenreMovies().clear();
+
+        updatedMovie.getDirectorMovies().clear();
+
         movie.getKeywordMovies().stream().forEach(keywordMovie -> {
             keywordMovie.setMovie(updatedMovie);
             keywordMovie.setKeyword(keywordService.readKeyword(keywordMovie.getKeyword().getKeywordId()));
@@ -80,6 +124,24 @@ public class MovieService {
             ottMovie.setMovie(updatedMovie);
             ottMovie.setOtt(ottService.readOtt(ottMovie.getOtt().getOttId()));
             updatedMovie.getOttMovies().add(ottMovie);
+        });
+
+        movie.getActorMovies().stream().forEach(actorMovie -> {
+            actorMovie.setMovie(updatedMovie);
+            actorMovie.setActor(actorService.readActor(actorMovie.getActor().getActorId()));
+            updatedMovie.getActorMovies().add(actorMovie);
+        });
+
+        movie.getGenreMovies().stream().forEach(genreMovie -> {
+            genreMovie.setMovie(updatedMovie);
+            genreMovie.setGenre(genreService.readGenre(genreMovie.getGenre().getGenreId()));
+            updatedMovie.getGenreMovies().add(genreMovie);
+        });
+
+        movie.getDirectorMovies().stream().forEach(directorMovie -> {
+            directorMovie.setMovie(updatedMovie);
+            directorMovie.setDirector(directorService.readDirector(directorMovie.getDirector().getDirectorId()));
+            updatedMovie.getDirectorMovies().add(directorMovie);
         });
 
         return updatedMovie;

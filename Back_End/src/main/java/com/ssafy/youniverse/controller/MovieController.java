@@ -39,9 +39,15 @@ public class MovieController {
     }
 
     //영화 전체 조회 - 페이지네이션 구현
+    //선호도 조사 영화 조회시 로그인된 회원 식별자 전송
+    //감독, 배우, 타이틀별 조회
     @GetMapping
-    public ResponseEntity<?> findMovies(@PageableDefault(sort = "movieId", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Movie> moviePage = movieService.readMovies(pageable);
+    public ResponseEntity<?> findMovies(@PageableDefault(sort = "movieId", direction = Sort.Direction.DESC) Pageable pageable,
+                                        @RequestParam(name = "member-id", required = false) Integer memberId,
+                                        @RequestParam(name = "director", required = false) String director,
+                                        @RequestParam(name = "actor", required = false) String actor,
+                                        @RequestParam(name = "title", required = false) String title) {
+        Page<Movie> moviePage = movieService.readMovies(pageable, memberId, director, actor, title);
         Page<MovieResDto> movieResDtoPage = moviePage.map(movie -> movieMapper.movieToMovieResDto(movie));
         return new ResponseEntity<>(movieResDtoPage, HttpStatus.OK);
     }
