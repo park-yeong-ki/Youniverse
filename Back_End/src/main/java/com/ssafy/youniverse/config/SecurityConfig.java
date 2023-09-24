@@ -12,6 +12,7 @@ import com.ssafy.youniverse.security.oauth2.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -87,11 +88,14 @@ public class SecurityConfig {
                 // 아이콘, css, js 관련
                 // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
                 .antMatchers("/","/login**","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
-                .antMatchers("/sign-up").permitAll() // 회원가입 접근 가능
+                .antMatchers("/register").permitAll() // 회원가입 접근 가능
                 .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
                 .logout() // 로그아웃시 이동
                 .logoutUrl("/members/logout")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    response.setStatus(HttpStatus.OK.value());
+                }) // 얘는 로그아웃시 리다이렉션을 방지하기 위함.
 //                .logoutSuccessUrl("http://localhost:3000/")
                 .deleteCookies("JSESSIONID")
                 .permitAll()
