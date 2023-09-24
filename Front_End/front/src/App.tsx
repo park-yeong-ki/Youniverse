@@ -19,7 +19,6 @@ import {
   MOVIE_DETAIL,
   NOTFOUND,
 } from "./pages/Pages";
-import UserRecommendForm from "./components/organisms/UserRecommendForm";
 
 function App() {
   return (
@@ -28,7 +27,6 @@ function App() {
         <GlobalStyles />
         <StarryBackground />
         <Header />
-        <UserRecommendForm />
 
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
