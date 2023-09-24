@@ -12,7 +12,14 @@ interface WrapperProps {
 }
 
 /** Wrapper SIZE */
-type WrapperSize = "Standard" | "Small" | "YouTube";
+/** 별자리 차트 Wrapper 메인, 마이페이지, 추천페이지에서 크기 지정 */
+export type WrapperSize =
+  | "Standard"
+  | "Small"
+  | "YouTube"
+  | "MainChart"
+  | "MyPageChart"
+  | "RecommendedChart";
 
 /** Wrapper COLOR
  * (적용 예시)
@@ -59,7 +66,22 @@ const WrapperStyles: Record<WrapperSize, WrapperStyle> = {
   YouTube: {
     height: "32%",
     width: "100%",
-  }
+  },
+  MainChart: {
+    height: "80%",
+    width: "80%",
+    borderRadius: "28px",
+  },
+  MyPageChart: {
+    height: "10%",
+    width: "30%",
+    borderRadius: "12px",
+  },
+  RecommendedChart: {
+    height: "70%",
+    width: "70%",
+    borderRadius: "12px",
+  },
 };
 
 /** Wrapper BGCOLOR 스타일 지정 */
