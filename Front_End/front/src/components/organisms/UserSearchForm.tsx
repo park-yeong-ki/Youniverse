@@ -42,7 +42,7 @@ const UserSearchForm: React.FC = () => {
           <SearchBox type="user" onSearch={handleSearch} />
         </StyledSearchBoxContainer>
         <StyledTextContainer>
-          <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
+          <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
             {SEARCH_SUCCESS}
           </Text>
         </StyledTextContainer>
