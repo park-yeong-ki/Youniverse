@@ -21,6 +21,7 @@ interface SearchBoxProps {
   theme?: "light" | "dark"; // 테마 타입 (기본값 light)
   type?: "user" | "movie"; // 검색 옵션의 타입 (기본값 user)
   onSearch?: (term: string, option: string | null) => void; // 은경 반영
+  onSubmitSearch?: (term: string) => void; // 추가
 }
 
 // 테마에 따른 스타일 값을 저장하는 객체
@@ -60,6 +61,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   theme = "light",
   type = "user",
   onSearch,
+  onSubmitSearch,
 }) => {
   const [term, setTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -67,6 +69,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   const options = type === "user" ? USER_OPTIONS : MOVIE_OPTIONS;
 
   const handleSearchClick = () => {
+    console.log(`Search term: ${term}, Option: ${selectedOption}`);
+    onSubmitSearch?.(term); // 상위 컴포넌트로 검색 텍스트 전달
     onSearch?.(term, selectedOption);
   };
 

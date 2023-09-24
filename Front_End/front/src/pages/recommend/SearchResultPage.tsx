@@ -1,10 +1,13 @@
+import ResultContainers from "../../components/search/ResultContainers";
+import SearchContainer from "../../components/search/SearchContainer";
+
 const SearchResultPage = () => {
-    return (
-      <div>
-        검색결과페이지
-      </div>
-    );
-  }
-  
-  export default SearchResultPage;
-  
+  return (
+    <>
+      <SearchContainer />
+      <ResultContainers />
+    </>
+  );
+};
+
+export default SearchResultPage;
