@@ -28,8 +28,8 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     @Query(value = "select mv from Movie mv where mv.movieId in " +
             "(select distinct hm.movie.movieId from HeartMovie hm where hm.member.memberId in " +
-            "(select m.memberId from Member m where m.age / 10 = " +
-            "(select m2.age / 10 from Member m2 where m2.memberId = :memberId) " +
+            "(select m.memberId from Member m where floor(m.age/10) = " +
+            "(select floor(m2.age/10) from Member m2 where m2.memberId = :memberId) " +
             "and m.gender = " +
             "(select m3.gender from Member m3 where m3.memberId = :memberId)))")
     Page<Movie> findAllByAgeAndGender(@Param("memberId") Integer memberId, Pageable pageable);
