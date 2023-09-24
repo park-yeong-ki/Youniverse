@@ -74,6 +74,12 @@ const SearchBox: React.FC<SearchBoxProps> = ({
     onSearch?.(term, selectedOption);
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearchClick();
+    }
+  };
+
   return (
     <StyledSearchBox>
       <Dropdown
@@ -89,6 +95,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         color={inputColor}
         value={term}
         onChange={(e) => setTerm(e.target.value)}
+        onKeyPress={handleKeyPress} // 엔터 키에 대한 이벤트 핸들러 추가
       />
       <Btn size={"Medium"} color={btnColor} onClick={handleSearchClick}>
         <IconBox Icon={HiSearch} size={24} color={iconColor} />
