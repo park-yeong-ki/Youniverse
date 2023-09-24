@@ -9,10 +9,12 @@ interface PlanetProps {
   handleClickedPlanets?: (planetName: string, $isSelected: boolean) => void;
   // $point?: boolean; // 클릭 여부 확인
   // onClick?: () => void;
+
+  $mypage?: boolean; // 마이페이지 행성 부분
 }
 
 /** 행성 SIZE */
-type PlanetSize = "Standard" | "Small";
+type PlanetSize = "Standard" | "Medium" | "Small";
 
 /** 행성 STYLE 타입 지정 */
 type PlanetStyle = {
@@ -23,6 +25,9 @@ type PlanetStyle = {
 const PlanetStyles: Record<PlanetSize, PlanetStyle> = {
   Standard: {
     height: "248px",
+  },
+  Medium: {
+    height: "144px",
   },
   Small: {
     height: "24px",
@@ -42,15 +47,23 @@ const StyledPlanet = styled.div<PlanetProps & { selected: boolean }>`
     props.selected ? "0 0 10px 2px rgba(255, 255, 255, 0.9)" : "none"};
 
   &:hover {
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.9);
+    box-shadow: ${(props) =>
+      !props.$mypage && "0 0 10px 2px rgba(255, 255, 255, 0.9)"};
   }
 `;
 
 /** Planet 컴포넌트 정의 */
-const Planet = ({ name, handleClickedPlanets, ...props }: PlanetProps) => {
+const Planet = ({
+  name,
+  handleClickedPlanets,
+  $mypage,
+  ...props
+}: PlanetProps) => {
   const [selectPlanet, setSelectPlanet] = useState(false);
 
   const handleClick = () => {
+    if ($mypage) return; // $mypage prop되면 return
+
     const newState = !selectPlanet;
     setSelectPlanet(newState);
     if (handleClickedPlanets && name) {
