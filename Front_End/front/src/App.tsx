@@ -18,15 +18,13 @@ import {
   NOTFOUND,
 } from "./pages/Pages";
 
-import SearchUserItemList from "./components/users/SearchUserItemList";
-
 function App() {
   return (
     <Router>
       <GlobalStyles />
       <StarryBackground />
       <Header />
-      <SearchUserItemList />
+
       <Routes>
         <Route path={ROUTES.MAIN} Component={MAIN} />
         <Route path={ROUTES.ADDINFO} Component={ADDINFO} />

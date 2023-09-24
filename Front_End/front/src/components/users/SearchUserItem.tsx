@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
 import HashTag from "../atoms/HashTag";
@@ -12,29 +12,56 @@ type UserProps = {
   hashtags: string[];
 };
 
-const SearchUserItem = ({ user }: { user: UserProps }) => {
-  const navigate = useNavigate();
+interface Props {
+  user: UserProps;
+  isSelected: boolean;
+  onSelect: () => void;
+}
+
+const SearchUserItem = ({
+  user,
+  isSelected: selectedFromParent,
+  onSelect,
+}: Props) => {
+  const [isSelected, setIsSelected] = useState(selectedFromParent);
   const { id, nickname, image, hashtags } = user;
+
   /**클릭 시 사용자 ID를 이용해 프로필 이동 */
-  const handleToClickedUser = () => {
+  const handleToClickedUser = async () => {
+    setIsSelected(!isSelected);
+    onSelect();
     try {
-      navigate(`/profile/${id}`);
+      /** 백서버에 사용자 정보 요청 */
+      const response = await axios.get(`api 주소/${id}`);
+
+      console.log(response.data.user);
+      // 받은 데이터 프로필에 뿌리기
     } catch (error) {
-      console.error("사용자 프로필로 이동할 수 없음:", error);
+      console.error("데이터 가져오기 실패", error);
     }
   };
+
   return (
     <StyledUserContainer>
-      <StyledCenterContainer onClick={handleToClickedUser}>
-        <Img size="Medium" src={image} />
+      <StyledCenterContainer
+        isSelected={isSelected}
+        onClick={handleToClickedUser}
+      >
         <div>
-          <div>{nickname}</div>
+          <Img size="Medium" src={image} />
           <div>
-            {hashtags.map((hashtag, index) => (
-              <HashTag key={index} size="Standard" color="White">
-                {hashtag}
-              </HashTag>
-            ))}
+            <div>{nickname}</div>
+            <div>
+              {hashtags.map((hashtag, index) => (
+                <HashTag
+                  key={index}
+                  size="Standard"
+                  color={isSelected ? "Black" : "White"}
+                >
+                  {hashtag}
+                </HashTag>
+              ))}
+            </div>
           </div>
         </div>
       </StyledCenterContainer>
@@ -51,6 +78,7 @@ const StyledUserContainer = styled.div`
   width: 100%;
 `;
 
-const StyledCenterContainer = styled.div`
+const StyledCenterContainer = styled.div<{ isSelected?: boolean }>`
   ${FlexCenter}
+  background-color: ${(props) => (props.isSelected ? "white" : "transparent")};
 `;

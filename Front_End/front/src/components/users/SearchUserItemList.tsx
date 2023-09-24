@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import axios from "axios";
-import { SEARCH_USER_RECOMMEND } from "../../commons/constants/String";
+import { SEARCH_SUCCESS } from "../../commons/constants/String";
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
 import SearchUserItem from "./SearchUserItem";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 
+type UserProps = {
+  id: number;
+  nickname: string;
+  image: string;
+  hashtags: string[];
+};
+
 const SearchUserItemList = () => {
   // 로그인된 유저 정보 -> ID, 닉네임
 
   /**백 서버에서 받아온 유저 리스트 저장 */
-  const [searchResultUsers, setSearchResultUsers] = useState([]);
-
+  const [searchResultUsers, setSearchResultUsers] = useState<UserProps[]>([]);
+  /** 선택된 사용자의 ID를 저장 */
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  
   useEffect(() => {
     const SearchResultUserList = async () => {
       try {
@@ -34,10 +43,15 @@ const SearchUserItemList = () => {
     >
       <StyledCenter>
         <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
-          {SEARCH_USER_RECOMMEND}
+          {SEARCH_SUCCESS}
         </Text>
-        {searchResultUsers.map((user, index) => (
-          <SearchUserItem key={index} user={user} />
+        {searchResultUsers.map((user) => (
+          <SearchUserItem
+            key={user.id}
+            user={user}
+            isSelected={selectedUserId === user.id}
+            onSelect={() => setSelectedUserId(user.id)}
+          />
         ))}
       </StyledCenter>
     </StyledStandardWhiteGhostWrapper>
