@@ -1,4 +1,6 @@
 import React from "react";
+
+import { RecoilRoot } from "recoil";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
@@ -20,10 +22,11 @@ import {
 
 function App() {
   return (
-    <Router>
-      <GlobalStyles />
-      <StarryBackground />
-      <Header />
+    <RecoilRoot>
+      <Router>
+        <GlobalStyles />
+        <StarryBackground />
+        <Header />
 
       <Routes>
         <Route path={ROUTES.MAIN} Component={MAIN} />
