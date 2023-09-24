@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 import { FlexColAround } from "../../commons/style/SharedStyle";
@@ -24,6 +24,13 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = (searchTerm: string) => {
+    navigate("/search", { state: { searchTerm } }); // 변경
+    onClose()
+  };
+
   // 사이드바 외부 클릭 감지를 위한 참조 생성
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
@@ -59,7 +66,11 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         {/* 로그인 버튼, 검색 */}
         <div>
           <GoogleLoginBtn />
-          <SearchBox theme="light" type="movie" />
+          <SearchBox
+            theme="light"
+            type="movie"
+            onSubmitSearch={handleSearchSubmit}
+          />
         </div>
 
         {/* 메뉴 아이템 렌더링 */}
