@@ -81,4 +81,7 @@ const StyledUserContainer = styled.div`
 const StyledCenterContainer = styled.div<{ isSelected?: boolean }>`
   ${FlexCenter}
   background-color: ${(props) => (props.isSelected ? "white" : "transparent")};
+  &:hover {
+    cursor: pointer;
+  }
 `;
