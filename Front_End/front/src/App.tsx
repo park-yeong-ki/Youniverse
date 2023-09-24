@@ -19,7 +19,7 @@ import {
   MOVIE_DETAIL,
   NOTFOUND,
 } from "./pages/Pages";
-
+import "./index.css";
 function App() {
   return (
     <RecoilRoot>

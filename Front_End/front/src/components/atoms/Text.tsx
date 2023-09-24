@@ -8,6 +8,8 @@ interface TextProps {
   fontFamily: TextFontFamily;
   children?: ReactNode;
   className?: string;
+
+  title?: string;
 }
 
 /** 텍스트 SIZE */
