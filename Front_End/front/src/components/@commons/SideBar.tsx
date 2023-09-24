@@ -59,7 +59,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         {/* 로그인 버튼, 검색 */}
         <div>
           <GoogleLoginBtn />
-          <SearchBox theme="light" type="movie" />
+          {/* <SearchBox theme="light" type="movie" /> 은경 주석 처리*/}
         </div>
 
         {/* 메뉴 아이템 렌더링 */}
