@@ -2,15 +2,17 @@ import React from "react";
 import Text from "../atoms/Text";
 import MovieItemList from "./MovieItemList";
 
-const RecommendNotYouTube = () => {
+type Props = {
+  lists: string[];
+};
+
+const RecommendNotYouTube: React.FC<Props> = ({ lists }) => {
   return (
     <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-
-      <MovieItemList />
-      <MovieItemList />
-
+      {lists.map(list => (
+        <MovieItemList key={list} listType={list} />
+      ))}
     </Text>
   );
 };
-
 export default RecommendNotYouTube;
