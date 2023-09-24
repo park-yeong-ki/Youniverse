@@ -2,7 +2,7 @@ import React from "react";
 
 import { RecoilRoot } from "recoil";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import StarryBackground from "./commons/style/StarryBackground";
+// import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
 import { ROUTES } from "./commons/constants/Routes";
 import Header from "./components/@commons/Header";
@@ -25,7 +25,7 @@ function App() {
     <RecoilRoot>
       <Router>
         <GlobalStyles />
-        <StarryBackground />
+        {/* <StarryBackground /> */}
         <Header />
 
         <Routes>
