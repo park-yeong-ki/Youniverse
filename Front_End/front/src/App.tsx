@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
@@ -32,7 +26,7 @@ function App() {
     <RecoilRoot>
       <Router>
         <GlobalStyles />
-        {/* <StarryBackground /> */}
+        <StarryBackground />
         <Header />
 
         <Routes>
