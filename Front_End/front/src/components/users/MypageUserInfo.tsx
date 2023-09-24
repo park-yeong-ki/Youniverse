@@ -10,7 +10,7 @@ import HashTag from "../atoms/HashTag";
 import Img from "../atoms/Img";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-import styled from "styled-components";
+// import styled from "styled-components";
 import InputBox from "../atoms/InputBox";
 import { StyledTextArea } from "../organisms/AdditionalForm";
 
@@ -33,6 +33,12 @@ const MypageUserInfo = () => {
   const handleCancel = () => {
     setIsEdit(false);
   };
+
+  /** 성별 변경 (남성 / 여성 버튼을 눌렀을 때) */
+  const handleGenderChange = (selectedGender: string) => {
+    setGender(selectedGender);
+  };
+
   const handleImgChange = () => {
     console.log("이미지 바꿀 수 있게 팝업 창??");
   };
@@ -50,6 +56,17 @@ const MypageUserInfo = () => {
           <Text size="Large" color="Black" fontFamily="YESGothic-Bold">
             사용자 이름
           </Text>
+
+          {/* 팔로잉 팔로워 wrapper */}
+          <div>
+            <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
+              {}3 {FOLLOWING}
+            </Text>
+            <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
+              {}5 {FOLLOWER}
+            </Text>
+          </div>
+
           <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
             자기소개 30자 들어갈 공간
           </Text>
@@ -71,16 +88,6 @@ const MypageUserInfo = () => {
           <div>
             <Img size="Small" src="" />
             <Img size="Small" src="" />
-          </div>
-
-          {/* 팔로잉 팔로워 wrapper */}
-          <div>
-            <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
-              {}3 {FOLLOWING}
-            </Text>
-            <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
-              {}5 {FOLLOWER}
-            </Text>
           </div>
 
           <Btn size="Small" color="Black" onClick={handleEditChange}>
@@ -119,10 +126,18 @@ const MypageUserInfo = () => {
 
           {/* 성별 wrapper */}
           <div>
-            <Btn size="Small" color="White">
+            <Btn
+              size="Small"
+              color={gender === "남성" ? "Black" : "White"}
+              onClick={() => handleGenderChange("남성")}
+            >
               남성
             </Btn>
-            <Btn size="Small" color="White">
+            <Btn
+              size="Small"
+              color={gender === "여성" ? "Black" : "White"}
+              onClick={() => handleGenderChange("여성")}
+            >
               여성
             </Btn>
           </div>
@@ -136,7 +151,7 @@ const MypageUserInfo = () => {
             <Img size="Small" src="" />
           </div>
 
-          {/* 수엊 취소 버튼 wrapper */}
+          {/* 수정 취소 버튼 wrapper */}
           <div>
             <Btn size="Small" color="White" onClick={handleCancel}>
               취소
@@ -153,11 +168,12 @@ const MypageUserInfo = () => {
 
 export default MypageUserInfo;
 
-const StyledBlackHover = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.6);
-`;
+/** 프로필 수정 버튼 눌렀을 때 배경에 검은색 opacity */
+// const StyledBlackHover = styled.div`
+//   width: 100vw;
+//   height: 100vh;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   background: rgba(0, 0, 0, 0.6);
+// `;

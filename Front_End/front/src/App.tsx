@@ -18,14 +18,12 @@ import {
   MOVIE_DETAIL,
   NOTFOUND,
 } from "./pages/Pages";
-import SoulMovieItem from "./components/movies/SoulMovieItem";
-import MovieItem from "./components/movies/MovieItem";
 import "./index.css";
 function App() {
   return (
     <Router>
       <GlobalStyles />
-      {/* <StarryBackground /> */}
+      <StarryBackground />
       <Header />
 
       <Routes>

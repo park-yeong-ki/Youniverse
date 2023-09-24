@@ -1,4 +1,3 @@
-import React, { ReactNode } from "react";
 import { styled } from "styled-components";
 
 /** 이미지 타입 지정 */
@@ -20,7 +19,7 @@ type ImageStyle = {
 /** 이미지 STYLE */
 const ImageStyles: Record<ImageSize, ImageStyle> = {
   "X-Large": {
-    height: "224px",
+    height: "180px",
   },
   Large: {
     height: "112px",

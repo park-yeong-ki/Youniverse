@@ -9,11 +9,6 @@ export const GlobalStyles = createGlobalStyle`
         font-family: "YESGothic-Regular";
     }
 
-    /* 임시 테스트 코드 */
-    html, body {
-        background-color: green;
-    }
-
     @font-face {
         font-family: 'PyeongChangPeace-Bold';
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2') format('woff2');
