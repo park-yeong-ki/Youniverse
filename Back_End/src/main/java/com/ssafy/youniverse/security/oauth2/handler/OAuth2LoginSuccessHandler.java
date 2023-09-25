@@ -55,7 +55,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             /**
              *프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
              */
-            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"refreshToken="+refreshToken+"email="+email);
+//            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"refreshToken="+refreshToken+"email="+email);
+            response.sendRedirect("https://j9b204.p.ssafy.io/addinfo?accessToken="+accessToken+"refreshToken="+refreshToken+"email="+email);
 
         } catch (Exception e) {
             throw e;
