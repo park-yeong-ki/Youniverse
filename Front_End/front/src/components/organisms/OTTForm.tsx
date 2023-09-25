@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -7,18 +7,12 @@ import { ROUTES } from "../../commons/constants/Routes";
 import Planet from "../atoms/Planet";
 import Btn from "../atoms/Btn";
 import Text from "../../components/atoms/Text";
-import {
-  NETFLIX,
-  WAVVE,
-  WATCHA,
-  APPLE_TV,
-  DISNEY_PLUS,
-  NEXT,
-} from "../../commons/constants/String";
+import { NEXT } from "../../commons/constants/String";
 import {
   FlexColBetween,
   FlexRowBetween,
 } from "../../commons/style/SharedStyle";
+import { getAllOTTs } from "../../apis/FrontendApi";
 
 const OTTForm = () => {
   const navigate = useNavigate();
@@ -26,13 +20,27 @@ const OTTForm = () => {
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
   const [planetSelectedStates, setPlanetSelectedStates] = useState<
     Record<string, boolean>
-  >({
-    [NETFLIX]: false,
-    [WAVVE]: false,
-    [WATCHA]: false,
-    [APPLE_TV]: false,
-    [DISNEY_PLUS]: false,
-  });
+  >({});
+
+  // OTT 데이터를 담을 상태
+  const [ottData, setOttData] = useState<any[]>([]);
+
+  useEffect(() => {
+    getAllOTTs()
+      .then((response) => {
+        console.log(response.data);
+        setOttData(response.data);
+        // 백서버에서 가져온 데이터를 기반으로 planetSelectedStates 초기화
+        const initialPlanetStates: Record<string, boolean> = {};
+        response.data.forEach((ott: any) => {
+          initialPlanetStates[ott.name] = false;
+        });
+        setPlanetSelectedStates(initialPlanetStates);
+      })
+      .catch((error) => {
+        console.error("OTT 리스트 가져오기 실패:", error);
+      });
+  }, []);
 
   const handleClickedPlanets = (planetName: string, $isSelected: boolean) => {
     if (selectedPlanets.includes(planetName)) {
@@ -68,51 +76,20 @@ const OTTForm = () => {
   return (
     <OTTFormContainer>
       <StyledContainer>
-        <PlanetWrapper $isSelected={planetSelectedStates[NETFLIX]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={NETFLIX}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{NETFLIX}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[WAVVE]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={WAVVE}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{WAVVE}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[WATCHA]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={WATCHA}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{WATCHA}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[APPLE_TV]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={APPLE_TV}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{APPLE_TV}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[DISNEY_PLUS]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={DISNEY_PLUS}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{DISNEY_PLUS}</div>
-        </PlanetWrapper>
+        {ottData.map((ott) => (
+          <PlanetWrapper
+            key={ott.ott_id}
+            $isSelected={planetSelectedStates[ott.name]}
+          >
+            <Planet
+              size="Standard"
+              src={ott.ott_image} // 백서버에서 받아온 이미지 URL
+              name={ott.name}
+              handleClickedPlanets={handleClickedPlanets}
+            />
+            <div>{ott.name}</div>
+          </PlanetWrapper>
+        ))}
       </StyledContainer>
       <StyledNextButton size="X-Large" color="Ghost" onClick={handleSaveClick}>
         <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
