@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import styled from "styled-components";
 
 ChartJS.register(
   CategoryScale,
@@ -23,8 +22,8 @@ ChartJS.register(
 );
 
 interface LineChartProps {
-  width?: number;
-  height?: number;
+  width?: string | number; // 수정
+  height?: string | number; // 수정
 }
 
 export const options = {
@@ -89,11 +88,8 @@ export const data = {
   ],
 };
 
-const LineChart: React.FC<LineChartProps> = ({ width = 400, height = 200 }) => {
-  return <StyledLine options={options} data={data} width={width} height={height} />;
+const LineChart: React.FC<LineChartProps> = () => {
+  return <Line options={options} data={data} />;
 };
 
 export default LineChart;
-
-const StyledLine = styled(Line)`
-`

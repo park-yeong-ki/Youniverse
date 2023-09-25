@@ -16,10 +16,7 @@ interface WrapperProps {
 export type WrapperSize =
   | "Standard"
   | "Small"
-  | "YouTube"
-  | "MainChart"
-  | "MyPageChart"
-  | "RecommendedChart";
+  | "YouTube";
 
 /** Wrapper COLOR
  * (적용 예시)
@@ -66,21 +63,6 @@ const WrapperStyles: Record<WrapperSize, WrapperStyle> = {
   YouTube: {
     height: "45%",
     width: "100%",
-  },
-  MainChart: {
-    height: "80%",
-    width: "80%",
-    borderRadius: "28px",
-  },
-  MyPageChart: {
-    height: "10%",
-    width: "30%",
-    borderRadius: "12px",
-  },
-  RecommendedChart: {
-    height: "5%",
-    width: "30%",
-    borderRadius: "12px",
   },
 };
 
