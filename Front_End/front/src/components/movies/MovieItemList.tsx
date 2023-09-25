@@ -56,9 +56,9 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType,  }) => {
           </StyledBtn>
         )}
       </StyledListBtn>
-      {/* {movies.map((movie) => (
+      {movies.map((movie) => (
         <MovieItem key={movie} movie={movie} />
-      ))} */}
+      ))}
       <MovieItem />
     </>
   );
