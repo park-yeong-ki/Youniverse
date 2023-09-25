@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { UserJoinInfoState } from "../../pages/store/State";
+import { ROUTES } from "../../commons/constants/Routes";
 import Planet from "../atoms/Planet";
 import Btn from "../atoms/Btn";
 import Text from "../../components/atoms/Text";
@@ -19,6 +21,7 @@ import {
 } from "../../commons/style/SharedStyle";
 
 const OTTForm = () => {
+  const navigate = useNavigate();
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
   const [planetSelectedStates, setPlanetSelectedStates] = useState<
@@ -59,6 +62,7 @@ const OTTForm = () => {
       ...prev,
       OTTs: selectedPlanets, // OTT 선택 정보 업데이트
     }));
+    navigate(ROUTES.SURVEY);
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { UserJoinInfoState } from "../../pages/store/State";
+import { useNavigate } from "react-router-dom";
 import {
   ADDITIONAL_INFO_NICKNAME,
   ADDITIONAL_INFO_NICKNAME_PLACEHOLDER,
@@ -19,11 +20,13 @@ import {
   FlexColBetween,
   FlexRowBetween,
 } from "../../commons/style/SharedStyle";
+import { ROUTES } from "../../commons/constants/Routes";
 import Wrapper from "../atoms/Wrapper";
 import InputBox from "../atoms/InputBox";
 import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
+  const navigate = useNavigate();
   const [nickName, setNickName] = useState<string>("");
   const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
@@ -49,6 +52,7 @@ const AdditionalForm = () => {
       gender,
       introduction,
     }));
+    navigate(ROUTES.OTTSELECT);
   };
 
   return (
