@@ -5,7 +5,7 @@ import SearchBox from "./SearchBox";
 import SearchUserItemList from "../users/SearchUserItemList";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
-import { SEARCH_SUCCESS } from "../../commons/constants/String";
+import { SEARCH_SUCCESS, SEARCH_NOTHING } from "../../commons/constants/String";
 import Text from "../atoms/Text";
 
 type User = {
@@ -43,7 +43,9 @@ const UserSearchContainer: React.FC = () => {
         </StyledSearchBoxContainer>
         <StyledTextContainer>
           <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
-            {SEARCH_SUCCESS}
+            {searchResults.length === 0
+              ? SEARCH_NOTHING
+              : `${searchResults.length}${SEARCH_SUCCESS}`}
           </Text>
         </StyledTextContainer>
         <StyledUserResultContainer>
@@ -59,7 +61,7 @@ export default UserSearchContainer;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  height: 800px;
+  height: 400px;
   margin: 0 auto;
 `;
 
@@ -75,5 +77,5 @@ const StyledSearchBoxContainer = styled.div`
 const StyledTextContainer = styled.div``;
 
 const StyledUserResultContainer = styled.div`
-  height: 80%;
+  height: 70%;
 `;
