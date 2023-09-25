@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
-import axios from "axios";
+import { UserJoinInfoState } from "../../pages/store/State";
 import Planet from "../atoms/Planet";
 import Btn from "../atoms/Btn";
 import Text from "../../components/atoms/Text";
@@ -18,6 +19,7 @@ import {
 } from "../../commons/style/SharedStyle";
 
 const OTTForm = () => {
+  const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
   const [planetSelectedStates, setPlanetSelectedStates] = useState<
     Record<string, boolean>
@@ -52,17 +54,11 @@ const OTTForm = () => {
     }));
   };
 
-  const handleSaveClick = async () => {
-    try {
-      const response = await axios.post("api 주소", {
-        planets: selectedPlanets,
-      });
-      // 응답 처리 (예: 성공 메시지 표시)
-      console.log("Response:", response.data);
-    } catch (error) {
-      // 오류 처리 (예: 오류 메시지 표시)
-      console.error("Error", error);
-    }
+  const handleSaveClick = () => {
+    setUserJoinInfo((prev) => ({
+      ...prev,
+      OTTs: selectedPlanets, // OTT 선택 정보 업데이트
+    }));
   };
 
   return (

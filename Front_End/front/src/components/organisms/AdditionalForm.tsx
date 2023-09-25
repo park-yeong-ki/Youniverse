@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
+import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
-import axios from "axios";
+import { UserJoinInfoState } from "../../pages/store/State";
 import {
   ADDITIONAL_INFO_NICKNAME,
   ADDITIONAL_INFO_NICKNAME_PLACEHOLDER,
@@ -24,7 +25,7 @@ import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
   const [nickName, setNickName] = useState<string>("");
-  const [age, setAge] = useState<number>();
+  const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
   const [introduction, setIntroduction] = useState<string>("");
 
@@ -38,20 +39,16 @@ const AdditionalForm = () => {
     setGender((prev) => (prev === genderValue ? "" : genderValue));
   };
 
-  const handleSaveClick = async () => {
-    try {
-      const response = await axios.post("api 주소", {
-        nickName,
-        age,
-        gender,
-        introduction,
-      });
-      console.log("Response:", response.data);
-      // 요청이 성공하면 사용자에게 성공 메시지 표시?
-    } catch (error) {
-      console.error("Error:", error);
-      // 요청이 실패하면 사용자에게 오류 메시지 표시?
-    }
+  const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
+
+  const handleSaveClick = () => {
+    setUserJoinInfo((prev) => ({
+      ...prev,
+      nickName,
+      age,
+      gender,
+      introduction,
+    }));
   };
 
   return (

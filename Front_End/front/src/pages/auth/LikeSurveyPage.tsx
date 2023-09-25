@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { UserJoinInfoState } from "../../pages/store/State";
 import { LIKE_SURVEY } from "../../commons/constants/String";
 import LikeForm from "../../components/organisms/LikeForm";
 import Text from "../../components/atoms/Text";
@@ -11,13 +12,13 @@ import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
+  const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const handleToMainButtonClick = async (): Promise<void> => {
-    try {
-      await axios.post("API 주소", { keywords: selectedKeywords });
-    } catch (error) {
-      console.error("키워드 전송 실패", error);
-    }
+  const handleToMainButtonClick = () => {
+    setUserJoinInfo((prev) => ({
+      ...prev,
+      keywords: selectedKeywords, // 키워드 정보 업데이트
+    }));
     navigate("/"); // 메인으로 이동
   };
 
