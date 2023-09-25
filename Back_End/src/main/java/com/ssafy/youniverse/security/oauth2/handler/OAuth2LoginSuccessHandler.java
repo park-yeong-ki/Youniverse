@@ -6,6 +6,7 @@ import com.ssafy.youniverse.security.CustomOAuth2User;
 import com.ssafy.youniverse.security.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,9 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Value("${redirection.url}")
+    private String Redirection_Url;
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -58,8 +62,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 /**
                  *프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
                  */
-//            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"&refreshToken="+refreshToken+"& email="+email);
-                response.sendRedirect("https://j9b204.p.ssafy.io/addinfo?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&email=" + email);
+                 response.sendRedirect(Redirection_Url+"/addinfo?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&email=" + email);
             }
             else{ // 회원가입된 유저일 경우
                 loginSuccess(response, oAuth2User);
@@ -83,8 +86,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         /**
          * !!!!!!!!!!!!! 프론트 연결 시 수정 !!!!!!!!
          */
-//       response.sendRedirect("http://localhost:3000?accessToken="+accessToken+"&refreshToken="+refreshToken+"& email="+email);
-        response.sendRedirect("https://j9b204.p.ssafy.io?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&email=" + email);
+         response.sendRedirect(Redirection_Url+"?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&email=" + email);
 
     }
 }
