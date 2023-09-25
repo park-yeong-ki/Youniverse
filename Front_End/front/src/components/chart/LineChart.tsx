@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import styled from "styled-components";
 
 ChartJS.register(
   CategoryScale,
@@ -21,46 +22,50 @@ ChartJS.register(
   Legend
 );
 
+interface LineChartProps {
+  width?: number;
+  height?: number;
+}
+
 export const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,  // 범례를 숨깁니다.
+  responsive: false,
+  plugins: {
+    legend: {
+      display: false, // 범례를 숨깁니다.
+    },
+    title: {
+      display: false,
+      text: "Chart.js Line Chart",
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false, // x축의 그리드 라인을 숨깁니다.
       },
-      title: {
-        display: false,
-        text: "Chart.js Line Chart",
+      ticks: {
+        display: true, // x축의 눈금을 숨깁니다.
       },
     },
-    scales: {
-      x: {
-        grid: {
-          display: false,  // x축의 그리드 라인을 숨깁니다.
-        },
-        ticks: {
-          display: true,  // x축의 눈금을 숨깁니다.
-        }
+    y: {
+      grid: {
+        display: false, // y축의 그리드 라인을 숨깁니다.
       },
-      y: {
-        grid: {
-          display: false,  // y축의 그리드 라인을 숨깁니다.
-        },
-        ticks: {
-          display: false,  // y축의 눈금을 숨깁니다.
-        }
-      }
-    },
-    elements: {
-      line: {
-        tension: 0,  // 이 부분은 라인을 곡선 없이 직선으로 만듭니다. 필요에 따라 제거할 수 있습니다.
+      ticks: {
+        display: false, // y축의 눈금을 숨깁니다.
       },
-      point: {
-        radius: 5,  // 포인트의 크기를 조절합니다. 원하는 크기로 조절하세요.
-        backgroundColor: "rgb(255, 249, 200)"  // 포인트의 색상입니다. 원하는 색상으로 조절하세요.
-      }
     },
-  };
-  
+  },
+  elements: {
+    line: {
+      tension: 0, // 이 부분은 라인을 곡선 없이 직선으로 만듭니다. 필요에 따라 제거할 수 있습니다.
+    },
+    point: {
+      radius: 5, // 포인트의 크기를 조절합니다. 원하는 크기로 조절하세요.
+      backgroundColor: "rgb(255, 249, 200)", // 포인트의 색상입니다. 원하는 색상으로 조절하세요.
+    },
+  },
+};
 
 const labels = [
   "키워드1",
@@ -84,8 +89,11 @@ export const data = {
   ],
 };
 
-const LineChart = () => {
-  return <Line options={options} data={data} />;
+const LineChart: React.FC<LineChartProps> = ({ width = 400, height = 200 }) => {
+  return <StyledLine options={options} data={data} width={width} height={height} />;
 };
 
 export default LineChart;
+
+const StyledLine = styled(Line)`
+`

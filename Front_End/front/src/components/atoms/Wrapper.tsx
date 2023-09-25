@@ -64,7 +64,7 @@ const WrapperStyles: Record<WrapperSize, WrapperStyle> = {
     borderRadius: "12px",
   },
   YouTube: {
-    height: "32%",
+    height: "45%",
     width: "100%",
   },
   MainChart: {
@@ -78,8 +78,8 @@ const WrapperStyles: Record<WrapperSize, WrapperStyle> = {
     borderRadius: "12px",
   },
   RecommendedChart: {
-    height: "70%",
-    width: "70%",
+    height: "5%",
+    width: "30%",
     borderRadius: "12px",
   },
 };
