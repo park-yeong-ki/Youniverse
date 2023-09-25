@@ -48,7 +48,9 @@ const StyledPlanet = styled.div<PlanetProps & { selected: boolean }>`
 
   &:hover {
     box-shadow: ${(props) =>
-      !props.$mypage && "0 0 10px 2px rgba(255, 255, 255, 0.9)"};
+      props.$mypage === true
+        ? "none"
+        : "0 0 10px 2px rgba(255, 255, 255, 0.9)"};
   }
 `;
 
