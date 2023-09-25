@@ -50,13 +50,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             log.info("email :{} ", email);
 
             /**
-             * !!!!!!!!!!!!! 프론트 연결 시 수정 !!!!!!!!
+             * TODO: 아래 주소 프론트 서버 연결 시 수정 !! 위 : 3000에서 작업시 / 아래: 서버 배포용
              */
             /**
              *프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
              */
-            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"refreshToken="+refreshToken+"email="+email);
-
+//            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"&refreshToken="+refreshToken+"& email="+email);
+            response.sendRedirect("https://j9b204.p.ssafy.io/addinfo?accessToken="+accessToken+"&refreshToken="+refreshToken+"&email="+email);
 
         } catch (Exception e) {
             throw e;
