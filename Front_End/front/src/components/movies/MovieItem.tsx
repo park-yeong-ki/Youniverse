@@ -46,18 +46,13 @@ const MovieItem = ({ ...props }) => {
     }
   };
   return (
-    <StyledCardWrapper>
+    <StyledCardWrapper onClick={() => handleTitleClick(props.movieId)}>
       <StyledMoviePoster src={props.src} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
           {/* focus가 되어있을 때는 Large / 아닐 때는 Medium */}
-          <StyledTitle
-            size="Large"
-            color="White"
-            fontFamily="PyeongChang-Bold"
-            onClick={() => handleTitleClick(props.movieId)}
-          >
+          <StyledTitle size="Large" color="White" fontFamily="PyeongChang-Bold">
             제목
           </StyledTitle>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
@@ -143,6 +138,7 @@ const StyledCardWrapper = styled.div`
   background-color: #ccc;
   border-radius: 0.75rem;
   overflow: hidden;
+  cursor: pointer;
 
   position: relative;
 

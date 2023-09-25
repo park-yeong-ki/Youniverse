@@ -9,6 +9,8 @@ import Review from "../../components/review/Review";
 import MovieDetailYouTube from "../../components/movies/MovieDetailYouTube";
 
 const ContentDetailPage = () => {
+  // 영화 상세 정보 가져오는 axios 요청
+
   let options = {
     anchors: ["MovieDetail", "YouTubeRecommend"],
   };
