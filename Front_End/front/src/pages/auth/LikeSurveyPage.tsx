@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
+import axios from "axios";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserJoinInfoState } from "../../pages/store/State";
@@ -14,12 +15,23 @@ const LikeSurveyPage = () => {
   const navigate = useNavigate();
   const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const handleToMainButtonClick = () => {
+  const handleToMainButtonClick = async () => {
     setUserJoinInfo((prev) => ({
       ...prev,
       keywords: selectedKeywords, // 키워드 정보 업데이트
     }));
-    navigate("/"); // 메인으로 이동
+
+    try {
+      const response = await axios.post("api 주소", userJoinInfo);
+      if (response.status === 200) {
+        console.log("회원 정보 등록 성공:", response.data);
+        navigate("/");
+      } else {
+        console.error("데이터 전송 실패:", response.statusText);
+      }
+    } catch (error) {
+      console.error("API 요청 중 에러 발생", error);
+    }
   };
 
   return (

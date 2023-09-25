@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { UserJoinInfoState } from "../../pages/store/State";
 import Planet from "../atoms/Planet";
@@ -19,7 +19,7 @@ import {
 } from "../../commons/style/SharedStyle";
 
 const OTTForm = () => {
-  const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
+  const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
   const [planetSelectedStates, setPlanetSelectedStates] = useState<
     Record<string, boolean>

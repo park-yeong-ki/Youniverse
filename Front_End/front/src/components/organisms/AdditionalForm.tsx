@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { UserJoinInfoState } from "../../pages/store/State";
 import {
@@ -39,7 +39,7 @@ const AdditionalForm = () => {
     setGender((prev) => (prev === genderValue ? "" : genderValue));
   };
 
-  const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
+  const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
 
   const handleSaveClick = () => {
     setUserJoinInfo((prev) => ({
