@@ -19,7 +19,7 @@ type ImageStyle = {
 /** 이미지 STYLE */
 const ImageStyles: Record<ImageSize, ImageStyle> = {
   "X-Large": {
-    height: "224px",
+    height: "180px",
   },
   Large: {
     height: "112px",

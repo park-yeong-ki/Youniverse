@@ -10,7 +10,7 @@ import {
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
 
-const MovieItem = () => {
+const MovieItem = ({ ...props }) => {
   const [likeStatus, setLikeStatus] = useState(false);
   const [recommendStatus, setRecommendStatus] = useState(false);
 
@@ -39,7 +39,7 @@ const MovieItem = () => {
   };
   return (
     <StyledCardWrapper>
-      <StyledMoviePoster src="https://www.themoviedb.org/t/p/w440_and_h660_face/w7eApyAshbepBnDyYRjSeGyRHi2.jpg" />
+      <StyledMoviePoster src={props.src} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
@@ -96,7 +96,7 @@ const MovieItem = () => {
 export default MovieItem;
 
 /** 영화 포스터 Img 스타일 */
-const StyledMoviePoster = styled.img`
+export const StyledMoviePoster = styled.img`
   width: 100%;
   height: 100%;
   position: absolute;

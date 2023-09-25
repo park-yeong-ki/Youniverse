@@ -6,7 +6,6 @@ import com.ssafy.youniverse.entity.Member;
 import com.ssafy.youniverse.handler.exception.InvalidAccessTokenException;
 import com.ssafy.youniverse.mapper.MemberMapper;
 import com.ssafy.youniverse.security.jwt.service.JwtService;
-import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import com.ssafy.youniverse.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +33,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/register")
-    public ResponseEntity<?> registerMember(@RequestBody MemberReqDto memberReqDto, OAuth2UserInfo oAuth2UserInfo) {
+    public ResponseEntity<?> registerMember(@RequestBody MemberReqDto memberReqDto) {
         Member member = memberMapper.memberReqDtoToMember(memberReqDto);
         Member createdMember = memberService.createMember(member);
         MemberResDto memberResDto = memberMapper.memberToMemberResDto(createdMember);

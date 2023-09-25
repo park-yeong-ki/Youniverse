@@ -44,6 +44,8 @@ import java.util.Objects;
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private static final String NO_CHECK_URL = "/login"; // "/login"으로 들어오는 요청은 Filter 작동 X
+    private static final String NO_CHECK_URL2 = "/";
+    private static final String NO_CHECK_URL3 = "/members/register";
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -55,7 +57,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals(NO_CHECK_URL)) { // "/login" 요청이 들어오면,
+        if (request.getRequestURI().equals(NO_CHECK_URL)||(request.getRequestURI().equals(NO_CHECK_URL2))||(request.getRequestURI().equals(NO_CHECK_URL3))){ // "/login" 요청이 들어오면,
             filterChain.doFilter(request, response); //다음 필터 호출 //다음 필터 또는 서블릿으로 제어를 넘겨줌
             return; // return으로 이후 현재 필터 진행 막기 (안해주면 아래로 내려가서 계속 필터 진행시킴)
         }
@@ -154,7 +156,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
                 .username(myMember.getEmail())
                 .password("null")
-//                .roles(myMember.getRole().name())
+                .roles("GUEST")
                 .build();
 
         Authentication authentication =

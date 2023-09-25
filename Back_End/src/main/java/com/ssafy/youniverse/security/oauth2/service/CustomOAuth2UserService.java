@@ -65,15 +65,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      * 만약 찾은 회원이 있다면, 그대로 반환하고 없다면 saveUser()를 호출하여 회원을 저장한다.
      */
     private Member getMember(OAuthAttributes attributes) {
-        Member findMember = memberRepository.findByEmail(attributes.getOauth2UserInfo().getEmail())
-                .orElse(null);
+//        Member findMember = memberRepository.findByEmail(attributes.getOauth2UserInfo().getEmail())
+//                .orElse(null);
 
-        if(findMember == null) {
+//        if(findMember == null) {
             return attributes.toEntity(attributes.getOauth2UserInfo());
 
 //            return saveUser(attributes);
-        }
-        return findMember;
+//        }
+//        return findMember;
     }
 
 

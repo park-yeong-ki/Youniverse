@@ -7,6 +7,7 @@ interface InputProps {
   type?: "text" | "number";
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void; // 추가
   color?: InputColor;
 }
 
