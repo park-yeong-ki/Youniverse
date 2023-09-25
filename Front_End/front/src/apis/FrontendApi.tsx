@@ -1,8 +1,18 @@
 import { mainAxios } from "../libs/axios";
 
+type UserJoinInfo = {
+  accessToken: string;
+  nickName: string;
+  age: number;
+  gender: string;
+  introduction: string;
+  keywords: string[];
+  OTTs: string[];
+};
+
 /** 회원가입 */
-export const postMember = () =>
-  mainAxios.post(`/members/register`, {
+export const postMember = (userJoinInfo: UserJoinInfo) =>
+  mainAxios.post(`/members/register`, userJoinInfo, {
     headers: { Accept: "application/json" },
   });
 

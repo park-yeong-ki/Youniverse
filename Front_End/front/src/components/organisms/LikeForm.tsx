@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { styled } from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 import Btn from "../atoms/Btn";
 import { FlexCenter, FlexRowEvenly } from "../../commons/style/SharedStyle";
+import { getAllKeywords } from "../../apis/FrontendApi";
 
 const LikeForm = ({
   onKeywordsChange,
@@ -14,16 +14,16 @@ const LikeForm = ({
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
   useEffect(() => {
-    const keywordList = async () => {
+    const RandomKeywords = async () => {
       try {
-        const response = await axios.get("api 주소");
-        setButtonKeywords(response.data.keywords); //백에서 넘어오는 데이터 확인
+        const response = await getAllKeywords();
+        setButtonKeywords(response.data.keywords);
       } catch (error) {
         console.error("데이터 가져오기 실패", error);
       }
     };
 
-    keywordList();
+    RandomKeywords();
   }, []);
 
   const handleButtonClick = (keyword: string) => {
