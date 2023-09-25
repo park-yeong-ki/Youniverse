@@ -87,7 +87,7 @@ public class SecurityConfig {
                  */
                 // 아이콘, css, js 관련
                 // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
-                .antMatchers("/","/login**","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
+                .antMatchers("/","/login/**","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
                 //TODO : 현재 테스트용으로 모든 접근 허용해둠. 추후 엔드포인트 설정시 체크할 것!!!
 //                .antMatchers("/members/register","/otts/register", "/movies/register", "/keywords/register").permitAll() // 회원가입 접근 가능
                 .antMatchers("/**").permitAll()
