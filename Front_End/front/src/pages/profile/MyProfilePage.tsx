@@ -18,9 +18,9 @@ const MyProfilePage = () => {
         />
         {!followStatus && (
           <div>
-            {/* <SoulMovieItemList />
+            <SoulMovieItemList />
             <MyOTTPlanet />
-            <MypageLikeContents /> */}
+            <MypageLikeContents />
             <UserZodiacSign />
           </div>
         )}

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { MY_PAGE_STAR } from "../../commons/constants/String";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
+import { FlexCenter } from "../../commons/style/SharedStyle";
 
 const UserZodiacSign = () => {
   return (
@@ -23,6 +24,7 @@ export default UserZodiacSign;
 
 /** 별자리 차트 감싸는 그라디언트 박스 */
 const StyledZodiacWrapper = styled.div`
+  ${FlexCenter}
   width: 100%;
   height: 100%;
   border-radius: 28px;
