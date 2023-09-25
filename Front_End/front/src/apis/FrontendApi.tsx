@@ -30,7 +30,7 @@ export const getAllMembers = (page: number, size: number) =>
     headers: { Accept: "application/json" },
   });
 
-// =================
+// =======================================================
 
 /** 키워드 조회 */
 export const getKeyword = (keywordId: number) =>
@@ -44,7 +44,7 @@ export const getAllKeywords = () =>
     headers: { Accept: "application/json" },
   });
 
-// ================================
+// ======================================================
 
 /** OTT 조회 */
 export const getOTT = (ottId: number) =>
@@ -96,23 +96,24 @@ export const getMovie = (movieId: number) =>
 export const getAllMovies = () =>
   mainAxios.get(`/movies`, {
     headers: { Accept: "application/json" },
+    
   });
 
 // ========================================
 
-/** 싫어요 등록 */
+/** 좋아요 등록 */
 export const postHeart = () =>
   mainAxios.post(`/heart-movies/register`, {
     headers: { Accept: "application/json" },
   });
 
-/** 싫어요 조회 */
+/** 좋아요 조회 */
 export const getHeart = (heartMovieId: number) =>
   mainAxios.get(`/heart-movies/${heartMovieId}`, {
     headers: { Accept: "application/json" },
   });
 
-/** 싫어요 삭제 */
+/** 좋아요 삭제 */
 export const deleteHeart = (heartMovieId: number) =>
   mainAxios.delete(`/heart-movies/${heartMovieId}`, {
     headers: { Accept: "application/json" },
