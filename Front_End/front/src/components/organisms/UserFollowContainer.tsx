@@ -9,7 +9,7 @@ type User = {
   hashtags: string[];
 };
 
-const UserFollowForm = () => {
+const UserFollowContainer = () => {
   // 상위 컴포넌트에서 사용자의 ID와 팔로잉/팔로우 기준 받아오는 코드 필요
   const [followUserList, setfollowUserList] = useState<User[]>([]);
   useEffect(() => {
@@ -32,4 +32,4 @@ const UserFollowForm = () => {
   );
 };
 
-export default UserFollowForm;
+export default UserFollowContainer;

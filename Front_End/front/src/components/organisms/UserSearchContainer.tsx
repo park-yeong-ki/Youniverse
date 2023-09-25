@@ -15,7 +15,7 @@ type User = {
   hashtags: string[];
 };
 
-const UserSearchForm: React.FC = () => {
+const UserSearchContainer: React.FC = () => {
   const [searchResults, setSearchResults] = useState<User[]>([]);
 
   const handleSearch = async (term: string, option: string | null) => {
@@ -55,7 +55,7 @@ const UserSearchForm: React.FC = () => {
   );
 };
 
-export default UserSearchForm;
+export default UserSearchContainer;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}

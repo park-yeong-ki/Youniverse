@@ -13,7 +13,7 @@ type User = {
   hashtags: string[];
 };
 
-const UserRecommendForm = () => {
+const UserRecommendContainer = () => {
   const [recommendList, setrecommendList] = useState<User[]>([]);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const UserRecommendForm = () => {
   );
 };
 
-export default UserRecommendForm;
+export default UserRecommendContainer;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
