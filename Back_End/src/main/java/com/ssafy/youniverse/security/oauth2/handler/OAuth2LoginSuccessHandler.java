@@ -40,7 +40,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
             response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
-            jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken); // 레디스에 리프레쉬토큰 저장
+//            jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken); // 레디스에 리프레쉬토큰 저장
             jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
 
@@ -55,7 +55,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             /**
              *프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
              */
-//            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"refreshToken="+refreshToken+"email="+email);
+//            response.sendRedirect("http://localhost:3000/addinfo?accessToken="+accessToken+"&refreshToken="+refreshToken+"& email="+email);
             response.sendRedirect("https://j9b204.p.ssafy.io/addinfo?accessToken="+accessToken+"&refreshToken="+refreshToken+"&email="+email);
 
         } catch (Exception e) {
