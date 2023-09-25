@@ -7,6 +7,7 @@ import Wrapper from "../../components/atoms/Wrapper";
 import MovieDetail from "../../components/movies/MovieDetail";
 import Review from "../../components/review/Review";
 import MovieDetailYouTube from "../../components/movies/MovieDetailYouTube";
+import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 
 const ContentDetailPage = () => {
   // 영화 상세 정보 가져오는 axios 요청
@@ -18,18 +19,22 @@ const ContentDetailPage = () => {
   return (
     <SectionsContainer {...options}>
       <CustomSection>
-        <StyledDetail>
-          <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
-            <MovieDetail />
-          </Wrapper>
+        <MainPaddingContainer>
+          <StyledDetail>
+            <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
+              <MovieDetail />
+            </Wrapper>
 
-          <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
-            <Review />
-          </Wrapper>
-        </StyledDetail>
+            <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
+              <Review />
+            </Wrapper>
+          </StyledDetail>
+        </MainPaddingContainer>
       </CustomSection>
       <CustomSection>
-        <MovieDetailYouTube />
+        <MainPaddingContainer>
+          <MovieDetailYouTube />
+        </MainPaddingContainer>
       </CustomSection>
     </SectionsContainer>
   );
@@ -42,5 +47,5 @@ const StyledDetail = styled.div`
 `;
 
 const CustomSection = styled(Section)`
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 70px); */
 `;

@@ -46,7 +46,10 @@ const MovieItem = ({ ...props }) => {
     }
   };
   return (
-    <StyledCardWrapper onClick={() => handleTitleClick(props.movieId)}>
+    <StyledCardWrapper
+      onClick={() => handleTitleClick(props.movieId)}
+      $cardWidth={props.$cardWidth}
+    >
       <StyledMoviePoster src={props.src} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
@@ -131,14 +134,17 @@ const StyledCardHover = styled.div`
 `;
 
 /** 영화 카드 Wrap */
-const StyledCardWrapper = styled.div`
-  --card-width: 20rem;
+export const StyledCardWrapper = styled.div<{
+  $detail?: boolean;
+  $cardWidth?: string;
+}>`
+  --card-width: ${(props) => props.$cardWidth || "100%"};
   width: var(--card-width);
-  height: calc(var(--card-width) * 1.3);
+  padding-bottom: calc(var(--card-width) * 1.3);
   background-color: #ccc;
   border-radius: 0.75rem;
   overflow: hidden;
-  cursor: pointer;
+  cursor: ${(props) => (props.$detail ? "default" : "pointer")};
 
   position: relative;
 
