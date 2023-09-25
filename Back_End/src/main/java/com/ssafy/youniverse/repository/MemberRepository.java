@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+import java.util.Optional;
+
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     @Query(value = "select m from Member m where m.memberId in " +
@@ -20,4 +22,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     @Query(value = "select member_id from best_movie group by member_id having count(movie_id) >= 5 order by rand() limit 1", nativeQuery = true)
     int findByRandom();
+    Optional<Member> findByEmail(String email);
+
 }
