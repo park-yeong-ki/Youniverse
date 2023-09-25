@@ -14,7 +14,6 @@ export const AlignCenter = css`
 /** 기본 flex + 정가운데 정렬 */
 export const FlexCenter = css`
   ${FlexBase}
-  flex-direction: column; /**  */
   align-items: center;
   justify-content: center;
 `;
@@ -51,4 +50,17 @@ export const FlexColAround = css`
 
 export const FlexAlignBottom = css`
   align-self: end;
+`;
+
+/** flex + 가로, 가운데, evenly 정렬, 가로 넘칠경우 줄 변경 */
+export const FlexRowEvenly = css`
+  ${FlexBase}
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  & > * {
+    // 직접적인 자식 요소들에게만 스타일 적용
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 `;

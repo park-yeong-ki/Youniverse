@@ -91,12 +91,12 @@ public class SecurityConfig {
                 .antMatchers("/register").permitAll() // 회원가입 접근 가능
                 .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
-                .logout() // 로그아웃시 이동
-                .logoutUrl("/members/logout")
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    response.setStatus(HttpStatus.OK.value());
-                }) // 얘는 로그아웃시 리다이렉션을 방지하기 위함.
-//                .logoutSuccessUrl("http://localhost:3000/")
+                .logout() // 로그아웃시
+//                .logoutUrl("/members/logout")
+//                .logoutSuccessHandler((request, response, authentication) -> {
+//                    response.setStatus(HttpStatus.OK.value());
+//                }) // 얘는 로그아웃시 리다이렉션을 방지하기 위함.
+                .logoutSuccessUrl("http://localhost:3000/")
                 .deleteCookies("JSESSIONID")
                 .permitAll()
                 .and()

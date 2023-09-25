@@ -108,7 +108,7 @@ export default Dropdown;
 const StyledDropdown = styled.div<{ theme: ThemeType }>`
   ${FlexCenter}
   position: relative;
-  width: 88px;
+  width: 96px;
   height: 44px;
   border-radius: 12px;
   background-color: ${({ theme }: { theme: ThemeType }) =>

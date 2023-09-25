@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { styled } from "styled-components";
 import axios from "axios";
 import {
@@ -22,7 +22,7 @@ import Wrapper from "../atoms/Wrapper";
 import InputBox from "../atoms/InputBox";
 import Btn from "../atoms/Btn";
 
-const AdditionalForm: FC = () => {
+const AdditionalForm = () => {
   const [nickName, setNickName] = useState<string>("");
   const [age, setAge] = useState<number>();
   const [gender, setGender] = useState<string>("");
@@ -180,11 +180,11 @@ const StyledClearInput = styled(InputBox)`
   padding: 5px 10px;
 `;
 
-const StyledSaveButton = styled(Btn)`
+export const StyledSaveButton = styled(Btn)`
   width: 200px;
 `;
 
-const StyledTextArea = styled.textarea`
+export const StyledTextArea = styled.textarea`
   width: 100%;
   height: 52px;
   font-size: 16px;

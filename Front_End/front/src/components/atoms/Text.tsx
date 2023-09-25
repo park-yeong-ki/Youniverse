@@ -73,9 +73,15 @@ const fontFamilies = {
 const StyledText = styled.span<TextProps>`
   font-size: ${(props) => TextStyles[props.size].fontSize};
   color: ${(props) => TextColors[props.color].color};
-  font-family: ${(props) =>
+  font-family: ${(props) => 
     fontFamilies[props.fontFamily] || "'YESGothic-Regular'"};
+
+  ${(props) =>
+    props.size === "X-Large" && props.color === "White"
+      ? 'text-shadow: 0px 0px 12px rgba(255, 255, 255, 0.70);'
+      : ''}
 `;
+
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   return <StyledText {...props}>{children}</StyledText>;

@@ -52,7 +52,7 @@ public class OAuthAttributes {
 //                .age()
 //                .introduce()
 //                .member_image(oauth2UserInfo.getImageUrl())
-                .role(Role.GUEST)
+//                .role(Role.GUEST)
                 .build();
     }
 }

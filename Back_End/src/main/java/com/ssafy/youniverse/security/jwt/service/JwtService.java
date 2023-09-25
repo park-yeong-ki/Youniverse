@@ -92,7 +92,6 @@ public class JwtService {
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
-//        log.info(" response: {} ", response);
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
 
@@ -150,14 +149,14 @@ public class JwtService {
      * RefreshToken DB 저장(업데이트) -> RefreshToken Redis 저장
      */
     public void updateRefreshToken(String email, String refreshToken) {
-        memberRepository.findByEmail(email).ifPresentOrElse(
-                member -> {
+//        memberRepository.findByEmail(email).ifPresentOrElse(
+//                member -> {
 //                    member.updateRefreshToken(refreshToken);
                     redisRepository.setValues(email, refreshToken, Duration.ofMillis(refreshTokenExpirationPeriod));
-                    log.info("==========refreshToken: ", refreshToken);
-                },
-                () -> { throw new RuntimeException("일치하는 회원이 없습니다."); }
-        );
+                    log.info(" RefreshToken Redis 저장(업데이트)");
+//                },
+//                () -> { throw new RuntimeException("일치하는 회원이 없습니다."); }
+//        );
     }
     public boolean isAccessTokenValid(String accessToken) {
         Optional<String> blackListOption = Optional.ofNullable(redisRepository.getValues(accessToken));
@@ -205,6 +204,7 @@ public class JwtService {
 
 
     public void saveBlackList(String accessToken){
+        log.info("saveBlackList 동작");
         DecodedJWT jwt = JWT.decode(accessToken);
         Date expiresAt = jwt.getExpiresAt();
         long remainingTime = expiresAt.getTime() - System.currentTimeMillis();

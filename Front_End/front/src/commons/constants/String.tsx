@@ -1,7 +1,8 @@
 // 메인페이지
 export const LOGO = "Youniverse";
-export const MAIN_NOT_LOGIN =
-  "과 함께 취향 별자리를 그리고 맞춤형 콘텐츠를 만나요";
+export const MAIN_NOT_LOGIN_PART = "와 함께";
+export const MAIN_NOT_LOGIN_PART1 = "취향 별자리를 그리고";
+export const MAIN_NOT_LOGIN_PART2 = "맞춤형 컨텐츠를 만나요";
 export const MAIN_LOGIN = "님의 별자리";
 export const GOOGLE_LOGIN = "별자리 그리러 가기";
 export const MAIN_RECOMMEND = "별자리로 추천 받기";
@@ -51,7 +52,8 @@ export const RECOMMEND_PAGE_YOUTUBE = "유튜브 기반 추천";
 export const RECOMMEND_PAGE_LIKE = "선호도 기반 추천";
 export const RECOMMEND_PAGE_SCORE = "평점 기반 추천";
 export const RECOMMEND_PAGE_AGE = "에게 추천하는 영화";
-export const RECOMMEND_PAGE_MORE = "님의 유튜브 맞춤 추천 콘텐츠";
+export const RECOMMEND_PAGE_MORE_YOUTUBE = "님의 유튜브 맞춤 추천 콘텐츠";
+export const RECOMMEND_PAGE_MORE = "님의 추천 콘텐츠";
 export const RECOMMEND_PAGE_MORE_SELECT = "에서 추천받은 콘텐츠";
 
 // 영화 상세페이지
@@ -97,6 +99,7 @@ export const FOLLOWER = "팔로워";
 export const FOLLOW = "팔로우";
 export const UNFOLLOW = "팔로우 취소";
 export const NEXT = "다음으로";
+export const TO_MAIN = "메인으로";
 export const SAVE = "저장";
 export const CANCLE = "취소";
 export const MODIFY = "수정";

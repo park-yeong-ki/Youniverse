@@ -1,4 +1,3 @@
-import React, { ReactNode } from "react";
 import { styled } from "styled-components";
 
 /** 이미지 타입 지정 */
@@ -17,7 +16,7 @@ type ImageStyle = {
   height: string;
 };
 
-/** 버튼 STYLE */
+/** 이미지 STYLE */
 const ImageStyles: Record<ImageSize, ImageStyle> = {
   "X-Large": {
     height: "224px",
@@ -32,7 +31,7 @@ const ImageStyles: Record<ImageSize, ImageStyle> = {
     height: "44px",
   },
 };
-/** styled-component => 버튼 */
+/** styled-component => 이미지 */
 const StyledImage = styled.div<ImageProps>`
   /* 세로 값과 동일하게 가로 값 지정 */
   width: ${(props) => ImageStyles[props.size].height};

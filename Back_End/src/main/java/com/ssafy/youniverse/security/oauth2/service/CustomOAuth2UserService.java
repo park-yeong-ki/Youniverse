@@ -52,11 +52,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         // DefaultOAuth2User를 구현한 CustomOAuth2User 객체를 생성해서 반환
         return new CustomOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(createdMember.getRole().getKey())),
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 attributes,
                 extractAttributes.getNameAttributeKey(),
-                createdMember.getEmail(),
-                createdMember.getRole()
+                createdMember.getEmail()
+//                createdMember.getRole()
         );
     }
 
@@ -69,7 +69,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .orElse(null);
 
         if(findMember == null) {
-            return saveUser(attributes);
+            return attributes.toEntity(attributes.getOauth2UserInfo());
+
+//            return saveUser(attributes);
         }
         return findMember;
     }

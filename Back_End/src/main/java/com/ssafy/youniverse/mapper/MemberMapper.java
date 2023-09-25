@@ -3,7 +3,7 @@ package com.ssafy.youniverse.mapper;
 import com.ssafy.youniverse.dto.req.MemberReqDto;
 import com.ssafy.youniverse.dto.res.*;
 import com.ssafy.youniverse.entity.*;
-import com.ssafy.youniverse.security.Role;
+//import com.ssafy.youniverse.security.Role;
 import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import org.mapstruct.Mapper;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface MemberMapper {
+public interface MemberMapper extends CustomMapper {
     default Member memberReqDtoToMember(MemberReqDto memberReqDto){
         if ( memberReqDto == null ) {
             return null;
@@ -27,7 +27,7 @@ public interface MemberMapper {
         member.setGender( memberReqDto.getGender() );
         member.setAge( memberReqDto.getAge() );
         member.setIntroduce( memberReqDto.getIntroduce() );
-        member.setRole(Role.GUEST);
+//        member.setRole(Role.GUEST);
 
         if (memberReqDto.getOttList() != null) { //ott 목록이 존재하는 경우
             List<OttMember> ottMembers = new ArrayList<>();
@@ -163,8 +163,4 @@ public interface MemberMapper {
 
         return memberResDto;
     }
-
-    MemberSimpleResDto memberToMemberSimpleResDto(Member member);
-
-    MovieSimpleResDto movieToMovieSimpleResDto(Movie movie);
 }

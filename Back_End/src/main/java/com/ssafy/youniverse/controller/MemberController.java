@@ -3,11 +3,13 @@ package com.ssafy.youniverse.controller;
 import com.ssafy.youniverse.dto.req.MemberReqDto;
 import com.ssafy.youniverse.dto.res.MemberResDto;
 import com.ssafy.youniverse.entity.Member;
+import com.ssafy.youniverse.handler.exception.InvalidAccessTokenException;
 import com.ssafy.youniverse.mapper.MemberMapper;
 import com.ssafy.youniverse.security.jwt.service.JwtService;
 import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import com.ssafy.youniverse.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
@@ -38,7 +41,7 @@ public class MemberController {
         return new ResponseEntity<>(memberResDto, HttpStatus.OK);
     }
 
-    //개별 회원조회
+    //개별 회원조회 -> 랜덤 회원 추천일 경우 회원 식별자에 0이 들어옴
     @GetMapping("/{member-id}")
     public ResponseEntity<?> findMember(@PathVariable("member-id") int memberId) {
         Member member = memberService.readMember(memberId);
@@ -47,9 +50,12 @@ public class MemberController {
     }
 
     //전체 회원조회(페이지네이션 적용 -> 파라미터에 page, size 값 입력, 입력하지 않으면 기본값 page=0, size=10)
+    //키워드를 입력하거나,
     @GetMapping
-    public ResponseEntity<?> findMembers(@PageableDefault(sort = "memberId", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Member> memberPage = memberService.readMembers(pageable);
+    public ResponseEntity<?> findMembers(@PageableDefault(sort = "memberId", direction = Sort.Direction.DESC) Pageable pageable,
+                                         @RequestParam(required = false, name = "keyword") String keyword,
+                                         @RequestParam(required = false, name = "nickname") String nickname) {
+        Page<Member> memberPage = memberService.readMembers(pageable, keyword, nickname);
         Page<MemberResDto> memberResDtoPage = memberPage.map(member -> memberMapper.memberToMemberResDto(member));
         return new ResponseEntity<>(memberResDtoPage, HttpStatus.OK);
     }
@@ -73,9 +79,21 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //TODO : 로그아웃 기본 oauth로 실행 중. 현재 아래 컨트롤러 정확한 동작 안함
     //로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutMember(HttpServletRequest request){
+    public ResponseEntity<?> logoutMember(HttpServletRequest request) {
+        log.info("로그아웃 컨트롤러 실행");
+//        log.info("request :{}", request);
+
+//        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> {
+//            throw new InvalidAccessTokenException(InvalidAccessTokenException.INVALID_ACCESS_TOKEN);
+//        });
+//        jwtService.saveBlackList(accessToken);
+//        jwtService.deleteRefreshToken(accessToken);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+
         return jwtService.extractAccessToken(request)
                 .filter(jwtService::isAccessTokenValid)
                 .map(accessToken -> {

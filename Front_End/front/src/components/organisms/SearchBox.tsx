@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { HiSearch } from "react-icons/hi";
 
+import {
+  SEARCH_PLACEHOLDER,
+  DROP_DOWN_ALL,
+  DROP_DOWN_NICKNAME,
+  DROP_DOWN_KEYWORD,
+  DROP_DOWN_DIRECTOR,
+  DROP_DOWN_TITLE,
+} from "./../../commons/constants/String";
 import { FlexCenter } from "./../../commons/style/SharedStyle";
 import Dropdown from "../@commons/Dropdown";
 import InputBox, { InputColor } from "../atoms/InputBox";
@@ -12,6 +20,7 @@ import IconBox from "../atoms/IconBox";
 interface SearchBoxProps {
   theme?: "light" | "dark"; // 테마 타입 (기본값 light)
   type?: "user" | "movie"; // 검색 옵션의 타입 (기본값 user)
+  onSearch?: (term: string, option: string | null) => void; // 은경 반영
 }
 
 // 테마에 따른 스타일 값을 저장하는 객체
@@ -35,39 +44,49 @@ const THEME_STYLES: Record<"light" | "dark", ThemeStyle> = {
 };
 
 const USER_OPTIONS = [
-  { label: "전체", value: "all" },
-  { label: "닉네임", value: "nickname" },
-  { label: "키워드", value: "keyword" },
+  { label: DROP_DOWN_ALL, value: "all" },
+  { label: DROP_DOWN_NICKNAME, value: "nickname" },
+  { label: DROP_DOWN_KEYWORD, value: "keyword" },
 ];
 
 const MOVIE_OPTIONS = [
-  { label: "전체", value: "all" },
-  { label: "제목", value: "title" },
-  { label: "감독", value: "director" },
-  { label: "배우", value: "actor" },
+  { label: DROP_DOWN_ALL, value: "all" },
+  { label: DROP_DOWN_TITLE, value: "title" },
+  { label: DROP_DOWN_DIRECTOR, value: "director" },
+  { label: DROP_DOWN_KEYWORD, value: "keyword" },
 ];
 
 const SearchBox: React.FC<SearchBoxProps> = ({
   theme = "light",
   type = "user",
+  onSearch,
 }) => {
+  const [term, setTerm] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const { inputColor, btnColor, iconColor } = THEME_STYLES[theme];
   const options = type === "user" ? USER_OPTIONS : MOVIE_OPTIONS;
+
+  const handleSearchClick = () => {
+    onSearch?.(term, selectedOption);
+  };
 
   return (
     <StyledSearchBox>
       <Dropdown
         options={options}
         theme={theme}
-        onSelectedChange={(selected) => console.log(selected)} // 이 부분은 콘솔 로그 대신 원하는 로직으로 변경하세요.
-
+        onSelectedChange={(selected) => {
+          setSelectedOption(selected?.value ?? null); // 선택된 값이 없다면 null로 설정
+        }}
       />
       <InputBox
-        placeholder="검색어를 입력하세요"
+        placeholder={SEARCH_PLACEHOLDER}
         type="text"
         color={inputColor}
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
       />
-      <Btn size={"Medium"} color={btnColor}>
+      <Btn size={"Medium"} color={btnColor} onClick={handleSearchClick}>
         <IconBox Icon={HiSearch} size={24} color={iconColor} />
       </Btn>
     </StyledSearchBox>

@@ -1,6 +1,5 @@
 package com.ssafy.youniverse.entity;
 
-import com.ssafy.youniverse.security.Role;
 import com.ssafy.youniverse.util.Auditable;
 import lombok.*;
 import org.springframework.context.annotation.Lazy;
@@ -21,30 +20,23 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
 
-    @Column(length = 20, nullable = true)
+    @Column(length = 20, nullable = false)
     private String nickname;
 
-    @Column(length = 30, nullable = true)
+    @Column(length = 30, nullable = false)
     private String email;
 
-    @Column(length = 2, nullable = true)
+    @Column(length = 2, nullable = false)
     private String gender;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Byte age;
 
-    @Column(length = 255, nullable = true)
+    @Column(length = 255, nullable = false)
     private String introduce;
 
     @Column(length = 255, nullable = true)
     private String memberImage;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    public void authorizeUser() {
-        this.role = Role.USER;
-    }
 
     @Lazy
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)

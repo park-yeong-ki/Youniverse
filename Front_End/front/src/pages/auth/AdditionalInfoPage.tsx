@@ -21,18 +21,18 @@ const AdditionalInfoPage = () => {
 
 export default AdditionalInfoPage;
 
-const StyledContainerCenter = styled.div`
+export const StyledContainerCenter = styled.div`
   ${FlexCenter}
   height: 100vh;
 `;
 
-const StyledContainerBetweenCol = styled.div`
+export const StyledContainerBetweenCol = styled.div`
   ${FlexColBetween};
   height: 80%;
 `;
 
-const StyledForm = styled.div`
+export const StyledForm = styled.div`
   ${FlexCenter}
-  height: 90%;
+  height: 80%;
   width: 100%;
 `;
