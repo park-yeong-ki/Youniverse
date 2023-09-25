@@ -20,7 +20,7 @@ const GoogleInnerComponent = () => {
   return (
     <>
       <StyledLoginBtn color="White" size="Medium" onClick={handleGoogleLogin}>
-        <StyledGoogleLogo src="assets/Logo/GoogleLogo.svg" alt="GoogleLogo" />
+        <StyledGoogleLogo src="/assets/Logo/GoogleLogo.svg" alt="GoogleLogo" />
         {GOOGLE_LOGIN}
       </StyledLoginBtn>
     </>
