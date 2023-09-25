@@ -56,5 +56,6 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/faker": "^6.6.9",
     "@types/styled-components": "^5.1.27"
-  }
+  },
+  "proxy": "https://j9b204.p.ssafy.io"
 }

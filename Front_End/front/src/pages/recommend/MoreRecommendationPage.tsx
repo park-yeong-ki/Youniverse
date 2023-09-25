@@ -9,6 +9,7 @@ import Text from "../../components/atoms/Text";
 
 const MoreRecommendationPage = () => {
   const [selectedOTT, setSelectedOTT] = useState<string | null>(null);
+  
 
   return (
     <>
