@@ -15,10 +15,35 @@ export const LoginState = atom<boolean>({
 type UserInfo = {
   accessToken: string;
 };
+
+type UserJoinInfo = {
+  accessToken: string;
+  nickName: string;
+  age: number;
+  gender: string;
+  introduction: string;
+  keywords: string[];
+  OTTs: string[];
+};
+
 export const UserInfoState = atom<UserInfo>({
   key: "UserInfoState",
   default: {
     accessToken: "",
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const UserJoinInfoState = atom<UserJoinInfo>({
+  key: "UserJoinInfoState",
+  default: {
+    accessToken: "",
+    nickName: "",
+    age: 0,
+    gender: "",
+    introduction: "",
+    keywords: [],
+    OTTs: [],
   },
   effects_UNSTABLE: [persistAtom],
 });

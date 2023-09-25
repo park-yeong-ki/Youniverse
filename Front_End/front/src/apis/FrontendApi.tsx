@@ -30,7 +30,7 @@ export const getAllMembers = (page: number, size: number) =>
     headers: { Accept: "application/json" },
   });
 
-// =================
+// =======================================================
 
 /** 키워드 조회 */
 export const getKeyword = (keywordId: number) =>
@@ -44,7 +44,7 @@ export const getAllKeywords = () =>
     headers: { Accept: "application/json" },
   });
 
-// ================================
+// ======================================================
 
 /** OTT 조회 */
 export const getOTT = (ottId: number) =>
