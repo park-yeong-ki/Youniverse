@@ -14,7 +14,15 @@ import Wrapper from "../atoms/Wrapper";
 import InputBox from "../atoms/InputBox";
 import { StyledTextArea } from "../organisms/AdditionalForm";
 
-const MypageUserInfo = () => {
+interface MypageUserInfoProps {
+  followStatus: string;
+  setFollowStatus: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
+  followStatus,
+  setFollowStatus,
+}) => {
   const [isEdit, setIsEdit] = useState(false);
   const [gender, setGender] = useState("남성"); // 여기에 받아온 값 넣어줌
 
@@ -59,10 +67,28 @@ const MypageUserInfo = () => {
 
           {/* 팔로잉 팔로워 wrapper */}
           <div>
-            <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
+            <Text
+              size="X-Small"
+              color="Black"
+              fontFamily={
+                followStatus === FOLLOWING
+                  ? "YESGothic-Bold"
+                  : "YESGothic-Regular"
+              }
+              onClick={() => setFollowStatus(FOLLOWING)}
+            >
               {}3 {FOLLOWING}
             </Text>
-            <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
+            <Text
+              size="X-Small"
+              color="Black"
+              fontFamily={
+                followStatus === FOLLOWER
+                  ? "YESGothic-Bold"
+                  : "YESGothic-Regular"
+              }
+              onClick={() => setFollowStatus(FOLLOWER)}
+            >
               {}5 {FOLLOWER}
             </Text>
           </div>

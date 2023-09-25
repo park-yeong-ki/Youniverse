@@ -71,6 +71,7 @@ export const MY_PAGE_LIKE = "님이 좋아한 콘텐츠";
 export const MY_PAGE_REVIEW = "님이 남긴 리뷰";
 export const MY_PAGE_PROFILE_EDIT = "프로필 수정";
 export const EDIT_IMAGE = "프로필 사진 수정하기";
+export const MY_PAGE_OTT_CHART = "추천 받은 콘텐츠를 가장 많이 보유한";
 
 // 유저검색
 export const SEARCH_USER_PAGE =

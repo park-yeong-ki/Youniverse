@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 /** 텍스트 타입 지정 */
 interface TextProps {
@@ -8,8 +8,8 @@ interface TextProps {
   fontFamily: TextFontFamily;
   children?: ReactNode;
   className?: string;
-
   title?: string;
+  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void; // 여기서 추가
 }
 
 /** 텍스트 SIZE */
@@ -75,15 +75,16 @@ const fontFamilies = {
 const StyledText = styled.span<TextProps>`
   font-size: ${(props) => TextStyles[props.size].fontSize};
   color: ${(props) => TextColors[props.color].color};
-  font-family: ${(props) => 
+  font-family: ${(props) =>
     fontFamilies[props.fontFamily] || "'YESGothic-Regular'"};
 
   ${(props) =>
     props.size === "X-Large" && props.color === "White"
-      ? 'text-shadow: 0px 0px 12px rgba(255, 255, 255, 0.70);'
-      : ''}
-`;
+      ? "text-shadow: 0px 0px 12px rgba(255, 255, 255, 0.70);"
+      : ""}
 
+  cursor: ${(props) => props.onClick && "pointer"}
+`;
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   return <StyledText {...props}>{children}</StyledText>;
