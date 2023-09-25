@@ -36,7 +36,7 @@ const ReviewCreateForm = () => {
       alert("리뷰 등록에 실패했습니다.");
     }
   };
-
+  console.log(setMemberId, setMovieId, setReviewRate);
 
   return (
     <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
