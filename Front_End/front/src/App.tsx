@@ -20,7 +20,6 @@ import {
   NOTFOUND,
 } from "./pages/Pages";
 import "./index.css";
-import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
 function App() {
   return (
     <RecoilRoot>
@@ -28,7 +27,6 @@ function App() {
         <GlobalStyles />
         {/* <StarryBackground /> */}
         <Header />
-        <AdditionalInfoPage />
 
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
