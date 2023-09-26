@@ -63,13 +63,15 @@ public class MemberService {
     }
 
     //회원 리스트 조회
-    public Page<Member> readMembers(Pageable pageable, String keyword, String nickname) {
+    public Page<Member> readMembers(Pageable pageable, String keyword, String nickname, String total) {
         Page<Member> memberPage = null;
-        if (StringUtils.hasText(keyword)){ //키워드로 조회하는 경우
+        if (StringUtils.hasText(keyword)) { //키워드로 조회하는 경우
             memberPage = memberRepository.findAllByKeyword(keyword, pageable);
         } else if (StringUtils.hasText(nickname)) { //닉네임으로 조회하는 경우
             memberPage = memberRepository.findAllByNicknameContains(nickname, pageable);
-        }else { // 회원 전체 조회
+        } else if (StringUtils.hasText(total)) { //입력어로 키워드와 닉네임 모두 조회
+            memberPage = memberRepository.findAllByTotal(total, pageable);
+        } else { // 회원 전체 조회
             memberPage = memberRepository.findAll(pageable);
         }
         return memberPage;
