@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import Text from "../atoms/Text";
@@ -11,8 +12,15 @@ import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
 
 const MovieItem = ({ ...props }) => {
+  const navigate = useNavigate();
+
   const [likeStatus, setLikeStatus] = useState(false);
   const [recommendStatus, setRecommendStatus] = useState(false);
+
+  // 재목 누르면 영화 상세페이지로 이동
+  const handleTitleClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
+  };
 
   const handleLikePush = () => {
     if (likeStatus === false) {
@@ -38,15 +46,18 @@ const MovieItem = ({ ...props }) => {
     }
   };
   return (
-    <StyledCardWrapper>
+    <StyledCardWrapper
+      onClick={() => handleTitleClick(props.movieId)}
+      $cardWidth={props.$cardWidth}
+    >
       <StyledMoviePoster src={props.src} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
           {/* focus가 되어있을 때는 Large / 아닐 때는 Medium */}
-          <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-            엘리멘탈
-          </Text>
+          <StyledTitle size="Large" color="White" fontFamily="PyeongChang-Bold">
+            제목
+          </StyledTitle>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
             평점4.0
           </Text>
@@ -123,13 +134,17 @@ const StyledCardHover = styled.div`
 `;
 
 /** 영화 카드 Wrap */
-const StyledCardWrapper = styled.div`
-  --card-width: 20rem;
+export const StyledCardWrapper = styled.div<{
+  $detail?: boolean;
+  $cardWidth?: string;
+}>`
+  --card-width: ${(props) => props.$cardWidth || "100%"};
   width: var(--card-width);
-  height: calc(var(--card-width) * 1.3);
+  padding-bottom: calc(var(--card-width) * 1.3);
   background-color: #ccc;
   border-radius: 0.75rem;
   overflow: hidden;
+  cursor: ${(props) => (props.$detail ? "default" : "pointer")};
 
   position: relative;
 
@@ -159,4 +174,9 @@ const StyledDetailInRow = styled.div`
   width: 60%;
   text-align: center;
   flex-wrap: wrap;
+`;
+
+/** 영화제목 커서 포인터.. */
+const StyledTitle = styled(Text)`
+  cursor: pointer;
 `;

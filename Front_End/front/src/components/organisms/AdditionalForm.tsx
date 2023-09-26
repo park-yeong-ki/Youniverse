@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
-import { UserJoinInfoState } from "../../pages/store/State";
+import { UserInfoState, UserJoinInfoState } from "../../pages/store/State";
 import { useNavigate } from "react-router-dom";
 import {
   ADDITIONAL_INFO_NICKNAME,
@@ -27,10 +27,20 @@ import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
   const navigate = useNavigate();
-  const [nickName, setNickName] = useState<string>("");
+
+  // URL에서 'email' 파라미터 빼서 저장
+  const urlParams = new URLSearchParams(window.location.search);
+  const accessToken = urlParams.get("accessToken");
+  const refreshToken = urlParams.get("refreshToken");
+  const email = urlParams.get("email");
+
+  console.log("accessToken:", accessToken);
+  console.log("refreshToken:", refreshToken);
+  console.log("email:", email);
+  const [nickname, setNickname] = useState<string>("");
   const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
-  const [introduction, setIntroduction] = useState<string>("");
+  const [introduce, setIntroduce] = useState<string>("");
 
   const handleChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -43,14 +53,20 @@ const AdditionalForm = () => {
   };
 
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
+  const setUserInfo = useSetRecoilState(UserInfoState);
 
   const handleSaveClick = () => {
     setUserJoinInfo((prev) => ({
       ...prev,
-      nickName,
+      nickname,
       age,
       gender,
-      introduction,
+      introduce,
+      email,
+    }));
+    setUserInfo((prev) => ({
+      accessToken,
+      refreshToken,
     }));
     navigate(ROUTES.OTTSELECT);
   };
@@ -70,8 +86,8 @@ const AdditionalForm = () => {
             <StyledClearInput
               type="text"
               placeholder={ADDITIONAL_INFO_NICKNAME_PLACEHOLDER}
-              value={nickName}
-              onChange={handleChange(setNickName)}
+              value={nickname}
+              onChange={handleChange(setNickname)}
             />
           </StyledInputContainer>
         </StyledContainerRowBetween>
@@ -115,10 +131,10 @@ const AdditionalForm = () => {
           </StyledLabelContainer>
           <StyledInputContainer>
             <StyledTextArea
-              id="introduction"
-              value={introduction}
+              id="introduce"
+              value={introduce}
               placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}
-              onChange={handleChange(setIntroduction)}
+              onChange={handleChange(setIntroduce)}
               maxLength={30}
             ></StyledTextArea>
           </StyledInputContainer>

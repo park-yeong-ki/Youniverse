@@ -1,8 +1,18 @@
 import { mainAxios } from "../libs/axios";
 
+type UserJoinInfo = {
+  email: string | null;
+  nickname: string;
+  age: number;
+  gender: string;
+  introduce: string;
+  keywordList: number[];
+  ottList: number[];
+};
+
 /** 회원가입 */
-export const postMember = () =>
-  mainAxios.post(`/members/register`, {
+export const postMember = (userJoinInfo: UserJoinInfo) =>
+  mainAxios.post(`/members/register`, userJoinInfo, {
     headers: { Accept: "application/json" },
   });
 
@@ -100,19 +110,19 @@ export const getAllMovies = () =>
 
 // ========================================
 
-/** 싫어요 등록 */
+/** 좋아요 등록 */
 export const postHeart = () =>
   mainAxios.post(`/heart-movies/register`, {
     headers: { Accept: "application/json" },
   });
 
-/** 싫어요 조회 */
+/** 좋아요 조회 */
 export const getHeart = (heartMovieId: number) =>
   mainAxios.get(`/heart-movies/${heartMovieId}`, {
     headers: { Accept: "application/json" },
   });
 
-/** 싫어요 삭제 */
+/** 좋아요 삭제 */
 export const deleteHeart = (heartMovieId: number) =>
   mainAxios.delete(`/heart-movies/${heartMovieId}`, {
     headers: { Accept: "application/json" },
@@ -161,10 +171,16 @@ export const deletBest = (bestMovieId: number) =>
 //==============================================
 
 /** 리뷰 등록 */
-export const postReview = () =>
-  mainAxios.post(`/reviews/register`, {
+export const postReview = (reviewData: {
+  memberId: number;
+  movieId: number;
+  reviewContent: string;
+  reviewRate: number;
+}) => {
+  return mainAxios.post(`/reviews/register`, reviewData, {
     headers: { Accept: "application/json" },
   });
+};
 
 /** 리뷰 조회 */
 export const getReview = (reviewId: number) =>
