@@ -17,9 +17,9 @@ import { getAllOTTs } from "../../apis/FrontendApi";
 const OTTForm = () => {
   const navigate = useNavigate();
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
-  const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
+  const [selectedPlanets, setSelectedPlanets] = useState<number[]>([]);
   const [planetSelectedStates, setPlanetSelectedStates] = useState<
-    Record<string, boolean>
+    Record<number, boolean>
   >({});
 
   // OTT 데이터를 담을 상태
@@ -31,9 +31,9 @@ const OTTForm = () => {
         console.log(response.data);
         setOttData(response.data);
         // 백서버에서 가져온 데이터를 기반으로 planetSelectedStates 초기화
-        const initialPlanetStates: Record<string, boolean> = {};
+        const initialPlanetStates: Record<number, boolean> = {};
         response.data.forEach((ott: any) => {
-          initialPlanetStates[ott.ottName] = false;
+          initialPlanetStates[ott.ottId] = false;
         });
         setPlanetSelectedStates(initialPlanetStates);
       })
@@ -42,18 +42,18 @@ const OTTForm = () => {
       });
   }, []);
 
-  const handleClickedPlanets = (planetName: string, $isSelected: boolean) => {
-    if (selectedPlanets.includes(planetName)) {
+  const handleClickedPlanets = (planetId: number, $isSelected: boolean) => {
+    if (selectedPlanets.includes(planetId)) {
       // 행성 이름이 이미 selectedPlanets에 있다면 제거
       setSelectedPlanets((prev) => {
-        const updatedPlanets = prev.filter((name) => name !== planetName);
+        const updatedPlanets = prev.filter((id) => id !== planetId);
         console.log("Updated Planets:", updatedPlanets); // 상태 출력
         return updatedPlanets;
       });
     } else {
       // 행성 이름이 selectedPlanets에 없다면 추가
       setSelectedPlanets((prev) => {
-        const updatedPlanets = [...prev, planetName];
+        const updatedPlanets = [...prev, planetId];
         console.log("Updated Planets:", updatedPlanets); // 상태 출력
         return updatedPlanets;
       });
@@ -61,14 +61,14 @@ const OTTForm = () => {
     // 각 행성의 클릭 상태를 저장
     setPlanetSelectedStates((prev) => ({
       ...prev,
-      [planetName]: $isSelected,
+      [planetId]: $isSelected,
     }));
   };
 
   const handleSaveClick = () => {
     setUserJoinInfo((prev) => ({
       ...prev,
-      OTTs: selectedPlanets, // OTT 선택 정보 업데이트
+      ottList: selectedPlanets, // OTT 선택 정보 업데이트
     }));
     navigate(ROUTES.SURVEY);
   };
@@ -79,10 +79,11 @@ const OTTForm = () => {
         {ottData.map((ott) => (
           <PlanetWrapper
             key={ott.ottId}
-            $isSelected={planetSelectedStates[ott.ottName]}
+            $isSelected={planetSelectedStates[ott.ottId]}
           >
             <Planet
               size="Standard"
+              planetId={ott.ottId}
               src={ott.ottImage} // 백서버에서 받아온 이미지 URL
               name={ott.ottName}
               handleClickedPlanets={handleClickedPlanets}

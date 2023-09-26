@@ -14,11 +14,11 @@ import { postMember } from "../../apis/FrontendApi";
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
   const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
   const handleToMainButtonClick = async () => {
     const updatedUserJoinInfo = {
       ...userJoinInfo,
-      keywords: selectedKeywords,
+      keywordList: selectedKeywords,
     };
 
     setUserJoinInfo(updatedUserJoinInfo);
