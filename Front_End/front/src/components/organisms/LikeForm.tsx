@@ -10,14 +10,20 @@ const LikeForm = ({
 }: {
   onKeywordsChange: (keywords: string[]) => void;
 }) => {
-  const [buttonKeywords, setButtonKeywords] = useState<string[]>([]);
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  type keywordList = {
+    keywordId: number;
+    keywordName: string;
+  };
+
+  const [buttonKeywords, setButtonKeywords] = useState<keywordList[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<keywordList[]>([]);
 
   useEffect(() => {
     const RandomKeywords = async () => {
       try {
         const response = await getAllKeywords();
-        setButtonKeywords(response.data.keywords);
+        console.log(response.data);
+        setButtonKeywords(response.data);
       } catch (error) {
         console.error("데이터 가져오기 실패", error);
       }
@@ -26,15 +32,15 @@ const LikeForm = ({
     RandomKeywords();
   }, []);
 
-  const handleButtonClick = (keyword: string) => {
+  const handleButtonClick = (keyword: keywordList) => {
     if (selectedKeywords.includes(keyword)) {
       const newSelected = selectedKeywords.filter((k) => k !== keyword);
       setSelectedKeywords(newSelected);
-      onKeywordsChange(newSelected);
+      onKeywordsChange(newSelected.map((k) => k.keywordName));
     } else {
       const newSelected = [...selectedKeywords, keyword];
       setSelectedKeywords(newSelected);
-      onKeywordsChange(newSelected);
+      onKeywordsChange(newSelected.map((k) => k.keywordName));
     }
   };
 
@@ -45,63 +51,17 @@ const LikeForm = ({
       padding="Medium"
     >
       <StyledContainerRowBetween>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간에 너비 조정
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간에 너비 조정
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간에 너비 조정
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간
-        </StyledkeywordButton>
-        {buttonKeywords.map((keyword, index) => (
+        {buttonKeywords.map((keyword) => (
           <StyledkeywordButton
-            key={index}
+            key={keyword.keywordId}
             size="X-Large"
             color="Purple"
             onClick={() => handleButtonClick(keyword)}
-            isSelected={selectedKeywords.includes(keyword)}
+            isSelected={selectedKeywords.some(
+              (k) => k.keywordName === keyword.keywordName
+            )}
           >
-            {keyword}
+            {keyword.keywordName}
           </StyledkeywordButton>
         ))}
       </StyledContainerRowBetween>
