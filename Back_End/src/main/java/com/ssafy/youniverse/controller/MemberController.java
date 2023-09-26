@@ -102,4 +102,12 @@ public class MemberController {
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> findMemberByEmail(@PathVariable("email") String email) {
+        Member member = memberService.readMemberByEmail(email);
+        MemberResDto memberResDto = memberMapper.memberToMemberResDto(member);
+        return new ResponseEntity<>(memberResDto, HttpStatus.OK);
+    }
+
 }
