@@ -11,10 +11,9 @@ import java.util.List;
 public class Keyword {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer keywordId;
 
-    @Column(length = 10, nullable = false, unique = true)
+    @Column(length = 50, nullable = false)
     private String keywordName;
 
     @Column(nullable = false)

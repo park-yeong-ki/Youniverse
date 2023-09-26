@@ -12,7 +12,6 @@ import java.util.List;
 public class Actor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer actorId;
 
     @Column(length = 30, nullable = false)
