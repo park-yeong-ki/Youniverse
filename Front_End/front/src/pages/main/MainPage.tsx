@@ -35,7 +35,7 @@ const MainPage = () => {
       setIsLoggedIn(true); // 로그인 상태를 true로 변경
       setUserInfo({ accessToken, refreshToken });
     }
-  }, []);
+  }, [setIsLoggedIn, setUserInfo, userInfo.accessToken, userInfo.refreshToken]);
 
   console.log(userInfo);
   console.log(isLoggedIn);
