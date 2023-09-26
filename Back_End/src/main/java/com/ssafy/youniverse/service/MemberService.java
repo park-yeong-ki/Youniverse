@@ -142,4 +142,15 @@ public class MemberService {
 
         memberRepository.delete(findMember);
     }
+
+    //이메일로 회원 조회
+    public Member readMemberByEmail(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+        if (!optionalMember.isPresent()) { //존재하는 회원인지 판별
+            throw new RuntimeException("존재하지 않는 회원입니다."); //임시 예외
+        }
+        return optionalMember.get();
+    }
+
 }

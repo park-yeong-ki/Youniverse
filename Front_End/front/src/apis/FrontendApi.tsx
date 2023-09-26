@@ -1,15 +1,13 @@
 import { mainAxios } from "../libs/axios";
 
 type UserJoinInfo = {
-  accessToken: string | null;
-  refreshToken: string | null;
   email: string | null;
-  nickName: string;
+  nickname: string;
   age: number;
   gender: string;
-  introduction: string;
-  keywords: string[];
-  OTTs: string[];
+  introduce: string;
+  keywordList: number[];
+  ottList: number[];
 };
 
 /** 회원가입 */

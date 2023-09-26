@@ -8,7 +8,7 @@ import { getAllKeywords } from "../../apis/FrontendApi";
 const LikeForm = ({
   onKeywordsChange,
 }: {
-  onKeywordsChange: (keywords: string[]) => void;
+  onKeywordsChange: (keywords: number[]) => void;
 }) => {
   type keywordList = {
     keywordId: number;
@@ -36,11 +36,11 @@ const LikeForm = ({
     if (selectedKeywords.includes(keyword)) {
       const newSelected = selectedKeywords.filter((k) => k !== keyword);
       setSelectedKeywords(newSelected);
-      onKeywordsChange(newSelected.map((k) => k.keywordName));
+      onKeywordsChange(newSelected.map((k) => k.keywordId));
     } else {
       const newSelected = [...selectedKeywords, keyword];
       setSelectedKeywords(newSelected);
-      onKeywordsChange(newSelected.map((k) => k.keywordName));
+      onKeywordsChange(newSelected.map((k) => k.keywordId));
     }
   };
 

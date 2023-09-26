@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { UserJoinInfoState } from "../../pages/store/State";
+import { LoginState, UserJoinInfoState } from "../../pages/store/State";
 import { LIKE_SURVEY } from "../../commons/constants/String";
 import LikeForm from "../../components/organisms/LikeForm";
 import Text from "../../components/atoms/Text";
@@ -13,20 +13,21 @@ import { postMember } from "../../apis/FrontendApi";
 
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
+  const setIsLoggedIn = useSetRecoilState(LoginState);
   const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
   const handleToMainButtonClick = async () => {
     const updatedUserJoinInfo = {
       ...userJoinInfo,
-      keywords: selectedKeywords,
+      keywordList: selectedKeywords,
     };
 
     setUserJoinInfo(updatedUserJoinInfo);
-
     try {
       const response = await postMember(updatedUserJoinInfo);
       if (response.status === 200) {
         console.log("회원 정보 등록 성공:", response.data);
+        setIsLoggedIn(true);
         navigate("/");
       } else {
         console.error("데이터 전송 실패:", response.statusText);
