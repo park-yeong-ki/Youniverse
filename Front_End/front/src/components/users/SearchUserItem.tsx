@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
 import HashTag from "../atoms/HashTag";
-import { FlexCenter } from "../../commons/style/SharedStyle";
+import {
+  FlexCenter,
+  FlexColBetweenLeft,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
 import { getMember } from "../../apis/FrontendApi";
 import { User } from "../organisms/UserSearchContainer";
 
@@ -12,6 +17,7 @@ interface Props {
 }
 
 const SearchUserItem: React.FC<Props> = ({ user, isSelected, onSelect }) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const handleToClickedUser = async () => {
     onSelect();
     try {
@@ -27,32 +33,36 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected, onSelect }) => {
     <StyledUserContainer>
       <StyledCenterContainer
         $isSelected={isSelected}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         onClick={handleToClickedUser}
       >
-        <div>
-          <Img
-            size="Medium"
-            src={
-              user.memberImage !== ""
-                ? user.memberImage
-                : "/assets/기본프로필.jpg"
-            }
-          />
-          <div>
-            <div>{user.nickname}</div>
-            <div>
+        <StyledRowBetweenContainer>
+          <StyledProfileImageContainer>
+            <Img
+              size="Medium"
+              src={
+                user.memberImage !== ""
+                  ? user.memberImage
+                  : "/assets/기본프로필.jpg"
+              }
+            />
+          </StyledProfileImageContainer>
+          <StyledColBetweenContainer>
+            <StyledNicknameContainer>{user.nickname}</StyledNicknameContainer>
+            <StyledkeywordContainer>
               {user.keywordResDtos.map((keywords, index) => (
                 <HashTag
                   key={index}
                   size="Standard"
-                  color={isSelected ? "Black" : "White"}
+                  color={isHovered ? "Black" : isSelected ? "Black" : "White"}
                 >
                   {keywords.keywordName}
                 </HashTag>
               ))}
-            </div>
-          </div>
-        </div>
+            </StyledkeywordContainer>
+          </StyledColBetweenContainer>
+        </StyledRowBetweenContainer>
       </StyledCenterContainer>
     </StyledUserContainer>
   );
@@ -61,16 +71,34 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected, onSelect }) => {
 export default SearchUserItem;
 
 const StyledUserContainer = styled.div`
-  border: solid 0.5px white;
-  border-radius: 12px;
-  padding: 5px;
+  padding: 5px 5px;
   width: 100%;
 `;
 
 const StyledCenterContainer = styled.div<{ $isSelected?: boolean }>`
   ${FlexCenter}
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
   background-color: ${(props) => (props.$isSelected ? "white" : "transparent")};
   &:hover {
     cursor: pointer;
+    background-color: white;
   }
 `;
+const StyledRowBetweenContainer = styled.div`
+  ${FlexRowBetween}
+  width: 80%;
+`;
+
+const StyledProfileImageContainer = styled.div``;
+
+const StyledColBetweenContainer = styled.div`
+  ${FlexColBetweenLeft}
+`;
+
+const StyledNicknameContainer = styled.div`
+  height: 40%;
+`;
+
+const StyledkeywordContainer = styled.div``;

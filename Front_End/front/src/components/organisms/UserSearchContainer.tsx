@@ -76,7 +76,7 @@ const UserSearchContainer: React.FC = () => {
           <SearchBox type="user" onSearch={handleSearch} />
         </StyledSearchBoxContainer>
         <StyledTextContainer>
-          <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
+          <Text size="X-Small" color="White" fontFamily="YESGothic-Regular">
             {searchTerm.length === 0
               ? ""
               : searchResults.length === 0
@@ -86,7 +86,6 @@ const UserSearchContainer: React.FC = () => {
         </StyledTextContainer>
         <StyledUserResultContainer>
           <SearchUserItemList users={searchResults} />
-          <p>현재는 아무것도 없지만 검색결과가 나올 것이다</p>
         </StyledUserResultContainer>
       </StyledColBetweenContainer>
     </StyledStandardWhiteGhostWrapper>
@@ -113,5 +112,7 @@ const StyledSearchBoxContainer = styled.div`
 const StyledTextContainer = styled.div``;
 
 const StyledUserResultContainer = styled.div`
+  width: 100%;
   height: 70%;
+  overflow-y: auto;
 `;
