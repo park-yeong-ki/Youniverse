@@ -82,7 +82,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
     } else if (recommendStatus === true && hateMovieId) {
       console.log("다시 추천해주세요 버튼을 눌렀어요");
 
-      deleteHate(hateMovieId)
+      deleteHate(movie.hateMovieResDtos.hateMovieId)
         .then(() => {
           setRecommendStatus(false);
           setHateMovieId(null); // 삭제 후 hateMovieId 초기화
@@ -96,7 +96,6 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
 
   return (
     <StyledCardWrapper
-      onClick={() => handleTitleClick(movie.movieId)}
       $cardWidth={props.$cardWidth}
     >
       <StyledMoviePoster src={movie.movieImage} />

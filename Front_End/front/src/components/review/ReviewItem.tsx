@@ -14,7 +14,6 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
       alert("리뷰삭제완");
     } catch (error) {
       console.log("리뷰삭제안됨여", error);
-      alert("리뷰삭제실패");
     }
   };
   return (

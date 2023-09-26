@@ -21,7 +21,12 @@ export type MovieType = {
   rate: number;
   runtime: number;
   ottResDtos: OTTType[];
-  // 필요한 다른 필드들 추가
+  heartMovieResDtos: {
+    heartMovieId: number;
+  };
+  hateMovieResDtos: {
+    hateMovieId: number;
+  };
 };
 
 type OTTType = {
