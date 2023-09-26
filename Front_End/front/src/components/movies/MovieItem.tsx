@@ -20,6 +20,7 @@ import {
 
 type MovieItemProps = {
   movie: MovieType;
+  $cardWidth?: string;  // 옵셔널로 추가합니다.
   // 필요한 경우 다른 props 타입도 여기에 추가
 };
 
@@ -45,7 +46,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
       postHeart(1, movie.movieId) // memberId 수정 필요
         .then(() => {
           setLikeStatus(true);
-          console.log("좋아요 요청 성공!");
+          console.log("좋아요 요청 성공! heartMovieId: ");
         })
         .catch((err) => {
           console.error("좋아요 요청 실패:", err);
@@ -94,7 +95,10 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   };
 
   return (
-    <StyledCardWrapper>
+    <StyledCardWrapper
+      onClick={() => handleTitleClick(movie.movieId)}
+      $cardWidth={props.$cardWidth}
+    >
       <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
@@ -184,13 +188,17 @@ const StyledCardHover = styled.div`
 `;
 
 /** 영화 카드 Wrap */
-const StyledCardWrapper = styled.div`
-  --card-width: 20rem;
+export const StyledCardWrapper = styled.div<{
+  $detail?: boolean;
+  $cardWidth?: string;
+}>`
+  --card-width: ${(props) => props.$cardWidth || "100%"};
   width: var(--card-width);
-  height: calc(var(--card-width) * 1.3);
+  padding-bottom: calc(var(--card-width) * 1.3);
   background-color: #ccc;
   border-radius: 0.75rem;
   overflow: hidden;
+  cursor: ${(props) => (props.$detail ? "default" : "pointer")};
 
   position: relative;
 

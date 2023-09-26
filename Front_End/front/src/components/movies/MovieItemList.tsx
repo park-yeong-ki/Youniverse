@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { FlexRowBetween, AlignCenter } from "../../commons/style/SharedStyle";
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
 import MovieItem from "./MovieItem";
@@ -32,7 +32,9 @@ type OTTType = {
   ottUrl: string;
 };
 
-const convertOTTNameToId = (ottName: string | null | undefined): number | null => {
+const convertOTTNameToId = (
+  ottName: string | null | undefined
+): number | null => {
   if (!ottName) return null; // 이 줄을 추가하여 null 또는 undefined를 처리합니다.
 
   switch (ottName) {
@@ -51,7 +53,6 @@ const convertOTTNameToId = (ottName: string | null | undefined): number | null =
   }
 };
 
-
 const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
   // 필요한 경우 filterOTT 값을 사용하여 영화 목록을 필터링하면 됩니다.
   // listType: 유튜브 기반 추천, @@님의 선호도 기반, @@@님의 인생영화 ... 이런 텍스트
@@ -69,7 +70,6 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
     getAllMovies()
       .then((response) => {
         console.log("Movies from API:", response.data.content);
-        console.log(response.data.content);
 
         const targetOttId = convertOTTNameToId(filterOTT);
 
@@ -111,13 +111,11 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
           </StyledBtn>
         )}
       </StyledListBtn>
-      <StyledMovieItem>
+      <div className="grid grid-cols-5 gap-4">
         {movies.map((movie) => (
           <MovieItem key={(movie as MovieType).movieId} movie={movie} />
         ))}
-      </StyledMovieItem>
-      {/* {movies} */}
-      {/* <MovieItem /> */}
+      </div>
     </>
   );
 };
@@ -130,8 +128,4 @@ const StyledListBtn = styled.div`
 
 const StyledBtn = styled(Btn)`
   width: 100px;
-`;
-
-const StyledMovieItem = styled.div`
-  ${AlignCenter}
 `;
