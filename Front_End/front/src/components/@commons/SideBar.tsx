@@ -17,6 +17,7 @@ import Text from "../atoms/Text";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import {
   LoginState,
+  UserDetailInfoState,
   UserInfoState,
   UserJoinInfoState,
 } from "../../pages/store/State";
@@ -36,6 +37,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
   const resetLogin = useResetRecoilState(LoginState);
   const isLogin = useRecoilValue(LoginState);
+  const nickname = useRecoilValue(UserDetailInfoState).nickname;
 
   const handleSearchSubmit = (searchTerm: string) => {
     navigate("/search", { state: { searchTerm } }); // 변경
@@ -84,7 +86,15 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
       <StyledMenu>
         {/* 로그인 버튼, 검색 */}
         <div>
-          <GoogleLoginBtn />
+          {isLogin ? (
+            <Text
+              size="Small"
+              color="White"
+              fontFamily="YESGothic-Regular"
+            >안녕하세요, {nickname}님!</Text>
+          ) : (
+            <GoogleLoginBtn />
+          )}
           <SearchBox
             theme="light"
             type="movie"
