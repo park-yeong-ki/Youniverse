@@ -65,6 +65,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                  response.sendRedirect(Redirection_Url+"/addinfo?accessToken=" + accessToken + "&refreshToken=" + refreshToken + "&email=" + email);
             }
             else{ // 회원가입된 유저일 경우
+                log.info("회원가입된 유저 로그인 진입");
                 loginSuccess(response, oAuth2User);
             }
         } catch (Exception e) {
