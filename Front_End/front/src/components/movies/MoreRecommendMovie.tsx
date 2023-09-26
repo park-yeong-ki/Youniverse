@@ -9,9 +9,10 @@ type MovieProps = {
 const MoreRecommendMovie: React.FC<MovieProps> = ({ selectedOTT }) => {
   return (
     <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
-      {selectedOTT && <MovieItemList filterOTT={selectedOTT} />}
+      <MovieItemList filterOTT={selectedOTT} listType="Recommendations based on OTT" />
     </Wrapper>
   );
 };
+
 
 export default MoreRecommendMovie;

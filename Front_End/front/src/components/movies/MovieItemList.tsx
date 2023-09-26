@@ -20,8 +20,37 @@ export type MovieType = {
   movieImage: string;
   rate: number;
   runtime: number;
+  ottResDtos: OTTType[];
   // 필요한 다른 필드들 추가
 };
+
+type OTTType = {
+  ottId: number;
+  ottImage: string;
+  ottName: string;
+  ottPrice: number;
+  ottUrl: string;
+};
+
+const convertOTTNameToId = (ottName: string | null | undefined): number | null => {
+  if (!ottName) return null; // 이 줄을 추가하여 null 또는 undefined를 처리합니다.
+
+  switch (ottName) {
+    case "넷플릭스":
+      return 1;
+    case "디즈니플러스":
+      return 2;
+    case "왓챠":
+      return 3;
+    case "애플티비":
+      return 4;
+    case "웨이브":
+      return 5;
+    default:
+      return null;
+  }
+};
+
 
 const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
   // 필요한 경우 filterOTT 값을 사용하여 영화 목록을 필터링하면 됩니다.
@@ -32,20 +61,37 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
 
   const [movies, setMovies] = useState<MovieType[]>([]);
 
-  const handleMoreClick = (userId: number) => {
-    navigate(`/recommend/more/${userId}`);
+  const handleMoreClick = () => {
+    navigate(`/recommend/more`);
   };
 
   useEffect(() => {
     getAllMovies()
       .then((response) => {
+        console.log("Movies from API:", response.data.content);
         console.log(response.data.content);
-        setMovies(response.data.content);
+
+        const targetOttId = convertOTTNameToId(filterOTT);
+
+        const filteredMovies = response.data.content.filter(
+          (movie: MovieType) => {
+            console.log("OTTs for movie:", movie.title, movie.ottResDtos);
+            // filterOTT가 null이면 전체 영화를 반환
+            if (!targetOttId) return true;
+
+            // ottResDtos 배열에 targetOttId와 일치하는 ottId가 있는지 확인
+            return movie.ottResDtos.some(
+              (ott: OTTType) => ott.ottId === targetOttId
+            );
+          }
+        );
+        console.log("Filtered Movies:", filteredMovies);
+        setMovies(filteredMovies);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [filterOTT]);
 
   return (
     <>
@@ -59,7 +105,7 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
           <StyledBtn
             size="Medium"
             color="Black"
-            onClick={() => handleMoreClick(1234)}
+            onClick={() => handleMoreClick()}
           >
             더보기
           </StyledBtn>

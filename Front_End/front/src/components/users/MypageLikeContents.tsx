@@ -31,15 +31,11 @@ const MypageLikeContents = () => {
           💖 121{}
         </Text>
       </div>
-      {/* 좋아한 콘텐츠 Wrapper movieitem 컴포넌트 및 마지막 컴포넌트 수정 @@@ */}
       <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
         <div className="grid grid-cols-3">
           {movies.map((movie) => (
             <MovieItem key={movie.movieId} movie={movie} />
           ))}
-          {/* <MovieItem />
-          <MovieItem />
-          <MovieItem /> */}
         </div>
       </Wrapper>
     </div>
