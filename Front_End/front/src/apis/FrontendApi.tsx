@@ -143,7 +143,7 @@ export const postHate = (memberId: number, movieId: number) =>
     `/hate-movies/register`,
     {
       memberId,
-      movieId,
+      movieId,   
     },
     {
       headers: { Accept: "application/json" },

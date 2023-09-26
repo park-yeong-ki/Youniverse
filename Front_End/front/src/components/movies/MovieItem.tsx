@@ -11,7 +11,12 @@ import {
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
 import { MovieType } from "./MovieItemList";
-import { postHeart, deleteHeart, postHate, deleteHate } from "../../apis/FrontendApi";
+import {
+  postHeart,
+  deleteHeart,
+  postHate,
+  deleteHate,
+} from "../../apis/FrontendApi";
 
 type MovieItemProps = {
   movie: MovieType;
@@ -21,10 +26,10 @@ type MovieItemProps = {
 const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const navigate = useNavigate();
 
-  
+  // 좋아요 관련 상태
   const [likeStatus, setLikeStatus] = useState(false);
   const [heartMovieId, setHeartMovieId] = useState<number | null>(null); // 좋아요 아이디를 저장할 state
-  
+  // 추천받지 않을래요(싫어요) 관련 상태
   const [recommendStatus, setRecommendStatus] = useState(false);
   const [hateMovieId, setHateMovieId] = useState<number | null>(null);
 
@@ -41,7 +46,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
         .then(() => {
           setLikeStatus(true);
           console.log("좋아요 요청 성공!");
-        }) 
+        })
         .catch((err) => {
           console.error("좋아요 요청 실패:", err);
         });
@@ -63,7 +68,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const handleRecommendPush = () => {
     if (recommendStatus === false) {
       console.log("추천받지 않을래요 버튼을 눌렀어요");
-  
+
       postHate(1, movie.movieId) // memberId 수정 필요
         .then((response) => {
           setRecommendStatus(true);
@@ -75,7 +80,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
         });
     } else if (recommendStatus === true && hateMovieId) {
       console.log("다시 추천해주세요 버튼을 눌렀어요");
-      
+
       deleteHate(hateMovieId)
         .then(() => {
           setRecommendStatus(false);
