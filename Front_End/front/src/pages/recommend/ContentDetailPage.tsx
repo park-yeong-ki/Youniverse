@@ -39,6 +39,7 @@ export type MovieType = {
     ottUrl: string;
   }>;
 };
+
 export type ReviewType = {
   memberSimpleResDto: {
     memberId: number;

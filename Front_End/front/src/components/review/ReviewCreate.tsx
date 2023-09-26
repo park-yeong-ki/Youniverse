@@ -1,16 +1,3 @@
-// import React from "react"
-
-// import ReviewCreateForm from "../organisms/ReviewCreateForm"
-
-// const ReviewCreate = () => {
-//     return (
-//         <div>
-//             <ReviewCreateForm />
-//         </div>
-//     )
-// }
-// export default ReviewCreate
-
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -23,6 +10,7 @@ import {
   DETAIL_PAGE_REVIEW_PLACEHOLDER,
   SAVE,
 } from "../../commons/constants/String";
+import ReviewRate from "./ReviewRate";
 
 interface ReviewCreateProps {
   onReviewAdd: (review: ReviewType) => void;
@@ -61,7 +49,8 @@ const ReviewCreate: React.FC<ReviewCreateProps> = ({ onReviewAdd }) => {
   return (
     <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
       <StyledReview>
-        <div>별점들어갈공간</div>
+        <ReviewRate onClick={(rating) => setReviewRate(rating)} />{" "}
+        {/* 선택된 별점을 상태에 설정합니다. */}
         <Btn size="Medium" color="White" onClick={handleReviewSave}>
           {SAVE}
         </Btn>

@@ -6,7 +6,7 @@ import { ReviewType } from "../../pages/recommend/ContentDetailPage"; // Import 
 
 interface ReviewItemListProps {
   reviews: ReviewType[] | null;
-  onReviewDelete: (reviewId: number) => void; // 이 줄 추가
+  onReviewDelete: (reviewId: number) => void;
 }
 
 
