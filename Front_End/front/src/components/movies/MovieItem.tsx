@@ -10,8 +10,15 @@ import {
 } from "../../commons/style/SharedStyle";
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
+import { MovieType } from "./MovieItemList";
 
-const MovieItem = ({ ...props }) => {
+
+type MovieItemProps = {
+  movie: MovieType;
+  // 필요한 경우 다른 props 타입도 여기에 추가
+};
+
+const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const navigate = useNavigate();
 
   const [likeStatus, setLikeStatus] = useState(false);
@@ -47,7 +54,7 @@ const MovieItem = ({ ...props }) => {
   };
   return (
     <StyledCardWrapper>
-      <StyledMoviePoster src={props.src} />
+      <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
@@ -56,15 +63,15 @@ const MovieItem = ({ ...props }) => {
             size="Large"
             color="White"
             fontFamily="PyeongChang-Bold"
-            onClick={() => handleTitleClick(props.movieId)}
+            onClick={() => handleTitleClick(movie.movieId)}
           >
-            제목
+            {movie.title}
           </StyledTitle>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            평점4.0
+            평점 {movie.rate}
           </Text>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            러닝타임
+            {movie.runtime}분
           </Text>
           <StyledDetailInCol>
             <StyledDetailInRow>
