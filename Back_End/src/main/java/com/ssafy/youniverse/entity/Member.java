@@ -23,7 +23,7 @@ public class Member extends Auditable {
     @Column(length = 20, nullable = false)
     private String nickname;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false, unique = true)
     private String email;
 
     @Column(length = 2, nullable = false)
