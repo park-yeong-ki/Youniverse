@@ -34,6 +34,12 @@ export const getMember = (memberId: number) =>
     headers: { Accept: "application/json" },
   });
 
+/** 이메일로 회원조회 */
+export const getEmailMember = (email: string) =>
+  mainAxios.get(`/members/email/${email}`, {
+    headers: { Accept: "application/json" },
+  });
+
 /** 전체 회원조회 */
 export const getAllMembers = (page: number, size: number) =>
   mainAxios.get(`/members?page=${page}&size=${size}`, {

@@ -67,6 +67,7 @@ const AdditionalForm = () => {
     setUserInfo((prev) => ({
       accessToken,
       refreshToken,
+      email
     }));
     navigate(ROUTES.OTTSELECT);
   };

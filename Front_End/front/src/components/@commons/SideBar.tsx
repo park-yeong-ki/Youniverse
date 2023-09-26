@@ -14,9 +14,10 @@ import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
 import Text from "../atoms/Text";
-import { useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import {
   LoginState,
+  UserDetailInfoState,
   UserInfoState,
   UserJoinInfoState,
 } from "../../pages/store/State";
@@ -35,6 +36,8 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const resetUserInfo = useResetRecoilState(UserInfoState);
   const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
   const resetLogin = useResetRecoilState(LoginState);
+  const isLogin = useRecoilValue(LoginState);
+  const nickname = useRecoilValue(UserDetailInfoState).nickname;
 
   const handleSearchSubmit = (searchTerm: string) => {
     navigate("/search", { state: { searchTerm } }); // 변경
@@ -43,6 +46,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
 
   // 로그아웃
   const handleLogOut = () => {
+    navigate("/");
     resetUserInfo();
     resetUserJoinInfo();
     resetLogin();
@@ -82,7 +86,15 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
       <StyledMenu>
         {/* 로그인 버튼, 검색 */}
         <div>
-          <GoogleLoginBtn />
+          {isLogin ? (
+            <Text
+              size="Small"
+              color="White"
+              fontFamily="YESGothic-Regular"
+            >안녕하세요, {nickname}님!</Text>
+          ) : (
+            <GoogleLoginBtn />
+          )}
           <SearchBox
             theme="light"
             type="movie"
@@ -100,14 +112,16 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         </div>
 
         {/* 로그아웃 */}
-        <Text
-          size="Small"
-          color="White"
-          fontFamily="YESGothic-Bold"
-          onClick={handleLogOut}
-        >
-          로그아웃
-        </Text>
+        {isLogin && (
+          <Text
+            size="Small"
+            color="White"
+            fontFamily="YESGothic-Bold"
+            onClick={handleLogOut}
+          >
+            로그아웃
+          </Text>
+        )}
       </StyledMenu>
     </StyledSidebar>
   );
