@@ -30,8 +30,8 @@ type UserJoinInfo = {
 export const UserInfoState = atom<UserInfo>({
   key: "UserInfoState",
   default: {
-    accessToken: "",
-    refreshToken: "",
+    accessToken: null,
+    refreshToken: null,
   },
   effects_UNSTABLE: [persistAtom],
 });
