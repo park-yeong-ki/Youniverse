@@ -34,15 +34,17 @@ export default OtherProfileContainer;
 
 const StyledOtherUserProfile = styled.div`
   ${FlexRowBetween}
-  height: 800px;
+  height: 100%;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
   height: 100%;
-  margin: 0 auto;
+  width: 78%;
 `;
 
 const StyledSearchRecommend = styled.div`
   ${FlexColBetween}
+  height: 100%;
+  width: 20.5%;
 `;

@@ -54,7 +54,7 @@ export default UserRecommendForm;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  height: 800px;
+  height: 48.5%;
   margin: 0 auto;
 `;
 

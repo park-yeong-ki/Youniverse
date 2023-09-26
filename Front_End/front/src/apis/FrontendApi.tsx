@@ -10,6 +10,15 @@ type UserJoinInfo = {
   ottList: number[];
 };
 
+export interface UserSearchParams {
+  term: string;
+  option?: string | null;
+  page?: number;
+  size?: number;
+  nickname?: string;
+  keyword?: string;
+}
+
 /** 회원가입 */
 export const postMember = (userJoinInfo: UserJoinInfo) =>
   mainAxios.post(`/members/register`, userJoinInfo, {
@@ -35,10 +44,14 @@ export const getMember = (memberId: number) =>
   });
 
 /** 전체 회원조회 */
-export const getAllMembers = (page: number, size: number) =>
-  mainAxios.get(`/members?page=${page}&size=${size}`, {
-    headers: { Accept: "application/json" },
-  });
+export const getAllMembers = (userSearchParams: UserSearchParams) =>
+  mainAxios.get(
+    `/members?page=${userSearchParams.page}&size=${userSearchParams.size}`,
+    {
+      headers: { Accept: "application/json" },
+      params: userSearchParams,
+    }
+  );
 
 // =======================================================
 

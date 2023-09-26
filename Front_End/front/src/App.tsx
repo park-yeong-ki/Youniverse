@@ -20,7 +20,6 @@ import {
   NOTFOUND,
 } from "./pages/Pages";
 import "./index.css";
-import OtherProfileContainer from "./components/organisms/OtherProfileContainer";
 function App() {
   return (
     <RecoilRoot>
@@ -28,8 +27,6 @@ function App() {
         <GlobalStyles />
         {/* <StarryBackground /> */}
         <Header />
-
-        <OtherProfileContainer />
 
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
