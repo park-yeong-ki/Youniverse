@@ -12,10 +12,10 @@ const ReviewRate: React.FC<Props> = ({ onClick }) => {
 
   const fillStarOfIndex = (num: number, event?: string): string => {
     if (event === "enter" && hoveredStarIndex >= num) {
-      return "#ff7f23";
+      return "#ffbb00";
     }
     if (event === "leave" && clickedStarIndex >= num) {
-      return "#ff7f23";
+      return "#ffbb00";
     }
     return "#eeeeee";
   };

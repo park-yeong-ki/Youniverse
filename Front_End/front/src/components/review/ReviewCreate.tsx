@@ -20,13 +20,23 @@ const ReviewCreate: React.FC<ReviewCreateProps> = ({ onReviewAdd }) => {
   const { movieId } = useParams<{ movieId: string }>();
   const [reviewContent, setReviewContent] = useState("");
   const [memberId, setMemberId] = useState(1); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
-  const [reviewRate, setReviewRate] = useState(1.0); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
+  const [reviewRate, setReviewRate] = useState(0); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReviewContent(e.target.value);
   };
 
   const handleReviewSave = async () => {
+    if (!reviewContent.trim()) {
+      alert("리뷰 내용을 입력해주세요.");
+      return;
+    }
+
+    if (reviewRate === 0) {
+      alert("별점을 선택해주세요.");
+      return;
+    }
+
     try {
       const reviewData = {
         memberId,
