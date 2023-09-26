@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getMovie } from "../../apis/FrontendApi";
 import Text from "../atoms/Text";
 import styled from "styled-components";
-import { FlexRowBetween } from "../../commons/style/SharedStyle";
+import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
 import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
+import { HiOutlineHeart } from "react-icons/hi";
+import Btn from "../atoms/Btn";
+import HashTag from "../atoms/HashTag";
 
 const MovieDetail = () => {
   const [movie, setMovie] = useState([]);
@@ -30,15 +33,19 @@ const MovieDetail = () => {
 
       {/* 영화 상세 정보 */}
       <StyledMovieDetail>
-        <div>
+        <StyledTitleBtnWrapper>
           <Text size="Large" color="Black" fontFamily="PyeongChang-Light">
             영화 제목
           </Text>
           <div>
-            <div>별점 버튼</div>
-            <div>좋아요 버튼</div>
+            <HashTag size="Huge" color="White">
+              ⭐별점
+            </HashTag>
+            <StyledSquareBtn size="Small" color="Black">
+              <HiOutlineHeart />
+            </StyledSquareBtn>
           </div>
-        </div>
+        </StyledTitleBtnWrapper>
 
         <div>키워드들 들어가는 공간</div>
 
@@ -69,11 +76,25 @@ export default MovieDetail;
 /** 영화 디테일 컴포넌트 전체 Wrap */
 const StyledDetailWrapper = styled.div`
   ${FlexRowBetween}
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 `;
 
 /** 영화 디테일 컴포넌트 내 영화 정보 (포스터 제외) Wrap */
 const StyledMovieDetail = styled.div`
   width: 55%;
+`;
+
+/** 정사각형 아이콘 들어가는 버튼 스타일링 36*36 */
+const StyledSquareBtn = styled(Btn)`
+  ${FlexCenter}
+  width: 36px;
+  text-align: center;
+`;
+
+/** 제목, 버튼 묶음 들어가는 공간 */
+const StyledTitleBtnWrapper = styled.div`
+  ${FlexRowBetween}
 `
+
+/**  */

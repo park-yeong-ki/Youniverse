@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
-import MovieItem from "./MovieItem";
+// import MovieItem from "./MovieItem";
 
 import { getAllMovies } from "../../apis/FrontendApi";
 
@@ -56,17 +56,19 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
           </StyledBtn>
         )}
       </StyledListBtn>
-      {/* {movies.map((movie) => (
-        <MovieItem key={movie} movie={movie} />
-      ))} */}
+      {/* <div className="grid grid-cols-5 gap-4">
+        {movies.map((movie) => (
+          <MovieItem key={movie} movie={movie} />
+        ))}
+      </div> */}
       {movies}
-      <div className="grid grid-cols-5 gap-4">
+      {/* <div className="grid grid-cols-5 gap-4">
         <MovieItem />
         <MovieItem />
         <MovieItem />
         <MovieItem />
         <MovieItem />
-      </div>
+      </div> */}
     </>
   );
 };
