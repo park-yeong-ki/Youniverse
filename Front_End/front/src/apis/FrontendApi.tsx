@@ -111,10 +111,17 @@ export const getAllMovies = () =>
 // ========================================
 
 /** 좋아요 등록 */
-export const postHeart = () =>
-  mainAxios.post(`/heart-movies/register`, {
-    headers: { Accept: "application/json" },
-  });
+export const postHeart = (memberId: number, movieId: number) =>
+  mainAxios.post(
+    `/heart-movies/register`,
+    {
+      memberId,
+      movieId,
+    },
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
 
 /** 좋아요 조회 */
 export const getHeart = (heartMovieId: number) =>
@@ -131,10 +138,17 @@ export const deleteHeart = (heartMovieId: number) =>
 //====================================================
 
 /** 싫어요 등록 */
-export const postHate = () =>
-  mainAxios.post(`/hate-movies/register`, {
-    headers: { Accept: "application/json" },
-  });
+export const postHate = (memberId: number, movieId: number) =>
+  mainAxios.post(
+    `/hate-movies/register`,
+    {
+      memberId,
+      movieId,   
+    },
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
 
 /** 싫어요 조회 */
 export const getHate = (hateMovieId: number) =>
