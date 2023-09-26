@@ -4,15 +4,21 @@ import styled from "styled-components";
 import ReviewCreate from "./ReviewCreate";
 import ReviewItemList from "./ReviewItemList";
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
+import { ReviewType } from "../../pages/recommend/ContentDetailPage";
 
-const Review = () => {
+interface ReviewProps {
+  reviews: ReviewType[] | null;
+}
+
+const Review: React.FC<ReviewProps> = ({ reviews }) => {
   return (
     <StyledReview>
       <ReviewCreate />
-      <ReviewItemList />
+      <ReviewItemList reviews={reviews} />
     </StyledReview>
   );
 };
+
 export default Review;
 
 const StyledReview = styled.div`

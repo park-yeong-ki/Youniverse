@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getMovie } from "../../apis/FrontendApi";
+import React from "react";
+
+import { MovieType } from "../../pages/recommend/ContentDetailPage";
 import Text from "../atoms/Text";
 import styled from "styled-components";
 import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
@@ -9,52 +9,11 @@ import { HiOutlineHeart } from "react-icons/hi";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
 
-export type MovieType = {
-  movieId: number;
-  title: string;
-  movieImage: string;
-  rate: number;
-  runtime: number;
-  overView: string;
-  language: string;
-  actorResDtos: Array<{
-    actorImage: string;
-    actorName: string;
-  }>;
-  directorResDtos: Array<{
-    directorImage: string;
-    directorName: string;
-  }>;
-  genreResDtos: Array<{
-    /* 필요한 속성 추가 */
-  }>;
-  keywordResDtos: Array<{
-    keywordName: string;
-    source: number;
-  }>;
-  ottResDtos: Array<{
-    ottImage: string;
-    ottName: string;
-    ottUrl: string;
-  }>
+type MovieItemProps = {
+  movie: MovieType;
 };
 
-const MovieDetail = () => {
-  const [movie, setMovie] = useState<MovieType | null>(null);
-
-  const { movieId } = useParams<{ movieId: string }>();
-
-  useEffect(() => {
-    getMovie(Number(movieId))
-      .then((response) => {
-        console.log("영화 상세정보 axios", response.data);
-        setMovie(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [movieId]);
-
+const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
   return (
     <StyledDetailWrapper>
       {/* 영화 포스터 */}
@@ -160,5 +119,3 @@ const StyledSquareBtn = styled(Btn)`
 const StyledTitleBtnWrapper = styled.div`
   ${FlexRowBetween}
 `;
-
-/**  */
