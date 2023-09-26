@@ -27,7 +27,7 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
 
       if (isHearted) {
         // 좋아요 상태일 때
-        await deleteHeart(12); // 좋아요 취소 API 호출
+        await deleteHeart(15); // 좋아요 취소 API 호출
         setIsHearted(false); // 좋아요 상태 변경
         alert("영화 좋아요를 취소했습니다!");
       } else {
