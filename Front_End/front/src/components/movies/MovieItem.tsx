@@ -11,7 +11,7 @@ import {
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
 import { MovieType } from "./MovieItemList";
-
+import { postHeart, deleteHeart, postHate, deleteHate } from "../../apis/FrontendApi";
 
 type MovieItemProps = {
   movie: MovieType;
@@ -21,8 +21,12 @@ type MovieItemProps = {
 const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const navigate = useNavigate();
 
+  
   const [likeStatus, setLikeStatus] = useState(false);
+  const [heartMovieId, setHeartMovieId] = useState<number | null>(null); // 좋아요 아이디를 저장할 state
+  
   const [recommendStatus, setRecommendStatus] = useState(false);
+  const [hateMovieId, setHateMovieId] = useState<number | null>(null);
 
   // 재목 누르면 영화 상세페이지로 이동
   const handleTitleClick = (movieId: number) => {
@@ -32,26 +36,58 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const handleLikePush = () => {
     if (likeStatus === false) {
       console.log("좋아요 버튼을 눌렀어요");
-      setLikeStatus(true);
-      // 여기에 좋아요 버튼 눌렀을 때, axios 요청
-    } else if (likeStatus === true) {
+
+      postHeart(1, movie.movieId) // memberId 수정 필요
+        .then(() => {
+          setLikeStatus(true);
+          console.log("좋아요 요청 성공!");
+        }) 
+        .catch((err) => {
+          console.error("좋아요 요청 실패:", err);
+        });
+    } else if (likeStatus === true && heartMovieId) {
       console.log("좋아요 취소 버튼을 눌렀어요");
-      setLikeStatus(false);
-      // 여기에 좋아요 취소 버튼 눌렀을 때, axios 요청
+
+      deleteHeart(heartMovieId)
+        .then(() => {
+          setLikeStatus(false);
+          setHeartMovieId(null); // 삭제 후 heartMovieId 초기화
+          console.log("좋아요 삭제 성공!");
+        })
+        .catch((err) => {
+          console.error("좋아요 삭제 실패:", err);
+        });
     }
   };
 
   const handleRecommendPush = () => {
     if (recommendStatus === false) {
       console.log("추천받지 않을래요 버튼을 눌렀어요");
-      setRecommendStatus(true);
-      // 여기에 추천받지 않을래요 버튼 눌렀을 때, axios 요청
-    } else if (recommendStatus === true) {
+  
+      postHate(1, movie.movieId) // memberId 수정 필요
+        .then((response) => {
+          setRecommendStatus(true);
+          setHateMovieId(response.data.id); // 서버 응답에서 hateMovieId 값을 저장
+          console.log("추천받지 않을래요 요청 성공!");
+        })
+        .catch((err) => {
+          console.error("추천받지 않을래요 요청 실패:", err);
+        });
+    } else if (recommendStatus === true && hateMovieId) {
       console.log("다시 추천해주세요 버튼을 눌렀어요");
-      setRecommendStatus(false);
-      // 여기에 다시 추천해주세요 버튼 눌렀을 때, axios 요청
+      
+      deleteHate(hateMovieId)
+        .then(() => {
+          setRecommendStatus(false);
+          setHateMovieId(null); // 삭제 후 hateMovieId 초기화
+          console.log("다시 추천 요청 성공!");
+        })
+        .catch((err) => {
+          console.error("다시 추천 요청 실패:", err);
+        });
     }
   };
+
   return (
     <StyledCardWrapper>
       <StyledMoviePoster src={movie.movieImage} />
