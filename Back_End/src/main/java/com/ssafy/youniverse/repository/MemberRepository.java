@@ -20,6 +20,12 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     Page<Member> findAllByNicknameContains(String nickname, Pageable pageable);
 
+    @Query(value = "select distinct m from Member m where m.memberId in " +
+            "(select km.member.memberId from KeywordMember km where km.keyword.keywordId = " +
+            "(select k.keywordId from Keyword k where k.keywordName = :total)) or " +
+            "m.nickname like concat('%',:total,'%')")
+    Page<Member> findAllByTotal(String total, Pageable pageable);
+
     @Query(value = "select member_id from best_movie group by member_id having count(movie_id) >= 5 order by rand() limit 1", nativeQuery = true)
     int findByRandom();
     Optional<Member> findByEmail(String email);
