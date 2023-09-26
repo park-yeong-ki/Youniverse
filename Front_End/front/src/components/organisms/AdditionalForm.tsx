@@ -27,6 +27,16 @@ import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
   const navigate = useNavigate();
+
+  // URL에서 'email' 파라미터 빼서 저장
+  const urlParams = new URLSearchParams(window.location.search);
+  const accessToken = urlParams.get("accessToken");
+  const refreshToken = urlParams.get("refreshToken");
+  const email = urlParams.get("email");
+
+  console.log("accessToken:", accessToken);
+  console.log("refreshToken:", refreshToken);
+  console.log("email:", email);
   const [nickName, setNickName] = useState<string>("");
   const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
@@ -51,6 +61,9 @@ const AdditionalForm = () => {
       age,
       gender,
       introduction,
+      accessToken,
+      refreshToken,
+      email,
     }));
     navigate(ROUTES.OTTSELECT);
   };

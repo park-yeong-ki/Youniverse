@@ -1,7 +1,9 @@
 import { mainAxios } from "../libs/axios";
 
 type UserJoinInfo = {
-  accessToken: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  email: string | null;
   nickName: string;
   age: number;
   gender: string;
