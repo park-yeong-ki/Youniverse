@@ -33,7 +33,7 @@ const OTTForm = () => {
         // 백서버에서 가져온 데이터를 기반으로 planetSelectedStates 초기화
         const initialPlanetStates: Record<string, boolean> = {};
         response.data.forEach((ott: any) => {
-          initialPlanetStates[ott.name] = false;
+          initialPlanetStates[ott.ottName] = false;
         });
         setPlanetSelectedStates(initialPlanetStates);
       })
@@ -78,16 +78,16 @@ const OTTForm = () => {
       <StyledContainer>
         {ottData.map((ott) => (
           <PlanetWrapper
-            key={ott.ott_id}
-            $isSelected={planetSelectedStates[ott.name]}
+            key={ott.ottId}
+            $isSelected={planetSelectedStates[ott.ottName]}
           >
             <Planet
               size="Standard"
-              src={ott.ott_image} // 백서버에서 받아온 이미지 URL
-              name={ott.name}
+              src={ott.ottImage} // 백서버에서 받아온 이미지 URL
+              name={ott.ottName}
               handleClickedPlanets={handleClickedPlanets}
             />
-            <div>{ott.name}</div>
+            <div>{ott.ottName}</div>
           </PlanetWrapper>
         ))}
       </StyledContainer>

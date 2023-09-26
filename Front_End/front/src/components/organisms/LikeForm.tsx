@@ -1,40 +1,46 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { styled } from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 import Btn from "../atoms/Btn";
 import { FlexCenter, FlexRowEvenly } from "../../commons/style/SharedStyle";
+import { getAllKeywords } from "../../apis/FrontendApi";
 
 const LikeForm = ({
   onKeywordsChange,
 }: {
   onKeywordsChange: (keywords: string[]) => void;
 }) => {
-  const [buttonKeywords, setButtonKeywords] = useState<string[]>([]);
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  type keywordList = {
+    keywordId: number;
+    keywordName: string;
+  };
+
+  const [buttonKeywords, setButtonKeywords] = useState<keywordList[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<keywordList[]>([]);
 
   useEffect(() => {
-    const keywordList = async () => {
+    const RandomKeywords = async () => {
       try {
-        const response = await axios.get("api 주소");
-        setButtonKeywords(response.data.keywords); //백에서 넘어오는 데이터 확인
+        const response = await getAllKeywords();
+        console.log(response.data);
+        setButtonKeywords(response.data);
       } catch (error) {
         console.error("데이터 가져오기 실패", error);
       }
     };
 
-    keywordList();
+    RandomKeywords();
   }, []);
 
-  const handleButtonClick = (keyword: string) => {
+  const handleButtonClick = (keyword: keywordList) => {
     if (selectedKeywords.includes(keyword)) {
       const newSelected = selectedKeywords.filter((k) => k !== keyword);
       setSelectedKeywords(newSelected);
-      onKeywordsChange(newSelected);
+      onKeywordsChange(newSelected.map((k) => k.keywordName));
     } else {
       const newSelected = [...selectedKeywords, keyword];
       setSelectedKeywords(newSelected);
-      onKeywordsChange(newSelected);
+      onKeywordsChange(newSelected.map((k) => k.keywordName));
     }
   };
 
@@ -45,63 +51,17 @@ const LikeForm = ({
       padding="Medium"
     >
       <StyledContainerRowBetween>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간에 너비 조정
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간에 너비 조정
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간에 너비 조정
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          임시 키워드
-        </StyledkeywordButton>
-        <StyledkeywordButton size="Large" color="Purple">
-          길이가 어떻든 간
-        </StyledkeywordButton>
-        {buttonKeywords.map((keyword, index) => (
+        {buttonKeywords.map((keyword) => (
           <StyledkeywordButton
-            key={index}
+            key={keyword.keywordId}
             size="X-Large"
             color="Purple"
             onClick={() => handleButtonClick(keyword)}
-            isSelected={selectedKeywords.includes(keyword)}
+            isSelected={selectedKeywords.some(
+              (k) => k.keywordName === keyword.keywordName
+            )}
           >
-            {keyword}
+            {keyword.keywordName}
           </StyledkeywordButton>
         ))}
       </StyledContainerRowBetween>
