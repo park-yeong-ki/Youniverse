@@ -13,6 +13,13 @@ import { ROUTES } from "../../commons/constants/Routes";
 import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
+import Text from "../atoms/Text";
+import { useResetRecoilState } from "recoil";
+import {
+  LoginState,
+  UserInfoState,
+  UserJoinInfoState,
+} from "../../pages/store/State";
 
 interface Menu {
   name: string;
@@ -25,10 +32,20 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const navigate = useNavigate();
+  const resetUserInfo = useResetRecoilState(UserInfoState);
+  const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
+  const resetLogin = useResetRecoilState(LoginState);
 
   const handleSearchSubmit = (searchTerm: string) => {
     navigate("/search", { state: { searchTerm } }); // 변경
-    onClose()
+    onClose();
+  };
+
+  // 로그아웃
+  const handleLogOut = () => {
+    resetUserInfo();
+    resetUserJoinInfo();
+    resetLogin();
   };
 
   // 사이드바 외부 클릭 감지를 위한 참조 생성
@@ -83,6 +100,14 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         </div>
 
         {/* 로그아웃 */}
+        <Text
+          size="Small"
+          color="White"
+          fontFamily="YESGothic-Bold"
+          onClick={handleLogOut}
+        >
+          로그아웃
+        </Text>
       </StyledMenu>
     </StyledSidebar>
   );
