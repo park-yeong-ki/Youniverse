@@ -5,8 +5,9 @@ import { styled } from "styled-components";
 interface PlanetProps {
   size: PlanetSize;
   src: string;
+  planetId?: number;
   name?: string; // OTT 이름
-  handleClickedPlanets?: (planetName: string, $isSelected: boolean) => void;
+  handleClickedPlanets?: (planetId: number, $isSelected: boolean) => void;
   // $point?: boolean; // 클릭 여부 확인
   // onClick?: () => void;
 
@@ -56,6 +57,7 @@ const StyledPlanet = styled.div<PlanetProps & { selected: boolean }>`
 
 /** Planet 컴포넌트 정의 */
 const Planet = ({
+  planetId,
   name,
   handleClickedPlanets,
   $mypage,
@@ -68,8 +70,8 @@ const Planet = ({
 
     const newState = !selectPlanet;
     setSelectPlanet(newState);
-    if (handleClickedPlanets && name) {
-      handleClickedPlanets(name, newState);
+    if (handleClickedPlanets && planetId) {
+      handleClickedPlanets(planetId, newState);
     }
   };
 

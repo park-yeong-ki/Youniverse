@@ -18,15 +18,13 @@ type UserInfo = {
 };
 
 type UserJoinInfo = {
-  accessToken: string | null;
-  refreshToken: string | null;
   email: string | null;
-  nickName: string;
+  nickname: string;
   age: number;
   gender: string;
-  introduction: string;
-  keywords: string[];
-  OTTs: string[];
+  introduce: string;
+  keywordList: number[];
+  ottList: number[];
 };
 
 export const UserInfoState = atom<UserInfo>({
@@ -41,15 +39,13 @@ export const UserInfoState = atom<UserInfo>({
 export const UserJoinInfoState = atom<UserJoinInfo>({
   key: "UserJoinInfoState",
   default: {
-    accessToken: "",
-    refreshToken: "",
     email: "",
-    nickName: "",
+    nickname: "",
     age: 0,
     gender: "",
-    introduction: "",
-    keywords: [],
-    OTTs: [],
+    introduce: "",
+    keywordList: [],
+    ottList: [],
   },
   effects_UNSTABLE: [persistAtom],
 });
