@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import ReviewCreate from "./ReviewCreate";
@@ -10,16 +10,32 @@ interface ReviewProps {
   reviews: ReviewType[] | null;
 }
 
-const Review: React.FC<ReviewProps> = ({ reviews }) => {
+const Review: React.FC<ReviewProps> = ({ reviews: initialReviews }) => {
+  const [reviews, setReviews] = useState<ReviewType[] | null>(initialReviews);
+
+  const handleReviewAdd = (newReview: ReviewType) => {
+    if (reviews) {
+      setReviews([...reviews, newReview]);
+    } else {
+      setReviews([newReview]);
+    }
+  };
+
+  const handleReviewDelete = (reviewId: number) => {
+    if (reviews) {
+      setReviews(reviews.filter((review) => review.reviewId !== reviewId));
+    }
+  };
+
   return (
     <StyledReview>
-      <ReviewCreate />
-      <ReviewItemList reviews={reviews} />
+      <ReviewCreate onReviewAdd={handleReviewAdd} />
+      <ReviewItemList reviews={reviews} onReviewDelete={handleReviewDelete} />
     </StyledReview>
   );
 };
 
-export default Review;
+export default Review
 
 const StyledReview = styled.div`
   ${FlexRowBetween}

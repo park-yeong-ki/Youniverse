@@ -5,13 +5,15 @@ import Btn from "../atoms/Btn";
 
 interface ReviewItemProps {
   review: ReviewType;
+  onReviewDelete: (reviewId: number) => void;
 }
 
-const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
+const ReviewItem: React.FC<ReviewItemProps> = ({ review, onReviewDelete }) => {
   const handleReviewDel = async () => {
     try {
       await deletReview(review.reviewId);
-      alert("리뷰삭제완");
+      onReviewDelete(review.reviewId);
+      alert("리뷰가 삭제되었습니다.");
     } catch (error) {
       console.log("리뷰삭제안됨여", error);
     }
@@ -28,4 +30,5 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
     </div>
   );
 };
+
 export default ReviewItem;

@@ -14,7 +14,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-
+import { ReviewType } from "../../pages/recommend/ContentDetailPage";
 import { postReview } from "../../apis/FrontendApi";
 import Btn from "../atoms/Btn";
 import Wrapper from "../atoms/Wrapper";
@@ -24,7 +24,11 @@ import {
   SAVE,
 } from "../../commons/constants/String";
 
-const ReviewCreate = () => {
+interface ReviewCreateProps {
+  onReviewAdd: (review: ReviewType) => void;
+}
+
+const ReviewCreate: React.FC<ReviewCreateProps> = ({ onReviewAdd }) => {
   const { movieId } = useParams<{ movieId: string }>();
   const [reviewContent, setReviewContent] = useState("");
   const [memberId, setMemberId] = useState(1); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
@@ -42,14 +46,16 @@ const ReviewCreate = () => {
         reviewContent,
         reviewRate,
       };
-      await postReview(reviewData);
+      const newReview = (await postReview(reviewData)).data;
+      onReviewAdd(newReview);
       alert("리뷰가 성공적으로 등록되었습니다.");
-      setReviewContent(""); // 리뷰 내용 초기화
+      setReviewContent("");
     } catch (error) {
       console.log(error);
       alert("리뷰 등록에 실패했습니다.");
     }
   };
+
   console.log("@@@@배포 오류 방지용@@@@", setMemberId, setReviewRate);
 
   return (

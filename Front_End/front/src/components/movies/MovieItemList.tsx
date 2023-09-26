@@ -23,10 +23,16 @@ export type MovieType = {
   ottResDtos: OTTType[];
   heartMovieResDtos: {
     heartMovieId: number;
-  };
+    memberSimpleResDto: {
+      memberId: number;
+    }[];
+  }[];
   hateMovieResDtos: {
     hateMovieId: number;
-  };
+    memberSimpleResDto: {
+      memberId: number;
+    }[];
+  }[];
 };
 
 type OTTType = {

@@ -6,16 +6,19 @@ import { ReviewType } from "../../pages/recommend/ContentDetailPage"; // Import 
 
 interface ReviewItemListProps {
   reviews: ReviewType[] | null;
+  onReviewDelete: (reviewId: number) => void; // 이 줄 추가
 }
 
-const ReviewItemList: React.FC<ReviewItemListProps> = ({ reviews }) => {
+
+const ReviewItemList: React.FC<ReviewItemListProps> = ({ reviews, onReviewDelete }) => { 
   return (
     <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
       {reviews &&
         reviews.map((review) => (
-          <ReviewItem key={review.reviewId} review={review} />
+          <ReviewItem key={review.reviewId} review={review} onReviewDelete={onReviewDelete} />
         ))}
     </Wrapper>
   );
 };
+
 export default ReviewItemList;
