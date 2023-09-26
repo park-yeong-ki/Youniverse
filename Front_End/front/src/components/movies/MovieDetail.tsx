@@ -1,24 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { MovieType } from "../../pages/recommend/ContentDetailPage";
 import Text from "../atoms/Text";
 import styled from "styled-components";
 import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
 import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
-import { HiOutlineHeart } from "react-icons/hi";
+import { HiOutlineHeart, HiHeart } from "react-icons/hi";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
+import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart API import
 
 type MovieItemProps = {
   movie: MovieType;
 };
 
 const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
+  const [isHearted, setIsHearted] = useState(false); // 좋아요 상태
+
+  // 좋아요 버튼 클릭 핸들러
+  const handleHeartClick = async () => {
+    if (!movie) return;
+
+    try {
+      // memberId를 어디서 가져오는지에 따라 값이 바뀔 수 있습니다.
+      const memberId = 1; // TODO: 실제 memberId로 대체해야 합니다.
+
+      if (isHearted) {
+        // 좋아요 상태일 때
+        await deleteHeart(12); // 좋아요 취소 API 호출
+        setIsHearted(false); // 좋아요 상태 변경
+        alert("영화 좋아요를 취소했습니다!");
+      } else {
+        // 좋아요 상태가 아닐 때
+        await postHeart(memberId, movie.movieId); // 좋아요 추가 API 호출
+        setIsHearted(true); // 좋아요 상태 변경
+        alert("영화를 좋아요 했습니다!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("좋아요 처리에 실패했습니다.");
+    }
+  };
+
   return (
     <StyledDetailWrapper>
       {/* 영화 포스터 */}
       <StyledCardWrapper $detail $cardWidth="30%">
-        <StyledMoviePoster src="https://www.themoviedb.org/t/p/w440_and_h660_face/1YYL1OcgjPLjAGi6n0iZe1gdl9i.jpg" />
+        <StyledMoviePoster src={movie?.movieImage} />
       </StyledCardWrapper>
 
       {/* 영화 상세 정보 */}
@@ -31,8 +59,12 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
             <HashTag size="Huge" color="White">
               ⭐{movie?.rate}
             </HashTag>
-            <StyledSquareBtn size="Small" color="Black">
-              <HiOutlineHeart />
+            <StyledSquareBtn
+              size="Small"
+              color="Black"
+              onClick={handleHeartClick}
+            >
+              {isHearted ? <HiHeart /> : <HiOutlineHeart />}
             </StyledSquareBtn>
           </div>
         </StyledTitleBtnWrapper>

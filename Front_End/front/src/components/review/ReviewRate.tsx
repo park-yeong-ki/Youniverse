@@ -17,7 +17,7 @@ const ReviewRate: React.FC<Props> = ({ onClick }) => {
     if (event === "leave" && clickedStarIndex >= num) {
       return "#ffbb00";
     }
-    return "#eeeeee";
+    return "#ccc";
   };
 
   return (
