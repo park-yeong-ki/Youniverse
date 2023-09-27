@@ -41,6 +41,7 @@ export type MovieType = {
   rate: number;
   runtime: number;
   ottResDtos: OTTType[];
+  overView: string;
   heartMovieResDtos: {
     heartMovieId: number;
     memberSimpleResDto: {

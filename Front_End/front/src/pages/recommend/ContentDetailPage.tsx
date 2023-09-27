@@ -9,36 +9,8 @@ import MovieDetail from "../../components/movies/MovieDetail";
 import Review from "../../components/review/Review";
 import MovieDetailYouTube from "../../components/movies/MovieDetailYouTube";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
+import { MovieType } from "../../components/movies/MovieItemList";
 
-export type MovieType = {
-  movieId: number;
-  title: string;
-  movieImage: string;
-  rate: number;
-  runtime: number;
-  overView: string;
-  language: string;
-  actorResDtos: Array<{
-    actorImage: string;
-    actorName: string;
-  }>;
-  directorResDtos: Array<{
-    directorImage: string;
-    directorName: string;
-  }>;
-  genreResDtos: Array<{
-    /* 필요한 속성 추가 */
-  }>;
-  keywordResDtos: Array<{
-    keywordName: string;
-    source: number;
-  }>;
-  ottResDtos: Array<{
-    ottImage: string;
-    ottName: string;
-    ottUrl: string;
-  }>;
-};
 
 export type ReviewType = {
   memberSimpleResDto: {
