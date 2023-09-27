@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -37,7 +38,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  autoplay: true,
+  autoplay: false,
   autoplaySpeed: 3000,
   vertical: true,
   arrows: false,
@@ -45,14 +46,19 @@ const settings = {
 
 const ProfileReviewItemList: React.FC<Props> = ({ reviews }) => {
   return (
-    <Slider {...settings}>
+    <StyledSlider {...settings} >
       {reviews.map((review) => (
         <div key={review.reviewId}>
           <ProfileReviewItem review={review} />
         </div>
       ))}
-    </Slider>
+    </StyledSlider>
   );
 };
 
 export default ProfileReviewItemList;
+
+const StyledSlider = styled(Slider)`
+  width: 100%;
+  height: 100%;
+`;
