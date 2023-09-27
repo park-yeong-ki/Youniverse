@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+
+import { UserDetailInfoState } from "../../pages/store/State";
 import { ReviewType } from "../../pages/recommend/ContentDetailPage";
 import { postReview } from "../../apis/FrontendApi";
 import Btn from "../atoms/Btn";
@@ -17,10 +20,10 @@ interface ReviewCreateProps {
 }
 
 const ReviewCreate: React.FC<ReviewCreateProps> = ({ onReviewAdd }) => {
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
   const { movieId } = useParams<{ movieId: string }>();
   const [reviewContent, setReviewContent] = useState("");
-  const [memberId, setMemberId] = useState(1); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
-  const [reviewRate, setReviewRate] = useState(0); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
+  const [reviewRate, setReviewRate] = useState(0);
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReviewContent(e.target.value);
@@ -34,6 +37,12 @@ const ReviewCreate: React.FC<ReviewCreateProps> = ({ onReviewAdd }) => {
 
     if (reviewRate === 0) {
       alert("별점을 선택해주세요.");
+      return;
+    }
+
+    // memberId의 값이 null인 경우를 확인
+    if (memberId === null) {
+      alert("로그인된 사용자 정보가 없습니다.");
       return;
     }
 
@@ -54,13 +63,12 @@ const ReviewCreate: React.FC<ReviewCreateProps> = ({ onReviewAdd }) => {
     }
   };
 
-  console.log("@@@@배포 오류 방지용@@@@", setMemberId, setReviewRate);
+  console.log("@@@@배포 오류 방지용@@@@", setReviewRate);
 
   return (
     <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
       <StyledReview>
-        <ReviewRate onClick={(rating) => setReviewRate(rating)} />{" "}
-        {/* 선택된 별점을 상태에 설정합니다. */}
+        <ReviewRate onClick={(rating) => setReviewRate(rating)} />
         <Btn size="Medium" color="White" onClick={handleReviewSave}>
           {SAVE}
         </Btn>

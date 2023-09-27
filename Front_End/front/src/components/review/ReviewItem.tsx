@@ -4,11 +4,18 @@ import { DELETE } from "../../commons/constants/String";
 import Btn from "../atoms/Btn";
 
 interface ReviewItemProps {
+  memberId: number | null; // memberId prop 추가
   review: ReviewType;
   onReviewDelete: (reviewId: number) => void;
 }
 
-const ReviewItem: React.FC<ReviewItemProps> = ({ review, onReviewDelete }) => {
+const ReviewItem: React.FC<ReviewItemProps> = ({
+  memberId,
+  review,
+  onReviewDelete,
+}) => {
+  const isReviewOwner = memberId === review.memberSimpleResDto.memberId;
+
   const handleReviewDel = async () => {
     try {
       await deletReview(review.reviewId);
@@ -24,9 +31,11 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review, onReviewDelete }) => {
       <p>별점: {review.reviewRate}</p>
       <p>리뷰: {review.reviewContent}</p>
       <p>ReviewId: {review.reviewId}</p>
-      <Btn size="Medium" color="White" onClick={handleReviewDel}>
-        {DELETE}
-      </Btn>
+      {isReviewOwner && (
+        <Btn size="Medium" color="White" onClick={handleReviewDel}>
+          {DELETE}
+        </Btn>
+      )}
     </div>
   );
 };

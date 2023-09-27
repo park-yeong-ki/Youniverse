@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SectionsContainer, Section } from "react-fullpage";
+
 import { getMovie } from "../../apis/FrontendApi";
 import { FlexColAround } from "../../commons/style/SharedStyle";
 import Wrapper from "../../components/atoms/Wrapper";

@@ -11,13 +11,13 @@ import {
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
 import { MovieType } from "./MovieItemList";
+import { UserDetailInfoState } from "./../../pages/store/State";
 import {
   postHeart,
   deleteHeart,
   postHate,
   deleteHate,
 } from "../../apis/FrontendApi";
-import { UserDetailInfoState } from "./../../pages/store/State";
 
 type MovieItemProps = {
   movie: MovieType;
