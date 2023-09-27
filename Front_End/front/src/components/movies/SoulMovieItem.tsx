@@ -1,31 +1,66 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import Text from "../atoms/Text";
 import { StyledMoviePoster } from "./MovieItem";
-import { FlexRowBetween } from "../../commons/style/SharedStyle";
+import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
+import { ROUTES } from "../../commons/constants/Routes";
+import IconBox from "../atoms/IconBox";
+import { HiPlusCircle } from "react-icons/hi";
 
-const SoulMovieItem = ({ ...props }) => {
-  const handleClickMovie = () => {
-    console.log("영화 클릭함");
+interface SoulMovieItemProps {
+  src?: string;
+  movie?: number;
+  rank?: number;
+  title?: string;
+  isEmpty?: boolean;
+  onAddMovie?: () => void;
+}
+
+const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
+  src,
+  movie,
+  rank,
+  title,
+  isEmpty = false,
+  onAddMovie,
+}) => {
+  const navigate = useNavigate();
+
+  /** 아이템 클릭했을 때, 상세 페이지로 이동 */
+  const handleClickMovie = (res: number) => {
+    if (isEmpty && onAddMovie) {
+      onAddMovie();
+    } else {
+      navigate(ROUTES.MOVIE_DETAIL.replace(":movieId", res.toString()));
+    }
   };
-  // 받아온 영화 이름
-  const movieName = props.movie;
+
+  const movieName = title || "-"; // 텍스트 수정
 
   /** 이름 다섯 글자 이상일 때 */
   const displayMovieName =
     movieName.length > 4 ? movieName.substring(0, 4) + "..." : movieName;
 
   return (
-    <StyledSoulMovieWrapper onClick={handleClickMovie}>
+    <StyledSoulMovieWrapper onClick={() => handleClickMovie(movie || 0)}>
       {/* 영화 포스터 */}
       <StyledPosterImage>
-        <StyledMoviePoster src={props.src} />
-        {/* 흰색 그라디언트 */}
-        <StyledPosterCover />
+        {src ? (
+          <>
+            <StyledMoviePoster src={src} />
+            {/* 흰색 그라디언트 */}
+            <StyledPosterCover />
+          </>
+        ) : (
+          <StyledAddMovie><HiPlusCircle size={32}/></StyledAddMovie>
+        )}
       </StyledPosterImage>
+
       {/* 인생영화 순위 + 제목 텍스트 */}
       <StyledSoulTextWrapper>
         <Text size="X-Large" color="Black" fontFamily="PyeongChang-Bold">
-          {props.key}
+          {rank}
         </Text>
         <Text
           size="Medium"
@@ -79,4 +114,20 @@ const StyledSoulTextWrapper = styled.div`
   width: 85%;
   margin: -1.25rem auto 0 auto; // 20px만큼 위로 이동
   position: relative;
+`;
+
+/** 내용이 없을 때 */
+const StyledAddMovie = styled.div`
+  ${FlexCenter}
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-color: #ccc;
+  color: #000;
+  font-family: YESGothic-Bold;
+
+  &:hover {
+    background-color: #b2b2b2;
+  }
 `;

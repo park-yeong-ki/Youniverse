@@ -56,28 +56,32 @@ const MyProfilePage = () => {
   const soulMovieData = memberData?.bestMovieResDtos;
   return (
     <MainPaddingContainer>
-      <div className="grid grid-cols-2 gap-4">
-        <MypageUserInfo
-          memberData={memberData}
-          followStatus={followStatus}
-          setFollowStatus={setFollowStatus}
-        />
-        {!followStatus && (
-          <div>
-            <SoulMovieItemList soulMovieData={soulMovieData} />
-            <MyOTTPlanet />
-            <MypageLikeContents />
-            <UserZodiacSign />
-          </div>
-        )}
-
-        {followStatus && (
-          <MypageFollowWrap
+      <div className="flex">
+        <div className="w-1/4">
+          <MypageUserInfo
             memberData={memberData}
             followStatus={followStatus}
             setFollowStatus={setFollowStatus}
           />
-        )}
+        </div>
+        <div className="w-3/4">
+          {!followStatus && (
+            <div>
+              <SoulMovieItemList soulMovieData={soulMovieData} />
+              <MyOTTPlanet />
+              <MypageLikeContents />
+              <UserZodiacSign />
+            </div>
+          )}
+
+          {followStatus && (
+            <MypageFollowWrap
+              memberData={memberData}
+              followStatus={followStatus}
+              setFollowStatus={setFollowStatus}
+            />
+          )}
+        </div>
       </div>
     </MainPaddingContainer>
   );
