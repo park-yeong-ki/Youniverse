@@ -14,7 +14,7 @@ import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
 import Text from "../atoms/Text";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   LoginState,
   UserDetailInfoState,
@@ -34,7 +34,9 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const resetUserInfo = useResetRecoilState(UserInfoState);
-  const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
+  // const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
+  const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
+  const resetUserDetailInfo = useResetRecoilState(UserDetailInfoState);
   const resetLogin = useResetRecoilState(LoginState);
   const isLogin = useRecoilValue(LoginState);
   const nickname = useRecoilValue(UserDetailInfoState).nickname;
@@ -48,7 +50,16 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const handleLogOut = () => {
     navigate("/");
     resetUserInfo();
-    resetUserJoinInfo();
+    resetUserDetailInfo();
+    setUserJoinInfo({
+      email: "",
+      nickname: "",
+      age: 0,
+      gender: "",
+      introduce: "",
+      keywordList: [],
+      ottList: [],
+    });
     resetLogin();
   };
 
@@ -87,11 +98,9 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         {/* 로그인 버튼, 검색 */}
         <div>
           {isLogin ? (
-            <Text
-              size="Small"
-              color="White"
-              fontFamily="YESGothic-Regular"
-            >안녕하세요, {nickname}님!</Text>
+            <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+              안녕하세요, {nickname}님!
+            </Text>
           ) : (
             <GoogleLoginBtn />
           )}
