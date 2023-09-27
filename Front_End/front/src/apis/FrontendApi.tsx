@@ -123,8 +123,9 @@ export const getMovie = (movieId: number) =>
   });
 
 /** 영화 전체 조회 */
-export const getAllMovies = () =>
+export const getAllMovies = (filters = {}) =>
   mainAxios.get(`/movies`, {
+    params: filters,
     headers: { Accept: "application/json" },
   });
 

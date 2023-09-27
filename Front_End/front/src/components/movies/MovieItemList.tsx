@@ -12,8 +12,28 @@ import { getAllMovies } from "../../apis/FrontendApi";
 type Props = {
   filterOTT?: string | null;
   listType?: string;
+  movies?: MovieType[]; // 추가
 };
 
+type ActorType = {
+  actorId: number;
+  actorImage: string;
+  actorName: string;
+};
+
+type DirectorType = {
+  directorId: number;
+  directorImage: string;
+  directorName: string;
+};
+
+type KeywordType = {
+  keywordId: number;
+  keywordName: string;
+  source: number;
+};
+
+// 기존 MovieType 확장
 export type MovieType = {
   movieId: number;
   title: string;
@@ -33,6 +53,9 @@ export type MovieType = {
       memberId: number;
     }[];
   }[];
+  actorResDtos: ActorType[];
+  directorResDtos: DirectorType[];
+  keywordResDtos: KeywordType[];
 };
 
 type OTTType = {
@@ -64,7 +87,11 @@ const convertOTTNameToId = (
   }
 };
 
-const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
+const MovieItemList: React.FC<Props> = ({
+  filterOTT,
+  listType,
+  movies: propMovies = [], // 변수 이름 변경
+}) => {
   // 필요한 경우 filterOTT 값을 사용하여 영화 목록을 필터링하면 됩니다.
   // listType: 유튜브 기반 추천, @@님의 선호도 기반, @@@님의 인생영화 ... 이런 텍스트
   // filterOTT: 추천 -> 더보기 들어갔을 때 OTT 선택해서 필터링 하는거
@@ -124,7 +151,7 @@ const MovieItemList: React.FC<Props> = ({ filterOTT, listType }) => {
       </StyledListBtn>
       <div className="grid grid-cols-5 gap-4">
         {movies.map((movie) => (
-          <MovieItem key={(movie as MovieType).movieId} movie={movie} />
+          <MovieItem key={movie.movieId} movie={movie} />
         ))}
       </div>
     </>
