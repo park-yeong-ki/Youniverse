@@ -109,8 +109,9 @@ export const getMovie = (movieId: number) =>
   });
 
 /** 영화 전체 조회 */
-export const getAllMovies = () =>
+export const getAllMovies = (filters = {}) =>
   mainAxios.get(`/movies`, {
+    params: filters,
     headers: { Accept: "application/json" },
   });
 
@@ -149,7 +150,7 @@ export const postHate = (memberId: number, movieId: number) =>
     `/hate-movies/register`,
     {
       memberId,
-      movieId,   
+      movieId,
     },
     {
       headers: { Accept: "application/json" },
