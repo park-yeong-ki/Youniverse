@@ -10,6 +10,7 @@ import { TO_MAIN } from "../../commons/constants/String";
 import Btn from "../../components/atoms/Btn";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import { postMember } from "../../apis/FrontendApi";
+import { MainContainer } from "../../commons/style/layoutStyle";
 
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const LikeSurveyPage = () => {
   };
 
   return (
-    <StyledContainerCenter>
+    <MainContainer>
       <StyledContainerBetweenCol>
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {LIKE_SURVEY}
@@ -54,7 +55,7 @@ const LikeSurveyPage = () => {
           {TO_MAIN}
         </StyledMainButton>
       </StyledContainerBetweenCol>
-    </StyledContainerCenter>
+    </MainContainer>
   );
 };
 
@@ -64,14 +65,10 @@ const StyledMainButton = styled(Btn)`
   width: 300px;
 `;
 
-const StyledContainerCenter = styled.div`
-  ${FlexCenter}
-  height: 100vh;
-`;
-
 const StyledContainerBetweenCol = styled.div`
   ${FlexColBetween};
-  height: 80%;
+  height: 90%;
+  padding-top: 2%;
 `;
 
 const StyledForm = styled.div`

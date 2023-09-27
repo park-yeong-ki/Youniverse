@@ -168,7 +168,7 @@ const StyledContainerCenter = styled.div`
 
 const StyledContainerBetweenCol = styled.div`
   ${FlexColBetween}
-  height:500px;
+  height:100%;
   width: 70%;
 `;
 
