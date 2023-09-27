@@ -43,7 +43,7 @@ export const OTHER = "그 외";
 export const LIKE_SURVEY = "선호하는 단어를 선택해주세요";
 
 // 검색페이지
-export const SEARCH_PAGE = "로 검색한 결과";
+export const SEARCH_PAGE = " 검색 결과";
 
 // 추천페이지
 export const RECOMMEND_PAGE_CONTAINER_KEYWORD = "나의 유튜브 키워드";
