@@ -49,16 +49,13 @@ const UserSearchContainer: React.FC = () => {
         params = { ...params, nickname: term };
         break;
       default:
-        params = { ...params };
+        params.option = "total";
+        params = { ...params, total: term };
         break;
     }
 
     try {
       const response = await getAllMembers(params);
-      console.log(params);
-      console.log("option:", option);
-      console.log("term:", term);
-      console.log(response.data.content);
       setSearchResults(response.data.content);
     } catch (error) {
       console.error("검색 실패:", error);

@@ -17,6 +17,7 @@ export interface UserSearchParams {
   size?: number;
   nickname?: string;
   keyword?: string;
+  total?: string;
 }
 
 /** 회원가입 */
@@ -162,7 +163,7 @@ export const postHate = (memberId: number, movieId: number) =>
     `/hate-movies/register`,
     {
       memberId,
-      movieId,   
+      movieId,
     },
     {
       headers: { Accept: "application/json" },
