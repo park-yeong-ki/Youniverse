@@ -20,7 +20,7 @@ import IconBox from "../atoms/IconBox";
 interface SearchBoxProps {
   theme?: "light" | "dark"; // 테마 타입 (기본값 light)
   type?: "user" | "movie"; // 검색 옵션의 타입 (기본값 user)
-  onSearch?: (term: string, option: string | null) => void; // 은경 반영
+  onSearch?: (term: string, option: string | null) => void;
   onSubmitSearch?: (term: string) => void; // 추가
 }
 
@@ -45,7 +45,7 @@ const THEME_STYLES: Record<"light" | "dark", ThemeStyle> = {
 };
 
 const USER_OPTIONS = [
-  { label: DROP_DOWN_ALL, value: "all" },
+  { label: DROP_DOWN_ALL, value: "total" },
   { label: DROP_DOWN_NICKNAME, value: "nickname" },
   { label: DROP_DOWN_KEYWORD, value: "keyword" },
 ];
@@ -75,7 +75,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleSearchClick();
     }
   };

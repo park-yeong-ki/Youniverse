@@ -1,7 +1,12 @@
-// import { SEARCH_USER_PAGE } from "../../commons/constants/String";
+import OtherProfileContainer from "../../components/organisms/OtherProfileContainer";
+import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 
 const OtherUserProfilePage = () => {
-  return <div>남의 프로필 페이지..</div>;
+  return (
+    <MainPaddingContainer>
+      <OtherProfileContainer></OtherProfileContainer>
+    </MainPaddingContainer>
+  );
 };
 
 export default OtherUserProfilePage;
