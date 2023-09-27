@@ -27,7 +27,8 @@ export type MovieType = {
     directorName: string;
   }>;
   genreResDtos: Array<{
-    /* 필요한 속성 추가 */
+    genreId: number;
+    genreName: string | string[];
   }>;
   keywordResDtos: Array<{
     keywordName: string;

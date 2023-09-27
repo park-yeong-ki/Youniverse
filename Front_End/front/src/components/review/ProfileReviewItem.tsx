@@ -1,5 +1,5 @@
 // 프로필에서 보여지는 리뷰 한 개
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ReviewItem } from "./ProfileReviewItemList";
 import { MovieType } from "../../pages/recommend/ContentDetailPage";
 import { getMovie } from "../../apis/FrontendApi";
@@ -32,17 +32,13 @@ const ProfileReviewItem: React.FC<ReviewProps> = ({ review }) => {
   }, [movieId]);
 
   return (
-    <>
       <div>
-        <div>
-          <div>{title}</div>
-          <div>{movieDetailInfo?.directorResDtos[0]?.directorName}</div>
-        </div>
+        <div>{title}</div>
+        <div>{movieDetailInfo?.genreResDtos[0]?.genreName}</div>
+        <div>{movieDetailInfo?.directorResDtos[0]?.directorName}</div>
         <div>{reviewRate}</div>
+        <div>{reviewContent}</div>
       </div>
-
-      <div>{reviewContent}</div>
-    </>
   );
 };
 
