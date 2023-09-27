@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { postReview } from "../../apis/FrontendApi";
@@ -11,9 +12,9 @@ import {
 } from "../../commons/constants/String";
 
 const ReviewCreateForm = () => {
+  const { movieId } = useParams<{ movieId: string }>();
   const [reviewContent, setReviewContent] = useState("");
   const [memberId, setMemberId] = useState(1); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
-  const [movieId, setMovieId] = useState(7); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
   const [reviewRate, setReviewRate] = useState(1.0); // 기본값 설정 예시입니다. 실제 필요한 값을 사용하세요.
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -24,7 +25,7 @@ const ReviewCreateForm = () => {
     try {
       const reviewData = {
         memberId,
-        movieId,
+        movieId: Number(movieId),
         reviewContent,
         reviewRate,
       };
@@ -36,7 +37,7 @@ const ReviewCreateForm = () => {
       alert("리뷰 등록에 실패했습니다.");
     }
   };
-  console.log(setMemberId, setMovieId, setReviewRate);
+  console.log("@@@@배포 오류 방지용@@@@", setMemberId, setReviewRate);
 
   return (
     <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">

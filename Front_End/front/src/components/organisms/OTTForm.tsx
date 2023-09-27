@@ -8,10 +8,7 @@ import Planet from "../atoms/Planet";
 import Btn from "../atoms/Btn";
 import Text from "../../components/atoms/Text";
 import { NEXT } from "../../commons/constants/String";
-import {
-  FlexColBetween,
-  FlexRowBetween,
-} from "../../commons/style/SharedStyle";
+import { FlexColBetween } from "../../commons/style/SharedStyle";
 import { getAllOTTs } from "../../apis/FrontendApi";
 
 const OTTForm = () => {
@@ -75,23 +72,25 @@ const OTTForm = () => {
 
   return (
     <OTTFormContainer>
-      <StyledContainer>
+      <div className="grid grid-cols-5 gap-5">
         {ottData.map((ott) => (
-          <PlanetWrapper
+          <PlanetsWrapper
             key={ott.ottId}
             $isSelected={planetSelectedStates[ott.ottId]}
           >
-            <Planet
-              size="Standard"
-              planetId={ott.ottId}
-              src={ott.ottImage} // 백서버에서 받아온 이미지 URL
-              name={ott.ottName}
-              handleClickedPlanets={handleClickedPlanets}
-            />
-            <div>{ott.ottName}</div>
-          </PlanetWrapper>
+            <StyledEachPlanetContainer>
+              <Planet
+                size="Standard"
+                planetId={ott.ottId}
+                src={ott.ottImage} // 백서버에서 받아온 이미지 URL
+                name={ott.ottName}
+                handleClickedPlanets={handleClickedPlanets}
+              />
+              <div>{ott.ottName}</div>
+            </StyledEachPlanetContainer>
+          </PlanetsWrapper>
         ))}
-      </StyledContainer>
+      </div>
       <StyledNextButton size="X-Large" color="Ghost" onClick={handleSaveClick}>
         <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
           {NEXT}
@@ -105,35 +104,31 @@ export default OTTForm;
 
 const OTTFormContainer = styled.div`
   ${FlexColBetween}
+  padding-top: 50px;
   height: 500px;
 `;
 
-const StyledContainer = styled.div`
-  ${FlexRowBetween}
-  height: 80%;
-  width: 100%;
-`;
-
-const PlanetWrapper = styled.div<{ $isSelected: boolean }>`
-  ${FlexColBetween}
-  height: 70%;
-
+const PlanetsWrapper = styled.div<{ $isSelected: boolean }>`
   div {
     color: ${(props) =>
       props.$isSelected ? "rgba(255, 255, 255, 0.9)" : "black"};
-    cursor: default;
+    cursor: pointer;
   }
 
   /* 행성에 호버될 때 포인터로 커서 표시 */
   &:hover > div:first-child {
-    cursor: pointer;
+    cursor: default;
   }
+  ${FlexColBetween}
+  height: 220px;
+`;
 
-  /* // 빛번짐 속도가 행성과 달라서 일단 주석 처리
-  &:hover div {
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9); // 빛 번짐 효과
-  } */
+const StyledEachPlanetContainer = styled.div`
+  ${FlexColBetween}
+  height: 220px;
+  & > *:nth-child(2) {
+    font-family: "YESGothic-Bold";
+  }
 `;
 
 const StyledNextButton = styled(Btn)`

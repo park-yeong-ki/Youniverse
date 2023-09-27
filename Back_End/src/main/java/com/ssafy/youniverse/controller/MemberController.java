@@ -53,8 +53,9 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<?> findMembers(@PageableDefault(sort = "memberId", direction = Sort.Direction.DESC) Pageable pageable,
                                          @RequestParam(required = false, name = "keyword") String keyword,
-                                         @RequestParam(required = false, name = "nickname") String nickname) {
-        Page<Member> memberPage = memberService.readMembers(pageable, keyword, nickname);
+                                         @RequestParam(required = false, name = "nickname") String nickname,
+                                         @RequestParam(required = false, name = "total") String total) {
+        Page<Member> memberPage = memberService.readMembers(pageable, keyword, nickname, total);
         Page<MemberResDto> memberResDtoPage = memberPage.map(member -> memberMapper.memberToMemberResDto(member));
         return new ResponseEntity<>(memberResDtoPage, HttpStatus.OK);
     }
@@ -102,4 +103,12 @@ public class MemberController {
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> findMemberByEmail(@PathVariable("email") String email) {
+        Member member = memberService.readMemberByEmail(email);
+        MemberResDto memberResDto = memberMapper.memberToMemberResDto(member);
+        return new ResponseEntity<>(memberResDto, HttpStatus.OK);
+    }
+
 }

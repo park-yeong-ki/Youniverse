@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
@@ -10,12 +10,29 @@ import {
 } from "../../commons/style/SharedStyle";
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
+import { MovieType } from "./MovieItemList";
+import {
+  postHeart,
+  deleteHeart,
+  postHate,
+  deleteHate,
+} from "../../apis/FrontendApi";
 
-const MovieItem = ({ ...props }) => {
+type MovieItemProps = {
+  movie: MovieType;
+  $cardWidth?: string;
+  // 필요한 경우 다른 props 타입도 여기에 추가
+};
+
+const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const navigate = useNavigate();
 
+  // 좋아요 관련 상태
   const [likeStatus, setLikeStatus] = useState(false);
+  const [heartMovieId, setHeartMovieId] = useState<number | null>(null); // 좋아요 아이디를 저장할 state
+  // 추천받지 않을래요(싫어요) 관련 상태
   const [recommendStatus, setRecommendStatus] = useState(false);
+  const [hateMovieId, setHateMovieId] = useState<number | null>(null);
 
   // 재목 누르면 영화 상세페이지로 이동
   const handleTitleClick = (movieId: number) => {
@@ -23,46 +40,110 @@ const MovieItem = ({ ...props }) => {
   };
 
   const handleLikePush = () => {
-    if (likeStatus === false) {
+    if (!likeStatus) {
       console.log("좋아요 버튼을 눌렀어요");
-      setLikeStatus(true);
-      // 여기에 좋아요 버튼 눌렀을 때, axios 요청
-    } else if (likeStatus === true) {
+
+      postHeart(1, movie.movieId) // memberId 수정 필요
+        .then((res) => {
+          setLikeStatus(true);
+          setHeartMovieId(res.data.heartMovieId);
+          console.log("좋아요 요청 성공!", res);
+        })
+        .catch((err) => {
+          console.error("좋아요 요청 실패:", err);
+        });
+    } else {
       console.log("좋아요 취소 버튼을 눌렀어요");
-      setLikeStatus(false);
-      // 여기에 좋아요 취소 버튼 눌렀을 때, axios 요청
+      console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
+      if (heartMovieId !== null) {
+        deleteHeart(heartMovieId)
+          .then(() => {
+            setLikeStatus(false);
+            setHeartMovieId(null); // 삭제 후 heartMovieId 초기화
+            console.log("좋아요 삭제 성공!");
+          })
+          .catch((err) => {
+            console.error("좋아요 삭제 실패:", err);
+          });
+      }
     }
   };
 
   const handleRecommendPush = () => {
-    if (recommendStatus === false) {
+    if (!recommendStatus) {
       console.log("추천받지 않을래요 버튼을 눌렀어요");
-      setRecommendStatus(true);
-      // 여기에 추천받지 않을래요 버튼 눌렀을 때, axios 요청
-    } else if (recommendStatus === true) {
+
+      postHate(1, movie.movieId) // memberId 수정 필요
+        .then((res) => {
+          setRecommendStatus(true);
+          setHateMovieId(res.data.hateMovieId); // 서버 응답에서 hateMovieId 값을 저장
+          console.log("추천받지 않을래요 요청 성공!", res);
+        })
+        .catch((err) => {
+          console.error("추천받지 않을래요 요청 실패:", err);
+        });
+    } else {
       console.log("다시 추천해주세요 버튼을 눌렀어요");
-      setRecommendStatus(false);
-      // 여기에 다시 추천해주세요 버튼 눌렀을 때, axios 요청
+      if (hateMovieId !== null) {
+        deleteHate(hateMovieId)
+          .then(() => {
+            setRecommendStatus(false);
+            setHateMovieId(null); // 삭제 후 hateMovieId 초기화
+            console.log("다시 추천 요청 성공!");
+          })
+          .catch((err) => {
+            console.error("다시 추천 요청 실패:", err);
+          });
+      }
     }
   };
+
+  useEffect(() => {
+    const heart = movie.heartMovieResDtos?.find(
+      (resDto: {
+        heartMovieId: number;
+        memberSimpleResDto: { memberId: number }[];
+      }) => resDto.memberSimpleResDto[0]?.memberId === 1
+    );
+
+    const hate = movie.hateMovieResDtos?.find(
+      (resDto: {
+        hateMovieId: number;
+        memberSimpleResDto: { memberId: number }[];
+      }) => resDto.memberSimpleResDto[0]?.memberId === 1
+    );
+
+    if (heart) {
+      setLikeStatus(true);
+      setHeartMovieId(heart.heartMovieId);
+    }
+
+    if (hate) {
+      setRecommendStatus(true);
+      setHateMovieId(hate.hateMovieId);
+    }
+  }, [movie]);
+
   return (
-    <StyledCardWrapper
-      onClick={() => handleTitleClick(props.movieId)}
-      $cardWidth={props.$cardWidth}
-    >
-      <StyledMoviePoster src={props.src} />
+    <StyledCardWrapper $cardWidth={props.$cardWidth}>
+      <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
           {/* focus가 되어있을 때는 Large / 아닐 때는 Medium */}
-          <StyledTitle size="Large" color="White" fontFamily="PyeongChang-Bold">
-            제목
+          <StyledTitle
+            size="Large"
+            color="White"
+            fontFamily="PyeongChang-Bold"
+            onClick={() => handleTitleClick(movie.movieId)}
+          >
+            {movie.title}
           </StyledTitle>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            평점4.0
+            평점 {movie.rate}
           </Text>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            러닝타임
+            {movie.runtime}분
           </Text>
           <StyledDetailInCol>
             <StyledDetailInRow>
