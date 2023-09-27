@@ -1,4 +1,5 @@
 import MovieItem from "./MovieItem";
+import { MovieType } from "./MovieItemList";
 
 type Props = {
   filterOTT?: string | null;
@@ -6,48 +7,48 @@ type Props = {
   movies?: MovieType[]; // 추가
 };
 
-type ActorType = {
-  actorId: number;
-  actorImage: string;
-  actorName: string;
-};
+// type ActorType = {
+//   actorId: number;
+//   actorImage: string;
+//   actorName: string;
+// };
 
-type DirectorType = {
-  directorId: number;
-  directorImage: string;
-  directorName: string;
-};
+// type DirectorType = {
+//   directorId: number;
+//   directorImage: string;
+//   directorName: string;
+// };
 
-type KeywordType = {
-  keywordId: number;
-  keywordName: string;
-  source: number;
-};
+// type KeywordType = {
+//   keywordId: number;
+//   keywordName: string;
+//   source: number;
+// };
 
-// 기존 MovieType 확장
-export type MovieType = {
-  movieId: number;
-  title: string;
-  movieImage: string;
-  rate: number;
-  runtime: number;
-  ottResDtos: OTTType[];
-  heartMovieResDtos: {
-    heartMovieId: number;
-    memberSimpleResDto: {
-      memberId: number;
-    }[];
-  }[];
-  hateMovieResDtos: {
-    hateMovieId: number;
-    memberSimpleResDto: {
-      memberId: number;
-    }[];
-  }[];
-  actorResDtos: ActorType[];
-  directorResDtos: DirectorType[];
-  keywordResDtos: KeywordType[];
-};
+// // 기존 MovieType 확장
+// export type MovieType = {
+//   movieId: number;
+//   title: string;
+//   movieImage: string;
+//   rate: number;
+//   runtime: number;
+//   ottResDtos: OTTType[];
+//   heartMovieResDtos: {
+//     heartMovieId: number;
+//     memberSimpleResDto: {
+//       memberId: number;
+//     }[];
+//   }[];
+//   hateMovieResDtos: {
+//     hateMovieId: number;
+//     memberSimpleResDto: {
+//       memberId: number;
+//     }[];
+//   }[];
+//   actorResDtos: ActorType[];
+//   directorResDtos: DirectorType[];
+//   keywordResDtos: KeywordType[];
+// };
 
 type OTTType = {
   ottId: number;

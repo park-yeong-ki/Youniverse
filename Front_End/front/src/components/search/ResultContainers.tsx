@@ -3,13 +3,12 @@ import Text from "../atoms/Text";
 import SearchMovieItemList from "../movies/SearchMovieItemList";
 import { MovieType } from "../movies/MovieItemList";
 
-const ResultContainers = ({
-  searchResults,
-  searchTerm,
-}: {
+interface ResultContainersProps {
   searchResults: MovieType[];
   searchTerm: string;
-}) => {
+}
+
+const ResultContainers: React.FC<ResultContainersProps> = ({ searchResults, searchTerm }) => {
   return (
     <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
       <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
