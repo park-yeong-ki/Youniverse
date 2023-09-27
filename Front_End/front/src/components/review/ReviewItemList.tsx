@@ -9,13 +9,19 @@ interface ReviewItemListProps {
   onReviewDelete: (reviewId: number) => void;
 }
 
-
-const ReviewItemList: React.FC<ReviewItemListProps> = ({ reviews, onReviewDelete }) => { 
+const ReviewItemList: React.FC<ReviewItemListProps> = ({
+  reviews,
+  onReviewDelete,
+}) => {
   return (
     <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
       {reviews &&
         reviews.map((review) => (
-          <ReviewItem key={review.reviewId} review={review} onReviewDelete={onReviewDelete} />
+          <ReviewItem
+            key={review.reviewId}
+            review={review}
+            onReviewDelete={onReviewDelete}
+          />
         ))}
     </Wrapper>
   );
