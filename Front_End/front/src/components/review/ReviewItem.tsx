@@ -1,5 +1,5 @@
 import { ReviewType } from "../../pages/recommend/ContentDetailPage";
-import { deletReview } from "../../apis/FrontendApi";
+import { deleteReview } from "../../apis/FrontendApi";
 import { DELETE } from "../../commons/constants/String";
 import Btn from "../atoms/Btn";
 
@@ -18,7 +18,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
 
   const handleReviewDel = async () => {
     try {
-      await deletReview(review.reviewId);
+      await deleteReview(review.reviewId);
       onReviewDelete(review.reviewId);
       alert("리뷰가 삭제되었습니다.");
     } catch (error) {
