@@ -9,8 +9,11 @@ const SoulMovieItem = ({ ...props }) => {
   };
   // 받아온 영화 이름
   const movieName = props.movie;
+
+  /** 이름 다섯 글자 이상일 때 */
   const displayMovieName =
     movieName.length > 4 ? movieName.substring(0, 4) + "..." : movieName;
+
   return (
     <StyledSoulMovieWrapper onClick={handleClickMovie}>
       {/* 영화 포스터 */}
@@ -22,7 +25,7 @@ const SoulMovieItem = ({ ...props }) => {
       {/* 인생영화 순위 + 제목 텍스트 */}
       <StyledSoulTextWrapper>
         <Text size="X-Large" color="Black" fontFamily="PyeongChang-Bold">
-          1
+          {props.key}
         </Text>
         <Text
           size="Medium"
