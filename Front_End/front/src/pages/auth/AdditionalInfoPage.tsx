@@ -55,7 +55,36 @@ const AdditionalInfoPage = () => {
           },
         })
         .then((response) => {
-          console.log('구독 응답 데이터:', response.data.items);
+          // console.log('구독 응답 데이터:', response.data.items);
+
+          interface SubscriptionItem {
+            etag: string;
+            id: string;
+            kind: string;
+            snippet: {
+              channelId: string;
+              description: string;
+              publishedAt: string;
+              resourceId: {
+                kind: string;
+                channelId: string;
+              };
+              thumbnails: {
+                default: any; // You can define proper types for these as needed
+                medium: any;
+                high: any;
+              };
+              title: string;
+            };
+          }
+          
+          const data: SubscriptionItem[] = response.data.items; // 데이터 배열을 직접 설정
+          const channelId: string[] = data.map(item => item.snippet.resourceId.channelId);//채널 아이디
+          const titles: string[] = data.map(item => item.snippet.title);//채널 제목
+          const description: string[] = data.map(item => item.snippet.description);//채널 설명
+          console.log("데이터 추출: ", titles, channelId, description);
+          
+
         })
         .catch((error) => {
           console.error('구독 요청 실패:', error);
@@ -68,6 +97,9 @@ const AdditionalInfoPage = () => {
       });
     }
   }, [codes]);
+
+
+  
 
     return (
       <StyledContainerCenter>
