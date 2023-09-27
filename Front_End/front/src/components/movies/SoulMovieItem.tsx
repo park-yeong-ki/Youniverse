@@ -6,7 +6,10 @@ import { StyledMoviePoster } from "./MovieItem";
 import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
 import { ROUTES } from "../../commons/constants/Routes";
 import IconBox from "../atoms/IconBox";
-import { HiPlusCircle } from "react-icons/hi";
+import { HiPlusCircle, HiMinusCircle } from "react-icons/hi";
+import { deletBest } from "../../apis/FrontendApi";
+import { useRecoilValue } from "recoil";
+import { UserDetailInfoState } from "../../pages/store/State";
 
 interface SoulMovieItemProps {
   src?: string;
@@ -26,6 +29,7 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
   onAddMovie,
 }) => {
   const navigate = useNavigate();
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
   /** 아이템 클릭했을 때, 상세 페이지로 이동 */
   const handleClickMovie = (res: number) => {
@@ -34,6 +38,18 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
     } else {
       navigate(ROUTES.MOVIE_DETAIL.replace(":movieId", res.toString()));
     }
+  };
+
+  const handleTest = (event: React.MouseEvent) => {
+    event.stopPropagation(); // 이벤트 전파 중단
+    
+    deletBest(Number(movie), Number(memberId))
+      .then((response) => {
+        console.log("인생영화 삭제", response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const movieName = title || "-"; // 텍스트 수정
@@ -53,7 +69,9 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
             <StyledPosterCover />
           </>
         ) : (
-          <StyledAddMovie><HiPlusCircle size={32}/></StyledAddMovie>
+          <StyledAddMovie>
+            <HiPlusCircle size={32} />
+          </StyledAddMovie>
         )}
       </StyledPosterImage>
 
@@ -63,13 +81,14 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
           {rank}
         </Text>
         <Text
-          size="Medium"
+          size="Small"
           color="Black"
           fontFamily="YESGothic-Regular"
           title={movieName}
         >
           {displayMovieName}
         </Text>
+        <IconBox Icon={HiMinusCircle} onClick={(e) => handleTest(e)} />
       </StyledSoulTextWrapper>
     </StyledSoulMovieWrapper>
   );

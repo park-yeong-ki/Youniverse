@@ -63,7 +63,7 @@ const SoulMovieItemList: React.FC<SoulMovieListProps> = ({ soulMovieData }) => {
           .map((_, index) => (
             <SoulMovieItem
               key={index + 5}
-              rank={(soulMovieData?.length || 0) + 1}
+              rank={(soulMovieData?.length || 0) + index + 1}
               isEmpty
               onAddMovie={onAddMovie}
             />

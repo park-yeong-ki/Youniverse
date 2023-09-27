@@ -184,9 +184,10 @@ export const getBest = (bestMovieId: number) =>
   });
 
 /** 인생영화 삭제 */
-export const deletBest = (bestMovieId: number) =>
+export const deletBest = (bestMovieId: number, memberId: number) =>
   mainAxios.delete(`/best-movies/${bestMovieId}`, {
     headers: { Accept: "application/json" },
+    data: { memberId },
   });
 
 //==============================================
