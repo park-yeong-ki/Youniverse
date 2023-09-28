@@ -8,8 +8,11 @@ import SoulMovieItem from "./SoulMovieItem";
 import { UserDetailInfoState } from "../../pages/store/State";
 import { getMember } from "../../apis/FrontendApi";
 import { StyledBlackHover } from "../users/MypageUserInfo";
-import UserSearchForm from "../organisms/UserSearchForm";
 import styled from "styled-components";
+import SearchContainer from "../search/SearchContainer";
+import ResultContainers from "../search/ResultContainers";
+import { MovieType } from "../../components/movies/MovieItemList";
+import { FlexColBetween } from "../../commons/style/SharedStyle";
 
 type KeywordResDto = {
   keywordId: number;
@@ -42,6 +45,9 @@ export type SoulMovie = {
 const SoulMovieItemList = () => {
   const [soulMovieData, setSoulMovieData] = useState<SoulMovie[]>([]);
   const [addMovieModal, setAddMovieModal] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<MovieType[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const nickname = useRecoilValue(UserDetailInfoState).nickname;
 
   // 로그인유저와 페이지유저가 동일한지 확인하는 과정
@@ -76,7 +82,14 @@ const SoulMovieItemList = () => {
         <StyledModalWrapper>
           <StyledBlackHover />
           <StyledSearchModal>
-            <UserSearchForm />
+            <SearchContainer
+              setSearchResults={setSearchResults}
+              setSearchTerm={setSearchTerm}
+            />
+            <ResultContainers
+              searchResults={searchResults}
+              searchTerm={searchTerm}
+            />
           </StyledSearchModal>
         </StyledModalWrapper>
       )}
@@ -118,12 +131,27 @@ const SoulMovieItemList = () => {
 export default SoulMovieItemList;
 
 const StyledSearchModal = styled.div`
+  ${FlexColBetween}
   position: absolute;
-  width: 60%;
-  height: 100%;
-  top: 0;
-  margin: 0 auto;
+  width: 70%;
+  height: 90%;
   z-index: 3;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 20px;
+  & > *:first-child {
+    height: 30%;
+    margin-bottom: 20px;
+  }
+  & > *:last-child {
+    overflow-y: auto;
+  }
 `;
 
-const StyledModalWrapper = styled.div``;
+const StyledModalWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+`;
