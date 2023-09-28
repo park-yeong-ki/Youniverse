@@ -10,7 +10,7 @@ import HashTag from "../atoms/HashTag";
 import Img from "../atoms/Img";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-// import styled from "styled-components";
+import styled from "styled-components";
 import InputBox from "../atoms/InputBox";
 import { StyledTextArea } from "../organisms/AdditionalForm";
 import { UserType } from "../../pages/profile/MyProfilePage";
@@ -196,11 +196,11 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 export default MypageUserInfo;
 
 /** 프로필 수정 버튼 눌렀을 때 배경에 검은색 opacity */
-// const StyledBlackHover = styled.div`
-//   width: 100vw;
-//   height: 100vh;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   background: rgba(0, 0, 0, 0.6);
-// `;
+export const StyledBlackHover = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+`;

@@ -53,7 +53,6 @@ const MyProfilePage = () => {
       });
   }, [memberId]);
 
-  const soulMovieData = memberData?.bestMovieResDtos;
   return (
     <MainPaddingContainer>
       <div className="flex gap-5">
@@ -67,7 +66,7 @@ const MyProfilePage = () => {
         <div className="w-3/4">
           {!followStatus && (
             <div>
-              <SoulMovieItemList soulMovieData={soulMovieData} />
+              <SoulMovieItemList />
               <MyOTTPlanet />
               <MypageLikeContents />
               <UserZodiacSign />

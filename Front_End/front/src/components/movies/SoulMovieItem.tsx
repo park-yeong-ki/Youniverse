@@ -14,19 +14,25 @@ import { UserDetailInfoState } from "../../pages/store/State";
 interface SoulMovieItemProps {
   src?: string;
   movie?: number;
+  bestId?: number;
   rank?: number;
   title?: string;
   isEmpty?: boolean;
   onAddMovie?: () => void;
+  isUser: boolean;
+  onDeleteSoulMovie?: (bestId: number) => void;
 }
 
 const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
   src,
   movie,
+  bestId,
   rank,
   title,
   isEmpty = false,
   onAddMovie,
+  isUser,
+  onDeleteSoulMovie,
 }) => {
   const navigate = useNavigate();
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
@@ -34,18 +40,25 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
   /** 아이템 클릭했을 때, 상세 페이지로 이동 */
   const handleClickMovie = (res: number) => {
     if (isEmpty && onAddMovie) {
-      onAddMovie();
+      if (isUser) {
+        onAddMovie();
+      } else {
+        console.log("눌러도 아무 일이 일어나지 않음");
+      }
     } else {
       navigate(ROUTES.MOVIE_DETAIL.replace(":movieId", res.toString()));
     }
   };
 
-  const handleTest = (event: React.MouseEvent) => {
+  const handleSoulMovieDelete = (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 전파 중단
-    
-    deletBest(Number(movie), Number(memberId))
+
+    deletBest(Number(bestId), Number(memberId))
       .then((response) => {
         console.log("인생영화 삭제", response.data);
+        if (onDeleteSoulMovie) {
+          onDeleteSoulMovie(Number(bestId));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -69,8 +82,8 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
             <StyledPosterCover />
           </>
         ) : (
-          <StyledAddMovie>
-            <HiPlusCircle size={32} />
+          <StyledAddMovie $isUser={isUser}>
+            {isUser ? <HiPlusCircle size={32} /> : <></>}
           </StyledAddMovie>
         )}
       </StyledPosterImage>
@@ -88,7 +101,12 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
         >
           {displayMovieName}
         </Text>
-        <IconBox Icon={HiMinusCircle} onClick={(e) => handleTest(e)} />
+        {isUser && !isEmpty && (
+          <IconBox
+            Icon={HiMinusCircle}
+            onClick={(e) => handleSoulMovieDelete(e)}
+          />
+        )}
       </StyledSoulTextWrapper>
     </StyledSoulMovieWrapper>
   );
@@ -136,7 +154,7 @@ const StyledSoulTextWrapper = styled.div`
 `;
 
 /** 내용이 없을 때 */
-const StyledAddMovie = styled.div`
+const StyledAddMovie = styled.div<{ $isUser: boolean }>`
   ${FlexCenter}
   width: 100%;
   height: 100%;
@@ -146,7 +164,11 @@ const StyledAddMovie = styled.div`
   color: #000;
   font-family: YESGothic-Bold;
 
-  &:hover {
-    background-color: #b2b2b2;
-  }
+  ${(props) =>
+    props.$isUser &&
+    `
+    &:hover {
+      background-color: #b2b2b2;
+    }
+  `}
 `;
