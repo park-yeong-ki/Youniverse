@@ -8,6 +8,8 @@ import SoulMovieItem from "./SoulMovieItem";
 import { UserDetailInfoState } from "../../pages/store/State";
 import { getMember } from "../../apis/FrontendApi";
 import { StyledBlackHover } from "../users/MypageUserInfo";
+import UserSearchForm from "../organisms/UserSearchForm";
+import styled from "styled-components";
 
 type KeywordResDto = {
   keywordId: number;
@@ -71,9 +73,12 @@ const SoulMovieItemList = () => {
     <>
       {/* 모달창 */}
       {addMovieModal && (
-        <div>
+        <StyledModalWrapper>
           <StyledBlackHover />
-        </div>
+          <StyledSearchModal>
+            <UserSearchForm />
+          </StyledSearchModal>
+        </StyledModalWrapper>
       )}
       <div>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
@@ -111,3 +116,14 @@ const SoulMovieItemList = () => {
 };
 
 export default SoulMovieItemList;
+
+const StyledSearchModal = styled.div`
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  top: 0;
+  margin: 0 auto;
+  z-index: 3;
+`;
+
+const StyledModalWrapper = styled.div``;
