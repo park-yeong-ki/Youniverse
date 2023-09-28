@@ -4,7 +4,7 @@
 import Text from "../atoms/Text";
 import Btn from "../atoms/Btn";
 import {
-  SEARCH_USER,
+  SEARCH_USER, 
   FOLLOWING,
   FOLLOWER,
 } from "../../commons/constants/String";
@@ -12,24 +12,33 @@ import Wrapper from "../atoms/Wrapper";
 import styled from "styled-components";
 import IconBox from "../atoms/IconBox";
 import { HiChevronLeft } from "react-icons/hi";
+import { UserType } from "../../pages/profile/MyProfilePage";
 
 interface MypageFollowProps {
+  memberData: UserType | null;
   followStatus: string;
   setFollowStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const MypageFollowWrap: React.FC<MypageFollowProps> = ({
+  memberData,
   followStatus,
   setFollowStatus,
 }) => {
-  // const [followStatus, setFollowStatus] = useState(""); // 누른 것에 따라 보여줌
+  const keywords = memberData?.keywordResDtos
+  console.log(keywords)
 
   return (
     <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
       {/* 팔로잉, 팔로워, 새로운 유저 찾기 */}
       <div>
         <div>
-          <IconBox Icon={HiChevronLeft} size={32} color="Black" onClick={() => setFollowStatus("")} />
+          <IconBox
+            Icon={HiChevronLeft}
+            size={32}
+            color="Black"
+            onClick={() => setFollowStatus("")}
+          />
           <div>
             <Text
               size="Medium"
@@ -40,7 +49,7 @@ const MypageFollowWrap: React.FC<MypageFollowProps> = ({
               {FOLLOWING}
             </Text>
             <StyledCircleNumber isActive={followStatus === FOLLOWING}>
-              5
+              {memberData?.followings.length}
             </StyledCircleNumber>
           </div>
           <div>
@@ -53,7 +62,7 @@ const MypageFollowWrap: React.FC<MypageFollowProps> = ({
               {FOLLOWER}
             </Text>
             <StyledCircleNumber isActive={followStatus === FOLLOWER}>
-              5
+              {memberData?.followers.length}
             </StyledCircleNumber>
           </div>
         </div>
