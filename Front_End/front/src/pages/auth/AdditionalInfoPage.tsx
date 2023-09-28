@@ -11,9 +11,26 @@ const AdditionalInfoPage = () => {
   const urlParams = new URLSearchParams(new URL(currentURL).search);
   const codes: string | null = urlParams.get("code");
   const apiKey = "AIzaSyAbqPlaSAh5ppO1pOrnOS21vx0mIMGmMfs HTTP/1.1";
+  const fastURL = "http://127.0.0.1:8000"; //로컬
+  // const fastURL = 'http://j9b204.p.ssafy.io/fast';//서버
 
   // 상태 변수 추가
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  let allData: string = "";
+
+  //fastapi로 요청 보낼 함수
+  const sendDataToServer = async (data: string) => {
+    try {
+      const response = await axios.post(fastURL + "/youtube", { data });
+      if (response.status === 200) {
+        console.log("데이터를 서버로 전송했습니다.");
+      } else {
+        console.error("서버 응답이 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("데이터를 서버로 보내는 동안 오류 발생:", error);
+    }
+  };
 
   useEffect(() => {
     const tokenUrl = "https://accounts.google.com/o/oauth2/token";
@@ -21,7 +38,6 @@ const AdditionalInfoPage = () => {
 
     if (codes !== null) {
       console.log("code 데이터:", codes);
-
       requestData.append("code", codes);
       requestData.append("redirect_uri", "http://localhost:3000/addinfo");
       requestData.append("grant_type", "authorization_code");
@@ -35,7 +51,6 @@ const AdditionalInfoPage = () => {
         "776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com"
       );
       requestData.append("client_secret", "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");
-
 
       // 토큰을 얻는 POST 요청
       axios
@@ -89,7 +104,9 @@ const AdditionalInfoPage = () => {
               const channelId: string[] = data.map((item) => item.snippet.resourceId.channelId); //채널 아이디
               const titles: string[] = data.map((item) => item.snippet.title); //채널 제목
               const description: string[] = data.map((item) => item.snippet.description); //채널 설명
-              console.log("데이터 추출: ", titles, channelId, description);
+              // console.log("데이터 추출: ", titles, channelId, description);
+              allData += ", " + titles.join(", ");
+              allData += ", " + description.join(", ");
 
               //채널 안 영상 정보 가져오기
               const sendAxiosRequests = async (channelIds: string[]) => {
@@ -129,17 +146,21 @@ const AdditionalInfoPage = () => {
                         const titles: string[] = data.map((item) => item.snippet.title);
                         const description: string[] = data.map((item) => item.snippet.description);
 
-                        // 각 인덱스 위치의 항목을 합쳐서 하나의 배열로 만듭니다.
-                        const combinedData: Array<{
-                          videoId: string;
-                          title: string;
-                          description: string;
-                        }> = videoId.map((_, index) => ({
-                          videoId: videoId[index],
-                          title: titles[index],
-                          description: description[index],
-                        }));
-                        console.log("채널 영상 추출: ", combinedData);
+                        // 배열을 쉼표로 구분된 하나의 텍스트 만들기
+                        allData += ", " + titles.join(", ");
+                        allData += ", " + description.join(", ");
+
+                        // // 각 인덱스 위치의 항목을 합쳐서 하나의 배열로 만듭니다.
+                        // const combinedData: Array<{
+                        //   videoId: string;
+                        //   title: string;
+                        //   description: string;
+                        // }> = videoId.map((_, index) => ({
+                        //   videoId: videoId[index],
+                        //   title: titles[index],
+                        //   description: description[index],
+                        // }));
+                        // console.log("채널 영상 추출: ", combinedData);
                       })
                       .catch((error) => {
                         console.error("영상 정보 요청 실패:", error);
@@ -205,6 +226,13 @@ const AdditionalInfoPage = () => {
                   const sendPlaylistRequests = async (playlistIds: string[]) => {
                     for (const playlistId of playlistIds) {
                       try {
+                        if (!playlistId) {
+                          console.log(`Skipping playlistId because it is null.`);
+                          // console.log("모든 데이터: ", allData);
+                          sendDataToServer(allData);
+                          continue;
+                        }
+
                         axios
                           .get("https://youtube.googleapis.com/youtube/v3/playlistItems", {
                             params: {
@@ -240,17 +268,21 @@ const AdditionalInfoPage = () => {
                               (item) => item.snippet.description
                             );
 
-                            // 각 인덱스 위치의 항목을 합쳐서 하나의 배열로 만듭니다.
-                            const combinedData: Array<{
-                              videoId: string;
-                              title: string;
-                              description: string;
-                            }> = videoId.map((_, index) => ({
-                              videoId: videoId[index],
-                              title: titles[index],
-                              description: description[index],
-                            }));
-                            console.log("플레이리스트 영상 추출: ", combinedData);
+                            // 배열을 쉼표로 구분된 하나의 텍스트 만들기
+                            allData += ", " + titles.join(", ");
+                            allData += ", " + description.join(", ");
+
+                            // // 각 인덱스 위치의 항목을 합쳐서 하나의 배열로 만듭니다.
+                            // const combinedData: Array<{
+                            //   title: string;
+                            //   description: string;
+                            // }> = videoId.map((_, index) => ({
+                            //   title: titles[index],
+                            //   description: description[index],
+                            // }));
+                            // console.log("플레이리스트 영상 추출: ", combinedData);
+                            // console.log("모든 데이터: ", allData);
+                            sendDataToServer(allData);
                           })
 
                           .catch((error) => {
