@@ -1,18 +1,21 @@
 import { ChangeEvent, useState } from "react";
+import styled from "styled-components";
+
 import {
   MY_PAGE_PROFILE_EDIT,
   FOLLOWING,
   FOLLOWER,
   ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER,
   ADDITIONAL_INFO_NICKNAME_PLACEHOLDER,
+  ADDITIONAL_INFO_AGE_PLACEHOLDER,
 } from "../../commons/constants/String";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
 import Img from "../atoms/Img";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-import styled from "styled-components";
 import InputBox from "../atoms/InputBox";
+import { FlexColBetween } from "../../commons/style/SharedStyle";
 import { StyledTextArea } from "../organisms/AdditionalForm";
 import { UserType } from "../../pages/profile/MyProfilePage";
 
@@ -28,12 +31,26 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   setFollowStatus,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [image, setImage] = useState<string>(memberData?.memberImage || "");
   const [nickname, setNickname] = useState<string>(memberData?.nickname || "");
   const [age, setAge] = useState<number>(memberData?.age || 0);
   const [gender, setGender] = useState(memberData?.gender); // 여기에 받아온 값 넣어줌
   const [introduce, setIntroduce] = useState<string>(
     memberData?.introduce || ""
   );
+
+  const selectedOtts = memberData?.ottResDtos;
+
+  const sendData = {
+    file: file,
+    nickname: nickname,
+    gender: gender,
+    age: age,
+    introduce: introduce,
+    ottList: [],
+    keywordList: [],
+  };
 
   /** 프로필 수정 버튼을 눌렀을 때 */
   const handleEditChange = () => {
@@ -44,6 +61,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   /** 수정 완료를 눌렀을 때 */
   const handleUpdateChange = () => {
     // 여기에서 axios 요청
+    console.log(sendData);
     setIsEdit(false);
   };
   /** 취소 버튼을 눌렀을 때 */
@@ -65,6 +83,18 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   const handleImgChange = () => {
     console.log("이미지 바꿀 수 있게 팝업 창??");
   };
+  /** 이미지 파일 선택시 상태 업데이트 */
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
+
+      // 이미지 미리보기 URL 설정
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage(imageUrl);
+    }
+  };
+
   return (
     <>
       {/* 프로필 수정 버튼 눌렀을 때 배경에 검은색 opacity */}
@@ -128,6 +158,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 
             {/* OTT 행성 wrapper */}
             <div>
+              {/* {selectedOtts?.map()} */}
               <Img size="Small" src="" />
               <Img size="Small" src="" />
             </div>
@@ -141,19 +172,16 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
           // 수정 누른 후 컨텐츠 wrapper
           <div>
             {/* 프로필 사진 수정하기 */}
-            <div>
-              <Img
-                size="X-Large"
-                src={
-                  memberData?.memberImage ||
-                  // 이후 디폴트 이미지 수정 @@@
-                  "https://cdn.imweb.me/upload/S20210807d1f68b7a970c2/7170113c6a983.jpg"
-                }
-                onClick={handleImgChange}
-                $point
-              />
-              <div>프로필 사진 수정하기</div>
-            </div>
+            <Img
+              size="X-Large"
+              src={
+                image ||
+                // 이후 디폴트 이미지 수정 @@@
+                "https://cdn.imweb.me/upload/S20210807d1f68b7a970c2/7170113c6a983.jpg"
+              }
+              onClick={handleImgChange}
+              $point
+            />
 
             <InputBox
               value={nickname}
@@ -161,14 +189,22 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
               placeholder={ADDITIONAL_INFO_NICKNAME_PLACEHOLDER}
               onChange={handleChange(setNickname)}
             />
-            <StyledTextArea placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}>
-              {memberData?.introduce}
-            </StyledTextArea>
+            <StyledTextArea
+              value={introduce}
+              placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}
+              onChange={handleChange(setIntroduce)}
+              maxLength={30}
+            ></StyledTextArea>
 
             {/* 나이 wrapper */}
             <div>
               <label>나이</label>
-              <InputBox value="22" type="number" />
+              <InputBox
+                type="number"
+                placeholder={ADDITIONAL_INFO_AGE_PLACEHOLDER}
+                value={age}
+                onChange={(e) => setAge(e.target.valueAsNumber)}
+              />
               <span>세</span>
             </div>
 
@@ -218,7 +254,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 export default MypageUserInfo;
 
 /** 프로필 수정 버튼 눌렀을 때 배경에 검은색 opacity */
-export const StyledBlackHover = styled.div`
+const StyledBlackHover = styled.div`
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -229,6 +265,8 @@ export const StyledBlackHover = styled.div`
 `;
 
 const StyledUpdateWrapper = styled(Wrapper)`
+  ${FlexColBetween}
+  text-align: center;
   position: relative;
   z-index: 1102;
 `;

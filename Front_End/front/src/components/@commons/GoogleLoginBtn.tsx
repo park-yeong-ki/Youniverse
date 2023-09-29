@@ -14,7 +14,7 @@ const GoogleLoginBtn = () => {
 
 const GoogleInnerComponent = () => {
   const handleGoogleLogin = () => {
-    //window.location.href = "https://j9b204.p.ssafy.io/api/oauth2/authorization/google";
+    // window.location.href = "https://j9b204.p.ssafy.io/api/oauth2/authorization/google";
     window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 

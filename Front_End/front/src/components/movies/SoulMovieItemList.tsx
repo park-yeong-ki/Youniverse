@@ -7,7 +7,6 @@ import { FAVORITE_MOVIE } from "../../commons/constants/String";
 import SoulMovieItem from "./SoulMovieItem";
 import { UserDetailInfoState } from "../../pages/store/State";
 import { getMember } from "../../apis/FrontendApi";
-import { StyledBlackHover } from "../users/MypageUserInfo";
 import styled from "styled-components";
 import SearchContainer from "../search/SearchContainer";
 import ResultContainers from "../search/ResultContainers";
@@ -142,7 +141,7 @@ const StyledSearchModal = styled.div`
   position: absolute;
   width: 70%;
   height: 90%;
-  z-index: 1102;
+  z-index: 1104;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 28px;
   padding: 20px;
@@ -167,4 +166,14 @@ const StyledModalWrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
+`;
+
+const StyledBlackHover = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1103;
 `;
