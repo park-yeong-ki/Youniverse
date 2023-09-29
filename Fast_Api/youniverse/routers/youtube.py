@@ -2,21 +2,46 @@ from fastapi import APIRouter
 from youniverse.repository import testRepository
 from youniverse.schemas import youtube
 import re
+from konlpy.tag import Okt
 from sklearn.feature_extraction.text import TfidfVectorizer
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-
-# NLTK에서 불용어 다운로드
-nltk.download('stopwords')
-nltk.download('punkt')
+# import nltk
+# from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+#
+# # NLTK에서 불용어 다운로드
+# nltk.download('stopwords')
+# nltk.download('punkt')
 
 router = APIRouter(
     prefix="/youtube",
     tags=["youtube"]
 )
 
+okt = Okt()
 
+@router.get("/")
+async def get_Test():
+    corpus = [
+        '이 채널에서는 IT 업계에서의 앱 개발자는 어떻게 하루를 보낼까 궁금해 하시는 분들을 위해서 만들어졌습니다.또한 저의 일상도 녹여져있으나 개발자, 개발자들 간의 소통도 취준생 및 채널을 방문해주시는 모든 분들 환영 합니다',
+    ]
+
+    # 전처리 수행
+    preprocessed_corpus = [preprocess(text) for text in corpus]
+
+    # TF-IDF 벡터화 객체 생성
+    tfidf_vectorizer = TfidfVectorizer()
+
+    # TF-IDF 벡터화 수행
+    tfidf_matrix = tfidf_vectorizer.fit_transform(preprocessed_corpus)
+
+    # 키워드와 TF-IDF 점수 추출
+    feature_names = tfidf_vectorizer.get_feature_names_out()
+    tfidf_scores = tfidf_matrix[0].toarray()[0]  # 두 번째 문서(인덱스 1)의 TF-IDF 점수
+
+    # TF-IDF 점수가 높은 순으로 정렬하여 상위 키워드 추출
+    top_keywords = [feature_names[i] for i in tfidf_scores.argsort()[::-1][:10]]
+
+    print("전처리 후 상위 키워드:", top_keywords)
 
 @router.post("/")
 async def data_get(data_request: youtube):
