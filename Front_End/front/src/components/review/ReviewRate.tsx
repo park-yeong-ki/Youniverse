@@ -1,25 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as Star } from "./star.svg";
 
 interface Props {
   onClick?: (rating: number) => void;
+  rating?: number; // 'rating' prop 추가
 }
 
-const ReviewRate: React.FC<Props> = ({ onClick }) => {
+const ReviewRate: React.FC<Props> = ({ onClick, rating }) => {
   const [hoveredStarIndex, setHoveredStarIndex] = useState(0);
   const [clickedStarIndex, setClickedStarIndex] = useState(0);
+
+  useEffect(() => {
+    setClickedStarIndex(rating || 0);
+  }, [rating]);
 
   const fillStarOfIndex = (num: number, event?: string): string => {
     if (event === "enter" && hoveredStarIndex >= num) {
       return "#ffbb00";
     }
-    if (event === "leave" && clickedStarIndex >= num) {
+    if (
+      (event === "leave" && clickedStarIndex >= num) ||
+      (rating && num <= rating)
+    ) {
       return "#ffbb00";
     }
     return "#ccc";
   };
-
   return (
     <StarRateContainer>
       {[1, 2, 3, 4, 5].map((num) => (

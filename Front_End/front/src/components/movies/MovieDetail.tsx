@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi";
 import styled from "styled-components";
+
 import { UserDetailInfoState } from "../../pages/store/State";
 import { MovieType } from "./MovieItemList";
 import Text from "../atoms/Text";
@@ -10,7 +11,8 @@ import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
 import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart API import
-
+import Planet
+ from "../atoms/Planet";
 type MovieItemProps = {
   movie: MovieType;
 };
@@ -130,7 +132,7 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
           </Text>
           {movie?.ottResDtos?.map((ott, index) => (
             <div key={ott.ottName}>
-              <img src={ott.ottImage} alt={ott.ottName} />
+              <Planet size="Small" src={ott.ottImage}></Planet>
               <div>{ott.ottName}</div>
             </div>
           ))}

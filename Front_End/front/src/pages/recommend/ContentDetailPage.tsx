@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SectionsContainer, Section } from "react-fullpage";
 
+import { UserDetailInfoState } from "../../pages/store/State";
 import { getMovie } from "../../apis/FrontendApi";
 import { FlexColAround } from "../../commons/style/SharedStyle";
 import Wrapper from "../../components/atoms/Wrapper";
@@ -11,7 +13,6 @@ import Review from "../../components/review/Review";
 import MovieDetailYouTube from "../../components/movies/MovieDetailYouTube";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import { MovieType } from "../../components/movies/MovieItemList";
-
 
 export type ReviewType = {
   memberSimpleResDto: {
@@ -25,11 +26,17 @@ export type ReviewType = {
 };
 
 const ContentDetailPage = () => {
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
   // 영화 상세 정보 가져오는 axios 요청
   const [movie, setMovie] = useState<MovieType | null>(null);
   const [reviews, setReviews] = useState<ReviewType[] | null>(null);
 
   const { movieId } = useParams<{ movieId: string }>();
+  
+  // 현재 로그인된 사용자의 리뷰 찾기
+  const userReview = reviews?.find(
+    (review) => review.memberSimpleResDto.memberId === memberId
+  );
 
   useEffect(() => {
     getMovie(Number(movieId))
@@ -38,6 +45,7 @@ const ContentDetailPage = () => {
         console.log("리뷰 정보", response.data.reviewResDtos);
         setMovie(response.data);
         setReviews(response.data.reviewResDtos);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +66,9 @@ const ContentDetailPage = () => {
             </Wrapper>
 
             <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
-              {reviews && <Review reviews={reviews} />}
+              {reviews && (
+                <Review reviews={reviews} userReview={userReview || null} />
+              )}
             </Wrapper>
           </StyledDetail>
         </MainPaddingContainer>

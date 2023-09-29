@@ -8,12 +8,10 @@ import { ReviewType } from "../../pages/recommend/ContentDetailPage"; // Import 
 
 interface ReviewItemListProps {
   reviews: ReviewType[] | null;
-  onReviewDelete: (reviewId: number) => void;
 }
 
 const ReviewItemList: React.FC<ReviewItemListProps> = ({
   reviews,
-  onReviewDelete,
 }) => {
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   return (
@@ -24,7 +22,6 @@ const ReviewItemList: React.FC<ReviewItemListProps> = ({
             memberId={memberId}
             key={review.reviewId}
             review={review}
-            onReviewDelete={onReviewDelete}
           />
         ))}
     </Wrapper>
