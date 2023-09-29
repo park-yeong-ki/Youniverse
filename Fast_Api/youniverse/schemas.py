@@ -7,3 +7,4 @@ class Test(BaseModel):
 
 class youtube(BaseModel):
     data: str
+    email: str
