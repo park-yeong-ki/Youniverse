@@ -28,18 +28,8 @@ async def get_Test():
     # 전처리 수행
     preprocessed_corpus = [preprocess(text) for text in corpus]
 
-    # TF-IDF 벡터화 객체 생성
-    tfidf_vectorizer = TfidfVectorizer()
-
-    # TF-IDF 벡터화 수행
-    tfidf_matrix = tfidf_vectorizer.fit_transform(preprocessed_corpus)
-
-    # 키워드와 TF-IDF 점수 추출
-    feature_names = tfidf_vectorizer.get_feature_names_out()
-    tfidf_scores = tfidf_matrix[0].toarray()[0]  # 두 번째 문서(인덱스 1)의 TF-IDF 점수
-
-    # TF-IDF 점수가 높은 순으로 정렬하여 상위 키워드 추출
-    top_keywords = [feature_names[i] for i in tfidf_scores.argsort()[::-1][:10]]
+    # 키워드 추출
+    top_keywords = keyword(preprocessed_corpus)
 
     print("전처리 후 상위 키워드:", top_keywords)
 
@@ -51,7 +41,7 @@ async def data_get(data_request: youtube):
     return
 
 
-# 전처리 함수 정의
+# 전처리 함수
 def preprocess(text):
     # 한글, 영문, 숫자를 제외한 모든 문자 제거
     text = re.sub(r'[^가-힣a-zA-Z0-9\s]', '', text)
@@ -63,8 +53,25 @@ def preprocess(text):
     # words = [word for word in words if word.lower() not in stop_words]
 
     # 2. 불용어 제거, 필요에 따라 추가 가능
-    stopwords = ['이', '는', '에서', '의', '을', '어떻게', '하시는', '분들', '위해서', '만들어졌습니다', '또한', '저의', '녹여져있으나', '들', '간의', '및', '을', '해주시는', '모든', '합니다', '위해', '에서의', '에서는']
+    stopwords = ['이', '는', '에서', '의', '을', '어떻게', '하시는', '분들', '해', '위해서', '만들어졌습니다', '또한', '저의', '녹여져있으나', '들', '간의', '및', '을', '해주시는', '모든', '합니다', '위해', '에서의', '에서는']
     words = okt.morphs(text)
     words = [word for word in words if word not in stopwords]
 
     return ' '.join(words)
+
+# 키워드 추출 함수
+def keyword(preprocessed_corpus):
+    # TF-IDF 벡터화 객체 생성
+    tfidf_vectorizer = TfidfVectorizer()
+
+    # TF-IDF 벡터화 수행
+    tfidf_matrix = tfidf_vectorizer.fit_transform(preprocessed_corpus)
+
+    # 키워드와 TF-IDF 점수 추출
+    feature_names = tfidf_vectorizer.get_feature_names_out()
+    tfidf_scores = tfidf_matrix[0].toarray()[0]
+
+    # TF-IDF 점수가 높은 순으로 정렬하여 상위 키워드 추출
+    top_keywords = [feature_names[i] for i in tfidf_scores.argsort()[::-1][:10]]
+
+    return top_keywords
