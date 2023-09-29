@@ -15,6 +15,14 @@ type Props = {
   movies?: MovieType[]; // 추가
 };
 
+type OTTType = {
+  ottId: number;
+  ottImage: string;
+  ottName: string;
+  ottPrice: number;
+  ottUrl: string;
+};
+
 type ActorType = {
   actorId: number;
   actorImage: string;
@@ -25,6 +33,11 @@ type DirectorType = {
   directorId: number;
   directorImage: string;
   directorName: string;
+};
+
+type GenreType = {
+  genreId: number;
+  genreName: string;
 };
 
 type KeywordType = {
@@ -61,15 +74,10 @@ export type MovieType = {
   actorResDtos: ActorType[];
   directorResDtos: DirectorType[];
   keywordResDtos: KeywordType[];
+  genreResDtos: GenreType[];
 };
 
-type OTTType = {
-  ottId: number;
-  ottImage: string;
-  ottName: string;
-  ottPrice: number;
-  ottUrl: string;
-};
+
 
 const convertOTTNameToId = (
   ottName: string | null | undefined
