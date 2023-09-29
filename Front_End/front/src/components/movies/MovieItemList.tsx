@@ -41,17 +41,22 @@ export type MovieType = {
   rate: number;
   runtime: number;
   ottResDtos: OTTType[];
+  overView: string;
   heartMovieResDtos: {
     heartMovieId: number;
     memberSimpleResDto: {
       memberId: number;
-    }[];
+      memberImage: string | null;
+      nickname: string;
+    };
   }[];
   hateMovieResDtos: {
     hateMovieId: number;
     memberSimpleResDto: {
       memberId: number;
-    }[];
+      memberImage: string | null;
+      nickname: string;
+    };
   }[];
   actorResDtos: ActorType[];
   directorResDtos: DirectorType[];
