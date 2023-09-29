@@ -12,7 +12,8 @@ import { getAllMovies } from "../../apis/FrontendApi";
 type Props = {
   filterOTT?: string | null;
   listType?: string;
-  movies?: MovieType[]; // 추가
+  movies?: MovieType[];
+  showMoreButton?: boolean;
 };
 
 type OTTType = {
@@ -46,7 +47,6 @@ type KeywordType = {
   source: number;
 };
 
-// 기존 MovieType 확장
 export type MovieType = {
   movieId: number;
   title: string;
@@ -77,8 +77,6 @@ export type MovieType = {
   genreResDtos: GenreType[];
 };
 
-
-
 const convertOTTNameToId = (
   ottName: string | null | undefined
 ): number | null => {
@@ -104,6 +102,7 @@ const MovieItemList: React.FC<Props> = ({
   filterOTT,
   listType,
   movies: propMovies = [], // 변수 이름 변경
+  showMoreButton,
 }) => {
   // 필요한 경우 filterOTT 값을 사용하여 영화 목록을 필터링하면 됩니다.
   // listType: 유튜브 기반 추천, @@님의 선호도 기반, @@@님의 인생영화 ... 이런 텍스트
@@ -151,8 +150,7 @@ const MovieItemList: React.FC<Props> = ({
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {listType}
         </Text>
-        {/* filterOTT가 없을 때만 더보기 버튼을 표시합니다. */}
-        {!filterOTT && (
+        {showMoreButton && (
           <StyledBtn
             size="Medium"
             color="Black"

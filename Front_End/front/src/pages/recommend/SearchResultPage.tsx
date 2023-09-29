@@ -10,7 +10,6 @@ interface LocationState {
   searchTerm: string;
 }
 
-
 const SearchResultPage = () => {
   const location = useLocation();
 
