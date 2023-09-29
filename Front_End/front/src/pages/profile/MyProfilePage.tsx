@@ -56,31 +56,35 @@ const MyProfilePage = () => {
   return (
     <MainPaddingContainer>
       <div className="flex gap-5">
-        <div className="w-1/4">
-          <MypageUserInfo
-            memberData={memberData}
-            followStatus={followStatus}
-            setFollowStatus={setFollowStatus}
-          />
-        </div>
-        <div className="w-3/4">
-          {!followStatus && (
-            <div>
-              <SoulMovieItemList />
-              <MyOTTPlanet />
-              <MypageLikeContents />
-              <UserZodiacSign />
+        {memberData && (
+          <>
+            <div className="w-1/4">
+              <MypageUserInfo
+                memberData={memberData}
+                followStatus={followStatus}
+                setFollowStatus={setFollowStatus}
+              />
             </div>
-          )}
+            <div className="w-3/4">
+              {!followStatus && (
+                <div>
+                  <SoulMovieItemList />
+                  <MyOTTPlanet />
+                  <MypageLikeContents />
+                  <UserZodiacSign />
+                </div>
+              )}
 
-          {followStatus && (
-            <MypageFollowWrap
-              memberData={memberData}
-              followStatus={followStatus}
-              setFollowStatus={setFollowStatus}
-            />
-          )}
-        </div>
+              {followStatus && (
+                <MypageFollowWrap
+                  memberData={memberData}
+                  followStatus={followStatus}
+                  setFollowStatus={setFollowStatus}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
     </MainPaddingContainer>
   );
