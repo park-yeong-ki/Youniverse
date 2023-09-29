@@ -10,16 +10,19 @@ import HashTag from "../atoms/HashTag";
 import Img from "../atoms/Img";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-// import styled from "styled-components";
+import styled from "styled-components";
 import InputBox from "../atoms/InputBox";
 import { StyledTextArea } from "../organisms/AdditionalForm";
+import { UserType } from "../../pages/profile/MyProfilePage";
 
 interface MypageUserInfoProps {
+  memberData: UserType | null;
   followStatus: string;
   setFollowStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
+  memberData,
   followStatus,
   setFollowStatus,
 }) => {
@@ -58,11 +61,15 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
           {/* 프로필 사진 */}
           <Img
             size="X-Large"
-            src="https://lh3.googleusercontent.com/a/ACg8ocIXlVPWJf0TBSmbsIq9tvwu1JJ6UQss0bh9wjVGxhbWYQ=s96-c"
+            src={
+              memberData?.memberImage ||
+              // 이후 디폴트 이미지 수정 @@@
+              "https://cdn.imweb.me/upload/S20210807d1f68b7a970c2/7170113c6a983.jpg"
+            }
           />
 
           <Text size="Large" color="Black" fontFamily="YESGothic-Bold">
-            사용자 이름
+            {memberData?.nickname}
           </Text>
 
           {/* 팔로잉 팔로워 wrapper */}
@@ -77,7 +84,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
               }
               onClick={() => setFollowStatus(FOLLOWING)}
             >
-              {}3 {FOLLOWING}
+              {memberData?.followings.length} {FOLLOWING}
             </Text>
             <Text
               size="X-Small"
@@ -89,22 +96,16 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
               }
               onClick={() => setFollowStatus(FOLLOWER)}
             >
-              {}5 {FOLLOWER}
+              {memberData?.followers.length} {FOLLOWER}
             </Text>
           </div>
 
           <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
-            자기소개 30자 들어갈 공간
+            {memberData?.introduce || "등록된 자기소개가 없습니다."}
           </Text>
 
           {/* 해시태그 wrapper */}
           <div>
-            <HashTag size="Standard" color="White">
-              # 키워드
-            </HashTag>
-            <HashTag size="Standard" color="White">
-              # 조금 긴 키워드
-            </HashTag>
             <HashTag size="Standard" color="White">
               # 키워드
             </HashTag>
@@ -195,11 +196,12 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 export default MypageUserInfo;
 
 /** 프로필 수정 버튼 눌렀을 때 배경에 검은색 opacity */
-// const StyledBlackHover = styled.div`
-//   width: 100vw;
-//   height: 100vh;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   background: rgba(0, 0, 0, 0.6);
-// `;
+export const StyledBlackHover = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+`;
