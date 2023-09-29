@@ -12,7 +12,9 @@ import styled from "styled-components";
 import SearchContainer from "../search/SearchContainer";
 import ResultContainers from "../search/ResultContainers";
 import { MovieType } from "../../components/movies/MovieItemList";
-import { FlexColBetween } from "../../commons/style/SharedStyle";
+import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
+import IconBox from "../atoms/IconBox";
+import { HiOutlineX } from "react-icons/hi";
 
 type KeywordResDto = {
   keywordId: number;
@@ -90,6 +92,11 @@ const SoulMovieItemList = () => {
               searchResults={searchResults}
               searchTerm={searchTerm}
             />
+            <IconBox
+              Icon={HiOutlineX}
+              size={32}
+              onClick={() => setAddMovieModal(false)}
+            />
           </StyledSearchModal>
         </StyledModalWrapper>
       )}
@@ -135,7 +142,7 @@ const StyledSearchModal = styled.div`
   position: absolute;
   width: 70%;
   height: 90%;
-  z-index: 3;
+  z-index: 1102;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 28px;
   padding: 20px;
@@ -143,12 +150,18 @@ const StyledSearchModal = styled.div`
     height: 30%;
     margin-bottom: 20px;
   }
-  & > *:last-child {
+  & > *:nth-child(2) {
     overflow-y: auto;
+  }
+  & > *:last-child {
+    position: absolute;
+    top: 32px;
+    right: 32px;
   }
 `;
 
 const StyledModalWrapper = styled.div`
+  ${FlexCenter}
   position: absolute;
   top: 0;
   left: 0;
