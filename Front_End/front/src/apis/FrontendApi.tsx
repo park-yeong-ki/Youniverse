@@ -252,7 +252,7 @@ export const getReview = (reviewId: number) =>
   });
 
 /** 리뷰 삭제 */
-export const deletReview = (reviewId: number) =>
+export const deleteReview = (reviewId: number) =>
   mainAxios.delete(`/reviews/${reviewId}`, {
     headers: { Accept: "application/json" },
   });

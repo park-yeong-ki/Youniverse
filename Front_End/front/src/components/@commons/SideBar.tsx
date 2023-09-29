@@ -42,7 +42,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const memberId = userDetailInfo.memberId;
 
   const handleSearchSubmit = (searchTerm: string) => {
-    navigate("/search", { state: { searchTerm } }); // 변경
+    navigate(`/search?query=${searchTerm}`); // URL에 검색어를 쿼리 파라미터로 추가
     onClose();
   };
 
