@@ -4,7 +4,6 @@ import { ADDITIONAL_INFO_PAGE } from "../../commons/constants/String";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import Text from "../../components/atoms/Text";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 const AdditionalInfoPage = () => {
   const currentURL = window.location.href;
@@ -15,7 +14,6 @@ const AdditionalInfoPage = () => {
   // const fastURL = 'http://j9b204.p.ssafy.io/fast';//서버
 
   // 상태 변수 추가
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   let allData: string = "";
 
   //fastapi로 요청 보낼 함수
@@ -32,7 +30,7 @@ const AdditionalInfoPage = () => {
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     const tokenUrl = "https://accounts.google.com/o/oauth2/token";
     const requestData = new URLSearchParams();
 
@@ -62,8 +60,6 @@ const AdditionalInfoPage = () => {
         .then((response) => {
           const access_token = response.data.access_token;
           console.log("토큰: ", access_token);
-
-          setAccessToken(access_token); // 토큰을 상태 변수에 저장
 
           const apiHeaders = {
             Authorization: "Bearer " + access_token,
@@ -110,8 +106,8 @@ const AdditionalInfoPage = () => {
 
               //채널 안 영상 정보 가져오기
               const sendAxiosRequests = async (channelIds: string[]) => {
-                for (const channelId of channelIds) {
-                  try {
+                try {
+                  for (const channelId of channelIds) {
                     axios
                       .get("https://youtube.googleapis.com/youtube/v3/search", {
                         params: {
@@ -142,7 +138,7 @@ const AdditionalInfoPage = () => {
                         }
 
                         const data: VideoItem[] = response.data.items;
-                        const videoId: string[] = data.map((item) => item.id.videoId);
+                        // const videoId: string[] = data.map((item) => item.id.videoId);
                         const titles: string[] = data.map((item) => item.snippet.title);
                         const description: string[] = data.map((item) => item.snippet.description);
 
@@ -161,14 +157,16 @@ const AdditionalInfoPage = () => {
                         //   description: description[index],
                         // }));
                         // console.log("채널 영상 추출: ", combinedData);
+
                       })
                       .catch((error) => {
                         console.error("영상 정보 요청 실패:", error);
                       });
+                    }
+
                   } catch (error) {
                     console.error(`Error fetching data for channel ${channelId}:`, error);
                   }
-                }
               };
               sendAxiosRequests(channelId);
             })
@@ -224,8 +222,10 @@ const AdditionalInfoPage = () => {
 
                   //플레이리스트 안 영상 정보 가져오기
                   const sendPlaylistRequests = async (playlistIds: string[]) => {
-                    for (const playlistId of playlistIds) {
-                      try {
+                    // 모든 요청이 완료될 때 상태를 저장할 배열
+                    const requestStatus = [];
+                    try {
+                      for (const playlistId of playlistIds) {
                         if (!playlistId) {
                           console.log(`Skipping playlistId because it is null.`);
                           // console.log("모든 데이터: ", allData);
@@ -260,9 +260,7 @@ const AdditionalInfoPage = () => {
                             }
 
                             const data: PlaylistItem[] = response.data.items;
-                            const videoId: string[] = data.map(
-                              (item) => item.snippet.resourceId.videoId
-                            );
+                            // const videoId: string[] = data.map((item) => item.snippet.resourceId.videoId);
                             const titles: string[] = data.map((item) => item.snippet.title);
                             const description: string[] = data.map(
                               (item) => item.snippet.description
@@ -282,16 +280,28 @@ const AdditionalInfoPage = () => {
                             // }));
                             // console.log("플레이리스트 영상 추출: ", combinedData);
                             // console.log("모든 데이터: ", allData);
-                            sendDataToServer(allData);
+                            
+                            // 요청이 성공한 경우 상태 배열에 추가
+                            requestStatus.push("success");
+                            // 모든 요청이 완료되었는지 확인
+                            const isAllRequestsCompleted = requestStatus.length === playlistIds.length;
+
+                            // 모든 요청이 완료된 경우 sendDataToServer 호출
+                            if (isAllRequestsCompleted) {
+                              sendDataToServer(allData);
+                            }
                           })
 
                           .catch((error) => {
                             console.error("플레이리스트 영상 요청 실패:", error);
+
+                            // 요청이 실패한 경우 상태 배열에 추가
+                            requestStatus.push("error");
                           });
+                        }
                       } catch (error) {
                         console.error(`Error fetching data for playlist ${playlistId}:`, error);
                       }
-                    }
                   };
                   sendPlaylistRequests(playlistId);
                 })
@@ -307,7 +317,7 @@ const AdditionalInfoPage = () => {
           console.error("토큰 요청 실패:", error);
         });
     }
-  }, [codes]);
+  // }, []);
 
   return (
     <StyledContainerCenter>
