@@ -1,44 +1,63 @@
-import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { UserDetailInfoState } from "../../pages/store/State";
-import { SEARCH_USER_PAGE } from "../../commons/constants/String";
+//import { SEARCH_USER_PAGE } from "../../commons/constants/String";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import Wrapper from "../atoms/Wrapper";
-import Text from "../atoms/Text";
+//import Text from "../atoms/Text";
+import Img from "../atoms/Img";
+import Btn from "../atoms/Btn";
 import ProfileReview from "../review/ProfileReview";
 import UserZodiacSign from "../users/UserZodiacSign";
 import SoulMovieItemList from "../movies/SoulMovieItemList";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import { getMember } from "../../apis/FrontendApi";
+import {
+  FOLLOW,
+  FOLLOWING,
+  FOLLOWER,
+  LIKEIT,
+} from "../../commons/constants/String";
 
-const OtherProfileContainer = () => {
-  const { memberId } = useRecoilValue(UserDetailInfoState);
-  const [memberData, setMemberData] = useState<UserType | null>(null);
+interface ProfileUserInfoProps {
+  memberData: UserType | null;
+}
 
-  useEffect(() => {
-    getMember(Number(memberId))
-      .then((response) => {
-        console.log("개별 회원 조회", `${memberId}번 회원=`, response.data);
-        setMemberData(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [memberId]);
-
+const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
+  memberData,
+}) => {
   return (
     <StyledStandardWhiteGhostWrapper
       size="Standard"
       color="WhiteGhost"
       padding="Medium"
     >
-      <Text size="X-Large" color="Black" fontFamily="PyeongChang-Light">
+      {/* <Text size="X-Large" color="Black" fontFamily="PyeongChang-Light">
         {SEARCH_USER_PAGE}
-      </Text>
-      <UserZodiacSign />
+      </Text> */}
+      <Img
+        size="X-Large"
+        src={memberData?.memberImage || "/assets/기본프로필.jpg"}
+      ></Img>
+      <div>
+        <div>
+          <div>{memberData?.nickname}</div>
+          <Btn size="Small" color="Black">
+            {FOLLOW}
+          </Btn>
+        </div>
+        <div>{memberData?.introduce}</div>
+        <div>
+          <div>{LIKEIT}</div>
+          {/* <div>{memberData?.heartMovieResDtos}</div> */}
+          <div>{FOLLOWER}</div>
+          <div>{memberData?.followers.length}</div>
+          <div>{FOLLOWING}</div>
+          <div>{memberData?.followings.length}</div>
+        </div>
+      </div>
+      <div>
+        <UserZodiacSign />
+        <ProfileReview />
+      </div>
       <SoulMovieItemList />
-      <ProfileReview />
     </StyledStandardWhiteGhostWrapper>
   );
 };
