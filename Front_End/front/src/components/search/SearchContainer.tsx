@@ -28,6 +28,7 @@ const SearchContainer = ({
     if (initialSearchTerm) {
       handleSearch(initialSearchTerm, "all");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   const handleSearch = (term: string, valueType: string | null) => {
