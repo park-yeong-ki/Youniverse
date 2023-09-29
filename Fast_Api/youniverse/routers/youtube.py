@@ -1,9 +1,10 @@
 from fastapi import APIRouter
-from youniverse.repository import youtubeRepository
+from youniverse.repository import keywordRepository
 from youniverse.schemas import youtube
 import re
 from konlpy.tag import Okt
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 # from konlpy.tag import Komoran
 # from konlpy.corpus import stopwords
 #
@@ -32,11 +33,16 @@ async def get_Test():
     print("전처리 후 상위 키워드:", top_keywords)
 
     #키워드 저장
-    youtubeRepository.save_keyword("gkathaud4884@gmail.com", top_keywords)
+    # keywordRepository.save_youtube_keyword("gkathaud4884@gmail.com", top_keywords)
+
+    # 코사인 유사도 계산
+    result_keywords = similarily(top_keywords)
+
+    print("코사인 유사도 상위 키워드:", result_keywords)
 
 @router.get("/")
 async def data_get(data_request: youtube):
-    top_keywords = youtubeRepository.get_keyword(data_request.email)
+    top_keywords = keywordRepository.get_youtube_keyword(data_request.email)
     return "success"
 
 @router.post("/")
@@ -54,7 +60,12 @@ async def data_post(data_request: youtube):
     print("전처리 후 상위 키워드:", top_keywords)
 
     #키워드 저장
-    youtubeRepository.save_keyword(data_request.email, top_keywords);
+    keywordRepository.save_youtube_keyword(data_request.email, top_keywords)
+
+    # 코사인 유사도 계산
+    result_keywords = similarily(top_keywords)
+
+    print("코사인 유사도 상위 키워드:", result_keywords)
 
     return "success"
 
@@ -73,7 +84,12 @@ async def data_update(data_request: youtube):
     print("전처리 후 상위 키워드:", top_keywords)
 
     #키워드 업데이트
-    youtubeRepository.update_keyword(data_request.email, top_keywords);
+    keywordRepository.update_youtube_keyword(data_request.email, top_keywords)
+
+    # 코사인 유사도 계산
+    result_keywords = similarily(top_keywords)
+
+    print("코사인 유사도 상위 키워드:", result_keywords)
 
     return "success"
 
@@ -114,3 +130,28 @@ def keyword(preprocessed_corpus):
     top_keywords = [feature_names[i] for i in tfidf_scores.argsort()[::-1][:10]]
 
     return top_keywords
+
+def similarily(top_keywords):
+    # TF-IDF 벡터화 객체 생성
+    tfidf_vectorizer = TfidfVectorizer()
+
+    # tmdb 데이터
+    tmdb_keyword = keywordRepository.get_tmdb_keyword()
+
+    # top_keywords와 TMDB 키워드 데이터를 하나의 리스트로 합침
+    all_keywords = top_keywords + tmdb_keyword
+
+    # TF-IDF 벡터화 수행
+    tfidf_matrix = tfidf_vectorizer.fit_transform(all_keywords)
+
+    # 코사인 유사도 계산
+    cosine_similarities = cosine_similarity(tfidf_matrix)
+
+    # top_keywords와 TMDB 키워드 데이터 간의 유사도 추출
+    top_keywords_similarity = cosine_similarities[:len(top_keywords), len(top_keywords):]
+
+    # 유사도를 기준으로 상위 10개 TMDB 키워드 추출
+    similar_tmdb_keywords_indices = top_keywords_similarity.argsort()[0][::-1][:10]
+    similar_tmdb_keywords = [tmdb_keyword[i] for i in similar_tmdb_keywords_indices]
+
+    return similar_tmdb_keywords

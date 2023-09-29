@@ -11,7 +11,7 @@ class Test(Base):
     actor_image = Column(VARCHAR(255), nullable=False)
     actor_name = Column(VARCHAR(30), nullable=False)
 
-class keyword(Base):
+class Keyword(Base):
     __tablename__ = "keyword"
 
     keyword_id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
