@@ -121,6 +121,8 @@ const StyledSearchBox = styled.div`
     margin-right: 8px; // 입력 필드의 오른쪽 마진 추가
   } // InputBox
   & > *:nth-child(3) {
+    ${FlexCenter}
     width: 44px;
+    text-align: center;
   } // Btn
 `;

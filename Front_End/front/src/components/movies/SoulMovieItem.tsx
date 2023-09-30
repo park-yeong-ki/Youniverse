@@ -53,7 +53,7 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
   const handleSoulMovieDelete = (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 전파 중단
 
-    deletBest(Number(bestId), Number(memberId))
+    deletBest(Number(bestId))
       .then((response) => {
         console.log("인생영화 삭제", response.data);
         if (onDeleteSoulMovie) {
