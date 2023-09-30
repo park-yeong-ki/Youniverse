@@ -24,8 +24,8 @@ const scopes = [
 //소key
 const clientId = '776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com'
 
-const redirectUri = 'http://localhost:3000/addinfo'//로컬
-// const redirectUri ='https://j9b204.p.ssafy.io/addinfo'//서버
+//const redirectUri = 'http://localhost:3000/addinfo'//로컬
+ const redirectUri ='https://j9b204.p.ssafy.io/addinfo'//서버
 
 const scopeString = scopes.join(' ');
 
