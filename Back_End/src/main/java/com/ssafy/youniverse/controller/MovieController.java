@@ -47,8 +47,9 @@ public class MovieController {
                                         @RequestParam(name = "director", required = false) String director,
                                         @RequestParam(name = "actor", required = false) String actor,
                                         @RequestParam(name = "title", required = false) String title,
-                                        @RequestParam(name = "is-preference", required = false) boolean isPreference) {
-        Page<Movie> moviePage = movieService.readMovies(pageable, memberId, director, actor, title, isPreference);
+                                        @RequestParam(name = "is-preference", required = false) boolean isPreference,
+                                        @RequestParam(name = "ott-id", required = false) Integer ottId) {
+        Page<Movie> moviePage = movieService.readMovies(pageable, memberId, director, actor, title, isPreference, ottId);
         Page<MovieResDto> movieResDtoPage = moviePage.map(movie -> movieMapper.movieToMovieResDto(movie));
         return new ResponseEntity<>(movieResDtoPage, HttpStatus.OK);
     }
