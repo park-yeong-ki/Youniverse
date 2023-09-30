@@ -14,7 +14,7 @@ public class Actor {
     @Id
     private Integer actorId;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 60, nullable = false)
     private String actorName;
 
     @Column(length = 255, nullable = false)

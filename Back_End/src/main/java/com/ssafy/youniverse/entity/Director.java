@@ -13,7 +13,7 @@ public class Director {
     @Id
     private Integer directorId;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 60, nullable = false)
     private String directorName;
 
     @Column(length = 255, nullable = false)

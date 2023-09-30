@@ -1,7 +1,11 @@
 package com.ssafy.youniverse.api;
 
+import com.deepl.api.DeepLException;
+import com.deepl.api.TextResult;
+import com.deepl.api.Translator;
 import com.ssafy.youniverse.entity.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +24,16 @@ import java.util.Set;
 public class TmdbController {
 
     private final TmdbService tmdbService;
+
+    @Value("${deepL.auth-Key}")
+    private String authKey;  // Replace with your key
+
     @PostMapping
-    public ResponseEntity<?> readData(@RequestBody List<TmdbMovie> tmdbMovies) {
+    public ResponseEntity<?> readData(@RequestBody List<TmdbMovie> tmdbMovies) throws DeepLException, InterruptedException {
         String basicImage = "https://image.tmdb.org/t/p/original/";
+
+        Translator translator = new Translator(authKey);
+
         for (TmdbMovie tmdbMovie : tmdbMovies) {
             //영화 생성
             Movie movie = new Movie();
@@ -79,7 +90,11 @@ public class TmdbController {
                 //키워드 입력
                 Keyword keyword = new Keyword();
                 keyword.setKeywordId(tmdbKeyword.getId());
-                keyword.setKeywordName(tmdbKeyword.getName());
+
+                //번역
+                TextResult result = translator.translateText(tmdbKeyword.getName(), null, "ko");
+                keyword.setKeywordName(result.getText());
+
                 keyword.setSource(0); //tmdb 소스는 0
                 keywordList.add(keyword);
             }
@@ -149,7 +164,11 @@ public class TmdbController {
 
                 Actor actor = new Actor();
                 actor.setActorId(tmdbCast.getId());
-                actor.setActorName(tmdbCast.getName());
+
+                //번역
+                TextResult result = translator.translateText(tmdbCast.getName(), null, "ko");
+                actor.setActorName(result.getText());
+
                 actor.setActorImage(basicImage + tmdbCast.getProfile_path());
                 actorList.add(actor);
             }
@@ -169,7 +188,11 @@ public class TmdbController {
 
                 Director director = new Director();
                 director.setDirectorId(tmdbCrew.getId());
-                director.setDirectorName(tmdbCrew.getName());
+
+                //번역
+                TextResult result = translator.translateText(tmdbCrew.getName(), null, "ko");
+                director.setDirectorName(result.getText());
+
                 director.setDirectorImage(basicImage + tmdbCrew.getProfile_path());
                 directorList.add(director);
             }
