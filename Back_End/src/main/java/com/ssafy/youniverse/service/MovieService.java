@@ -75,12 +75,12 @@ public class MovieService {
     }
 
     //영화 전체 조회
-    public Page<Movie> readMovies(Pageable pageable, Integer memberId, String director, String actor, String title, boolean isPreference) {
+    public Page<Movie> readMovies(Pageable pageable, Integer memberId, String director, String actor, String title, boolean isPreference, Integer ottId) {
         Page<Movie> moviePage = null;
         if (memberId != null) {
             if (isPreference) { //선호도 조사 -> 로그인 회원 키워드와 일치하는 키워드를 가진 영화 목록 추천
                 moviePage = movieRepository.findAllByMemberKeyword(memberId, pageable);
-            }else { //로그인 회원 연령, 성별 추천 영화 목록 -> 비슷한 연령과 성별의 회원이 좋아요한 영화 목록 반환
+            } else { //로그인 회원 연령, 성별 추천 영화 목록 -> 비슷한 연령과 성별의 회원이 좋아요한 영화 목록 반환
                 moviePage = movieRepository.findAllByAgeAndGender(memberId, pageable);
             }
         } else if (StringUtils.hasText(director)) { //감독 기반
@@ -89,7 +89,9 @@ public class MovieService {
             moviePage = movieRepository.findAllByActor(actor, pageable);
         } else if (StringUtils.hasText(title)) { //제목 기반 완전히 일치하지 않아도 검색
             moviePage = movieRepository.findAllByTitleContains(title, pageable);
-        }else { //전체 영화
+        } else if (ottId != null) { //OTT별 영화 조회
+            moviePage = movieRepository.findAllByOttId(ottId, pageable);
+        } else { //전체 영화
             moviePage = movieRepository.findAll(pageable);
         }
 

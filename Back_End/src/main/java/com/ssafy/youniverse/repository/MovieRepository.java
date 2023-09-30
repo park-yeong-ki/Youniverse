@@ -33,4 +33,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             "and m.gender = " +
             "(select m3.gender from Member m3 where m3.memberId = :memberId)))")
     Page<Movie> findAllByAgeAndGender(@Param("memberId") Integer memberId, Pageable pageable);
+
+    @Query(value = "select mv from Movie mv where mv.movieId in " +
+            "(select om.movie.movieId from OttMovie om where om.ott.ottId = :ottId)")
+    Page<Movie> findAllByOttId(@Param("ottId") Integer ottId, Pageable pageable);
+
 }

@@ -49,7 +49,8 @@ public class MemberService {
     //회원조회
     public Member readMember(int memberId) {
         if (memberId == 0) { //인생영화 5개 이상인 랜덤 회원 전송
-            memberId = memberRepository.findByRandom();
+            Integer randomId = memberRepository.findByRandom();
+            if (randomId != null) memberId = randomId; //랜덤 회원이 존재하는 경우
         }
 
         Optional<Member> optionalMember = memberRepository.findById(memberId);
@@ -153,6 +154,12 @@ public class MemberService {
             throw new RuntimeException("존재하지 않는 회원입니다."); //임시 예외
         }
         return optionalMember.get();
+    }
+
+    //이메일로 회원 조회
+    public Member checkMemberByEmail(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        return optionalMember.orElse(null); // 회원이 존재하지 않으면 null 반환
     }
 
 }

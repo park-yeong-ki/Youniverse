@@ -34,14 +34,19 @@ const Header = () => {
   return (
     <StyledHeader>
       <div>
-        <LogoImage src="/assets/Logo/Logo.svg" onClick={handleToMain} alt="Logo" />
+        <LogoImage
+          src="/assets/Logo/Logo.svg"
+          onClick={handleToMain}
+          style={{ position: "relative", zIndex: 1100 }}
+          alt="Logo"
+        />
       </div>
       <IconBox
         Icon={isSidebarOpen ? HiX : HiMenu}
         size={24}
         color={"white"}
         onClick={toggleSidebar}
-        style={{ position: 'relative', zIndex: 1100 }} // HiX 아이콘이 사이드바 위에 위치하도록 zIndex 적용
+        style={{ position: "relative", zIndex: 1100 }} // HiX 아이콘이 사이드바 위에 위치하도록 zIndex 적용
       />
       {/* Sidebar가 표시될 때만 렌더링, */}
       {isSidebarOpen && <SideBar onClose={toggleSidebar} />}
