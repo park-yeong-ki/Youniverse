@@ -12,10 +12,9 @@ import java.util.List;
 public class Actor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer actorId;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 60, nullable = false)
     private String actorName;
 
     @Column(length = 255, nullable = false)
