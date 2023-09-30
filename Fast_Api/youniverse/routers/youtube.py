@@ -5,11 +5,11 @@ import re
 from konlpy.tag import Okt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-# from konlpy.tag import Komoran
-# from konlpy.corpus import stopwords
-#
-# # 미리 정의된 한국어 불용어 목록 가져오기
-# stopwords_ko = stopwords.words('English')
+import requests
+import json
+
+# API 엔드포인트 URL
+springUrl = "https://j9b204.p.ssafy.io/api/keywords/register"
 
 router = APIRouter(
     prefix="/youtube",
@@ -28,22 +28,28 @@ async def get_Test():
     preprocessed_corpus = [preprocess(text) for text in corpus]
 
     # 키워드 추출
-    top_keywords = keyword(preprocessed_corpus)
+    top_keywords = getKeyword(preprocessed_corpus)
 
     print("전처리 후 상위 키워드:", top_keywords)
-
-    #키워드 저장
-    # keywordRepository.save_youtube_keyword("gkathaud4884@gmail.com", top_keywords)
 
     # 코사인 유사도 계산
     result_keywords = similarily(top_keywords)
 
     print("코사인 유사도 상위 키워드:", result_keywords)
 
-@router.get("/")
-async def data_get(data_request: youtube):
-    top_keywords = keywordRepository.get_youtube_keyword(data_request.email)
-    return "success"
+    for keyword in top_keywords:
+        data = {
+            "keywordName": keyword,
+            "source": 1
+        }
+        axiosRequest(data)
+
+    for keyword in result_keywords:
+        data = {
+            "keywordName": keyword,
+            "source": 2
+        }
+        axiosRequest(data)
 
 @router.post("/")
 async def data_post(data_request: youtube):
@@ -55,36 +61,9 @@ async def data_post(data_request: youtube):
     preprocessed_corpus = [preprocess(text) for text in corpus]
 
     # 키워드 추출
-    top_keywords = keyword(preprocessed_corpus)
+    top_keywords = getKeyword(preprocessed_corpus)
 
     print("전처리 후 상위 키워드:", top_keywords)
-
-    #키워드 저장
-    keywordRepository.save_youtube_keyword(data_request.email, top_keywords)
-
-    # 코사인 유사도 계산
-    result_keywords = similarily(top_keywords)
-
-    print("코사인 유사도 상위 키워드:", result_keywords)
-
-    return "success"
-
-@router.put("/")
-async def data_update(data_request: youtube):
-    corpus = [
-        data_request.data
-    ]
-
-    # 전처리 수행
-    preprocessed_corpus = [preprocess(text) for text in corpus]
-
-    # 키워드 추출
-    top_keywords = keyword(preprocessed_corpus)
-
-    print("전처리 후 상위 키워드:", top_keywords)
-
-    #키워드 업데이트
-    keywordRepository.update_youtube_keyword(data_request.email, top_keywords)
 
     # 코사인 유사도 계산
     result_keywords = similarily(top_keywords)
@@ -115,7 +94,7 @@ def preprocess(text):
     return ' '.join(words)
 
 # 키워드 추출 함수
-def keyword(preprocessed_corpus):
+def getKeyword(preprocessed_corpus):
     # TF-IDF 벡터화 객체 생성
     tfidf_vectorizer = TfidfVectorizer()
 
@@ -155,3 +134,18 @@ def similarily(top_keywords):
     similar_tmdb_keywords = [tmdb_keyword[i] for i in similar_tmdb_keywords_indices]
 
     return similar_tmdb_keywords
+
+def axiosRequest(data):
+    # JSON 데이터를 문자열로 직렬화
+    payload = json.dumps(data)
+
+    # POST 요청 보내기
+    response = requests.post(url, data=payload, headers={"Content-Type": "application/json"})
+
+    # 응답 확인
+    if response.status_code == 200:
+        print("요청이 성공했습니다.")
+        response_data = response.json()  # 서버에서 반환한 JSON 데이터 파싱
+        print("응답 데이터:", response_data)
+    else:
+        print("요청이 실패했습니다. 상태 코드:", response.status_code)
