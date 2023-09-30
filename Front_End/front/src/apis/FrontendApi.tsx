@@ -10,6 +10,16 @@ type UserJoinInfo = {
   ottList: number[];
 };
 
+export interface UserSearchParams {
+  term: string;
+  option?: string | null;
+  page?: number;
+  size?: number;
+  nickname?: string;
+  keyword?: string;
+  total?: string;
+}
+
 /** 회원가입 */
 export const postMember = (userJoinInfo: UserJoinInfo) =>
   mainAxios.post(`/members/register`, userJoinInfo, {
@@ -34,11 +44,21 @@ export const getMember = (memberId: number) =>
     headers: { Accept: "application/json" },
   });
 
-/** 전체 회원조회 */
-export const getAllMembers = (page: number, size: number) =>
-  mainAxios.get(`/members?page=${page}&size=${size}`, {
+/** 이메일로 회원조회 */
+export const getEmailMember = (email: string) =>
+  mainAxios.get(`/members/email/${email}`, {
     headers: { Accept: "application/json" },
   });
+
+/** 전체 회원조회 */
+export const getAllMembers = (userSearchParams: UserSearchParams) =>
+  mainAxios.get(
+    `/members?page=${userSearchParams.page}&size=${userSearchParams.size}`,
+    {
+      headers: { Accept: "application/json" },
+      params: userSearchParams,
+    }
+  );
 
 // =======================================================
 
@@ -103,18 +123,26 @@ export const getMovie = (movieId: number) =>
   });
 
 /** 영화 전체 조회 */
-export const getAllMovies = () =>
+export const getAllMovies = (filters = {}) =>
   mainAxios.get(`/movies`, {
+    params: filters,
     headers: { Accept: "application/json" },
   });
 
 // ========================================
 
 /** 좋아요 등록 */
-export const postHeart = () =>
-  mainAxios.post(`/heart-movies/register`, {
-    headers: { Accept: "application/json" },
-  });
+export const postHeart = (memberId: number, movieId: number) =>
+  mainAxios.post(
+    `/heart-movies/register`,
+    {
+      memberId,
+      movieId,
+    },
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
 
 /** 좋아요 조회 */
 export const getHeart = (heartMovieId: number) =>
@@ -131,10 +159,17 @@ export const deleteHeart = (heartMovieId: number) =>
 //====================================================
 
 /** 싫어요 등록 */
-export const postHate = () =>
-  mainAxios.post(`/hate-movies/register`, {
-    headers: { Accept: "application/json" },
-  });
+export const postHate = (memberId: number, movieId: number) =>
+  mainAxios.post(
+    `/hate-movies/register`,
+    {
+      memberId,
+      movieId,
+    },
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
 
 /** 싫어요 조회 */
 export const getHate = (hateMovieId: number) =>
@@ -163,9 +198,10 @@ export const getBest = (bestMovieId: number) =>
   });
 
 /** 인생영화 삭제 */
-export const deletBest = (bestMovieId: number) =>
+export const deletBest = (bestMovieId: number, memberId: number) =>
   mainAxios.delete(`/best-movies/${bestMovieId}`, {
     headers: { Accept: "application/json" },
+    data: { memberId },
   });
 
 //==============================================
@@ -189,7 +225,7 @@ export const getReview = (reviewId: number) =>
   });
 
 /** 리뷰 삭제 */
-export const deletReview = (reviewId: number) =>
+export const deleteReview = (reviewId: number) =>
   mainAxios.delete(`/reviews/${reviewId}`, {
     headers: { Accept: "application/json" },
   });

@@ -7,7 +7,7 @@ interface IconBoxProps {
   Icon?: IconType;
   size?: number;
   color?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
   style?: React.CSSProperties;
 }
 

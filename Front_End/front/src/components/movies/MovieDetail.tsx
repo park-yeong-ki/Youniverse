@@ -1,70 +1,141 @@
-import React, { useEffect, useState } from "react";
-import { getMovie } from "../../apis/FrontendApi";
-import Text from "../atoms/Text";
+import React, { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { HiOutlineHeart, HiHeart } from "react-icons/hi";
 import styled from "styled-components";
+
+import { UserDetailInfoState } from "../../pages/store/State";
+import { MovieType } from "./MovieItemList";
+import Text from "../atoms/Text";
 import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
 import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
-import { HiOutlineHeart } from "react-icons/hi";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
+import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart API import
+import Planet
+ from "../atoms/Planet";
+type MovieItemProps = {
+  movie: MovieType;
+};
 
-const MovieDetail = () => {
-  const [movie, setMovie] = useState([]);
+const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+
+  // 좋아요 상태 및 좋아요 ID
+  const [likeStatus, setLikeStatus] = useState(false);
+  const [heartMovieId, setHeartMovieId] = useState<number | null>(null);
 
   useEffect(() => {
-    getMovie(4)
-      .then((response) => {
-        console.log(response.data);
-        setMovie(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    const heart = movie.heartMovieResDtos?.find(
+      (resDto) => resDto.memberSimpleResDto?.memberId === memberId
+    );
 
-  console.log(movie);
+    if (heart) {
+      setLikeStatus(true);
+      setHeartMovieId(heart.heartMovieId);
+    }
+  }, [movie, memberId]);
+
+  // 좋아요 버튼 클릭 핸들러
+  const handleHeartClick = () => {
+    if (!likeStatus && memberId) {
+      postHeart(memberId, movie.movieId)
+        .then((res) => {
+          setLikeStatus(true);
+          setHeartMovieId(res.data.heartMovieId);
+        })
+        .catch((err) => {
+          console.error("Error posting heart:", err);
+        });
+    } else if (likeStatus && heartMovieId !== null) {
+      deleteHeart(heartMovieId)
+        .then(() => {
+          setLikeStatus(false);
+          setHeartMovieId(null);
+        })
+        .catch((err) => {
+          console.error("Error deleting heart:", err);
+        });
+    }
+  };
 
   return (
     <StyledDetailWrapper>
       {/* 영화 포스터 */}
       <StyledCardWrapper $detail $cardWidth="30%">
-        <StyledMoviePoster src="https://www.themoviedb.org/t/p/w440_and_h660_face/1YYL1OcgjPLjAGi6n0iZe1gdl9i.jpg" />
+        <StyledMoviePoster src={movie?.movieImage} />
       </StyledCardWrapper>
 
       {/* 영화 상세 정보 */}
       <StyledMovieDetail>
         <StyledTitleBtnWrapper>
-          <Text size="Large" color="Black" fontFamily="PyeongChang-Light">
-            영화 제목
+          <Text size="X-Large" color="Black" fontFamily="PyeongChang-Light">
+            {movie?.title}
           </Text>
           <div>
             <HashTag size="Huge" color="White">
-              ⭐별점
+              ⭐{movie?.rate}
             </HashTag>
-            <StyledSquareBtn size="Small" color="Black">
-              <HiOutlineHeart />
+            <StyledSquareBtn
+              size="Small"
+              color="Black"
+              onClick={handleHeartClick}
+            >
+              {likeStatus ? <HiHeart /> : <HiOutlineHeart />}
             </StyledSquareBtn>
           </div>
         </StyledTitleBtnWrapper>
 
-        <div>키워드들 들어가는 공간</div>
-
-        <div>영화 설명 들어가는 공간</div>
-
         <div>
-          <div>감독</div>
-          <div>감독 이름</div>
+          <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
+            키워드
+          </Text>
+          {movie?.keywordResDtos?.map((keyword, index) => (
+            <div key={keyword.keywordName}>
+              <HashTag size="Standard" color="White">
+                {keyword.keywordName}
+              </HashTag>
+            </div>
+          ))}
+        </div>
+
+        <div>{movie?.overView}</div>
+
+        {/* 감독 정보 */}
+        <div>
+          <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
+            감독
+          </Text>
+          {movie?.directorResDtos?.map((director, index) => (
+            <div key={director.directorName}>
+              <img src={director.directorImage} alt={director.directorName} />
+              <div>{director.directorName}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* 배우 정보 */}
+        <div>
+          <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
+            배우
+          </Text>
+          {movie?.actorResDtos?.map((actor, index) => (
+            <div key={actor.actorName}>
+              <img src={actor.actorImage} alt={actor.actorName} />
+              <div>{actor.actorName}</div>
+            </div>
+          ))}
         </div>
 
         <div>
-          <div>배우</div>
-          <div>배우 이름</div>
-        </div>
-
-        <div>
-          <div>OTT 행성</div>
-          <div>OTT 행성</div>
-          <div>OTT 행성</div>
+          <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
+            OTT 행성
+          </Text>
+          {movie?.ottResDtos?.map((ott, index) => (
+            <div key={ott.ottName}>
+              <Planet size="Small" src={ott.ottImage}></Planet>
+              <div>{ott.ottName}</div>
+            </div>
+          ))}
         </div>
       </StyledMovieDetail>
     </StyledDetailWrapper>
@@ -95,6 +166,4 @@ const StyledSquareBtn = styled(Btn)`
 /** 제목, 버튼 묶음 들어가는 공간 */
 const StyledTitleBtnWrapper = styled.div`
   ${FlexRowBetween}
-`
-
-/**  */
+`;

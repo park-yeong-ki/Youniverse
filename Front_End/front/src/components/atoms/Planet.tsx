@@ -25,7 +25,7 @@ type PlanetStyle = {
 /** 행성 STYLE */
 const PlanetStyles: Record<PlanetSize, PlanetStyle> = {
   Standard: {
-    height: "248px",
+    height: "180px",
   },
   Medium: {
     height: "144px",

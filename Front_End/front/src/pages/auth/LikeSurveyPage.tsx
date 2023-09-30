@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { UserJoinInfoState } from "../../pages/store/State";
+import { LoginState, UserJoinInfoState } from "../../pages/store/State";
 import { LIKE_SURVEY } from "../../commons/constants/String";
 import LikeForm from "../../components/organisms/LikeForm";
 import Text from "../../components/atoms/Text";
@@ -10,9 +10,11 @@ import { TO_MAIN } from "../../commons/constants/String";
 import Btn from "../../components/atoms/Btn";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import { postMember } from "../../apis/FrontendApi";
+import { MainContainer } from "../../commons/style/layoutStyle";
 
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
+  const setIsLoggedIn = useSetRecoilState(LoginState);
   const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
   const handleToMainButtonClick = async () => {
@@ -22,11 +24,11 @@ const LikeSurveyPage = () => {
     };
 
     setUserJoinInfo(updatedUserJoinInfo);
-
     try {
       const response = await postMember(updatedUserJoinInfo);
       if (response.status === 200) {
         console.log("회원 정보 등록 성공:", response.data);
+        setIsLoggedIn(true);
         navigate("/");
       } else {
         console.error("데이터 전송 실패:", response.statusText);
@@ -37,7 +39,7 @@ const LikeSurveyPage = () => {
   };
 
   return (
-    <StyledContainerCenter>
+    <MainContainer>
       <StyledContainerBetweenCol>
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {LIKE_SURVEY}
@@ -53,7 +55,7 @@ const LikeSurveyPage = () => {
           {TO_MAIN}
         </StyledMainButton>
       </StyledContainerBetweenCol>
-    </StyledContainerCenter>
+    </MainContainer>
   );
 };
 
@@ -63,14 +65,10 @@ const StyledMainButton = styled(Btn)`
   width: 300px;
 `;
 
-const StyledContainerCenter = styled.div`
-  ${FlexCenter}
-  height: 100vh;
-`;
-
 const StyledContainerBetweenCol = styled.div`
   ${FlexColBetween};
-  height: 80%;
+  height: 90%;
+  padding-top: 2%;
 `;
 
 const StyledForm = styled.div`

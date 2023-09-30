@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import SearchUserItem from "./SearchUserItem";
 import { FlexColBetween } from "../../commons/style/SharedStyle";
+import { User } from "../organisms/UserSearchContainer";
 
-type User = {
-  id: number;
-  nickname: string;
-  image: string;
-  hashtags: string[];
-};
 
 interface Props {
   users: User[];
@@ -22,10 +17,10 @@ const SearchUserItemList: React.FC<Props> = ({ users }) => {
     <StyledCenter>
       {users.map((user) => (
         <SearchUserItem
-          key={user.id}
+          key={user.memberId}
           user={user}
-          isSelected={selectedUserId === user.id}
-          onSelect={() => setSelectedUserId(user.id)}
+          isSelected={selectedUserId === user.memberId}
+          onSelect={() => setSelectedUserId(user.memberId)}
         />
       ))}
     </StyledCenter>

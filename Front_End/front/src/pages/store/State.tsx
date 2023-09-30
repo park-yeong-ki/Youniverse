@@ -15,6 +15,12 @@ export const LoginState = atom<boolean>({
 type UserInfo = {
   accessToken: string | null;
   refreshToken: string | null;
+  email: string | null;
+};
+
+type UserDetailInfo = {
+  nickname: string | null;
+  memberId: number | null;
 };
 
 type UserJoinInfo = {
@@ -30,8 +36,18 @@ type UserJoinInfo = {
 export const UserInfoState = atom<UserInfo>({
   key: "UserInfoState",
   default: {
-    accessToken: "",
-    refreshToken: "",
+    accessToken: null,
+    refreshToken: null,
+    email: null,
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const UserDetailInfoState = atom<UserDetailInfo>({
+  key: "UserDetailInfoState",
+  default: {
+    nickname: null,
+    memberId: null,
   },
   effects_UNSTABLE: [persistAtom],
 });
