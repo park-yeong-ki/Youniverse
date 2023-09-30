@@ -96,9 +96,8 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
           <StyledColBetween>
             <UserZodiacSign />
           </StyledColBetween>
-          {/* <ProfileReview /> */}
+          <ProfileReview />
         </StyledRowBetween>
-        <ProfileReview />
         <SoulMovieItemList />
       </StyledColBetween>
     </StyledStandardWhiteGhostWrapper>

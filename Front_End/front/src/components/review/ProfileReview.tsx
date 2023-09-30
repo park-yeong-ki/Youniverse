@@ -51,8 +51,9 @@ const ProfileReview = () => {
 export default ProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 70%;
+  height: 100%;
+  margin-left: 20px;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
