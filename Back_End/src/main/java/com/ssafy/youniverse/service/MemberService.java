@@ -155,4 +155,10 @@ public class MemberService {
         return optionalMember.get();
     }
 
+    //이메일로 회원 조회
+    public Member checkMemberByEmail(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        return optionalMember.orElse(null); // 회원이 존재하지 않으면 null 반환
+    }
+
 }
