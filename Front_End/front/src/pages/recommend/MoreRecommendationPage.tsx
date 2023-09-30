@@ -22,7 +22,6 @@ const MoreRecommendationPage = () => {
     </>
   );
 };
-
 export default MoreRecommendationPage;
 
 const StyledMoreRecommend = styled.div`

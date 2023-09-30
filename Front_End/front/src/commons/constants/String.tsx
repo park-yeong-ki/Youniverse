@@ -43,7 +43,7 @@ export const OTHER = "그 외";
 export const LIKE_SURVEY = "선호하는 단어를 선택해주세요";
 
 // 검색페이지
-export const SEARCH_PAGE = "로 검색한 결과";
+export const SEARCH_PAGE = " 검색 결과";
 
 // 추천페이지
 export const RECOMMEND_PAGE_CONTAINER_KEYWORD = "나의 유튜브 키워드";
@@ -71,6 +71,7 @@ export const MY_PAGE_LIKE = "님이 좋아한 콘텐츠";
 export const MY_PAGE_REVIEW = "님이 남긴 리뷰";
 export const MY_PAGE_PROFILE_EDIT = "프로필 수정";
 export const EDIT_IMAGE = "프로필 사진 수정하기";
+export const MY_PAGE_OTT_CHART = "추천 받은 콘텐츠를 가장 많이 보유한";
 
 // 유저검색
 export const SEARCH_USER_PAGE =

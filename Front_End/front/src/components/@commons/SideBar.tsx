@@ -13,6 +13,14 @@ import { ROUTES } from "../../commons/constants/Routes";
 import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
+import Text from "../atoms/Text";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import {
+  LoginState,
+  UserDetailInfoState,
+  UserInfoState,
+  UserJoinInfoState,
+} from "../../pages/store/State";
 
 interface Menu {
   name: string;
@@ -25,10 +33,25 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const navigate = useNavigate();
+  const resetUserInfo = useResetRecoilState(UserInfoState);
+  const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
+  const resetLogin = useResetRecoilState(LoginState);
+  const isLogin = useRecoilValue(LoginState);
+  const userDetailInfo = useRecoilValue(UserDetailInfoState);
+  const nickname = userDetailInfo.nickname;
+  const memberId = userDetailInfo.memberId;
 
   const handleSearchSubmit = (searchTerm: string) => {
-    navigate("/search", { state: { searchTerm } }); // 변경
-    onClose()
+    navigate(`/search?query=${searchTerm}`); // URL에 검색어를 쿼리 파라미터로 추가
+    onClose();
+  };
+
+  // 로그아웃
+  const handleLogOut = () => {
+    navigate("/");
+    resetUserInfo();
+    resetUserJoinInfo();
+    resetLogin();
   };
 
   // 사이드바 외부 클릭 감지를 위한 참조 생성
@@ -39,7 +62,13 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
     { name: SIDE_BAR_USER_STAR, path: ROUTES.MAIN },
     { name: SIDE_BAR_RECOMMEND, path: ROUTES.RECOMMEND },
     { name: SIDE_BAR_SEARCH_USER, path: ROUTES.PROFILE },
-    { name: SIDE_BAR_MY_PAGE, path: ROUTES.MYPAGE },
+    {
+      name: SIDE_BAR_MY_PAGE,
+      path: ROUTES.MYPAGE.replace(
+        ":userId",
+        memberId ? memberId.toString() : "defaultId"
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -65,7 +94,13 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
       <StyledMenu>
         {/* 로그인 버튼, 검색 */}
         <div>
-          <GoogleLoginBtn />
+          {isLogin ? (
+            <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+              안녕하세요, {nickname}님!
+            </Text>
+          ) : (
+            <GoogleLoginBtn />
+          )}
           <SearchBox
             theme="light"
             type="movie"
@@ -83,6 +118,16 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         </div>
 
         {/* 로그아웃 */}
+        {isLogin && (
+          <Text
+            size="Small"
+            color="White"
+            fontFamily="YESGothic-Bold"
+            onClick={handleLogOut}
+          >
+            로그아웃
+          </Text>
+        )}
       </StyledMenu>
     </StyledSidebar>
   );

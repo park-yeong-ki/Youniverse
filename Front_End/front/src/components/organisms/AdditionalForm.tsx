@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
-import axios from "axios";
+import { UserInfoState, UserJoinInfoState } from "../../pages/store/State";
+import { useNavigate } from "react-router-dom";
 import {
   ADDITIONAL_INFO_NICKNAME,
   ADDITIONAL_INFO_NICKNAME_PLACEHOLDER,
@@ -18,15 +20,27 @@ import {
   FlexColBetween,
   FlexRowBetween,
 } from "../../commons/style/SharedStyle";
+import { ROUTES } from "../../commons/constants/Routes";
 import Wrapper from "../atoms/Wrapper";
 import InputBox from "../atoms/InputBox";
 import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
-  const [nickName, setNickName] = useState<string>("");
-  const [age, setAge] = useState<number>();
+  const navigate = useNavigate();
+
+  // URL에서 'email' 파라미터 빼서 저장
+  const urlParams = new URLSearchParams(window.location.search);
+  const accessToken = urlParams.get("accessToken");
+  const refreshToken = urlParams.get("refreshToken");
+  const email = urlParams.get("email");
+
+  console.log("accessToken:", accessToken);
+  console.log("refreshToken:", refreshToken);
+  console.log("email:", email);
+  const [nickname, setNickname] = useState<string>("");
+  const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
-  const [introduction, setIntroduction] = useState<string>("");
+  const [introduce, setIntroduce] = useState<string>("");
 
   const handleChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -38,20 +52,24 @@ const AdditionalForm = () => {
     setGender((prev) => (prev === genderValue ? "" : genderValue));
   };
 
-  const handleSaveClick = async () => {
-    try {
-      const response = await axios.post("api 주소", {
-        nickName,
-        age,
-        gender,
-        introduction,
-      });
-      console.log("Response:", response.data);
-      // 요청이 성공하면 사용자에게 성공 메시지 표시?
-    } catch (error) {
-      console.error("Error:", error);
-      // 요청이 실패하면 사용자에게 오류 메시지 표시?
-    }
+  const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
+  const setUserInfo = useSetRecoilState(UserInfoState);
+
+  const handleSaveClick = () => {
+    setUserJoinInfo((prev) => ({
+      ...prev,
+      nickname,
+      age,
+      gender,
+      introduce,
+      email,
+    }));
+    setUserInfo((prev) => ({
+      accessToken,
+      refreshToken,
+      email
+    }));
+    navigate(ROUTES.OTTSELECT);
   };
 
   return (
@@ -69,8 +87,8 @@ const AdditionalForm = () => {
             <StyledClearInput
               type="text"
               placeholder={ADDITIONAL_INFO_NICKNAME_PLACEHOLDER}
-              value={nickName}
-              onChange={handleChange(setNickName)}
+              value={nickname}
+              onChange={handleChange(setNickname)}
             />
           </StyledInputContainer>
         </StyledContainerRowBetween>
@@ -114,10 +132,10 @@ const AdditionalForm = () => {
           </StyledLabelContainer>
           <StyledInputContainer>
             <StyledTextArea
-              id="introduction"
-              value={introduction}
+              id="introduce"
+              value={introduce}
               placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}
-              onChange={handleChange(setIntroduction)}
+              onChange={handleChange(setIntroduce)}
               maxLength={30}
             ></StyledTextArea>
           </StyledInputContainer>
@@ -150,7 +168,7 @@ const StyledContainerCenter = styled.div`
 
 const StyledContainerBetweenCol = styled.div`
   ${FlexColBetween}
-  height:500px;
+  height:100%;
   width: 70%;
 `;
 

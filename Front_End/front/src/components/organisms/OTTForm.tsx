@@ -1,46 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserJoinInfoState } from "../../pages/store/State";
+import { ROUTES } from "../../commons/constants/Routes";
 import Planet from "../atoms/Planet";
 import Btn from "../atoms/Btn";
 import Text from "../../components/atoms/Text";
-import {
-  NETFLIX,
-  WAVVE,
-  WATCHA,
-  APPLE_TV,
-  DISNEY_PLUS,
-  NEXT,
-} from "../../commons/constants/String";
-import {
-  FlexColBetween,
-  FlexRowBetween,
-} from "../../commons/style/SharedStyle";
+import { NEXT } from "../../commons/constants/String";
+import { FlexColBetween } from "../../commons/style/SharedStyle";
+import { getAllOTTs } from "../../apis/FrontendApi";
 
 const OTTForm = () => {
-  const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
+  const [selectedPlanets, setSelectedPlanets] = useState<number[]>([]);
   const [planetSelectedStates, setPlanetSelectedStates] = useState<
-    Record<string, boolean>
-  >({
-    [NETFLIX]: false,
-    [WAVVE]: false,
-    [WATCHA]: false,
-    [APPLE_TV]: false,
-    [DISNEY_PLUS]: false,
-  });
+    Record<number, boolean>
+  >({});
 
-  const handleClickedPlanets = (planetName: string, $isSelected: boolean) => {
-    if (selectedPlanets.includes(planetName)) {
+  // OTT 데이터를 담을 상태
+  const [ottData, setOttData] = useState<any[]>([]);
+
+  useEffect(() => {
+    getAllOTTs()
+      .then((response) => {
+        console.log(response.data);
+        setOttData(response.data);
+        // 백서버에서 가져온 데이터를 기반으로 planetSelectedStates 초기화
+        const initialPlanetStates: Record<number, boolean> = {};
+        response.data.forEach((ott: any) => {
+          initialPlanetStates[ott.ottId] = false;
+        });
+        setPlanetSelectedStates(initialPlanetStates);
+      })
+      .catch((error) => {
+        console.error("OTT 리스트 가져오기 실패:", error);
+      });
+  }, []);
+
+  const handleClickedPlanets = (planetId: number, $isSelected: boolean) => {
+    if (selectedPlanets.includes(planetId)) {
       // 행성 이름이 이미 selectedPlanets에 있다면 제거
       setSelectedPlanets((prev) => {
-        const updatedPlanets = prev.filter((name) => name !== planetName);
+        const updatedPlanets = prev.filter((id) => id !== planetId);
         console.log("Updated Planets:", updatedPlanets); // 상태 출력
         return updatedPlanets;
       });
     } else {
       // 행성 이름이 selectedPlanets에 없다면 추가
       setSelectedPlanets((prev) => {
-        const updatedPlanets = [...prev, planetName];
+        const updatedPlanets = [...prev, planetId];
         console.log("Updated Planets:", updatedPlanets); // 상태 출력
         return updatedPlanets;
       });
@@ -48,72 +58,39 @@ const OTTForm = () => {
     // 각 행성의 클릭 상태를 저장
     setPlanetSelectedStates((prev) => ({
       ...prev,
-      [planetName]: $isSelected,
+      [planetId]: $isSelected,
     }));
   };
 
-  const handleSaveClick = async () => {
-    try {
-      const response = await axios.post("api 주소", {
-        planets: selectedPlanets,
-      });
-      // 응답 처리 (예: 성공 메시지 표시)
-      console.log("Response:", response.data);
-    } catch (error) {
-      // 오류 처리 (예: 오류 메시지 표시)
-      console.error("Error", error);
-    }
+  const handleSaveClick = () => {
+    setUserJoinInfo((prev) => ({
+      ...prev,
+      ottList: selectedPlanets, // OTT 선택 정보 업데이트
+    }));
+    navigate(ROUTES.SURVEY);
   };
 
   return (
     <OTTFormContainer>
-      <StyledContainer>
-        <PlanetWrapper $isSelected={planetSelectedStates[NETFLIX]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={NETFLIX}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{NETFLIX}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[WAVVE]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={WAVVE}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{WAVVE}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[WATCHA]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={WATCHA}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{WATCHA}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[APPLE_TV]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={APPLE_TV}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{APPLE_TV}</div>
-        </PlanetWrapper>
-        <PlanetWrapper $isSelected={planetSelectedStates[DISNEY_PLUS]}>
-          <Planet
-            size="Standard"
-            src="assets/Logo/Logo.svg"
-            name={DISNEY_PLUS}
-            handleClickedPlanets={handleClickedPlanets}
-          />
-          <div>{DISNEY_PLUS}</div>
-        </PlanetWrapper>
-      </StyledContainer>
+      <div className="grid grid-cols-5 gap-5">
+        {ottData.map((ott) => (
+          <PlanetsWrapper
+            key={ott.ottId}
+            $isSelected={planetSelectedStates[ott.ottId]}
+          >
+            <StyledEachPlanetContainer>
+              <Planet
+                size="Standard"
+                planetId={ott.ottId}
+                src={ott.ottImage} // 백서버에서 받아온 이미지 URL
+                name={ott.ottName}
+                handleClickedPlanets={handleClickedPlanets}
+              />
+              <div>{ott.ottName}</div>
+            </StyledEachPlanetContainer>
+          </PlanetsWrapper>
+        ))}
+      </div>
       <StyledNextButton size="X-Large" color="Ghost" onClick={handleSaveClick}>
         <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
           {NEXT}
@@ -127,35 +104,31 @@ export default OTTForm;
 
 const OTTFormContainer = styled.div`
   ${FlexColBetween}
+  padding-top: 50px;
   height: 500px;
 `;
 
-const StyledContainer = styled.div`
-  ${FlexRowBetween}
-  height: 80%;
-  width: 100%;
-`;
-
-const PlanetWrapper = styled.div<{ $isSelected: boolean }>`
-  ${FlexColBetween}
-  height: 70%;
-
+const PlanetsWrapper = styled.div<{ $isSelected: boolean }>`
   div {
     color: ${(props) =>
       props.$isSelected ? "rgba(255, 255, 255, 0.9)" : "black"};
-    cursor: default;
+    cursor: pointer;
   }
 
   /* 행성에 호버될 때 포인터로 커서 표시 */
   &:hover > div:first-child {
-    cursor: pointer;
+    cursor: default;
   }
+  ${FlexColBetween}
+  height: 220px;
+`;
 
-  /* // 빛번짐 속도가 행성과 달라서 일단 주석 처리
-  &:hover div {
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9); // 빛 번짐 효과
-  } */
+const StyledEachPlanetContainer = styled.div`
+  ${FlexColBetween}
+  height: 220px;
+  & > *:nth-child(2) {
+    font-family: "YESGothic-Bold";
+  }
 `;
 
 const StyledNextButton = styled(Btn)`

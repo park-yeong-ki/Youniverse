@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Text from "../atoms/Text";
 import {
@@ -9,49 +10,143 @@ import {
 } from "../../commons/style/SharedStyle";
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
+import { MovieType } from "./MovieItemList";
+import { UserDetailInfoState } from "./../../pages/store/State";
+import {
+  postHeart,
+  deleteHeart,
+  postHate,
+  deleteHate,
+} from "../../apis/FrontendApi";
 
-const MovieItem = () => {
+type MovieItemProps = {
+  movie: MovieType;
+  $cardWidth?: string;
+  // 필요한 경우 다른 props 타입도 여기에 추가
+};
+
+const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
+  const navigate = useNavigate();
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+  // 좋아요 관련 상태
   const [likeStatus, setLikeStatus] = useState(false);
+  const [heartMovieId, setHeartMovieId] = useState<number | null>(null); // 좋아요 아이디를 저장할 state
+  // 추천받지 않을래요(싫어요) 관련 상태
   const [recommendStatus, setRecommendStatus] = useState(false);
+  const [hateMovieId, setHateMovieId] = useState<number | null>(null);
+
+  // 재목 누르면 영화 상세페이지로 이동
+  const handleTitleClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
+  };
 
   const handleLikePush = () => {
-    if (likeStatus === false) {
-      console.log("좋아요 버튼을 눌렀어요");
-      setLikeStatus(true);
-      // 여기에 좋아요 버튼 눌렀을 때, axios 요청
-    } else if (likeStatus === true) {
+    if (!likeStatus) {
+      console.log("좋아요 버튼을 눌렀어요", memberId);
+      if (memberId !== null) {
+        postHeart(memberId, movie.movieId)
+          .then((res) => {
+            setLikeStatus(true);
+            setHeartMovieId(res.data.heartMovieId);
+            console.log("좋아요 요청 성공!", res);
+          })
+          .catch((err) => {
+            console.error("좋아요 요청 실패:", err);
+          });
+      } else {
+        console.error("memberId is null");
+      }
+    } else {
       console.log("좋아요 취소 버튼을 눌렀어요");
-      setLikeStatus(false);
-      // 여기에 좋아요 취소 버튼 눌렀을 때, axios 요청
+      console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
+      if (heartMovieId !== null) {
+        deleteHeart(heartMovieId)
+          .then(() => {
+            setLikeStatus(false);
+            setHeartMovieId(null); // 삭제 후 heartMovieId 초기화
+            console.log("좋아요 삭제 성공!");
+          })
+          .catch((err) => {
+            console.error("좋아요 삭제 실패:", err);
+          });
+      }
     }
   };
 
   const handleRecommendPush = () => {
-    if (recommendStatus === false) {
+    if (!recommendStatus) {
       console.log("추천받지 않을래요 버튼을 눌렀어요");
-      setRecommendStatus(true);
-      // 여기에 추천받지 않을래요 버튼 눌렀을 때, axios 요청
-    } else if (recommendStatus === true) {
+
+      if (memberId !== null) {
+        postHate(memberId, movie.movieId)
+          .then((res) => {
+            setRecommendStatus(true);
+            setHateMovieId(res.data.hateMovieId);
+            console.log("추천받지 않을래요 요청 성공!", res);
+          })
+          .catch((err) => {
+            console.error("추천받지 않을래요 요청 실패:", err);
+          });
+      } else {
+        console.error("memberId is null");
+      }
+    } else {
       console.log("다시 추천해주세요 버튼을 눌렀어요");
-      setRecommendStatus(false);
-      // 여기에 다시 추천해주세요 버튼 눌렀을 때, axios 요청
+      if (hateMovieId !== null) {
+        deleteHate(hateMovieId)
+          .then(() => {
+            setRecommendStatus(false);
+            setHateMovieId(null); // 삭제 후 hateMovieId 초기화
+            console.log("다시 추천 요청 성공!");
+          })
+          .catch((err) => {
+            console.error("다시 추천 요청 실패:", err);
+          });
+      }
     }
   };
+
+  useEffect(() => {
+    const heart = movie.heartMovieResDtos?.find(
+      (resDto) => resDto.memberSimpleResDto?.memberId === memberId
+    );
+    
+    const hate = movie.hateMovieResDtos?.find(
+      (resDto) => resDto.memberSimpleResDto?.memberId === memberId
+    );
+    
+
+    if (heart) {
+      setLikeStatus(true);
+      setHeartMovieId(heart.heartMovieId);
+    }
+
+    if (hate) {
+      setRecommendStatus(true);
+      setHateMovieId(hate.hateMovieId);
+    }
+  }, [movie, memberId]);
+
   return (
-    <StyledCardWrapper>
-      <StyledMoviePoster src="https://www.themoviedb.org/t/p/w440_and_h660_face/w7eApyAshbepBnDyYRjSeGyRHi2.jpg" />
+    <StyledCardWrapper $cardWidth={props.$cardWidth}>
+      <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
           {/* focus가 되어있을 때는 Large / 아닐 때는 Medium */}
-          <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-            엘리멘탈
+          <StyledTitle
+            size="Large"
+            color="White"
+            fontFamily="PyeongChang-Bold"
+            onClick={() => handleTitleClick(movie.movieId)}
+          >
+            {movie.title}
+          </StyledTitle>
+          <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+            평점 {movie.rate}
           </Text>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            평점4.0
-          </Text>
-          <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            러닝타임
+            {movie.runtime}분
           </Text>
           <StyledDetailInCol>
             <StyledDetailInRow>
@@ -96,7 +191,7 @@ const MovieItem = () => {
 export default MovieItem;
 
 /** 영화 포스터 Img 스타일 */
-const StyledMoviePoster = styled.img`
+export const StyledMoviePoster = styled.img`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -123,13 +218,17 @@ const StyledCardHover = styled.div`
 `;
 
 /** 영화 카드 Wrap */
-const StyledCardWrapper = styled.div`
-  --card-width: 20rem;
+export const StyledCardWrapper = styled.div<{
+  $detail?: boolean;
+  $cardWidth?: string;
+}>`
+  --card-width: ${(props) => props.$cardWidth || "100%"};
   width: var(--card-width);
-  height: calc(var(--card-width) * 1.3);
+  padding-bottom: calc(var(--card-width) * 1.3);
   background-color: #ccc;
   border-radius: 0.75rem;
   overflow: hidden;
+  cursor: ${(props) => (props.$detail ? "default" : "pointer")};
 
   position: relative;
 
@@ -159,4 +258,9 @@ const StyledDetailInRow = styled.div`
   width: 60%;
   text-align: center;
   flex-wrap: wrap;
+`;
+
+/** 영화제목 커서 포인터.. */
+const StyledTitle = styled(Text)`
+  cursor: pointer;
 `;

@@ -1,28 +1,45 @@
 import { useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { LoginState, UserJoinInfoState } from "../../pages/store/State";
 import { LIKE_SURVEY } from "../../commons/constants/String";
 import LikeForm from "../../components/organisms/LikeForm";
 import Text from "../../components/atoms/Text";
 import { TO_MAIN } from "../../commons/constants/String";
 import Btn from "../../components/atoms/Btn";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
+import { postMember } from "../../apis/FrontendApi";
+import { MainContainer } from "../../commons/style/layoutStyle";
 
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const handleToMainButtonClick = async (): Promise<void> => {
+  const setIsLoggedIn = useSetRecoilState(LoginState);
+  const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
+  const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
+  const handleToMainButtonClick = async () => {
+    const updatedUserJoinInfo = {
+      ...userJoinInfo,
+      keywordList: selectedKeywords,
+    };
+
+    setUserJoinInfo(updatedUserJoinInfo);
     try {
-      await axios.post("API 주소", { keywords: selectedKeywords });
+      const response = await postMember(updatedUserJoinInfo);
+      if (response.status === 200) {
+        console.log("회원 정보 등록 성공:", response.data);
+        setIsLoggedIn(true);
+        navigate("/");
+      } else {
+        console.error("데이터 전송 실패:", response.statusText);
+      }
     } catch (error) {
-      console.error("키워드 전송 실패", error);
+      console.error("API 요청 중 에러 발생", error);
     }
-    navigate("/"); // 메인으로 이동
   };
 
   return (
-    <StyledContainerCenter>
+    <MainContainer>
       <StyledContainerBetweenCol>
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {LIKE_SURVEY}
@@ -38,7 +55,7 @@ const LikeSurveyPage = () => {
           {TO_MAIN}
         </StyledMainButton>
       </StyledContainerBetweenCol>
-    </StyledContainerCenter>
+    </MainContainer>
   );
 };
 
@@ -48,14 +65,10 @@ const StyledMainButton = styled(Btn)`
   width: 300px;
 `;
 
-const StyledContainerCenter = styled.div`
-  ${FlexCenter}
-  height: 100vh;
-`;
-
 const StyledContainerBetweenCol = styled.div`
   ${FlexColBetween};
-  height: 80%;
+  height: 90%;
+  padding-top: 2%;
 `;
 
 const StyledForm = styled.div`

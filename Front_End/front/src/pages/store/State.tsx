@@ -13,12 +13,55 @@ export const LoginState = atom<boolean>({
 /** 유저 정보 저장 */
 
 type UserInfo = {
-  accessToken: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  email: string | null;
 };
+
+type UserDetailInfo = {
+  nickname: string | null;
+  memberId: number | null;
+};
+
+type UserJoinInfo = {
+  email: string | null;
+  nickname: string;
+  age: number;
+  gender: string;
+  introduce: string;
+  keywordList: number[];
+  ottList: number[];
+};
+
 export const UserInfoState = atom<UserInfo>({
   key: "UserInfoState",
   default: {
-    accessToken: "",
+    accessToken: null,
+    refreshToken: null,
+    email: null,
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const UserDetailInfoState = atom<UserDetailInfo>({
+  key: "UserDetailInfoState",
+  default: {
+    nickname: null,
+    memberId: null,
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const UserJoinInfoState = atom<UserJoinInfo>({
+  key: "UserJoinInfoState",
+  default: {
+    email: "",
+    nickname: "",
+    age: 0,
+    gender: "",
+    introduce: "",
+    keywordList: [],
+    ottList: [],
   },
   effects_UNSTABLE: [persistAtom],
 });

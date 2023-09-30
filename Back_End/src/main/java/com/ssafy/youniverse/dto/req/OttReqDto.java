@@ -9,5 +9,4 @@ public class OttReqDto {
     private Integer ottId;
     private String ottName;
     private String ottUrl;
-    private Integer ottPrice;
 }

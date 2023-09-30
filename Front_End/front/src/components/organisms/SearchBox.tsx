@@ -9,6 +9,7 @@ import {
   DROP_DOWN_KEYWORD,
   DROP_DOWN_DIRECTOR,
   DROP_DOWN_TITLE,
+  DROP_DOWN_ACTOR,
 } from "./../../commons/constants/String";
 import { FlexCenter } from "./../../commons/style/SharedStyle";
 import Dropdown from "../@commons/Dropdown";
@@ -20,7 +21,7 @@ import IconBox from "../atoms/IconBox";
 interface SearchBoxProps {
   theme?: "light" | "dark"; // 테마 타입 (기본값 light)
   type?: "user" | "movie"; // 검색 옵션의 타입 (기본값 user)
-  onSearch?: (term: string, option: string | null) => void; // 은경 반영
+  onSearch?: (term: string, option: string | null) => void;
   onSubmitSearch?: (term: string) => void; // 추가
 }
 
@@ -45,7 +46,7 @@ const THEME_STYLES: Record<"light" | "dark", ThemeStyle> = {
 };
 
 const USER_OPTIONS = [
-  { label: DROP_DOWN_ALL, value: "all" },
+  { label: DROP_DOWN_ALL, value: "total" },
   { label: DROP_DOWN_NICKNAME, value: "nickname" },
   { label: DROP_DOWN_KEYWORD, value: "keyword" },
 ];
@@ -54,7 +55,7 @@ const MOVIE_OPTIONS = [
   { label: DROP_DOWN_ALL, value: "all" },
   { label: DROP_DOWN_TITLE, value: "title" },
   { label: DROP_DOWN_DIRECTOR, value: "director" },
-  { label: DROP_DOWN_KEYWORD, value: "keyword" },
+  { label: DROP_DOWN_ACTOR, value: "actor" },
 ];
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -74,6 +75,12 @@ const SearchBox: React.FC<SearchBoxProps> = ({
     onSearch?.(term, selectedOption);
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearchClick();
+    }
+  };
+
   return (
     <StyledSearchBox>
       <Dropdown
@@ -89,6 +96,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         color={inputColor}
         value={term}
         onChange={(e) => setTerm(e.target.value)}
+        onKeyPress={handleKeyPress} // 엔터 키에 대한 이벤트 핸들러 추가
       />
       <Btn size={"Medium"} color={btnColor} onClick={handleSearchClick}>
         <IconBox Icon={HiSearch} size={24} color={iconColor} />

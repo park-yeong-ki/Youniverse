@@ -1,14 +1,20 @@
 package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
-import lombok.Data;
+import lombok.*;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Entity
+@Transactional
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +23,7 @@ public class Member extends Auditable {
     @Column(length = 20, nullable = false)
     private String nickname;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false, unique = true)
     private String email;
 
     @Column(length = 2, nullable = false)
@@ -32,6 +38,7 @@ public class Member extends Auditable {
     @Column(length = 255, nullable = true)
     private String memberImage;
 
+    @Lazy
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 
