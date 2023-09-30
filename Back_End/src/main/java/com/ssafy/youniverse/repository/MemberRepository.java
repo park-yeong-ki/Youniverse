@@ -27,7 +27,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
     Page<Member> findAllByTotal(String total, Pageable pageable);
 
     @Query(value = "select member_id from best_movie group by member_id having count(movie_id) >= 5 order by rand() limit 1", nativeQuery = true)
-    int findByRandom();
+    Integer findByRandom();
     Optional<Member> findByEmail(String email);
 
 }

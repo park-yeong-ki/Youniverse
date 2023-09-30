@@ -41,8 +41,12 @@ public class KeywordService {
     }
 
     //키워드 전체 조회
-    public List<Keyword> readKeywords() {
-        return keywordRepository.findAll();
+    public List<Keyword> readKeywords(boolean isRandom) {
+        if (isRandom) {
+            return keywordRepository.findAllByRandom();
+        } else {
+            return keywordRepository.findAll();
+        }
     }
 
     //키워드 수정
