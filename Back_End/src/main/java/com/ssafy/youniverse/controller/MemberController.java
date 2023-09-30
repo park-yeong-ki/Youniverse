@@ -111,4 +111,16 @@ public class MemberController {
         return new ResponseEntity<>(memberResDto, HttpStatus.OK);
     }
 
+    @GetMapping("/check/{email}")
+    public ResponseEntity<String> checkMemberByEmail(@PathVariable("email") String email) {
+        Member member = memberService.checkMemberByEmail(email);
+        // 회원 정보가 존재하는지 확인
+        if (member != null) {
+            // 회원인 경우
+            return new ResponseEntity<>("회원", HttpStatus.OK);
+        } else {
+            // 비회원인 경우
+            return new ResponseEntity<>("비회원", HttpStatus.OK);
+        }
+    }
 }
