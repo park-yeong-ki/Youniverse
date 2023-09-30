@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
+import { useRecoilValue } from "recoil";
+import { UserDetailInfoState } from "../../pages/store/State";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import RecommendUserItemList from "../users/RecommendUserItemList";
 import { SEARCH_USER_RECOMMEND } from "../../commons/constants/String";
+import { getMember } from "../../apis/FrontendApi";
+
 type User = {
   id: number;
   nickname: string;
@@ -14,20 +17,23 @@ type User = {
 };
 
 const UserRecommendContainer = () => {
+  const { nickname, memberId } = useRecoilValue(UserDetailInfoState);
   const [recommendList, setrecommendList] = useState<User[]>([]);
-
+  // 임시로 나의 프로필 조회하도록 코딩 -> 향후에 추천받은 유저리스트로 변경
   useEffect(() => {
     const getRecommendUsers = async () => {
-      try {
-        const response = await axios.get("api 주소");
-        setrecommendList(response.data.users);
-      } catch (error) {
-        console.error("추천 사용자 리스트 가져오기 실패: ", error);
+      if (typeof memberId === "number") {
+        try {
+          const response = await getMember(memberId);
+          setrecommendList(response.data.users);
+        } catch (error) {
+          console.error("추천 사용자 리스트 가져오기 실패: ", error);
+        }
       }
     };
 
     getRecommendUsers();
-  }, []);
+  }, [memberId]);
 
   return (
     <StyledStandardWhiteGhostWrapper
@@ -38,6 +44,7 @@ const UserRecommendContainer = () => {
       <StyledColBetweenContainer>
         <StyledTextContainer>
           <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
+            {nickname}
             {SEARCH_USER_RECOMMEND}
           </Text>
         </StyledTextContainer>
