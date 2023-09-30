@@ -8,6 +8,7 @@ import { ROUTES } from "./commons/constants/Routes";
 import Header from "./components/@commons/Header";
 import {
   MAIN,
+  LOADING,
   ADDINFO,
   SURVEY,
   OTTSELECT,
@@ -30,6 +31,7 @@ function App() {
 
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
+          <Route path={ROUTES.LOADING} Component={LOADING} />
           <Route path={ROUTES.ADDINFO} Component={ADDINFO} />
           <Route path={ROUTES.SURVEY} Component={SURVEY} />
           <Route path={ROUTES.OTTSELECT} Component={OTTSELECT} />
