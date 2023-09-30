@@ -8,8 +8,8 @@ import { ROUTES } from "../../commons/constants/Routes";
 import IconBox from "../atoms/IconBox";
 import { HiPlusCircle, HiMinusCircle } from "react-icons/hi";
 import { deletBest } from "../../apis/FrontendApi";
-import { useRecoilValue } from "recoil";
-import { UserDetailInfoState } from "../../pages/store/State";
+// import { useRecoilValue } from "recoil";
+// import { UserDetailInfoState } from "../../pages/store/State";
 
 interface SoulMovieItemProps {
   src?: string;
@@ -35,7 +35,7 @@ const SoulMovieItem: React.FC<SoulMovieItemProps> = ({
   onDeleteSoulMovie,
 }) => {
   const navigate = useNavigate();
-  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+  // const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
   /** 아이템 클릭했을 때, 상세 페이지로 이동 */
   const handleClickMovie = (res: number) => {

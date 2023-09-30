@@ -39,8 +39,9 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   const [introduce, setIntroduce] = useState<string>(
     memberData?.introduce || ""
   );
-
-  const selectedOtts = memberData?.ottResDtos;
+  
+  console.log(setFile, setImage)
+  // const selectedOtts = memberData?.ottResDtos;
 
   const sendData = {
     file: file,
@@ -84,16 +85,16 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
     console.log("이미지 바꿀 수 있게 팝업 창??");
   };
   /** 이미지 파일 선택시 상태 업데이트 */
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const selectedFile = event.target.files[0];
-      setFile(selectedFile);
+  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     const selectedFile = event.target.files[0];
+  //     setFile(selectedFile);
 
-      // 이미지 미리보기 URL 설정
-      const imageUrl = URL.createObjectURL(selectedFile);
-      setImage(imageUrl);
-    }
-  };
+  //     // 이미지 미리보기 URL 설정
+  //     const imageUrl = URL.createObjectURL(selectedFile);
+  //     setImage(imageUrl);
+  //   }
+  // };
 
   return (
     <>
