@@ -10,5 +10,4 @@ public class OttResDto {
     private String ottName;
     private String ottImage;
     private String ottUrl;
-    private Integer ottPrice;
 }

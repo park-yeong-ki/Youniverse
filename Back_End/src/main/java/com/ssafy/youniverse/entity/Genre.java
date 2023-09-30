@@ -11,7 +11,6 @@ import java.util.List;
 public class Genre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer genreId;
 
     @Column(length = 20, nullable = false)

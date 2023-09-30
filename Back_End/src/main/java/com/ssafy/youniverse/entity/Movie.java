@@ -12,16 +12,15 @@ import java.util.List;
 public class Movie extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer movieId;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 100, nullable = false)
     private String title;
 
     @Column(length = 2, nullable = false)
     private String language;
 
-    @Column(length = 255, nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String overView;
 
     @Column(nullable = false)
