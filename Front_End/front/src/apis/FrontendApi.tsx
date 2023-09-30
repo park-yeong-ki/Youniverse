@@ -12,7 +12,7 @@ type UserJoinInfo = {
 
 export interface UserSearchParams {
   term: string;
-  option?: string | null;
+  option: string | null;
   page?: number;
   size?: number;
   nickname?: string;

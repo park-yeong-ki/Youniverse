@@ -42,7 +42,7 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected, onSelect }) => {
             <Img
               size="Medium"
               src={
-                user.memberImage !== ""
+                user.memberImage !== null
                   ? user.memberImage
                   : "/assets/기본프로필.jpg"
               }
