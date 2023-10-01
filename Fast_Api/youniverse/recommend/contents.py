@@ -1,7 +1,7 @@
 from youniverse.repository import contentsRepository
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+import numpy as np
 
 # 키워드 추출 함수
 def getKeyword(preprocessed_corpus):
@@ -40,8 +40,21 @@ def similarily(top_keywords):
     # top_keywords와 TMDB 키워드 데이터 간의 유사도 추출
     top_keywords_similarity = cosine_similarities[:len(top_keywords), len(top_keywords):]
 
-    # 유사도를 기준으로 상위 10개 TMDB 키워드 추출
-    similar_tmdb_keywords_indices = top_keywords_similarity.argsort()[0][::-1][:10]
-    similar_tmdb_keywords = [tmdb_keyword[i] for i in similar_tmdb_keywords_indices]
+    # 유사도 높은 순으로 저장
+    similar_tmdb_keywords = []
+
+    # 각 키워드별로 유사도가 0.0이 아닌 것 중에서 높은 순서대로 나열
+    for i, keyword in enumerate(top_keywords):
+        # 해당 키워드와의 유사도 값 가져오기
+        keyword_similarity = top_keywords_similarity[i]
+        # 0.0이 아닌 유사도 값 중에서 내림차순 정렬하여 인덱스를 반환
+        sorted_indices = np.argsort(keyword_similarity)[::-1]
+        # 유사도가 0.0이 아닌 상위 10개 키워드 출력
+        for index in sorted_indices:
+            similarity = keyword_similarity[index]
+            if similarity != 0.0:
+                similar_keyword = tmdb_keyword[index]
+                similar_tmdb_keywords.append(tmdb_keyword[index])
+                print(f"'{keyword}' <-> '{similar_keyword}': {similarity}")
 
     return similar_tmdb_keywords
