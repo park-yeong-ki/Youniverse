@@ -18,6 +18,8 @@ import InputBox from "../atoms/InputBox";
 import { FlexColBetween } from "../../commons/style/SharedStyle";
 import { StyledTextArea } from "../organisms/AdditionalForm";
 import { UserType } from "../../pages/profile/MyProfilePage";
+import { ROUTES } from "../../commons/constants/Routes";
+import { useNavigate } from "react-router";
 
 interface MypageUserInfoProps {
   memberData: UserType | null;
@@ -30,6 +32,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   followStatus,
   setFollowStatus,
 }) => {
+  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [image, setImage] = useState<string>(memberData?.memberImage || "");
@@ -39,8 +42,8 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   const [introduce, setIntroduce] = useState<string>(
     memberData?.introduce || ""
   );
-  
-  console.log(setFile, setImage)
+
+  console.log(setFile, setImage);
   // const selectedOtts = memberData?.ottResDtos;
 
   const sendData = {
@@ -166,6 +169,13 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 
             <Btn size="Small" color="Black" onClick={handleEditChange}>
               {MY_PAGE_PROFILE_EDIT}
+            </Btn>
+            <Btn
+              size="Small"
+              color="BlackStroke"
+              onClick={() => navigate(ROUTES.LOADING)}
+            >
+              데이터 분석
             </Btn>
           </div>
         )}
