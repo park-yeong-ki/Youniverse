@@ -59,4 +59,6 @@ public class Movie extends Auditable {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DirectorMovie> directorMovies = new ArrayList<>();
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecommendMovie> recommendMovies = new ArrayList<>();
 }
