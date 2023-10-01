@@ -45,3 +45,12 @@ def similarily(top_keywords):
     similar_tmdb_keywords = [tmdb_keyword[i] for i in similar_tmdb_keywords_indices]
 
     return similar_tmdb_keywords
+
+
+
+def get_movie_ids(result_keywords):
+    distinct_movie_ids = set()
+    for keyword in result_keywords:
+        movie_ids = contentsRepository.get_movie_ids_by_keyword(keyword)
+        distinct_movie_ids.update(movie_ids)
+    return list(distinct_movie_ids)

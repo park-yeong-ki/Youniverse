@@ -40,6 +40,11 @@ async def get_Test():
     # 코사인 유사도 결과 키워드 보내기
     # dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
 
+    # result_keywords를 통해 영화 ID 목록 가져오기
+    movie_ids = contents.get_movie_ids(result_keywords)
+    print("keywords를 통해 추출한 영화 id 목록:", movie_ids)
+
+
     # 사용자 필터링
     result_users = user.similarily(top_keywords,'gkathaud4884@gmail.com')
     print("사용자 필터링을 통한 결과:")
