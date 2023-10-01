@@ -6,7 +6,7 @@ session = engine.sessionmaker()
 
 # 모든 회원의 키워드 가져오기 (내 이메일 제외)
 def get_member_keyword(myEmail):
-    all_members = session.query(models.Member.member_id, models.Keyword.keyword_name).join(models.KeywordMember, models.Keyword).filter(
+    all_members = session.query(models.Member.member_id, models.Keyword.keyword_name).select_from(models.Member).join(models.KeywordMember, models.KeywordMember.member_id == models.Member.member_id).join(models.Keyword, models.KeywordMember.keyword_id == models.Keyword.keyword_id).filter(
         models.Member.email != myEmail).all()
     member_keywords = {}
 
@@ -16,3 +16,5 @@ def get_member_keyword(myEmail):
         member_keywords[member_id].append(keyword_name)
 
     return member_keywords
+
+

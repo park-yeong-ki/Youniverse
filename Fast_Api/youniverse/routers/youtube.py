@@ -1,10 +1,9 @@
 from fastapi import APIRouter
-from youniverse.repository import keywordRepository
 from youniverse.schemas import youtube
 import re
 from konlpy.tag import Okt
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from youniverse.recommend import contents
+from youniverse.recommend import user
 import requests
 import json
 
@@ -28,18 +27,27 @@ async def get_Test():
     preprocessed_corpus = [preprocess(text) for text in corpus]
 
     # 키워드 추출
-    top_keywords = getKeyword(preprocessed_corpus)
+    top_keywords = contents.getKeyword(preprocessed_corpus)
     print("youtube 분석 상위 키워드:", top_keywords)
 
     # youtube 분석 상위 키워드 결과 보내기
-    dataObject(top_keywords, 2, 'gkathaud4884@gmail.com')
+    # dataObject(top_keywords, 2, 'gkathaud4884@gmail.com')
 
     # 코사인 유사도 계산
-    result_keywords = similarily(top_keywords)
+    result_keywords = contents.similarily(top_keywords)
     print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
     # 코사인 유사도 결과 키워드 보내기
-    dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
+    # dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
+
+    # 사용자 필터링
+    result_users = user.similarily(top_keywords,'gkathaud4884@gmail.com')
+    print("사용자 필터링을 통한 결과:")
+    for email, similarity_score in result_users:
+        print(f"{email} (유사도: {similarity_score:.2f})")
+
+    # 사용자 필터링 결과 사용자 보내기
+    # dataObject(result_users, 2, 'gkathaud4884@gmail.com')
 
 @router.post("/")
 async def data_post(data_request: youtube):
@@ -50,14 +58,14 @@ async def data_post(data_request: youtube):
     preprocessed_corpus = [preprocess(text) for text in corpus]
 
     # 키워드 추출
-    top_keywords = getKeyword(preprocessed_corpus)
+    top_keywords = contents.getKeyword(preprocessed_corpus)
     print("youtube 분석 상위 키워드:", top_keywords)
 
     # youtube 분석 상위 키워드 결과 보내기
     dataObject(top_keywords, 1, data_request.email)
 
     # 코사인 유사도 계산
-    result_keywords = similarily(top_keywords)
+    result_keywords = contents.similarily(top_keywords)
     print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
     # 코사인 유사도 결과 키워드 보내기
@@ -85,48 +93,6 @@ def preprocess(text):
     words = [word for word in words if word not in stopwords]
 
     return ' '.join(words)
-
-# 키워드 추출 함수
-def getKeyword(preprocessed_corpus):
-    # TF-IDF 벡터화 객체 생성
-    tfidf_vectorizer = TfidfVectorizer()
-
-    # TF-IDF 벡터화 수행
-    tfidf_matrix = tfidf_vectorizer.fit_transform(preprocessed_corpus)
-
-    # 키워드와 TF-IDF 점수 추출
-    feature_names = tfidf_vectorizer.get_feature_names_out()
-    tfidf_scores = tfidf_matrix[0].toarray()[0]
-
-    # TF-IDF 점수가 높은 순으로 정렬하여 상위 키워드 추출
-    top_keywords = [feature_names[i] for i in tfidf_scores.argsort()[::-1][:10]]
-
-    return top_keywords
-
-def similarily(top_keywords):
-    # TF-IDF 벡터화 객체 생성
-    tfidf_vectorizer = TfidfVectorizer()
-
-    # tmdb 데이터
-    tmdb_keyword = keywordRepository.get_tmdb_keyword()
-
-    # top_keywords와 TMDB 키워드 데이터를 하나의 리스트로 합침
-    all_keywords = top_keywords + tmdb_keyword
-
-    # TF-IDF 벡터화 수행
-    tfidf_matrix = tfidf_vectorizer.fit_transform(all_keywords)
-
-    # 코사인 유사도 계산
-    cosine_similarities = cosine_similarity(tfidf_matrix)
-
-    # top_keywords와 TMDB 키워드 데이터 간의 유사도 추출
-    top_keywords_similarity = cosine_similarities[:len(top_keywords), len(top_keywords):]
-
-    # 유사도를 기준으로 상위 10개 TMDB 키워드 추출
-    similar_tmdb_keywords_indices = top_keywords_similarity.argsort()[0][::-1][:10]
-    similar_tmdb_keywords = [tmdb_keyword[i] for i in similar_tmdb_keywords_indices]
-
-    return similar_tmdb_keywords
 
 def dataObject(result_keywords, source, email):
     for result_keyword in result_keywords:
