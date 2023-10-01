@@ -93,7 +93,6 @@ public interface MemberMapper extends CustomMapper {
                     KeywordResDto keywordResDto = new KeywordResDto();
                     keywordResDto.setKeywordId(keyword.getKeywordId());
                     keywordResDto.setKeywordName(keyword.getKeywordName());
-                    keywordResDto.setSource(keyword.getSource());
 
                     return keywordResDto;
                 })

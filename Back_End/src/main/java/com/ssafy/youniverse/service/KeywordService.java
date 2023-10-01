@@ -20,10 +20,6 @@ public class KeywordService {
         Optional<Keyword> optionalKeyword = keywordRepository.findByKeywordName(keyword.getKeywordName());
         if (optionalKeyword.isPresent()) { //중복된 키워드 이름이 존재하는 경우
             Keyword findKeyword = optionalKeyword.get();
-            if (findKeyword.getSource() != keyword.getSource()) { //중복된 키워드와 입력된 키워드의 출처가 다른 경우
-                findKeyword.setSource(2); // tmdb, 유튜브 모두 사용되는 키워드로 출처 변경
-                keywordRepository.save(findKeyword);
-            }
             return findKeyword;
         }
 
@@ -53,7 +49,6 @@ public class KeywordService {
     public Keyword modifyKeyword(int keywordId, Keyword keyword) {
         Keyword findKeyword = readKeyword(keywordId);
         findKeyword.setKeywordName(keyword.getKeywordName());
-        findKeyword.setSource(keyword.getSource());
         return keywordRepository.save(findKeyword);
     }
 
