@@ -8,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import requests
 import json
 
-# API 엔드포인트 URL
+# Spring URL
 springUrl = "https://j9b204.p.ssafy.io/api/keywords/register"
 
 router = APIRouter(
@@ -29,46 +29,39 @@ async def get_Test():
 
     # 키워드 추출
     top_keywords = getKeyword(preprocessed_corpus)
+    print("youtube 분석 상위 키워드:", top_keywords)
 
-    print("전처리 후 상위 키워드:", top_keywords)
+    # youtube 분석 상위 키워드 결과 보내기
+    dataObject(top_keywords, 2, 'gkathaud4884@gmail.com')
 
     # 코사인 유사도 계산
     result_keywords = similarily(top_keywords)
+    print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
-    print("코사인 유사도 상위 키워드:", result_keywords)
-
-    for keyword in top_keywords:
-        data = {
-            "keywordName": keyword,
-            "source": 1
-        }
-        axiosRequest(data)
-
-    for keyword in result_keywords:
-        data = {
-            "keywordName": keyword,
-            "source": 2
-        }
-        axiosRequest(data)
+    # 코사인 유사도 결과 키워드 보내기
+    dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
 
 @router.post("/")
 async def data_post(data_request: youtube):
     corpus = [
         data_request.data
     ]
-
     # 전처리 수행
     preprocessed_corpus = [preprocess(text) for text in corpus]
 
     # 키워드 추출
     top_keywords = getKeyword(preprocessed_corpus)
+    print("youtube 분석 상위 키워드:", top_keywords)
 
-    print("전처리 후 상위 키워드:", top_keywords)
+    # youtube 분석 상위 키워드 결과 보내기
+    dataObject(top_keywords, 1, data_request.email)
 
     # 코사인 유사도 계산
     result_keywords = similarily(top_keywords)
+    print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
-    print("코사인 유사도 상위 키워드:", result_keywords)
+    # 코사인 유사도 결과 키워드 보내기
+    dataObject(result_keywords, 2, data_request.email)
 
     return "success"
 
@@ -135,16 +128,24 @@ def similarily(top_keywords):
 
     return similar_tmdb_keywords
 
+def dataObject(result_keywords, source, email):
+    for result_keyword in result_keywords:
+        data = {
+            "keywordName": result_keyword,
+            "source": source,
+            "email": email
+        }
+        axiosRequest(data)
+
 def axiosRequest(data):
     # JSON 데이터를 문자열로 직렬화
     payload = json.dumps(data)
 
     # POST 요청 보내기
-    response = requests.post(url, data=payload, headers={"Content-Type": "application/json"})
+    response = requests.post(springUrl, data=payload, headers={"Content-Type": "application/json"})
 
     # 응답 확인
     if response.status_code == 200:
-        print("요청이 성공했습니다.")
         response_data = response.json()  # 서버에서 반환한 JSON 데이터 파싱
         print("응답 데이터:", response_data)
     else:
