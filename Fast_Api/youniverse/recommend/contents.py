@@ -13,12 +13,24 @@ def getKeyword(preprocessed_corpus):
 
     # 키워드와 TF-IDF 점수 추출
     feature_names = tfidf_vectorizer.get_feature_names_out()
-    tfidf_scores = tfidf_matrix[0].toarray()[0]
+    # 모든 문서에 대한 TF-IDF 점수를 추출하여 2D 배열로 저장
+    tfidf_scores = tfidf_matrix.toarray()
 
-    # TF-IDF 점수가 높은 순으로 정렬하여 상위 키워드 추출
-    top_keywords = [feature_names[i] for i in tfidf_scores.argsort()[::-1][:10]]
+    # 모든 키워드와 점수를 추출
+    all_keywords_check = [{"keyword": feature_names[i], "score": tfidf_scores[0][i]} for i in range(len(feature_names))]
+
+    # TF-IDF 점수를 높은순으로 정렬
+    all_keywords_check.sort(key=lambda x: x["score"], reverse=True)
+
+    for keyword_info in all_keywords_check:
+        print(f"Keyword: {keyword_info['keyword']}, Score: {keyword_info['score']}")
+
+    # 상위 20개 키워드 추출
+    top_keywords = [keyword_info['keyword'] for keyword_info in all_keywords_check[:20]]
 
     return top_keywords
+
+
 
 # 코사인 유사도 추출 함수
 def similarily(top_keywords):
