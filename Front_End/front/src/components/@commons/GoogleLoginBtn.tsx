@@ -21,10 +21,10 @@ const scopes = [
 ];
 
 //동key
-// const clientId = '781680119308-d0jbnhpcmrcj7fb65ls9crj7lh6k7v9q.apps.googleusercontent.com'
+const clientId = '781680119308-d0jbnhpcmrcj7fb65ls9crj7lh6k7v9q.apps.googleusercontent.com'
 //소key
-const clientId =
-  "776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com";
+// const clientId =
+//   "776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com";
 
 const redirectUri = "http://localhost:3000/loading"; //로컬
 // const redirectUri ='https://j9b204.p.ssafy.io/loading'//서버
