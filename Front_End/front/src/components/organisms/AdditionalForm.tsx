@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { UserInfoState, UserJoinInfoState } from "../../pages/store/State";
 import { useNavigate } from "react-router-dom";
@@ -27,16 +27,8 @@ import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
   const navigate = useNavigate();
-
-  // URL에서 'email' 파라미터 빼서 저장
-  const urlParams = new URLSearchParams(window.location.search);
-  const accessToken = urlParams.get("accessToken");
-  const refreshToken = urlParams.get("refreshToken");
-  const email = urlParams.get("email");
-
-  console.log("accessToken:", accessToken);
-  console.log("refreshToken:", refreshToken);
-  console.log("email:", email);
+  
+  const email = useRecoilValue(UserInfoState).email;
   const [nickname, setNickname] = useState<string>("");
   const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
@@ -53,7 +45,6 @@ const AdditionalForm = () => {
   };
 
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
-  const setUserInfo = useSetRecoilState(UserInfoState);
 
   const handleSaveClick = () => {
     setUserJoinInfo((prev) => ({
@@ -63,11 +54,6 @@ const AdditionalForm = () => {
       gender,
       introduce,
       email,
-    }));
-    setUserInfo((prev) => ({
-      accessToken,
-      refreshToken,
-      email
     }));
     navigate(ROUTES.OTTSELECT);
   };

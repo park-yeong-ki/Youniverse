@@ -71,6 +71,12 @@ export const getMember = (memberId: number) =>
     headers: { Accept: "application/json" },
   });
 
+/** 이메일로 회원 체크 (회원 / 비회원) */
+export const getCheckEmailMember = (email: string) =>
+  mainAxios.get(`/members/check/${email}`, {
+    headers: { Accept: "application/json" },
+  });
+
 /** 이메일로 회원조회 */
 export const getEmailMember = (email: string) =>
   mainAxios.get(`/members/email/${email}`, {
