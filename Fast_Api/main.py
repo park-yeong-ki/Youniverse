@@ -1,14 +1,25 @@
 from fastapi import FastAPI
-
-from youniverse.routers import test
-
-
-def include_router(app):
-    app.include_router(test.router)
-
+from youniverse.routers import youtube
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-include_router(app)
+
+origins = [
+    "http://localhost:3000",
+    "https://j9b204.p.ssafy.io:3000",
+]
+
+# CORS 미들웨어를 추가하고 원하는 도메인 허용
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# 이후 FastAPI 엔드포인트와 라우터 정의
+app.include_router(youtube.router)
 
 @app.get("/", tags=["get"])
 async def get_Test():
