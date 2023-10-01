@@ -1,5 +1,6 @@
 export const ROUTES = {
     MAIN: '/',
+    LOADING: '/loading',
     ADDINFO: '/addinfo',
     SURVEY: '/survey',
     OTTSELECT: '/ott',

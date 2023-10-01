@@ -11,6 +11,7 @@ import Btn from "../../components/atoms/Btn";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import { postMember } from "../../apis/FrontendApi";
 import { MainContainer } from "../../commons/style/layoutStyle";
+import { ROUTES } from "../../commons/constants/Routes";
 
 const LikeSurveyPage = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const LikeSurveyPage = () => {
       if (response.status === 200) {
         console.log("회원 정보 등록 성공:", response.data);
         setIsLoggedIn(true);
-        navigate("/");
+        navigate(ROUTES.MAIN);
       } else {
         console.error("데이터 전송 실패:", response.statusText);
       }
