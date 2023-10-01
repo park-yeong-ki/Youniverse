@@ -29,9 +29,14 @@ const LoadingPage = () => {
   // const client_id =
   //   "776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com";
   // const client_secret = "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";
+
+  // const client_id =
+  //   "781680119308-d0jbnhpcmrcj7fb65ls9crj7lh6k7v9q.apps.googleusercontent.com";
+  // const client_secret = "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";
+
   const client_id =
-    "781680119308-d0jbnhpcmrcj7fb65ls9crj7lh6k7v9q.apps.googleusercontent.com";
-  const client_secret = "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";
+    "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
+  const client_secret = "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";
 
   const accessToken = useRecoilValue(UserInfoState).accessToken;
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
@@ -39,7 +44,8 @@ const LoadingPage = () => {
   const currentURL = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentURL).search);
   const codes: string | null = urlParams.get("code");
-  const apiKey = "AIzaSyAbqPlaSAh5ppO1pOrnOS21vx0mIMGmMfs HTTP/1.1";
+  // const apiKey = "AIzaSyAbqPlaSAh5ppO1pOrnOS21vx0mIMGmMfs HTTP/1.1";
+  const apiKey = "AIzaSyAq0XhPo72HneDoFyxkD-WDJFoNzknrd04 HTTP/1.1";
   const fastURL = "http://127.0.0.1:8000"; //로컬
   // const fastURL = 'http://j9b204.p.ssafy.io/fast';//서버
 
@@ -66,7 +72,6 @@ const LoadingPage = () => {
 
       if (response.status === 200) {
         console.log("데이터를 서버로 전송했습니다.");
-        navigate(ROUTES.MAIN);
       } else {
         console.error("서버 응답이 실패했습니다.");
       }
@@ -463,6 +468,7 @@ const LoadingPage = () => {
       .then((response) => {
         console.log(response);
         youtubeRequestData(accessToken);
+        navigate(ROUTES.MAIN);
       })
       // accessToken 만료되었을 때
       .catch((error) => {
@@ -487,7 +493,7 @@ const LoadingPage = () => {
               ...prev,
               accessToken: response.data.access_token,
             }));
-            youtubeRequestData(response.data.access_token);
+            navigate(ROUTES.LOADING);
           })
           // refreshToken도 만료되었을 때!!!
           .catch((error) => {
