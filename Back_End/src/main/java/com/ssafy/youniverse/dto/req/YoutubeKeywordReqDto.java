@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class KeywordReqDto {
-    private String keywordName;
+public class YoutubeKeywordReqDto {
+    private String youtubeKeywordName;
+    private Byte rank;
 }
