@@ -21,6 +21,7 @@ type Props = {
   movies?: MovieType[];
   showMoreButton?: boolean;
   useSlider?: boolean;
+  page?: number;
 };
 
 // const sliderSettings = {
@@ -38,6 +39,7 @@ const MovieItemList: React.FC<Props> = ({
   listType,
   movies: propMovies = [],
   showMoreButton,
+  page, // 이 부분 추가
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
@@ -95,35 +97,34 @@ const MovieItemList: React.FC<Props> = ({
 
   // 영화 데이터 가져오기
   useEffect(() => {
-    let requestParams: any = { page: 0, size: 20 };
+    const loadMovies = async () => {
+      let requestParams: any = { page, size: 20 };
 
-    if (listType === "선호도기반 추천 영화" || listType === "1") {
-      requestParams = {
-        ...requestParams,
-        "member-id": memberId,
-        type: 1,
-      };
-    } else if (
-      listType === `${memberAge}세 ${memberGender} 추천 영화` ||
-      listType === "2"
-    ) {
-      requestParams = {
-        ...requestParams,
-        "member-id": memberId,
-        type: 2,
-      };
-    } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
-      requestParams = {
-        ...requestParams,
-        "member-id": memberId,
-        type: 3,
-      };
-    }
+      if (listType === "선호도기반 추천 영화" || listType === "1") {
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          type: 1,
+        };
+      } else if (
+        listType === `${memberAge}세 ${memberGender} 추천 영화` ||
+        listType === "2"
+      ) {
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          type: 2,
+        };
+      } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          type: 3,
+        };
+      }
 
-    getAllMovies(requestParams)
-      .then((response) => {
-        console.log("API Response:", response);
-
+      try {
+        const response = await getAllMovies(requestParams);
         const targetOttId = convertOTTNameToId(filterOTT);
 
         const filteredMovies = response.data.content.filter(
@@ -134,13 +135,18 @@ const MovieItemList: React.FC<Props> = ({
             );
           }
         );
-
-        console.log("Filtered Movies:", filteredMovies);
-        setMovies(filteredMovies);
-      })
-      .catch((err) => {
+        if (page === 0) {
+          // 첫 페이지일 경우 기존 영화 목록을 리셋
+          setMovies(filteredMovies);
+        } else {
+          setMovies((prevMovies) => [...prevMovies, ...filteredMovies]);
+        }
+      } catch (err) {
         console.log(err);
-      });
+      }
+    };
+
+    loadMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOTT, listType, memberId]);
 
@@ -161,11 +167,13 @@ const MovieItemList: React.FC<Props> = ({
         )}
       </StyledListBtn>
       <div className="grid grid-cols-10 gap-4">
-        {/* <Slider {...sliderSettings}> */}
-        {movies.map((movie) => (
-          <MovieItem key={movie.movieId} movie={movie} />
-        ))}
-        {/* </Slider> */}
+        {movies.length > 0 ? (
+          movies.map((movie) => <MovieItem key={movie.movieId} movie={movie} />)
+        ) : (
+          <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">
+            영화가 없습니다.
+          </Text>
+        )}
       </div>
     </>
   );

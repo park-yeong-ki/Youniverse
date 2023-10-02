@@ -9,6 +9,7 @@ interface WrapperProps {
   children: ReactNode;
   padding: WrapperPadding;
   className?: string;
+  onScroll? : (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
 /** Wrapper SIZE */
@@ -120,6 +121,7 @@ const Wrapper = ({
   color,
   padding,
   className,
+  onScroll,
 }: WrapperProps) => {
   return (
     <StyledWrapper
