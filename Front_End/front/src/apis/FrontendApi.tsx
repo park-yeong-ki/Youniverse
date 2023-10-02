@@ -20,6 +20,10 @@ export interface UserSearchParams {
   total?: string;
 }
 
+export interface keywordsParams {
+  random?: boolean;
+}
+
 /** 회원가입 */
 export const postMember = (userJoinInfo: UserJoinInfo) =>
   mainAxios.post(`/members/register`, userJoinInfo, {
@@ -69,9 +73,10 @@ export const getKeyword = (keywordId: number) =>
   });
 
 /** 전체 키워드조회 */
-export const getAllKeywords = () =>
+export const getAllKeywords = (keywordsParams: keywordsParams) =>
   mainAxios.get(`/keywords`, {
     headers: { Accept: "application/json" },
+    params: keywordsParams,
   });
 
 // ======================================================
