@@ -11,6 +11,7 @@ import { FlexCenter } from "../../commons/style/SharedStyle";
 
 interface ProfileReviewProps {
   memberId: number | undefined;
+  className?: string;
 }
 
 const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {

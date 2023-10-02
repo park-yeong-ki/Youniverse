@@ -49,11 +49,13 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
     >
       <StyledColBetween>
         <StyledFirstRowBetween>
-          <ProfileImage
-            size="X-Large"
-            src={memberData?.memberImage || "/assets/기본프로필.jpg"}
-          ></ProfileImage>
-          <BasicUserInfoContainer>
+          <ProfileImage className="w-1/3">
+            <Img
+              size="2X-Large"
+              src={memberData?.memberImage || "/assets/기본프로필.jpg"}
+            />
+          </ProfileImage>
+          <div className="w-2/3">
             <StyledRowBetween>
               <UserNameContainer>
                 <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
@@ -99,14 +101,14 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
                 <div>{FOLLOWING}</div>
               </StyledColBetween>
             </StyledRowBetween>
-          </BasicUserInfoContainer>
+          </div>
         </StyledFirstRowBetween>
         <StyledChangableComponent>
           <StyledRowBetween>
-            <StyledColBetween>
+            <div className="w-1/3">
               <UserZodiacSign />
-            </StyledColBetween>
-            <ProfileReview memberId={memberData?.memberId} />
+            </div>
+            <ProfileReview className="w-2/3" memberId={memberData?.memberId} />
           </StyledRowBetween>
           <StyledRowBetween>
             <SoulMovieItemList />
@@ -130,10 +132,9 @@ const StyledSmallWhiteGhostWrapper = styled(Wrapper)`
   width: 100%;
 `;
 
-const ProfileImage = styled(Img)`
-  width: 35%;
-  height: auto;
-  /* margin-left: 100px; */
+const ProfileImage = styled.div`
+  ${FlexCenter}
+  padding-right: 5%;
 `;
 
 const UserNameContainer = styled.div`
@@ -150,7 +151,7 @@ const UserFollowBtnContainer = styled.div`
 const StyledFirstRowBetween = styled.div`
   ${FlexRowBetween}
   width: 100%;
-  height: 30%;
+  height: 35%;
 `;
 
 const StyledChangableComponent = styled.div`
@@ -167,8 +168,4 @@ const StyledColBetween = styled.div`
   ${FlexColBetween}
   width:95%;
   height: 100%;
-`;
-
-const BasicUserInfoContainer = styled.div`
-  width: 63%;
 `;
