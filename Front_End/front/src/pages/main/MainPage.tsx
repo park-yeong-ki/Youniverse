@@ -16,33 +16,32 @@ import {
 import { getEmailMember } from "../../apis/FrontendApi";
 
 const MainPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
+  const isLoggedIn = useRecoilValue(LoginState);
   const [userDetailInfo, setUserDetailInfo] =
     useRecoilState(UserDetailInfoState);
 
   const email = useRecoilValue(UserInfoState).email;
 
   // 파라미터 정보 유무
-  useEffect(() => {
-    // URL에서 'email' 파라미터 빼서 저장
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get("accessToken");
-    const refreshToken = urlParams.get("refreshToken");
-    const email = urlParams.get("email");
+  // useEffect(() => {
+  //   // URL에서 'email' 파라미터 빼서 저장
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const accessToken = urlParams.get("accessToken");
+  //   const refreshToken = urlParams.get("refreshToken");
+  //   const email = urlParams.get("email");
 
-    // accessToken과 refreshToken 둘 다 null값이라면
-    if (userInfo.accessToken === null && userInfo.refreshToken === null) {
-      // 리코일에 저장
-      setUserInfo({ accessToken, refreshToken, email });
-    }
+  //   // accessToken과 refreshToken 둘 다 null값이라면
+  //   if (userInfo.accessToken === null && userInfo.refreshToken === null) {
+  //     // 리코일에 저장
+  //     setUserInfo({ accessToken, refreshToken, email });
+  //   }
 
-    //  accessToken과 refreshToken 둘 다 있다면
-    if (accessToken && refreshToken) {
-      setIsLoggedIn(true); // 로그인 상태를 true로 변경
-      setUserInfo({ accessToken, refreshToken, email });
-    }
-  }, [setIsLoggedIn, setUserInfo, userInfo.accessToken, userInfo.refreshToken]);
+  //   //  accessToken과 refreshToken 둘 다 있다면
+  //   if (accessToken && refreshToken) {
+  //     setIsLoggedIn(true); // 로그인 상태를 true로 변경
+  //     setUserInfo({ accessToken, refreshToken, email });
+  //   }
+  // }, [setIsLoggedIn, setUserInfo, userInfo.accessToken, userInfo.refreshToken]);
 
   useEffect(() => {
     /** GET 요청 (이메일로 회원 조회) */
@@ -59,9 +58,6 @@ const MainPage = () => {
         });
     }
   }, [email, setUserDetailInfo]);
-
-  console.log(userInfo);
-  console.log(isLoggedIn);
 
   return (
     <>

@@ -1,4 +1,5 @@
 export { default as MAIN } from './main/MainPage';
+export { default as LOADING } from './main/LoadingPage';
 export { default as ADDINFO } from './auth/AdditionalInfoPage';
 export { default as SURVEY } from './auth/LikeSurveyPage';
 export { default as OTTSELECT } from './auth/OTTSelectionPage';

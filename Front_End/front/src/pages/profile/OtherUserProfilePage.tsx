@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import OtherProfileContainer from "../../components/organisms/OtherProfileContainer";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
-import UserSearchContainer from "../../components/organisms/UserSearchContainer";
-import UserRecommendContainer from "../../components/organisms/UserRecommendContainer";
+import UserSearchContainer from "../../components/search/UserSearchContainer";
+// import UserRecommendContainer from "../../components/organisms/UserRecommendContainer";
 import {
   FlexRowBetween,
   FlexColBetween,
 } from "../../commons/style/SharedStyle";
-import { UserDetailInfoState } from "../../pages/store/State";
 import { getMember } from "../../apis/FrontendApi";
 import { UserType } from "../../pages/profile/MyProfilePage";
 
 const OtherUserProfilePage = () => {
-  const { memberId } = useRecoilValue(UserDetailInfoState);
+  const { userId } = useParams<{ userId: string }>();
   const [memberData, setMemberData] = useState<UserType | null>(null);
+  const memberId = userId;
   useEffect(() => {
     getMember(Number(memberId))
       .then((response) => {
@@ -29,11 +29,10 @@ const OtherUserProfilePage = () => {
   return (
     <MainPaddingContainer>
       <StyledOtherUserProfile>
-        <OtherProfileContainer 
-        memberData = {memberData}/>
+        <OtherProfileContainer memberData={memberData} />
         <StyledSearchRecommend>
           <UserSearchContainer />
-          <UserRecommendContainer />
+          {/* <UserRecommendContainer /> */}
         </StyledSearchRecommend>
       </StyledOtherUserProfile>
     </MainPaddingContainer>

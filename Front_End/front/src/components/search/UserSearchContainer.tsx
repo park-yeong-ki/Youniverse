@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import SearchBox from "./SearchBox";
+import SearchBox from "../organisms/SearchBox";
 import SearchUserItemList from "../users/SearchUserItemList";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
