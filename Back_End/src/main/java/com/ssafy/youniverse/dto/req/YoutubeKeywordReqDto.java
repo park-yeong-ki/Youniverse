@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class YoutubeKeywordReqDto {
     private String youtubeKeywordName;
-    private Byte rank;
+    private Byte movieRank;
 }
