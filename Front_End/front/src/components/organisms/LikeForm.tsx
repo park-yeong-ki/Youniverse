@@ -21,7 +21,7 @@ const LikeForm = ({
   useEffect(() => {
     const RandomKeywords = async () => {
       try {
-        const response = await getAllKeywords();
+        const response = await getAllKeywords({ random: true });
         console.log(response.data);
         setButtonKeywords(response.data);
       } catch (error) {
