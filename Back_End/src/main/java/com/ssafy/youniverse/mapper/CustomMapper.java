@@ -22,7 +22,6 @@ public interface CustomMapper {
                     Keyword keyword = keywordMember.getKeyword();
                     KeywordResDto keywordResDto = new KeywordResDto();
                     keywordResDto.setKeywordName(keyword.getKeywordName());
-                    keywordResDto.setSource(keyword.getSource());
                     keywordResDto.setKeywordId(keyword.getKeywordId());
                     return keywordResDto;
                 })
@@ -44,7 +43,6 @@ public interface CustomMapper {
                     KeywordResDto keywordResDto = new KeywordResDto();
                     keywordResDto.setKeywordId(keyword.getKeywordId());
                     keywordResDto.setKeywordName(keyword.getKeywordName());
-                    keywordResDto.setSource(keyword.getSource());
                     return keywordResDto;
                 })
                 .collect(Collectors.toList())

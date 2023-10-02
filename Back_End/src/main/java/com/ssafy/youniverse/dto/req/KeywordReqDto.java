@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class KeywordReqDto {
     private String keywordName;
-    private int source;
 }

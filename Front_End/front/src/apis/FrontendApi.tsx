@@ -10,14 +10,14 @@ type UserJoinInfo = {
   ottList: number[];
 };
 
-type UpdateMemberType = {
+export type UpdateMemberType = {
   nickname: string;
-  gender: string;
+  gender: string | null;
   age: number;
   introduce: string;
   keywordList: number[];
   ottList: number[];
-  file: File;
+  file: File | null;
 };
 
 export interface UserSearchParams {
@@ -55,8 +55,10 @@ export const putMember = (memberId: number, data: UpdateMemberType) => {
       keywordList: data.keywordList,
     })
   );
-  // 이미지 추가
-  formData.append("image", data.file);
+  // 이미지 추가 (추가했을 경우에만)
+  if (data.file) {
+    formData.append("image", data.file);
+  }
 
   return mainAxios.put(`/members/${memberId}`, formData, {
     headers: { Accept: "application/json" },

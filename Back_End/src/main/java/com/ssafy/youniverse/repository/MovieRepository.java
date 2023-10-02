@@ -21,21 +21,25 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     Page<Movie> findAllByTitleContains(String title, Pageable pageable);
 
-    @Query(value = "select m from Movie m where m.movieId in " +
-            "(select distinct kmv.movie.movieId from KeywordMovie kmv where kmv.keyword.keywordId in " +
-            "(select kmb.keyword.keywordId from KeywordMember kmb where kmb.member.memberId = :memberId))")
+    @Query(value = "select * from movie where movie_id in " +
+            "(select distinct movie_id from keyword_movie where keyword_id in " +
+            "(select keyword_id from keyword_member where member_id = :memberId))", nativeQuery = true)
     Page<Movie> findAllByMemberKeyword(@Param("memberId") Integer memberId, Pageable pageable);
 
-    @Query(value = "select mv from Movie mv where mv.movieId in " +
-            "(select distinct hm.movie.movieId from HeartMovie hm where hm.member.memberId in " +
-            "(select m.memberId from Member m where floor(m.age/10) = " +
-            "(select floor(m2.age/10) from Member m2 where m2.memberId = :memberId) " +
-            "and m.gender = " +
-            "(select m3.gender from Member m3 where m3.memberId = :memberId)))")
+    @Query(value = "select * from movie where movie_id in " +
+            "(select distinct movie_id from heart_movie where member_id in " +
+            "(select member_id from member where floor(age/10) = " +
+            "(select floor(age/10) from member where member_id = :memberId) " +
+            "and gender = " +
+            "(select gender from member where member_id = :memberId)))", nativeQuery = true)
     Page<Movie> findAllByAgeAndGender(@Param("memberId") Integer memberId, Pageable pageable);
 
     @Query(value = "select mv from Movie mv where mv.movieId in " +
             "(select om.movie.movieId from OttMovie om where om.ott.ottId = :ottId)")
     Page<Movie> findAllByOttId(@Param("ottId") Integer ottId, Pageable pageable);
 
+    //유튜브 추천
+    @Query(value = "select * from movie where movie_id in " +
+            "(select movie_id from recommend_movie where member_id = :memberId)", nativeQuery = true)
+    Page<Movie> findAllByYoutube(@Param("memberId") Integer memberId, Pageable pageable);
 }
