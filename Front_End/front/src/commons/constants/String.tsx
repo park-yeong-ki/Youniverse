@@ -1,4 +1,4 @@
-// 메인페이지
+  // 메인페이지
 export const LOGO = "Youniverse";
 export const MAIN_NOT_LOGIN_PART = "와 함께";
 export const MAIN_NOT_LOGIN_PART1 = "취향 별자리를 그리고";
@@ -105,3 +105,4 @@ export const SAVE = "저장";
 export const CANCLE = "취소";
 export const MODIFY = "수정";
 export const DELETE = "삭제";
+export const LIKEIT = "좋아요";

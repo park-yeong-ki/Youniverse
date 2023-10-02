@@ -1,27 +1,31 @@
 // 프로필에서 보여지는 리뷰 박스 (+ 텍스트)
 
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { MY_PAGE_REVIEW } from "../../commons/constants/String";
 import Text from "../atoms/Text";
-import { UserDetailInfoState } from "../../pages/store/State";
 import { getMember } from "../../apis/FrontendApi";
 import ProfileReviewItemList from "./ProfileReviewItemList";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 
-const ProfileReview = () => {
-  const { nickname, memberId } = useRecoilValue(UserDetailInfoState);
+interface ProfileReviewProps {
+  memberId: number | undefined;
+}
+
+const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
   const [reviewList, setReviewList] = useState<[]>([]);
+  const [nickname, setNickname] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getMember(memberId as number);
+        const response = await getMember(Number(memberId));
+        console.log("리뷰 보여줄 유저", response.data);
 
         if (response && response.data) {
           setReviewList(response.data.reviewResDtos || []);
+          setNickname(response.data.nickname);
         }
       } catch (error) {
         console.error("데이터 가져오기 실패", error);
@@ -51,8 +55,9 @@ const ProfileReview = () => {
 export default ProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 70%;
+  height: 100%;
+  margin-left: 20px;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
