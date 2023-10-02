@@ -9,13 +9,15 @@ import { FlexCenter } from "../../commons/style/SharedStyle";
 const UserZodiacSign = () => {
   return (
     <>
-      <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
-        유저{MY_PAGE_STAR}
-      </Text>
-      {/* 별자리 wrapper */}
-      <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
-        <StyledZodiacWrapper>여기에 차트 들어가용</StyledZodiacWrapper>
-      </Wrapper>
+      <div>
+        <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
+          유저{MY_PAGE_STAR}
+        </Text>
+        {/* 별자리 wrapper */}
+        <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
+          <StyledZodiacWrapper>여기에 차트 들어가용</StyledZodiacWrapper>
+        </Wrapper>
+      </div>
     </>
   );
 };

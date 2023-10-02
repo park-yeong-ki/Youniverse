@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+
+import { getMember } from "../../apis/FrontendApi";
+import { UserDetailInfoState } from "../store/State";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
+import {
+  FlexColBetweenLeft,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
 import SoulMovieItemList, {
   SoulMovie,
 } from "../../components/movies/SoulMovieItemList";
@@ -8,10 +17,8 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-import { useRecoilValue } from "recoil";
-import { UserDetailInfoState } from "../store/State";
-import { getMember } from "../../apis/FrontendApi";
 import { MovieType } from "../../types/MovieType";
+// import ProfileReview from "../../components/review/ProfileReview";
 
 export type UserType = {
   memberId: number;
@@ -23,6 +30,7 @@ export type UserType = {
   memberImage: string;
   ottResDtos: Array<{
     ottImage: string;
+    ottId: number;
     ottName: string;
     ottUrl: string;
   }>;
@@ -55,7 +63,7 @@ const MyProfilePage = () => {
 
   return (
     <MainPaddingContainer>
-      <div className="flex gap-5">
+      <div className="flex gap-6 h-full">
         {memberData && (
           <>
             <div className="w-1/4">
@@ -65,14 +73,21 @@ const MyProfilePage = () => {
                 setFollowStatus={setFollowStatus}
               />
             </div>
-            <div className="w-3/4">
+            <StyledContentWrap className="w-3/4">
               {!followStatus && (
-                <div>
-                  <SoulMovieItemList />
-                  <MyOTTPlanet />
-                  <MypageLikeContents />
-                  <UserZodiacSign />
-                </div>
+                <>
+                  <StyledRowWrap>
+                    <UserZodiacSign />
+                    <MyOTTPlanet />
+                  </StyledRowWrap>
+                  <StyledRowWrap>
+                    <MypageLikeContents />
+                    {/* <ProfileReview /> */}
+                  </StyledRowWrap>
+                  <StyledSoulWrap>
+                    <SoulMovieItemList />
+                  </StyledSoulWrap>
+                </>
               )}
 
               {followStatus && (
@@ -82,7 +97,7 @@ const MyProfilePage = () => {
                   setFollowStatus={setFollowStatus}
                 />
               )}
-            </div>
+            </StyledContentWrap>
           </>
         )}
       </div>
@@ -91,3 +106,22 @@ const MyProfilePage = () => {
 };
 
 export default MyProfilePage;
+
+const StyledContentWrap = styled.div`
+  ${FlexColBetweenLeft}
+`;
+
+const StyledSoulWrap = styled.div`
+  height: 30%;
+`;
+
+const StyledRowWrap = styled.div`
+  ${FlexRowBetween}
+  & > div:first-child {
+    width: 44%;
+  }
+  & > div:last-child {
+    width: 54%;
+  }
+  height: 34%;
+`;

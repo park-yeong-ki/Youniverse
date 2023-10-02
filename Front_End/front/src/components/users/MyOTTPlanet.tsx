@@ -1,5 +1,6 @@
 // 마이페이지에서 ㅇㅇ님의 OTT 행성 컴포넌트
 
+import styled from "styled-components";
 import {
   MY_PAGE_OTT,
   MY_PAGE_OTT_RECOMMEND,
@@ -8,11 +9,12 @@ import {
 import Planet from "../atoms/Planet";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 
 const MyOTTPlanet = () => {
   return (
     <div>
-      <div>
+      <StyledTextWrapper>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
           유저{MY_PAGE_OTT}
         </Text>
@@ -20,9 +22,14 @@ const MyOTTPlanet = () => {
         <Text size="Small" color="White" fontFamily="YESGothic-Regular">
           {MY_PAGE_OTT_RECOMMEND}
         </Text>
-      </div>
+      </StyledTextWrapper>
       {/* OTT 행성 Wrapper */}
-      <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
+      <StyledOTTWrapper
+        size="Standard"
+        color="WhiteGhost"
+        padding="Narrow"
+        className="mt-2"
+      >
         {/* 행성 + 이름 (유저 정보에 따라 변경하기) */}
         <div>
           <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
@@ -32,7 +39,7 @@ const MyOTTPlanet = () => {
         </div>
 
         {/* 중간 나누는 선 */}
-        <div></div>
+        <StyledDivideLine />
 
         {/* OTT별 가지고 있는 컨텐츠 차트 (유저 정보에 따라 변경하기) */}
         <div>
@@ -40,11 +47,24 @@ const MyOTTPlanet = () => {
             {MY_PAGE_OTT_CHART} 넷플릭스
           </Text>
           {/* 여기에 차트 들어가요! */}
-          <div></div>
+          <div>차트 공간</div>
         </div>
-      </Wrapper>
+      </StyledOTTWrapper>
     </div>
   );
 };
 
 export default MyOTTPlanet;
+
+const StyledTextWrapper = styled.div`
+  ${FlexRowBetween}
+`;
+
+const StyledDivideLine = styled.div`
+  height: 100px;
+  border: 1px solid #000;
+`
+
+const StyledOTTWrapper = styled(Wrapper)`
+  ${FlexRowBetween}
+`;

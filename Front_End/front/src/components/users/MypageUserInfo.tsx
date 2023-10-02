@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import styled from "styled-components";
 
 import {
@@ -15,11 +15,18 @@ import Img from "../atoms/Img";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
 import InputBox from "../atoms/InputBox";
-import { FlexColBetween } from "../../commons/style/SharedStyle";
+import {
+  FlexColBetween,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
 import { StyledTextArea } from "../organisms/AdditionalForm";
 import { UserType } from "../../pages/profile/MyProfilePage";
 import { ROUTES } from "../../commons/constants/Routes";
 import { useNavigate } from "react-router";
+import { useRecoilValue } from "recoil";
+import { UserInfoState } from "../../pages/store/State";
+import Planet from "../atoms/Planet";
+import { putMember } from "../../apis/FrontendApi";
 
 interface MypageUserInfoProps {
   memberData: UserType | null;
@@ -36,19 +43,24 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [image, setImage] = useState<string>(memberData?.memberImage || "");
+  const basicImage = useRecoilValue(UserInfoState).image;
+  const email = useRecoilValue(UserInfoState).email;
   const [nickname, setNickname] = useState<string>(memberData?.nickname || "");
   const [age, setAge] = useState<number>(memberData?.age || 0);
-  const [gender, setGender] = useState(memberData?.gender); // 여기에 받아온 값 넣어줌
+  const [gender, setGender] = useState<string | null>(
+    memberData?.gender || null
+  ); // 여기에 받아온 값 넣어줌
   const [introduce, setIntroduce] = useState<string>(
     memberData?.introduce || ""
   );
 
-  console.log(setFile, setImage);
-  // const selectedOtts = memberData?.ottResDtos;
+  const selectedOtts = memberData?.ottResDtos; // 선택한 Ott
+  const selectedKeywords = memberData?.keywordResDtos; // 선택한 keyword
 
   const sendData = {
     file: file,
     nickname: nickname,
+    email: email,
     gender: gender,
     age: age,
     introduce: introduce,
@@ -64,12 +76,30 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 
   /** 수정 완료를 눌렀을 때 */
   const handleUpdateChange = () => {
+    if (!sendData.gender) {
+      alert("성별을 선택해주세요!");
+      return;
+    }
     // 여기에서 axios 요청
+    putMember(Number(memberData?.memberId), sendData)
+      .then((response) => {
+        console.log(response.data);
+        setIsEdit(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     console.log(sendData);
-    setIsEdit(false);
   };
   /** 취소 버튼을 눌렀을 때 */
   const handleCancel = () => {
+    // 초기화
+    setFile(null);
+    setImage(memberData?.memberImage || "");
+    setNickname(memberData?.nickname || "");
+    setAge(memberData?.age || 0);
+    setGender(memberData?.gender || null);
+    setIntroduce(memberData?.introduce || "");
     setIsEdit(false);
   };
 
@@ -85,19 +115,21 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   };
 
   const handleImgChange = () => {
-    console.log("이미지 바꿀 수 있게 팝업 창??");
+    fileInputRef.current?.click();
   };
   /** 이미지 파일 선택시 상태 업데이트 */
-  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     const selectedFile = event.target.files[0];
-  //     setFile(selectedFile);
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
 
-  //     // 이미지 미리보기 URL 설정
-  //     const imageUrl = URL.createObjectURL(selectedFile);
-  //     setImage(imageUrl);
-  //   }
-  // };
+      // 이미지 미리보기 URL 설정
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage(imageUrl);
+    }
+  };
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
@@ -106,14 +138,15 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
       <StyledUpdateWrapper size="Standard" color="WhiteGhost" padding="Narrow">
         {isEdit === false && (
           // 수정 누르기 전 컨텐츠 wrapper
-          <div>
+          <>
             {/* 프로필 사진 */}
             <Img
               size="X-Large"
               src={
                 memberData?.memberImage ||
                 // 이후 디폴트 이미지 수정 @@@
-                "https://cdn.imweb.me/upload/S20210807d1f68b7a970c2/7170113c6a983.jpg"
+                basicImage ||
+                ""
               }
             />
 
@@ -153,47 +186,65 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
               {memberData?.introduce || "등록된 자기소개가 없습니다."}
             </Text>
 
-            {/* 해시태그 wrapper */}
+            {/* 해시태그 (키워드) wrapper */}
             <div>
-              <HashTag size="Standard" color="White">
-                # 키워드
-              </HashTag>
+              {selectedKeywords?.map((keyword) => (
+                <HashTag size="Standard" color="White">
+                  # {keyword.keywordName}
+                </HashTag>
+              ))}
             </div>
 
             {/* OTT 행성 wrapper */}
-            <div>
-              {/* {selectedOtts?.map()} */}
-              <Img size="Small" src="" />
-              <Img size="Small" src="" />
-            </div>
-
-            <Btn size="Small" color="Black" onClick={handleEditChange}>
-              {MY_PAGE_PROFILE_EDIT}
-            </Btn>
-            <Btn
-              size="Small"
-              color="BlackStroke"
-              onClick={() => navigate(ROUTES.LOADING)}
-            >
-              데이터 분석
-            </Btn>
-          </div>
+            <StyledRowWrap>
+              {selectedOtts?.map((ott) => (
+                <a href={ott.ottUrl} target="_blank" rel="noopener noreferrer">
+                  <Planet
+                    size="Small"
+                    src={ott.ottImage}
+                    planetId={ott.ottId}
+                    name={ott.ottName}
+                    $mypage
+                  />
+                </a>
+              ))}
+            </StyledRowWrap>
+            <StyledBtnWrap>
+              <Btn size="Small" color="Black" onClick={handleEditChange}>
+                {MY_PAGE_PROFILE_EDIT}
+              </Btn>
+              <Btn
+                size="Small"
+                color="BlackStroke"
+                onClick={() => navigate(ROUTES.LOADING)}
+              >
+                데이터 분석
+              </Btn>
+            </StyledBtnWrap>
+          </>
         )}
         {isEdit === true && (
           // 수정 누른 후 컨텐츠 wrapper
-          <div>
+          <>
             {/* 프로필 사진 수정하기 */}
             <Img
               size="X-Large"
               src={
                 image ||
                 // 이후 디폴트 이미지 수정 @@@
-                "https://cdn.imweb.me/upload/S20210807d1f68b7a970c2/7170113c6a983.jpg"
+                basicImage ||
+                ""
               }
               onClick={handleImgChange}
               $point
             />
-
+            <input
+              type="file"
+              accept=".jpeg, .jpg, .png"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }} // 숨겨진 input
+            />
             <InputBox
               value={nickname}
               type="text"
@@ -238,24 +289,24 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
             </div>
 
             {/* OTT 행성 wrapper */}
-            <div>
+            <StyledRowWrap>
               <Img size="Small" src="" />
               <Img size="Small" src="" />
               <Img size="Small" src="" />
               <Img size="Small" src="" />
               <Img size="Small" src="" />
-            </div>
+            </StyledRowWrap>
 
             {/* 수정 취소 버튼 wrapper */}
-            <div>
+            <StyledBtnWrap>
               <Btn size="Small" color="White" onClick={handleCancel}>
                 취소
               </Btn>
               <Btn size="Small" color="Black" onClick={handleUpdateChange}>
                 수정 완료
               </Btn>
-            </div>
-          </div>
+            </StyledBtnWrap>
+          </>
         )}
       </StyledUpdateWrapper>
     </>
@@ -280,4 +331,16 @@ const StyledUpdateWrapper = styled(Wrapper)`
   text-align: center;
   position: relative;
   z-index: 1102;
+`;
+
+const StyledRowWrap = styled.div`
+  ${FlexRowBetween}
+  width: 70%;
+  margin: 0 auto;
+`;
+
+const StyledBtnWrap = styled.div`
+  ${FlexColBetween}
+  width: 100%;
+  height: 12%;
 `;

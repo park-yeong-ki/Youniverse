@@ -16,7 +16,7 @@ public class YoutubeKeyword extends Auditable {
     private String youtubeKeywordName;
 
     @Column(nullable = false)
-    private Byte rank;
+    private Byte movieRank;
 
     @ManyToOne
     @JoinColumn(name = "member_id")

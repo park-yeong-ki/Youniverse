@@ -8,5 +8,5 @@ import lombok.Setter;
 public class YoutubeKeywordResDto {
     private Integer youtubeKeywordId;
     private String youtubeKeywordName;
-    private Byte rank;
+    private Byte movieRank;
 }
