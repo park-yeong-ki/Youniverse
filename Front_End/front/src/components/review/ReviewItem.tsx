@@ -1,25 +1,69 @@
+import styled from "styled-components";
 import { ReviewType } from "../../pages/recommend/ContentDetailPage";
+import Text from "../atoms/Text";
+import HashTag from "../atoms/HashTag";
 
 interface ReviewItemProps {
-  memberId: number | null; // memberId prop 추가
+  memberId: number | null;
   review: ReviewType;
 }
 
 const ReviewItem: React.FC<ReviewItemProps> = ({ memberId, review }) => {
-  // 현재 사용자가 리뷰의 주인인지 확인
   const isReviewOwner = memberId === review.memberSimpleResDto.memberId;
 
-  // 현재 사용자가 리뷰의 주인이라면 아무것도 반환하지 않음
   if (isReviewOwner) return null;
 
   return (
-    <div>
-      <p>작성자: {review.memberSimpleResDto.nickname}</p>
-      <p>별점: {review.reviewRate}</p>
-      <p>리뷰: {review.reviewContent}</p>
-      <p>ReviewId: {review.reviewId}</p>
-    </div>
+    <ReviewContainer>
+      <MemberImage src={review.memberSimpleResDto.memberImage} alt="memberImg" />
+      <MemberInfoContainer>
+        <InfoContainerTop>
+          <ReviewText size="Small" color="Black" fontFamily="YESGothic-Bold">{review.memberSimpleResDto.nickname}</ReviewText>
+          <HashTag size="Standard" color="WhiteGhost">
+            ⭐{review.reviewRate}
+          </HashTag>
+        </InfoContainerTop>
+        <ReviewContent>{review.reviewContent}</ReviewContent>
+      </MemberInfoContainer>
+    </ReviewContainer>
   );
 };
 
 export default ReviewItem;
+
+const ReviewContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+`;
+
+const MemberInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+`;
+
+const MemberImage = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const ReviewText = styled(Text)`
+  margin-right: 10px;
+  display: inline;
+`;
+
+const InfoContainerTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ReviewContent = styled.p`
+  margin-top: 5px;
+`;

@@ -18,7 +18,7 @@ export type ReviewType = {
   memberSimpleResDto: {
     memberId: number;
     nickname: string;
-    memberImage: string | null;
+    memberImage: string;
   };
   reviewContent: string;
   reviewId: number;

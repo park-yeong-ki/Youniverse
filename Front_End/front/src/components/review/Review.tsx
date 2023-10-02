@@ -26,14 +26,14 @@ const Review: React.FC<ReviewProps> = ({ reviews, userReview }) => {
 
   return (
     <>
-      <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
+      <Text size="Medium" color="Black" fontFamily="PyeongChang-Light">
         {DETAIL_PAGE_REVIEW}
       </Text>
-      <div className="flex gap-4 h-screen">
-        <div className="w-1/6">
+      <div className="flex gap-4">
+        <div className="w-1/6 h-full">
           <ReviewCreate onReviewAdd={handleReviewAdd} userReview={userReview} />
         </div>
-        <div className="w-5/6">
+        <div className="w-5/6 h-full">
           <ReviewItemList reviews={currentReviews} />
         </div>
       </div>
