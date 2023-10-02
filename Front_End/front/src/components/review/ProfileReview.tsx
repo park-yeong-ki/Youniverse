@@ -61,8 +61,7 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
 export default ProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 70%;
-  height: 100%;
+  width: 55%;
   margin-left: 20px;
 `;
 

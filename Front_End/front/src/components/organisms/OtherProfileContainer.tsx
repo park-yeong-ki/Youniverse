@@ -45,7 +45,7 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
     <StyledStandardWhiteGhostWrapper
       size="Standard"
       color="WhiteGhost"
-      padding="Medium"
+      padding="Narrow"
     >
       <StyledColBetween>
         <StyledFirstRowBetween>
@@ -101,13 +101,17 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
             </StyledRowBetween>
           </BasicUserInfoContainer>
         </StyledFirstRowBetween>
-        <StyledSecondRowBetween>
-          <StyledColBetween>
-            <UserZodiacSign />
-          </StyledColBetween>
-          <ProfileReview memberId={memberData?.memberId} />
-        </StyledSecondRowBetween>
-        <SoulMovieItemList />
+        <StyledChangableComponent>
+          <StyledRowBetween>
+            <StyledColBetween>
+              <UserZodiacSign />
+            </StyledColBetween>
+            <ProfileReview memberId={memberData?.memberId} />
+          </StyledRowBetween>
+          <StyledRowBetween>
+            <SoulMovieItemList />
+          </StyledRowBetween>
+        </StyledChangableComponent>
       </StyledColBetween>
     </StyledStandardWhiteGhostWrapper>
   );
@@ -129,7 +133,7 @@ const StyledSmallWhiteGhostWrapper = styled(Wrapper)`
 const ProfileImage = styled(Img)`
   width: 35%;
   height: auto;
-  margin-right: 2%;
+  /* margin-left: 100px; */
 `;
 
 const UserNameContainer = styled.div`
@@ -146,11 +150,14 @@ const UserFollowBtnContainer = styled.div`
 const StyledFirstRowBetween = styled.div`
   ${FlexRowBetween}
   width: 100%;
+  height: 30%;
 `;
-const StyledSecondRowBetween = styled.div`
-  ${FlexRowBetween}
-  width: 100%;
+
+const StyledChangableComponent = styled.div`
+  ${FlexColBetween}
+  height: 65%;
 `;
+
 const StyledRowBetween = styled.div`
   ${FlexRowBetween}
   width: 100%;

@@ -89,8 +89,11 @@ const StyledReviewContentWrapper = styled(Wrapper)`
 
 const StyledMovieTitletContainer = styled.div`
   height: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 0px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const StyledTextContainer = styled.div`
