@@ -30,12 +30,14 @@ import { putMember } from "../../apis/FrontendApi";
 
 interface MypageUserInfoProps {
   memberData: UserType | null;
+  setMemberData: React.Dispatch<React.SetStateAction<UserType | null>>;
   followStatus: string;
   setFollowStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   memberData,
+  setMemberData,
   followStatus,
   setFollowStatus,
 }) => {
@@ -80,16 +82,16 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
       alert("성별을 선택해주세요!");
       return;
     }
+    
     // 여기에서 axios 요청
     putMember(Number(memberData?.memberId), sendData)
       .then((response) => {
-        console.log(response.data);
+        setMemberData(response.data);
         setIsEdit(false);
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log(sendData);
   };
   /** 취소 버튼을 눌렀을 때 */
   const handleCancel = () => {

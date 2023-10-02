@@ -69,6 +69,7 @@ const MyProfilePage = () => {
             <div className="w-1/4">
               <MypageUserInfo
                 memberData={memberData}
+                setMemberData={setMemberData}
                 followStatus={followStatus}
                 setFollowStatus={setFollowStatus}
               />
