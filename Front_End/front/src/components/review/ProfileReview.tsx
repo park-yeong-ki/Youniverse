@@ -46,7 +46,13 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
         color="WhiteGhost"
         padding="Narrow"
       >
-        <ProfileReviewItemList reviews={reviewList} />
+        {reviewList.length === 0 ? (
+          <Text size="Small" color="Black" fontFamily="PyeongChang-Light">
+            아직 리뷰를 등록하지 않으셨네요
+          </Text>
+        ) : (
+          <ProfileReviewItemList reviews={reviewList} />
+        )}
       </StyledStandardWhiteGhostWrapper>
     </StyledReviewContainer>
   );

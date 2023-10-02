@@ -66,7 +66,7 @@ const ProfileReviewItem: React.FC<ReviewProps> = ({ review }) => {
         </StyledTextContainer>
         <StyledRateBottomContainer>
           <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
-            ⭐{reviewRate}/5
+            ⭐ {reviewRate}/5
           </Text>
         </StyledRateBottomContainer>
       </StyledRowBetweenContainer>
