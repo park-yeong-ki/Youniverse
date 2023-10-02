@@ -1,6 +1,11 @@
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router";
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 import axios from "axios";
 
 import {
@@ -18,7 +23,8 @@ import Text from "../../components/atoms/Text";
 const LoadingPage = () => {
   const navigate = useNavigate();
   const setUserInfo = useSetRecoilState(UserInfoState);
-  const setIsLoggedIn = useSetRecoilState(LoginState);
+  // const setIsLoggedIn = useSetRecoilState(LoginState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
   const resetUserInfo = useResetRecoilState(UserInfoState);
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
@@ -458,7 +464,7 @@ const LoadingPage = () => {
   }
 
   // 재요청을 보냈을 때 (데이터 분석 요청)
-  if (accessToken) {
+  if (isLoggedIn && accessToken) {
     // accessToken 유효 여부를 체크
     const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`;
 
