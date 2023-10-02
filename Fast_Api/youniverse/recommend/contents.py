@@ -70,3 +70,12 @@ def similarily(top_keywords):
                 print(f"'{keyword}' <-> '{similar_keyword}': {similarity}")
 
     return similar_tmdb_keywords
+
+
+
+def get_movie_ids(result_keywords):
+    distinct_movie_ids = set()
+    for keyword in result_keywords:
+        movie_ids = contentsRepository.get_movie_ids_by_keyword(keyword)
+        distinct_movie_ids.update(movie_ids)
+    return list(distinct_movie_ids)
