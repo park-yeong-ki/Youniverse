@@ -23,7 +23,20 @@ class Member(Base):
     __tablename__ = "member"
 
     member_id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
+    age = Column(Integer, nullable=False)
     email = Column(VARCHAR(30), nullable=False)
+    gender = Column(VARCHAR(2), nullable=False)
+    introduce = Column(VARCHAR(255), nullable=False)
+    member_image = Column(VARCHAR(255), nullable=True)
+    nickname = Column(VARCHAR(20), nullable=False)
+
+class YoutubeKeyword(Base):
+    __tablename__ = "youtube_keyword"
+
+    youtube_keyword_id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
+    member_id = Column(Integer, ForeignKey('member.member_id'), nullable=False)
+    youtube_keyword_name = Column(VARCHAR(30), nullable=False)
+    movie_rank = Column(Integer, nullable=False)
 
 class KeywordMember(Base):
     __tablename__ = "keyword_member"
