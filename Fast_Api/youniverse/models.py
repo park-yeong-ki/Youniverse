@@ -16,7 +16,6 @@ class Keyword(Base):
 
     keyword_id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
     keyword_name = Column(VARCHAR(10), nullable=False)
-    source = Column(Integer, nullable=False)
 
     movies = relationship("KeywordMovie", back_populates="keyword")
 

@@ -3,12 +3,11 @@ from youniverse.schemas import youtube
 import re
 from konlpy.tag import Okt
 from youniverse.recommend import contents
-from youniverse.recommend import user
 import requests
 import json
 
 # Spring URL
-springUrl = "https://j9b204.p.ssafy.io/api/keywords/register"
+springUrl = "https://j9b204.p.ssafy.io/api"
 
 router = APIRouter(
     prefix="/youtube",
@@ -31,32 +30,22 @@ async def get_Test():
     top_keywords = contents.getKeyword(preprocessed_corpus)
     print("youtube 분석 상위 키워드:", top_keywords)
 
-    # top_keywords 배열에서 상위 키워드 8개만 추출
+    # top_keywords 배열에서 상위 키워드 10개만 추출
     top_send_keywords = top_keywords[:10]
 
     # youtube 분석 상위 키워드 결과 보내기
-    dataObject(top_send_keywords, 2, 'gkathaud4884@gmail.com')
+    youtubeDataObject(top_send_keywords, 'gkathaud4884@gmail.com')
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
     print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
-    # 코사인 유사도 결과 키워드 보내기
-    dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
-
     # result_keywords를 통해 영화 ID 목록 가져오기
     movie_ids = contents.get_movie_ids(result_keywords)
-    print("keywords를 통해 추출한 영화 id 목록:", movie_ids)
+    print("추천 영화 목록 개수: "+movie_ids.len+", 영화 id 목록:", movie_ids)
 
-
-    # 사용자 필터링
-    result_users = user.similarily(top_keywords,'gkathaud4884@gmail.com')
-    print("사용자 필터링을 통한 결과:")
-    for email, similarity_score in result_users:
-        print(f"{email} (유사도: {similarity_score:.2f})")
-
-    # 사용자 필터링 결과 사용자 보내기
-    dataObject(result_users, 2, 'gkathaud4884@gmail.com')
+    # 코사인 유사도 결과 키워드 결과 보내기
+    movieDataObject(movie_ids,  'gkathaud4884@gmail.com')
 
 @router.post("/")
 async def data_post(data_request: youtube):
@@ -74,23 +63,18 @@ async def data_post(data_request: youtube):
     top_send_keywords = top_keywords[:10]
 
     # youtube 분석 상위 키워드 결과 보내기
-    dataObject(top_send_keywords, 2, 'gkathaud4884@gmail.com')
+    youtubeDataObject(top_send_keywords, data_request.email)
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
     print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
-    # 코사인 유사도 결과 키워드 보내기
-    dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
+    # result_keywords를 통해 영화 ID 목록 가져오기
+    movie_ids = contents.get_movie_ids(result_keywords)
+    print("keywords를 통해 추출한 영화 id 목록:", movie_ids)
 
-    # 사용자 필터링
-    result_users = user.similarily(top_keywords, 'gkathaud4884@gmail.com')
-    print("사용자 필터링을 통한 결과:")
-    for email, similarity_score in result_users:
-        print(f"{email} (유사도: {similarity_score:.2f})")
-
-    # 사용자 필터링 결과 사용자 보내기
-    dataObject(result_users, 2, 'gkathaud4884@gmail.com')
+    # 코사인 유사도 결과 키워드 결과 보내기
+    movieDataObject(movie_ids,  data_request.email)
 
     return "success"
 
@@ -116,26 +100,41 @@ def preprocess(text):
 
     return ' '.join(words)
 
-def dataObject(result_keywords, source, email):
-    for i, result_keyword in enumerate(result_keywords):
-        data = {
-            "keywordName": result_keyword,
-            "source": source,
-            "email": email,
-            "rank": i # 1부터 시작
-        }
-        axiosRequest(data)
+def youtubeDataObject(result_keywords, email):
+    ranked_keywords = []
 
-def axiosRequest(data):
+    # 1부터 시작하는 순위 생성
+    for i, result_keyword in enumerate(result_keywords):
+        keyword_data = {
+            "youtubeKeywordName": result_keyword,
+            "movieRank": i + 1  # 1부터 시작
+        }
+        ranked_keywords.append(keyword_data)
+
+    data = {
+        "youtubeKeywordList": ranked_keywords,
+        "email": email
+    }
+    axiosRequest(data,"/youtube-keyword/update")
+
+def movieDataObject(dataList, email):
+    data = {
+        "movieIdList": dataList,
+        "email": email
+    }
+    axiosRequest(data,"/recommend-movies/update")
+
+
+def axiosRequest(data, url):
     # JSON 데이터를 문자열로 직렬화
     payload = json.dumps(data)
 
     # POST 요청 보내기
-    response = requests.post(springUrl, data=payload, headers={"Content-Type": "application/json"})
+    response = requests.post(springUrl+url, data=payload, headers={"Content-Type": "application/json"})
 
     # 응답 확인
     if response.status_code == 200:
-        response_data = response.json()  # 서버에서 반환한 JSON 데이터 파싱
-        print("응답 데이터:", response_data)
+        # response_data = response.json()  # 서버에서 반환한 JSON 데이터 파싱
+        print("요청 성공:")
     else:
         print("요청이 실패했습니다. 상태 코드:", response.status_code)
