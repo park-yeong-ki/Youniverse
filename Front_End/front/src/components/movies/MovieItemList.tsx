@@ -5,7 +5,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { UserDetailInfoState } from './../../pages/store/State';
+import {
+  UserDetailInfoState,
+  UserJoinInfoState,
+} from "./../../pages/store/State";
 import styled from "styled-components";
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
@@ -42,8 +45,7 @@ type DirectorType = {
   directorName: string;
 };
 
-type GenreType = {           
-
+type GenreType = {
   genreId: number;
   genreName: string;
 };
@@ -121,32 +123,34 @@ const MovieItemList: React.FC<Props> = ({
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
-  
+
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
+  const memberAge = useRecoilValue(UserJoinInfoState).age;
+  const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
   const handleMoreClick = () => {
     navigate(`/recommend/more`);
   };
 
- useEffect(() => {
+  useEffect(() => {
     let requestParams: any = { page: 0, size: 20 };
 
     switch (listType) {
-      case "선호도기반 추천":
+      case "선호도기반 추천 영화":
         requestParams = {
           ...requestParams,
           "member-id": memberId,
           sort: 1,
         };
         break;
-      case "로그인 회원의 성별, 연령대 추천 영화 목록":
+      case `${memberAge}세 ${memberGender} 추천 영화`:
         requestParams = {
           ...requestParams,
           "member-id": memberId,
           sort: 2,
         };
         break;
-      case "유튜브 기반 추천":
+      case "유튜브 기반 추천 영화":
         requestParams = {
           ...requestParams,
           "member-id": memberId,
