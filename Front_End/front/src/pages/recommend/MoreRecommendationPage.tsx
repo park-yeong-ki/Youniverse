@@ -15,7 +15,7 @@ const MoreRecommendationPage = () => {
   const [selectedOTT, setSelectedOTT] = useState<string | null>(null);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const listTypeParam = searchParams.get("sort");
+  const listTypeParam = searchParams.get("type");
 
   const memberNickname = useRecoilValue(UserJoinInfoState).nickname
 

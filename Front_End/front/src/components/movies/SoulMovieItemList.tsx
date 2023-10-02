@@ -10,7 +10,7 @@ import { getMember } from "../../apis/FrontendApi";
 import styled from "styled-components";
 import SearchContainer from "../search/SearchContainer";
 import ResultContainers from "../search/ResultContainers";
-import { MovieType } from "../../components/movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import IconBox from "../atoms/IconBox";
 import { HiOutlineX } from "react-icons/hi";

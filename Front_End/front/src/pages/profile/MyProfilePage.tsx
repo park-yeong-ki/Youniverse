@@ -17,7 +17,7 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-import { MovieType } from "../../components/movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 // import ProfileReview from "../../components/review/ProfileReview";
 
 export type UserType = {
