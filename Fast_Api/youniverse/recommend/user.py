@@ -3,10 +3,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
-# 사용자 기반 콘텐츠 필터링 -> 사용자 기반 협업 필터링(심화)
-def similarily(top_keywords, myEmail):
-    # 모든 회원의 키워드 가져오기 (내 이메일 제외)
-    member_keywords = usersRepository.get_member_keyword(myEmail)
+# 사용자 기반 협업 필터링
+def similarily(member_id):
+    # 내 키워드 가져오기
+    top_keywords = usersRepository.get_keyword(member_id)
+    # print("top_keywords: ", top_keywords)
+
+    # 모든 회원의 키워드 가져오기 (내것 제외)
+    member_keywords = usersRepository.get_member_keyword(member_id)
+    # print("member_keywords: ", member_keywords)
 
     # TF-IDF 벡터화 객체 생성
     tfidf_vectorizer = TfidfVectorizer()
@@ -21,6 +26,7 @@ def similarily(top_keywords, myEmail):
     cosine_similarities = cosine_similarity(tfidf_matrix)
 
     # 결과를 저장할 배열
+    similar_members_result = []
     similar_members = []
 
     # 모든 멤버에 대한 유사도 계산
@@ -31,15 +37,19 @@ def similarily(top_keywords, myEmail):
             keyword_index = all_keywords.index(keyword)
             similarity_sum += cosine_similarities[:, keyword_index].mean()
         average_similarity = similarity_sum / len(keywords)
-        similar_members.append((member_id, average_similarity))
+        similar_members_result.append((member_id, average_similarity))
 
     # 상위 키워드에 대한 멤버를 유사도에 따라 내림차순 정렬
-    similar_members.sort(key=lambda x: x[1], reverse=True)
+    similar_members_result.sort(key=lambda x: x[1], reverse=True)
 
-    return similar_members
+    print("사용자 필터링을 통한 결과:")
+    for member_id, similarity_score in similar_members_result:
+        similar_members.append(member_id)
+        print(f"{member_id} (유사도: {similarity_score:.2f})")
 
-# 3. Cosine 유사성 계산
-def cosine_similarity_score(vector1, vector2):
-    vector1 = np.array(vector1).reshape(1, -1)
-    vector2 = np.array(vector2).reshape(1, -1)
-    return cosine_similarity(vector1, vector2)[0][0]
+    return similar_members[:5]
+
+# 사용자 정보 가져오기
+def get_members_info(member_ids):
+    return usersRepository.get_members_info(member_ids)
+
