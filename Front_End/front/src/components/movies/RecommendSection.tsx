@@ -7,7 +7,7 @@ const RecommendSection = () => {
   return (
     <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
       <RecommendYouTube />
-      <MovieItemList listType="유튜브 기반 추천" />
+      <MovieItemList showMoreButton={true} listType="유튜브 기반 추천" />
     </Text>
   );
 };

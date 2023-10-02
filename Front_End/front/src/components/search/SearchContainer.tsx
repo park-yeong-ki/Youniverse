@@ -1,5 +1,5 @@
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 import { SEARCH_PAGE } from "../../commons/constants/String";
 import Wrapper from "../atoms/Wrapper";
@@ -18,13 +18,25 @@ const SearchContainer = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const initialSearchTerm = location.state?.searchTerm ?? "";
+  const params = new URLSearchParams(location.search);
+  const initialSearchTerm = params.get("query") || "";
+
   const [localSearchTerm, setLocalSearchTerm] = useState(initialSearchTerm);
+
+  useEffect(() => {
+    setLocalSearchTerm(initialSearchTerm);
+    if (initialSearchTerm) {
+      handleSearch(initialSearchTerm, "all");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   const handleSearch = (term: string, valueType: string | null) => {
     valueType = valueType || "all";
     setLocalSearchTerm(term);
-    navigate(location.pathname, { state: { searchTerm: term } });
+
+    // Update the query parameter in URL
+    navigate(`${location.pathname}?query=${term}`);
     setSearchTerm(term);
 
     let filters: any = { page: 0, size: 10 };

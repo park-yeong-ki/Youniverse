@@ -36,10 +36,10 @@ public class KeywordController {
         return new ResponseEntity<>(keywordResDto, HttpStatus.OK);
     }
 
-    //키워드 전체 조회
+    //키워드 전체 조회 -> isRandom = true일 경우 random으로 20개 키워드 선별
     @GetMapping()
-    public ResponseEntity<?> findKeywords() {
-        List<Keyword> keywords = keywordService.readKeywords();
+    public ResponseEntity<?> findKeywords(@RequestParam(value = "random") boolean isRandom) {
+        List<Keyword> keywords = keywordService.readKeywords(isRandom);
         List<KeywordResDto> keywordResDtos = keywordMapper.keywordsToKeywordResDtos(keywords);
         return new ResponseEntity<>(keywordResDtos, HttpStatus.OK);
     }

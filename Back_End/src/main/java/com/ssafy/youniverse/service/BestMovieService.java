@@ -22,7 +22,12 @@ public class BestMovieService {
     //BestMovie 저장
     public BestMovie createBestMovie(BestMovie bestMovie) {
         Member member = memberService.readMember(bestMovie.getMember().getMemberId());
+
+        isFull(member); //인생영화 개수 판별
+
         Movie movie = movieService.readMovie(bestMovie.getMovie().getMovieId());
+
+        isSameMovie(movie, member); //이미 등록한 인생영화 여부 판별
 
         bestMovie.setMember(member);
         bestMovie.setMovie(movie);
@@ -44,5 +49,21 @@ public class BestMovieService {
     public void deleteBestMovie(int bestMovieId) {
         BestMovie bestMovie = readBestMovie(bestMovieId);
         bestMovieRepository.delete(bestMovie);
+    }
+
+    //인생영화 5개 여부
+    private void isFull(Member member) {
+        List<BestMovie> bestMovies = bestMovieRepository.findAllByMember(member); //회원별 인생영화 목록 조회
+        if (bestMovies.size() >= 5) { //5개 미만인 경우
+            throw new RuntimeException("더이상 인생영화를 추가할 수 없습니다."); //임시 예외
+        }
+    }
+
+    //동일한 인생 영화 등록 여부
+    private void isSameMovie(Movie movie, Member member) {
+        Optional<BestMovie> optionalBestMovie = bestMovieRepository.findByMovieAndMember(movie, member);
+        if (optionalBestMovie.isPresent()) {
+            throw new RuntimeException("이미 등록된 인생영화입니다."); //임시 예외
+        }
     }
 }

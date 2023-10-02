@@ -9,6 +9,7 @@ import {
   DROP_DOWN_KEYWORD,
   DROP_DOWN_DIRECTOR,
   DROP_DOWN_TITLE,
+  DROP_DOWN_ACTOR,
 } from "./../../commons/constants/String";
 import { FlexCenter } from "./../../commons/style/SharedStyle";
 import Dropdown from "../@commons/Dropdown";
@@ -54,7 +55,7 @@ const MOVIE_OPTIONS = [
   { label: DROP_DOWN_ALL, value: "all" },
   { label: DROP_DOWN_TITLE, value: "title" },
   { label: DROP_DOWN_DIRECTOR, value: "director" },
-  { label: DROP_DOWN_KEYWORD, value: "keyword" },
+  { label: DROP_DOWN_ACTOR, value: "actor" },
 ];
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -120,6 +121,8 @@ const StyledSearchBox = styled.div`
     margin-right: 8px; // 입력 필드의 오른쪽 마진 추가
   } // InputBox
   & > *:nth-child(3) {
+    ${FlexCenter}
     width: 44px;
+    text-align: center;
   } // Btn
 `;

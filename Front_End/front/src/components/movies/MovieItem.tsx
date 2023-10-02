@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Text from "../atoms/Text";
 import {
@@ -11,6 +11,7 @@ import {
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
 import { MovieType } from "./MovieItemList";
+import { UserDetailInfoState } from "./../../pages/store/State";
 import {
   postHeart,
   deleteHeart,
@@ -26,7 +27,7 @@ type MovieItemProps = {
 
 const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const navigate = useNavigate();
-
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
   // 좋아요 관련 상태
   const [likeStatus, setLikeStatus] = useState(false);
   const [heartMovieId, setHeartMovieId] = useState<number | null>(null); // 좋아요 아이디를 저장할 state
@@ -41,17 +42,20 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
 
   const handleLikePush = () => {
     if (!likeStatus) {
-      console.log("좋아요 버튼을 눌렀어요");
-
-      postHeart(1, movie.movieId) // memberId 수정 필요
-        .then((res) => {
-          setLikeStatus(true);
-          setHeartMovieId(res.data.heartMovieId);
-          console.log("좋아요 요청 성공!", res);
-        })
-        .catch((err) => {
-          console.error("좋아요 요청 실패:", err);
-        });
+      console.log("좋아요 버튼을 눌렀어요", memberId);
+      if (memberId !== null) {
+        postHeart(memberId, movie.movieId)
+          .then((res) => {
+            setLikeStatus(true);
+            setHeartMovieId(res.data.heartMovieId);
+            console.log("좋아요 요청 성공!", res);
+          })
+          .catch((err) => {
+            console.error("좋아요 요청 실패:", err);
+          });
+      } else {
+        console.error("memberId is null");
+      }
     } else {
       console.log("좋아요 취소 버튼을 눌렀어요");
       console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
@@ -73,15 +77,19 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
     if (!recommendStatus) {
       console.log("추천받지 않을래요 버튼을 눌렀어요");
 
-      postHate(1, movie.movieId) // memberId 수정 필요
-        .then((res) => {
-          setRecommendStatus(true);
-          setHateMovieId(res.data.hateMovieId); // 서버 응답에서 hateMovieId 값을 저장
-          console.log("추천받지 않을래요 요청 성공!", res);
-        })
-        .catch((err) => {
-          console.error("추천받지 않을래요 요청 실패:", err);
-        });
+      if (memberId !== null) {
+        postHate(memberId, movie.movieId)
+          .then((res) => {
+            setRecommendStatus(true);
+            setHateMovieId(res.data.hateMovieId);
+            console.log("추천받지 않을래요 요청 성공!", res);
+          })
+          .catch((err) => {
+            console.error("추천받지 않을래요 요청 실패:", err);
+          });
+      } else {
+        console.error("memberId is null");
+      }
     } else {
       console.log("다시 추천해주세요 버튼을 눌렀어요");
       if (hateMovieId !== null) {
@@ -100,18 +108,13 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
 
   useEffect(() => {
     const heart = movie.heartMovieResDtos?.find(
-      (resDto: {
-        heartMovieId: number;
-        memberSimpleResDto: { memberId: number }[];
-      }) => resDto.memberSimpleResDto[0]?.memberId === 1
+      (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
-
+    
     const hate = movie.hateMovieResDtos?.find(
-      (resDto: {
-        hateMovieId: number;
-        memberSimpleResDto: { memberId: number }[];
-      }) => resDto.memberSimpleResDto[0]?.memberId === 1
+      (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
+    
 
     if (heart) {
       setLikeStatus(true);
@@ -122,7 +125,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
       setRecommendStatus(true);
       setHateMovieId(hate.hateMovieId);
     }
-  }, [movie]);
+  }, [movie, memberId]);
 
   return (
     <StyledCardWrapper $cardWidth={props.$cardWidth}>

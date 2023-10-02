@@ -14,7 +14,7 @@ import SidebarItem from "./SideBarItem";
 import SearchBox from "../organisms/SearchBox";
 import GoogleLoginBtn from "./GoogleLoginBtn";
 import Text from "../atoms/Text";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   LoginState,
   UserDetailInfoState,
@@ -34,13 +34,17 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const resetUserInfo = useResetRecoilState(UserInfoState);
-  const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
+  // const resetUserJoinInfo = useResetRecoilState(UserJoinInfoState);
+  const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
+  const resetUserDetailInfo = useResetRecoilState(UserDetailInfoState);
   const resetLogin = useResetRecoilState(LoginState);
   const isLogin = useRecoilValue(LoginState);
-  const nickname = useRecoilValue(UserDetailInfoState).nickname;
+  const userDetailInfo = useRecoilValue(UserDetailInfoState);
+  const nickname = userDetailInfo.nickname;
+  const memberId = userDetailInfo.memberId;
 
   const handleSearchSubmit = (searchTerm: string) => {
-    navigate("/search", { state: { searchTerm } }); // 변경
+    navigate(`/search?query=${searchTerm}`); // URL에 검색어를 쿼리 파라미터로 추가
     onClose();
   };
 
@@ -48,7 +52,16 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const handleLogOut = () => {
     navigate("/");
     resetUserInfo();
-    resetUserJoinInfo();
+    resetUserDetailInfo();
+    setUserJoinInfo({
+      email: "",
+      nickname: "",
+      age: 0,
+      gender: "",
+      introduce: "",
+      keywordList: [],
+      ottList: [],
+    });
     resetLogin();
   };
 
@@ -60,7 +73,13 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
     { name: SIDE_BAR_USER_STAR, path: ROUTES.MAIN },
     { name: SIDE_BAR_RECOMMEND, path: ROUTES.RECOMMEND },
     { name: SIDE_BAR_SEARCH_USER, path: ROUTES.PROFILE },
-    { name: SIDE_BAR_MY_PAGE, path: ROUTES.MYPAGE },
+    {
+      name: SIDE_BAR_MY_PAGE,
+      path: ROUTES.MYPAGE.replace(
+        ":userId",
+        memberId ? memberId.toString() : "defaultId"
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -87,11 +106,9 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
         {/* 로그인 버튼, 검색 */}
         <div>
           {isLogin ? (
-            <Text
-              size="Small"
-              color="White"
-              fontFamily="YESGothic-Regular"
-            >안녕하세요, {nickname}님!</Text>
+            <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+              안녕하세요, {nickname}님!
+            </Text>
           ) : (
             <GoogleLoginBtn />
           )}

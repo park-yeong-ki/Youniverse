@@ -78,7 +78,6 @@ public interface MemberMapper extends CustomMapper {
                     Ott ott = ottMember.getOtt();
                     OttResDto ottResDto = new OttResDto();
                     ottResDto.setOttId(ott.getOttId());
-                    ottResDto.setOttPrice(ott.getOttPrice());
                     ottResDto.setOttName(ott.getOttName());
                     ottResDto.setOttImage(ott.getOttImage());
                     ottResDto.setOttUrl(ott.getOttUrl());

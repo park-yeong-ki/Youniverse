@@ -16,6 +16,7 @@ type UserInfo = {
   accessToken: string | null;
   refreshToken: string | null;
   email: string | null;
+  image: string | null;
 };
 
 type UserDetailInfo = {
@@ -39,6 +40,7 @@ export const UserInfoState = atom<UserInfo>({
     accessToken: null,
     refreshToken: null,
     email: null,
+    image: null,
   },
   effects_UNSTABLE: [persistAtom],
 });

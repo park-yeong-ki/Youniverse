@@ -11,10 +11,9 @@ import java.util.List;
 public class Director {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer directorId;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 60, nullable = false)
     private String directorName;
 
     @Column(length = 255, nullable = false)

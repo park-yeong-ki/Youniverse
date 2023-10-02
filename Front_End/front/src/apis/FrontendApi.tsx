@@ -10,6 +10,16 @@ type UserJoinInfo = {
   ottList: number[];
 };
 
+type UpdateMemberType = {
+  nickname: string;
+  gender: string;
+  age: number;
+  introduce: string;
+  keywordList: number[];
+  ottList: number[];
+  file: File;
+};
+
 export interface UserSearchParams {
   term: string;
   option?: string | null;
@@ -31,10 +41,27 @@ export const postMember = (userJoinInfo: UserJoinInfo) =>
   });
 
 /** 회원정보 수정 */
-export const putMember = (memberId: number) =>
-  mainAxios.put(`/members/${memberId}`, {
+export const putMember = (memberId: number, data: UpdateMemberType) => {
+  const formData = new FormData();
+  // memberReqDto 내용 추가
+  formData.append(
+    "memberReqDto",
+    JSON.stringify({
+      nickname: data.nickname,
+      gender: data.gender,
+      age: data.age,
+      introduce: data.introduce,
+      ottList: data.ottList,
+      keywordList: data.keywordList,
+    })
+  );
+  // 이미지 추가
+  formData.append("image", data.file);
+
+  return mainAxios.put(`/members/${memberId}`, formData, {
     headers: { Accept: "application/json" },
   });
+};
 
 /** 회원 탈퇴 */
 export const deleteMember = (memberId: number) =>
@@ -45,6 +72,12 @@ export const deleteMember = (memberId: number) =>
 /** 개별 회원조회 */
 export const getMember = (memberId: number) =>
   mainAxios.get(`/members/${memberId}`, {
+    headers: { Accept: "application/json" },
+  });
+
+/** 이메일로 회원 체크 (회원 / 비회원) */
+export const getCheckEmailMember = (email: string) =>
+  mainAxios.get(`/members/check/${email}`, {
     headers: { Accept: "application/json" },
   });
 
@@ -229,7 +262,7 @@ export const getReview = (reviewId: number) =>
   });
 
 /** 리뷰 삭제 */
-export const deletReview = (reviewId: number) =>
+export const deleteReview = (reviewId: number) =>
   mainAxios.delete(`/reviews/${reviewId}`, {
     headers: { Accept: "application/json" },
   });

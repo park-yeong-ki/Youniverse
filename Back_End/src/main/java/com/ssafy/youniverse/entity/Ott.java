@@ -11,10 +11,9 @@ import java.util.List;
 public class Ott {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ottId;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 30, nullable = false)
     private String ottName;
 
     @Column(length = 255, nullable = false)
@@ -22,9 +21,6 @@ public class Ott {
 
     @Column(length = 255, nullable = false)
     private String ottUrl;
-
-    @Column(nullable = false)
-    private Integer ottPrice;
 
     @OneToMany(mappedBy = "ott", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OttMovie> ottMovies = new ArrayList<>();

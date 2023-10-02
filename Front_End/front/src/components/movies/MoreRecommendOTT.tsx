@@ -5,7 +5,6 @@ type Props = {
   onSelectOTT: (ott: string) => void;
 };
 
-// 2. 컴포넌트의 props를 위에서 정의한 `Props` 타입으로 지정합니다.
 const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
   return (
     <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
