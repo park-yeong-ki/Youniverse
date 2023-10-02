@@ -46,26 +46,40 @@ const MovieItemList: React.FC<Props> = ({
   const memberAge = useRecoilValue(UserJoinInfoState).age;
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
-  const sortTypeMap = {
-    "선호도기반 추천 영화": 1,
-    [`${memberAge}세 ${memberGender} 추천 영화`]: 2,
-    "유튜브 기반 추천 영화": 3,
-  };
+  // const sortTypeMap = {
+  //   "선호도기반 추천 영화": 1,
+  //   [`${memberAge}세 ${memberGender} 추천 영화`]: 2,
+  //   "유튜브 기반 추천 영화": 3,
+  // };
 
   // 더보기 버튼 클릭 처리
-const handleMoreClick = () => {
-  const ottId = convertOTTNameToId(filterOTT);
+  const handleMoreClick = () => {
+    let sortType: number | null = null;
 
-  if (ottId !== null) {
-    navigate(`/recommend/more?sort=${ottId}`);
-  }
-};
+    switch (listType) {
+      case "선호도기반 추천 영화":
+        sortType = 1;
+        break;
+      case `${memberAge}세 ${memberGender} 추천 영화`:
+        sortType = 2;
+        break;
+      case "유튜브 기반 추천 영화":
+        sortType = 3;
+        break;
+      default:
+        break;
+    }
 
+    // navigate to the recommendation page with a sort type
+    if (sortType) {
+      navigate(`/recommend/more?sort=${sortType}`);
+    }
+  };
 
   const convertOTTNameToId = (
     ottName: string | null | undefined
   ): number | null => {
-    if (!ottName || ottName === "All") return null;  // "All" 처리 추가
+    if (!ottName) return null;
     const ottList = [
       { name: "넷플릭스", id: 8 },
       { name: "디즈니플러스", id: 337 },
@@ -81,16 +95,37 @@ const handleMoreClick = () => {
 
   // 영화 데이터 가져오기
   useEffect(() => {
-    const requestParams: any = {
-      page: 0,
-      size: 20,
-      "member-id": memberId,
-      type: sortTypeMap[listType || ""] || null,
-    };
+    let requestParams: any = { page: 0, size: 20 };
+
+    if (listType === "선호도기반 추천 영화" || listType === "1") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        type: 1,
+      };
+    } else if (
+      listType === `${memberAge}세 ${memberGender} 추천 영화` ||
+      listType === "2"
+    ) {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        type: 2,
+      };
+    } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        type: 3,
+      };
+    }
 
     getAllMovies(requestParams)
       .then((response) => {
+        console.log("API Response:", response);
+
         const targetOttId = convertOTTNameToId(filterOTT);
+
         const filteredMovies = response.data.content.filter(
           (movie: MovieType) => {
             if (!targetOttId) return true;
@@ -100,6 +135,7 @@ const handleMoreClick = () => {
           }
         );
 
+        console.log("Filtered Movies:", filteredMovies);
         setMovies(filteredMovies);
       })
       .catch((err) => {
@@ -125,12 +161,11 @@ const handleMoreClick = () => {
         )}
       </StyledListBtn>
       <div className="grid grid-cols-10 gap-4">
-
-      {/* <Slider {...sliderSettings}> */}
+        {/* <Slider {...sliderSettings}> */}
         {movies.map((movie) => (
           <MovieItem key={movie.movieId} movie={movie} />
         ))}
-      {/* </Slider> */}
+        {/* </Slider> */}
       </div>
     </>
   );
