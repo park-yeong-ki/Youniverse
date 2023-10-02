@@ -4,7 +4,6 @@ import com.ssafy.youniverse.dto.req.MemberReqDto;
 import com.ssafy.youniverse.dto.res.*;
 import com.ssafy.youniverse.entity.*;
 //import com.ssafy.youniverse.security.Role;
-import com.ssafy.youniverse.security.oauth2.userinfo.OAuth2UserInfo;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -165,7 +164,7 @@ public interface MemberMapper extends CustomMapper {
                     YoutubeKeywordResDto youtubeKeywordResDto = new YoutubeKeywordResDto();
                     youtubeKeywordResDto.setYoutubeKeywordId(youtubeKeyword.getYoutubeKeywordId());
                     youtubeKeywordResDto.setYoutubeKeywordName(youtubeKeyword.getYoutubeKeywordName());
-                    youtubeKeywordResDto.setRank(youtubeKeyword.getRank());
+                    youtubeKeywordResDto.setMovieRank(youtubeKeyword.getMovieRank());
                     return youtubeKeywordResDto;
                 })
                 .collect(Collectors.toList())
