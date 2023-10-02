@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 
-import { useNavigate } from "react-router-dom";
+import { UserDetailInfoState } from './../../pages/store/State';
 import styled from "styled-components";
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
@@ -17,7 +19,7 @@ type Props = {
   listType?: string;
   movies?: MovieType[];
   showMoreButton?: boolean; // 더보기 버튼 더보기 페이지에는 안보여야 하니까
-  useSlider?: boolean; // slider 라이브러리 더보기 페이지에선 안쓰려고
+  useSlider?: boolean;
 };
 
 type OTTType = {
@@ -40,7 +42,8 @@ type DirectorType = {
   directorName: string;
 };
 
-type GenreType = {
+type GenreType = {           
+
   genreId: number;
   genreName: string;
 };
@@ -85,7 +88,6 @@ const convertOTTNameToId = (
   ottName: string | null | undefined
 ): number | null => {
   if (!ottName) return null;
-
   const ottList = [
     { name: "넷플릭스", id: 8 },
     { name: "디즈니플러스", id: 337 },
@@ -115,19 +117,53 @@ const MovieItemList: React.FC<Props> = ({
   listType,
   movies: propMovies = [],
   showMoreButton,
+  useSlider,
 }) => {
   const navigate = useNavigate();
-
   const [movies, setMovies] = useState<MovieType[]>([]);
+  
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
   const handleMoreClick = () => {
     navigate(`/recommend/more`);
   };
 
-  useEffect(() => {
-    getAllMovies({ page: 0, size: 20 })
+ useEffect(() => {
+    let requestParams: any = { page: 0, size: 20 };
+
+    switch (listType) {
+      case "선호도기반 추천":
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          sort: 1,
+        };
+        break;
+      case "로그인 회원의 성별, 연령대 추천 영화 목록":
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          sort: 2,
+        };
+        break;
+      case "유튜브 기반 추천":
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          sort: 3,
+        };
+        break;
+      default:
+        break;
+    }
+    getAllMovies(requestParams)
       .then((response) => {
-        console.log("Movies from API:", response.data.content);
+        console.log("API Response:", response); // API 응답 전체를 출력합니다.
+
+        // 유튜브 기반 추천일 때 응답을 따로 확인합니다.
+        if (listType === "선호도기반 추천") {
+          console.log("선호도기반 추천:", response.data.content);
+        }
 
         const targetOttId = convertOTTNameToId(filterOTT);
 
@@ -146,7 +182,7 @@ const MovieItemList: React.FC<Props> = ({
       .catch((err) => {
         console.log(err);
       });
-  }, [filterOTT]);
+  }, [filterOTT, listType, memberId]);
 
   return (
     <>
