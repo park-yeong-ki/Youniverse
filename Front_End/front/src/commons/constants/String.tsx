@@ -66,7 +66,7 @@ export const DETAIL_PAGE_YOUTUBE_VIDEO = "유튜브 요약 영상 & 관련 영�
 // 마이페이지
 export const MY_PAGE_STAR = "님의 별자리✨";
 export const MY_PAGE_OTT = "님의 OTT행성";
-export const MY_PAGE_OTT_RECOMMEND = "추천 콘텐츠 보러가기";
+export const MY_PAGE_OTT_RECOMMEND = "콘텐츠 보러가기";
 export const MY_PAGE_LIKE = "님이 좋아한 콘텐츠";
 export const MY_PAGE_REVIEW = "님이 남긴 리뷰";
 export const MY_PAGE_PROFILE_EDIT = "프로필 수정";
