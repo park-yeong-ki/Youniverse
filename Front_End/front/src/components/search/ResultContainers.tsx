@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
 import SearchMovieItemList from "../movies/SearchMovieItemList";
@@ -10,7 +11,7 @@ interface ResultContainersProps {
 
 const ResultContainers: React.FC<ResultContainersProps> = ({ searchResults, searchTerm }) => {
   return (
-    <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
+    <StyledWrapper size="Standard" color="WhiteGhost" padding="Medium">
       <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
         #{searchTerm}
       </Text>
@@ -21,8 +22,13 @@ const ResultContainers: React.FC<ResultContainersProps> = ({ searchResults, sear
           검색결과가 없습니다
         </Text>
       )}
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 
 export default ResultContainers;
+
+const StyledWrapper = styled(Wrapper)`
+  max-height: 600px;  // 원하는 높이 설정
+  overflow-y: auto;
+`;

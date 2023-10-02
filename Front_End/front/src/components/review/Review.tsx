@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 
 import ReviewCreate from "./ReviewCreate";
 import ReviewItemList from "./ReviewItemList";
@@ -30,18 +29,17 @@ const Review: React.FC<ReviewProps> = ({ reviews, userReview }) => {
       <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
         {DETAIL_PAGE_REVIEW}
       </Text>
-      <StyledReview>
-        <ReviewCreate onReviewAdd={handleReviewAdd} userReview={userReview} />
-        <ReviewItemList reviews={currentReviews} />
-      </StyledReview>
+      <div className="flex gap-4 h-screen">
+        <div className="w-1/6">
+          <ReviewCreate onReviewAdd={handleReviewAdd} userReview={userReview} />
+        </div>
+        <div className="w-5/6">
+          <ReviewItemList reviews={currentReviews} />
+        </div>
+      </div>
     </>
-  );
+);
+
 };
 
 export default Review;
-
-const StyledReview = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-`;
