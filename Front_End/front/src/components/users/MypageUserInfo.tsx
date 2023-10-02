@@ -61,7 +61,6 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   const selectedOtts = memberData?.ottResDtos; // 선택한 Ott
   const selectedKeywords = memberData?.keywordResDtos; // 선택한 keyword
   const selectedOttsNumber = selectedOtts?.map((ott) => ott.ottId);
-
   const [selectedPlanets, setSelectedPlanets] = useState<number[]>(
     selectedOttsNumber ? [...selectedOttsNumber] : []
   );
@@ -85,23 +84,6 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
         console.error("OTT 리스트 가져오기 실패:", error);
       });
   }, [selectedPlanets]);
-
-  // useEffect(() => {
-  //   // 이미 선택된 OTT가 있다면 해당 OTT들의 상태를 설정
-  //   if (memberData?.ottResDtos) {
-  //     const selectedOTTIds = memberData.ottResDtos.map((ott) => ott.ottId);
-  //     setSelectedPlanets(selectedOTTIds);
-
-  //     const updatedPlanetStates: Record<number, boolean> = {};
-  //     selectedOTTIds.forEach((ottId) => {
-  //       updatedPlanetStates[ottId] = true;
-  //     });
-  //     setPlanetSelectedStates((prev) => ({
-  //       ...prev,
-  //       ...updatedPlanetStates,
-  //     }));
-  //   }
-  // }, [memberData]);
 
   const handleClickedPlanets = (planetId: number, $isSelected: boolean) => {
     if (selectedPlanets.includes(planetId)) {
