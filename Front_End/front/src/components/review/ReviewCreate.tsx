@@ -112,7 +112,7 @@ const ReviewCreate: React.FC<ReviewCreateProps> = ({
   console.log("@@@@배포 오류 방지용@@@@", setReviewRate);
 
   return (
-    <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
+    <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
       <StyledReview>
         <StyledReviewTop>
           <ReviewRate
@@ -152,7 +152,7 @@ export default ReviewCreate;
 
 const StyledTextArea = styled.textarea`
   width: 100%;
-  height: 52px;
+  height: 130px;
   font-size: 16px;
   font-family: "YESGothic-Regular";
   border-radius: 12px;
@@ -170,12 +170,14 @@ const StyledReview = styled.div`
 
 const StyledReviewContent = styled.div`
   width: 100%;
+  height: 130px;
   font-size: 16px;
   font-family: "YESGothic-Regular";
   border-radius: 12px;
   padding: 5px 10px;
   box-sizing: border-box;
-  background-color: #ccc; // 리뷰 잘 등록됐는지 확인용으루다가 ,,
+  background-color: #fff;
+  border: none;
 `;
 
 const StyledReviewTop = styled.div`

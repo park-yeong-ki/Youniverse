@@ -55,9 +55,6 @@ export default ReviewRate;
 const StarRateContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 160px;
-  height: 32px;
-  padding-bottom: 24px;
 `;
 
 const StarButton = styled.button`
