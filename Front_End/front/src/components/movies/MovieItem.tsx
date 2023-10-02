@@ -110,11 +110,10 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
     const heart = movie.heartMovieResDtos?.find(
       (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
-    
+
     const hate = movie.hateMovieResDtos?.find(
       (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
-    
 
     if (heart) {
       setLikeStatus(true);
@@ -150,16 +149,11 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
           </Text>
           <StyledDetailInCol>
             <StyledDetailInRow>
-              {/* for문 적용하기 (데이터 어떻게 오는지 확인 후) */}
-              <HashTag size="Standard" color="WhiteGhost">
-                # 키워드
-              </HashTag>
-              <HashTag size="Standard" color="WhiteGhost">
-                # 키워드
-              </HashTag>
-              <HashTag size="Standard" color="WhiteGhost">
-                # 키워드
-              </HashTag>
+              {movie.keywordResDtos.map((keyword) => (
+                <HashTag size="Standard" color="WhiteGhost">
+                  {keyword.keywordName}
+                </HashTag>
+              ))}
             </StyledDetailInRow>
           </StyledDetailInCol>
           <StyledDetailInCol>

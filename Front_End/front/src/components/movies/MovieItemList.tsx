@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
+import {
+  UserDetailInfoState,
+  UserJoinInfoState,
+} from "./../../pages/store/State";
+import styled from "styled-components";
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
@@ -11,9 +19,10 @@ import { getAllMovies } from "../../apis/FrontendApi";
 
 type Props = {
   filterOTT?: string | null;
-  listType?: string;
+  listType?: string | null;
   movies?: MovieType[];
-  showMoreButton?: boolean;
+  showMoreButton?: boolean; // 더보기 버튼 더보기 페이지에는 안보여야 하니까
+  useSlider?: boolean;
 };
 
 type OTTType = {
@@ -80,68 +89,116 @@ export type MovieType = {
 const convertOTTNameToId = (
   ottName: string | null | undefined
 ): number | null => {
-  if (!ottName) return null; // 이 줄을 추가하여 null 또는 undefined를 처리합니다.
+  if (!ottName) return null;
+  const ottList = [
+    { name: "넷플릭스", id: 8 },
+    { name: "디즈니플러스", id: 337 },
+    { name: "왓챠", id: 97 },
+    { name: "애플티비", id: 2 },
+    { name: "애플티비플러스", id: 350 },
+    { name: "웨이브", id: 356 },
+  ];
 
-  switch (ottName) {
-    case "넷플릭스":
-      return 1;
-    case "디즈니플러스":
-      return 2;
-    case "왓챠":
-      return 3;
-    case "애플티비":
-      return 4;
-    case "웨이브":
-      return 5;
-    default:
-      return null;
-  }
+  const ott = ottList.find((o) => o.name === ottName);
+  return ott ? ott.id : null;
+};
+
+const sliderSettings = {
+  infinite: true,
+  slidesToShow: 8, // 한 번에 보여줄 아이템 수
+  swipeToSlide: true,
+  autoplay: true, // 자동 캐러셀
+  autoplaySpeed: 3000,
+  arrows: true, // 좌,우 버튼
+  pauseOnHover: true, // hover시 정지
+  // 다른 설정들도 추가 가능
 };
 
 const MovieItemList: React.FC<Props> = ({
   filterOTT,
   listType,
-  movies: propMovies = [], // 변수 이름 변경
+  movies: propMovies = [],
   showMoreButton,
 }) => {
-  // 필요한 경우 filterOTT 값을 사용하여 영화 목록을 필터링하면 됩니다.
-  // listType: 유튜브 기반 추천, @@님의 선호도 기반, @@@님의 인생영화 ... 이런 텍스트
-  // filterOTT: 추천 -> 더보기 들어갔을 때 OTT 선택해서 필터링 하는거
-  // 검색결과에 맞는 영화 추가 필요
   const navigate = useNavigate();
-
   const [movies, setMovies] = useState<MovieType[]>([]);
 
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+  const memberAge = useRecoilValue(UserJoinInfoState).age;
+  const memberGender = useRecoilValue(UserJoinInfoState).gender;
+
   const handleMoreClick = () => {
-    navigate(`/recommend/more`);
+    let sortType: number | null = null;
+
+    switch (listType) {
+      case "선호도기반 추천 영화":
+        sortType = 1;
+        break;
+      case `${memberAge}세 ${memberGender} 추천 영화`:
+        sortType = 2;
+        break;
+      case "유튜브 기반 추천 영화":
+        sortType = 3;
+        break;
+      default:
+        break;
+    }
+
+    // navigate to the recommendation page with a sort type
+    if (sortType) {
+      navigate(`/recommend/more?sort=${sortType}`);
+    }
   };
 
   useEffect(() => {
-    getAllMovies()
+    let requestParams: any = { page: 0, size: 20 };
+
+    if (listType === "선호도기반 추천 영화" || listType === "1") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        type: 1,
+      };
+    } else if (
+      listType === `${memberAge}세 ${memberGender} 추천 영화` ||
+      listType === "2"
+    ) {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        type: 2,
+      };
+    } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        type: 3,
+      };
+    }
+
+    getAllMovies(requestParams)
       .then((response) => {
-        console.log("Movies from API:", response.data.content);
+        console.log("API Response:", response);
 
         const targetOttId = convertOTTNameToId(filterOTT);
 
         const filteredMovies = response.data.content.filter(
           (movie: MovieType) => {
-            console.log("OTTs for movie:", movie.title, movie.ottResDtos);
-            // filterOTT가 null이면 전체 영화를 반환
             if (!targetOttId) return true;
-
-            // ottResDtos 배열에 targetOttId와 일치하는 ottId가 있는지 확인
             return movie.ottResDtos.some(
               (ott: OTTType) => ott.ottId === targetOttId
             );
           }
         );
+
         console.log("Filtered Movies:", filteredMovies);
         setMovies(filteredMovies);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [filterOTT]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterOTT, listType, memberId]);
 
   return (
     <>
@@ -160,11 +217,11 @@ const MovieItemList: React.FC<Props> = ({
           </StyledBtn>
         )}
       </StyledListBtn>
-      <div className="grid grid-cols-5 gap-4">
+      <Slider {...sliderSettings}>
         {movies.map((movie) => (
           <MovieItem key={movie.movieId} movie={movie} />
         ))}
-      </div>
+      </Slider>
     </>
   );
 };

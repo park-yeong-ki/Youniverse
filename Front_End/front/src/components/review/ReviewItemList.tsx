@@ -5,6 +5,7 @@ import ReviewItem from "./ReviewItem";
 
 import { UserDetailInfoState } from "../../pages/store/State";
 import { ReviewType } from "../../pages/recommend/ContentDetailPage"; // Import from ContentDetailPage.tsx
+import styled from "styled-components";
 
 interface ReviewItemListProps {
   reviews: ReviewType[] | null;
@@ -15,7 +16,7 @@ const ReviewItemList: React.FC<ReviewItemListProps> = ({
 }) => {
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   return (
-    <Wrapper size="YouTube" color="WhiteGhost" padding="Narrow">
+    <StyledWrapper size="Small" color="WhiteGhost" padding="Narrow">
       {reviews &&
         reviews.map((review) => (
           <ReviewItem
@@ -24,8 +25,13 @@ const ReviewItemList: React.FC<ReviewItemListProps> = ({
             review={review}
           />
         ))}
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 
 export default ReviewItemList;
+
+const StyledWrapper = styled(Wrapper)`
+height: 242px;
+overflow-y: scroll;
+`

@@ -18,7 +18,7 @@ export type ReviewType = {
   memberSimpleResDto: {
     memberId: number;
     nickname: string;
-    memberImage: string | null;
+    memberImage: string;
   };
   reviewContent: string;
   reviewId: number;
@@ -32,7 +32,7 @@ const ContentDetailPage = () => {
   const [reviews, setReviews] = useState<ReviewType[] | null>(null);
 
   const { movieId } = useParams<{ movieId: string }>();
-  
+
   // 현재 로그인된 사용자의 리뷰 찾기
   const userReview = reviews?.find(
     (review) => review.memberSimpleResDto.memberId === memberId
@@ -45,7 +45,6 @@ const ContentDetailPage = () => {
         console.log("리뷰 정보", response.data.reviewResDtos);
         setMovie(response.data);
         setReviews(response.data.reviewResDtos);
-        
       })
       .catch((err) => {
         console.log(err);
@@ -87,6 +86,7 @@ export default ContentDetailPage;
 
 const StyledDetail = styled.div`
   ${FlexColAround}
+  gap: 20px; /* 원하는 간격을 여기에 지정하세요. */
 `;
 
 const CustomSection = styled(Section)`
