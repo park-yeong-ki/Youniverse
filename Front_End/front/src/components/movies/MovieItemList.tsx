@@ -157,19 +157,22 @@ const MovieItemList: React.FC<Props> = ({
       requestParams = {
         ...requestParams,
         "member-id": memberId,
-        sort: 1,
+        type: 1,
       };
-    } else if (listType === `${memberAge}세 ${memberGender} 추천 영화` || listType === "2") {
+    } else if (
+      listType === `${memberAge}세 ${memberGender} 추천 영화` ||
+      listType === "2"
+    ) {
       requestParams = {
         ...requestParams,
         "member-id": memberId,
-        sort: 2,
+        type: 2,
       };
     } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
       requestParams = {
         ...requestParams,
         "member-id": memberId,
-        sort: 3,
+        type: 3,
       };
     }
 
@@ -196,7 +199,6 @@ const MovieItemList: React.FC<Props> = ({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOTT, listType, memberId]);
-
 
   return (
     <>
