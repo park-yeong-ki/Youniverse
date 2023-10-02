@@ -12,6 +12,7 @@ type UserJoinInfo = {
 
 export type UpdateMemberType = {
   nickname: string;
+  email: string | null;
   gender: string | null;
   age: number;
   introduce: string;
@@ -48,6 +49,7 @@ export const putMember = (memberId: number, data: UpdateMemberType) => {
     "memberReqDto",
     JSON.stringify({
       nickname: data.nickname,
+      email: data.email,
       gender: data.gender,
       age: data.age,
       introduce: data.introduce,
@@ -61,7 +63,10 @@ export const putMember = (memberId: number, data: UpdateMemberType) => {
   }
 
   return mainAxios.put(`/members/${memberId}`, formData, {
-    headers: { Accept: "application/json" },
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+    },
   });
 };
 

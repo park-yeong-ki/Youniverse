@@ -18,7 +18,7 @@ import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
 import { MovieType } from "../../components/movies/MovieItemList";
-import ProfileReview from "../../components/review/ProfileReview";
+// import ProfileReview from "../../components/review/ProfileReview";
 
 export type UserType = {
   memberId: number;
@@ -82,7 +82,7 @@ const MyProfilePage = () => {
                   </StyledRowWrap>
                   <StyledRowWrap>
                     <MypageLikeContents />
-                    <ProfileReview />
+                    {/* <ProfileReview /> */}
                   </StyledRowWrap>
                   <StyledSoulWrap>
                     <SoulMovieItemList />
