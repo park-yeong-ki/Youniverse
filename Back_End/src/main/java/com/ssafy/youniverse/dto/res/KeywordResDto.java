@@ -8,5 +8,4 @@ import lombok.Setter;
 public class KeywordResDto {
     private Integer keywordId;
     private String keywordName;
-    private int source;
 }

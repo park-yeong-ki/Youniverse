@@ -16,9 +16,6 @@ public class Keyword {
     @Column(length = 50, nullable = false)
     private String keywordName;
 
-    @Column(nullable = false)
-    private int source;
-
     @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeywordMember> keywordMembers = new ArrayList<>();
 

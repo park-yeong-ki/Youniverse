@@ -22,4 +22,5 @@ public class MemberResDto {
     private List<HeartMovieResDto> heartMovieResDtos;
     private List<BestMovieResDto> bestMovieResDtos;
     private List<ReviewResDto> reviewResDtos;
+    private List<YoutubeKeywordResDto> youtubeKeywordResDtos;
 }

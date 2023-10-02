@@ -93,7 +93,6 @@ public interface MemberMapper extends CustomMapper {
                     KeywordResDto keywordResDto = new KeywordResDto();
                     keywordResDto.setKeywordId(keyword.getKeywordId());
                     keywordResDto.setKeywordName(keyword.getKeywordName());
-                    keywordResDto.setSource(keyword.getSource());
 
                     return keywordResDto;
                 })
@@ -156,6 +155,18 @@ public interface MemberMapper extends CustomMapper {
                     reviewResDto.setReviewContent(review.getReviewContent());
                     reviewResDto.setReviewRate(review.getReviewRate());
                     return reviewResDto;
+                })
+                .collect(Collectors.toList())
+        );
+
+        //유튜브 키워드 목록
+        memberResDto.setYoutubeKeywordResDtos(member.getYoutubeKeywords().stream()
+                .map(youtubeKeyword -> {
+                    YoutubeKeywordResDto youtubeKeywordResDto = new YoutubeKeywordResDto();
+                    youtubeKeywordResDto.setYoutubeKeywordId(youtubeKeyword.getYoutubeKeywordId());
+                    youtubeKeywordResDto.setYoutubeKeywordName(youtubeKeyword.getYoutubeKeywordName());
+                    youtubeKeywordResDto.setRank(youtubeKeyword.getRank());
+                    return youtubeKeywordResDto;
                 })
                 .collect(Collectors.toList())
         );
