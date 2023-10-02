@@ -2,8 +2,6 @@ import MovieItem from "./MovieItem";
 import { MovieType } from "./MovieItemList";
 
 type Props = {
-  filterOTT?: string | null;
-  listType?: string;
   movies?: MovieType[]; // 추가
 };
 
@@ -12,13 +10,11 @@ const SearchMovieItemList: React.FC<Props> = ({
 }) => {
 
   return (
-    <>
       <div className="grid grid-cols-5 gap-4">
-        {propMovies.map((movie) => (  // <---- 여기를 변경하였습니다.
+        {propMovies.map((movie) => (
           <MovieItem key={movie.movieId} movie={movie} />
         ))}
       </div>
-    </>
   );
 };
 
