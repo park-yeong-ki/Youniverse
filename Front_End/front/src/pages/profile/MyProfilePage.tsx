@@ -11,7 +11,7 @@ import UserZodiacSign from "../../components/users/UserZodiacSign";
 import { useRecoilValue } from "recoil";
 import { UserDetailInfoState } from "../store/State";
 import { getMember } from "../../apis/FrontendApi";
-import { MovieType } from "../../components/movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 
 export type UserType = {
   memberId: number;

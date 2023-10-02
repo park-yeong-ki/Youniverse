@@ -10,7 +10,7 @@ import {
 } from "../../commons/style/SharedStyle";
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
-import { MovieType } from "./MovieItemList";
+import { MovieType } from "../../types/MovieType";
 import { UserDetailInfoState } from "./../../pages/store/State";
 import {
   postHeart,

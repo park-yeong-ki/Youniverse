@@ -14,7 +14,7 @@ import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
 import MovieItem from "./MovieItem";
-
+import { MovieType, OTTType } from "../../types/MovieType";
 import { getAllMovies } from "../../apis/FrontendApi";
 
 type Props = {
@@ -23,67 +23,6 @@ type Props = {
   movies?: MovieType[];
   showMoreButton?: boolean; // 더보기 버튼 더보기 페이지에는 안보여야 하니까
   useSlider?: boolean;
-};
-
-type OTTType = {
-  ottId: number;
-  ottImage: string;
-  ottName: string;
-  ottPrice: number;
-  ottUrl: string;
-};
-
-type ActorType = {
-  actorId: number;
-  actorImage: string;
-  actorName: string;
-};
-
-type DirectorType = {
-  directorId: number;
-  directorImage: string;
-  directorName: string;
-};
-
-type GenreType = {
-  genreId: number;
-  genreName: string;
-};
-
-type KeywordType = {
-  keywordId: number;
-  keywordName: string;
-  source: number;
-};
-
-export type MovieType = {
-  movieId: number;
-  title: string;
-  movieImage: string;
-  rate: number;
-  runtime: number;
-  ottResDtos: OTTType[];
-  overView: string;
-  heartMovieResDtos: {
-    heartMovieId: number;
-    memberSimpleResDto: {
-      memberId: number;
-      memberImage: string | null;
-      nickname: string;
-    };
-  }[];
-  hateMovieResDtos: {
-    hateMovieId: number;
-    memberSimpleResDto: {
-      memberId: number;
-      memberImage: string | null;
-      nickname: string;
-    };
-  }[];
-  actorResDtos: ActorType[];
-  directorResDtos: DirectorType[];
-  keywordResDtos: KeywordType[];
-  genreResDtos: GenreType[];
 };
 
 const convertOTTNameToId = (
@@ -202,7 +141,7 @@ const MovieItemList: React.FC<Props> = ({
 
   return (
     <>
-      {filterOTT}
+      {/* {filterOTT} */}
       <StyledListBtn>
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {listType}

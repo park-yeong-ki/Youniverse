@@ -7,7 +7,7 @@ import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart AP
 import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
 import { UserDetailInfoState } from "../../pages/store/State";
 import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
-import { MovieType } from "./MovieItemList";
+import { MovieType } from "../../types/MovieType";
 import Text from "../atoms/Text";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";

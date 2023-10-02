@@ -12,7 +12,7 @@ import MovieDetail from "../../components/movies/MovieDetail";
 import Review from "../../components/review/Review";
 import MovieDetailYouTube from "../../components/movies/MovieDetailYouTube";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
-import { MovieType } from "../../components/movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 
 export type ReviewType = {
   memberSimpleResDto: {

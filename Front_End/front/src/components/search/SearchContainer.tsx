@@ -6,7 +6,7 @@ import Wrapper from "../atoms/Wrapper";
 import SearchBox from "../organisms/SearchBox";
 import Text from "../atoms/Text";
 import { getAllMovies } from "../../apis/FrontendApi";
-import { MovieType } from "../movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 
 const SearchContainer = ({
   setSearchResults,
