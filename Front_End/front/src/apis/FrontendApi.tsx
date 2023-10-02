@@ -18,7 +18,7 @@ export type UpdateMemberType = {
   introduce: string;
   keywordList: number[];
   ottList: number[];
-  file: File | null;
+  file?: File | null;
 };
 
 export interface UserSearchParams {
@@ -44,21 +44,23 @@ export const postMember = (userJoinInfo: UserJoinInfo) =>
 /** 회원정보 수정 */
 export const putMember = (memberId: number, data: UpdateMemberType) => {
   const formData = new FormData();
-  // memberReqDto 내용 추가
+  // 기존의 JSON 데이터를 'memberReqDto'라는 키에 넣기
+  const memberData = {
+    nickname: data.nickname,
+    email: data.email,
+    gender: data.gender,
+    age: data.age,
+    introduce: data.introduce,
+    ottList: data.ottList,
+    keywordList: data.keywordList,
+  };
   formData.append(
     "memberReqDto",
-    JSON.stringify({
-      nickname: data.nickname,
-      email: data.email,
-      gender: data.gender,
-      age: data.age,
-      introduce: data.introduce,
-      ottList: data.ottList,
-      keywordList: data.keywordList,
-    })
+    new Blob([JSON.stringify(memberData)], { type: "application/json" })
   );
+
   // 이미지 추가 (추가했을 경우에만)
-  if (data.file) {
+  if (data.file && data.file !== null) {
     formData.append("image", data.file);
   }
 

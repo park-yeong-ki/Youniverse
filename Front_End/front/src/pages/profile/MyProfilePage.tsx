@@ -66,14 +66,15 @@ const MyProfilePage = () => {
       <div className="flex gap-6 h-full">
         {memberData && (
           <>
-            <div className="w-1/4">
+            <div className="w-1/5">
               <MypageUserInfo
                 memberData={memberData}
+                setMemberData={setMemberData}
                 followStatus={followStatus}
                 setFollowStatus={setFollowStatus}
               />
             </div>
-            <StyledContentWrap className="w-3/4">
+            <StyledContentWrap className="w-4/5">
               {!followStatus && (
                 <>
                   <StyledRowWrap>
