@@ -95,7 +95,6 @@ public class TmdbController {
                 TextResult result = translator.translateText(tmdbKeyword.getName(), null, "ko");
                 keyword.setKeywordName(result.getText());
 
-                keyword.setSource(0); //tmdb 소스는 0
                 keywordList.add(keyword);
             }
 

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import SearchUserItem from "./SearchUserItem";
 import { FlexColBetween } from "../../commons/style/SharedStyle";
-import { User } from "../organisms/UserSearchContainer";
-
+import { User } from "../search/UserSearchContainer";
 
 interface Props {
   users: User[];

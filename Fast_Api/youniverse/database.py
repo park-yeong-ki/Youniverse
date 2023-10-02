@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://youniverse:youniverse204@j9b204.p.ssafy.io:3306/youniverse"
 
 # 로컬 DB
-# SQLALCHEMY_DATABASE_URL = "mysql+pymysql://youniverse:1234@127.0.0.1:3306/youniverse"
+# SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:ssafy@127.0.0.1:3306/youniverse"
 
 class engineconn:
 

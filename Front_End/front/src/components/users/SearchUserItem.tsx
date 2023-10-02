@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
 import HashTag from "../atoms/HashTag";
@@ -8,7 +9,7 @@ import {
   FlexRowBetween,
 } from "../../commons/style/SharedStyle";
 import { getMember } from "../../apis/FrontendApi";
-import { User } from "../organisms/UserSearchContainer";
+import { User } from "../search/UserSearchContainer";
 
 interface Props {
   user: User;
@@ -16,14 +17,15 @@ interface Props {
   onSelect: () => void;
 }
 
-const SearchUserItem: React.FC<Props> = ({ user, isSelected, onSelect }) => {
+const SearchUserItem: React.FC<Props> = ({ user, isSelected }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const navigate = useNavigate();
   const handleToClickedUser = async () => {
-    onSelect();
     try {
       const response = await getMember(user.memberId);
       console.log(response.data);
-      // 받은 데이터 프로필에 뿌리기
+      navigate(`/profile/${user.memberId}`);
+      console.log("클릭한 유저id", `${user.memberId}`);
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
     }
@@ -42,7 +44,7 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected, onSelect }) => {
             <Img
               size="Medium"
               src={
-                user.memberImage !== ""
+                user.memberImage !== null
                   ? user.memberImage
                   : "/assets/기본프로필.jpg"
               }
