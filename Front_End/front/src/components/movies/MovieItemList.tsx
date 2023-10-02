@@ -19,7 +19,7 @@ import { getAllMovies } from "../../apis/FrontendApi";
 
 type Props = {
   filterOTT?: string | null;
-  listType?: string;
+  listType?: string | null;
   movies?: MovieType[];
   showMoreButton?: boolean; // 더보기 버튼 더보기 페이지에는 안보여야 하니까
   useSlider?: boolean;
@@ -105,7 +105,7 @@ const convertOTTNameToId = (
 
 const sliderSettings = {
   infinite: true,
-  slidesToShow: 5, // 한 번에 보여줄 아이템 수
+  slidesToShow: 8, // 한 번에 보여줄 아이템 수
   swipeToSlide: true,
   autoplay: true, // 자동 캐러셀
   autoplaySpeed: 3000,
@@ -119,7 +119,6 @@ const MovieItemList: React.FC<Props> = ({
   listType,
   movies: propMovies = [],
   showMoreButton,
-  useSlider,
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
@@ -129,45 +128,54 @@ const MovieItemList: React.FC<Props> = ({
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
   const handleMoreClick = () => {
-    navigate(`/recommend/more`);
+    let sortType: number | null = null;
+
+    switch (listType) {
+      case "선호도기반 추천 영화":
+        sortType = 1;
+        break;
+      case `${memberAge}세 ${memberGender} 추천 영화`:
+        sortType = 2;
+        break;
+      case "유튜브 기반 추천 영화":
+        sortType = 3;
+        break;
+      default:
+        break;
+    }
+
+    // navigate to the recommendation page with a sort type
+    if (sortType) {
+      navigate(`/recommend/more?sort=${sortType}`);
+    }
   };
 
   useEffect(() => {
     let requestParams: any = { page: 0, size: 20 };
 
-    switch (listType) {
-      case "선호도기반 추천 영화":
-        requestParams = {
-          ...requestParams,
-          "member-id": memberId,
-          sort: 1,
-        };
-        break;
-      case `${memberAge}세 ${memberGender} 추천 영화`:
-        requestParams = {
-          ...requestParams,
-          "member-id": memberId,
-          sort: 2,
-        };
-        break;
-      case "유튜브 기반 추천 영화":
-        requestParams = {
-          ...requestParams,
-          "member-id": memberId,
-          sort: 3,
-        };
-        break;
-      default:
-        break;
+    if (listType === "선호도기반 추천 영화" || listType === "1") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        sort: 1,
+      };
+    } else if (listType === `${memberAge}세 ${memberGender} 추천 영화` || listType === "2") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        sort: 2,
+      };
+    } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
+      requestParams = {
+        ...requestParams,
+        "member-id": memberId,
+        sort: 3,
+      };
     }
+
     getAllMovies(requestParams)
       .then((response) => {
-        console.log("API Response:", response); // API 응답 전체를 출력합니다.
-
-        // 유튜브 기반 추천일 때 응답을 따로 확인합니다.
-        if (listType === "선호도기반 추천") {
-          console.log("선호도기반 추천:", response.data.content);
-        }
+        console.log("API Response:", response);
 
         const targetOttId = convertOTTNameToId(filterOTT);
 
@@ -186,7 +194,9 @@ const MovieItemList: React.FC<Props> = ({
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOTT, listType, memberId]);
+
 
   return (
     <>
