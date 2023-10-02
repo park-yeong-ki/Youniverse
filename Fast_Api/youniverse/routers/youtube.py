@@ -32,17 +32,17 @@ async def get_Test():
     print("youtube 분석 상위 키워드:", top_keywords)
 
     # top_keywords 배열에서 상위 키워드 8개만 추출
-    top_send_keywords = top_keywords[:8]
+    top_send_keywords = top_keywords[:10]
 
     # youtube 분석 상위 키워드 결과 보내기
-    # dataObject(top_send_keywords, 2, 'gkathaud4884@gmail.com')
+    dataObject(top_send_keywords, 2, 'gkathaud4884@gmail.com')
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
     print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
     # 코사인 유사도 결과 키워드 보내기
-    # dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
+    dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
 
     # 사용자 필터링
     result_users = user.similarily(top_keywords,'gkathaud4884@gmail.com')
@@ -51,7 +51,7 @@ async def get_Test():
         print(f"{email} (유사도: {similarity_score:.2f})")
 
     # 사용자 필터링 결과 사용자 보내기
-    # dataObject(result_users, 2, 'gkathaud4884@gmail.com')
+    dataObject(result_users, 2, 'gkathaud4884@gmail.com')
 
 @router.post("/")
 async def data_post(data_request: youtube):
@@ -65,24 +65,27 @@ async def data_post(data_request: youtube):
     top_keywords = contents.getKeyword(preprocessed_corpus)
     print("youtube 분석 상위 키워드:", top_keywords)
 
-    # top_keywords 배열에서 상위 키워드 8개만 추출
-    top_send_keywords = top_keywords[:8]
+    # top_keywords 배열에서 상위 키워드 10개만 추출
+    top_send_keywords = top_keywords[:10]
 
     # youtube 분석 상위 키워드 결과 보내기
-    dataObject(top_send_keywords, 1, data_request.email)
+    dataObject(top_send_keywords, 2, 'gkathaud4884@gmail.com')
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
-    print("아이템 콘텐츠 필터링 결과:", result_keywords)
+    print("코사인 유사도 결과 tmdb 키워드:", result_keywords)
 
     # 코사인 유사도 결과 키워드 보내기
-    dataObject(result_keywords, 2, data_request.email)
+    dataObject(result_keywords, 2, 'gkathaud4884@gmail.com')
 
     # 사용자 필터링
-    result_users = user.similarily(top_keywords,'gkathaud4884@gmail.com')
-    print("사용자 콘텐츠 필터링 결과:")
+    result_users = user.similarily(top_keywords, 'gkathaud4884@gmail.com')
+    print("사용자 필터링을 통한 결과:")
     for email, similarity_score in result_users:
         print(f"{email} (유사도: {similarity_score:.2f})")
+
+    # 사용자 필터링 결과 사용자 보내기
+    dataObject(result_users, 2, 'gkathaud4884@gmail.com')
 
     return "success"
 
