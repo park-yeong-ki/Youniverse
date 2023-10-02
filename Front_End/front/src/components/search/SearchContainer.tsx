@@ -33,6 +33,10 @@ const SearchContainer = ({
   }, [location.search]); // URL의 query 파라미터가 변경될 때 이 훅을 실행합니다.
 
   const handleSearch = (term: string, valueType: string | null) => {
+    if (!term.trim()) {
+      alert("검색어를 입력해주세요.");
+      return;
+    }
     setLocalSearchTerm(term);
     navigate(`${location.pathname}?query=${term}`);  // 검색어를 URL에 추가합니다.
     setSearchTerm(term);
