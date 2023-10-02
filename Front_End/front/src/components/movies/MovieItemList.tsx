@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 
 import {
   UserDetailInfoState,
@@ -23,15 +23,15 @@ type Props = {
   useSlider?: boolean;
 };
 
-const sliderSettings = {
-  infinite: true,
-  slidesToShow: 8,
-  swipeToSlide: true,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  arrows: true,
-  pauseOnHover: true,
-};
+// const sliderSettings = {
+//   infinite: true,
+//   slidesToShow: 8,
+//   swipeToSlide: true,
+//   autoplay: true,
+//   autoplaySpeed: 3000,
+//   arrows: true,
+//   pauseOnHover: true,
+// };
 
 const MovieItemList: React.FC<Props> = ({
   filterOTT,
@@ -47,25 +47,25 @@ const MovieItemList: React.FC<Props> = ({
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
   const sortTypeMap = {
-    // 함수 외부에서 sortTypeMap 정의
     "선호도기반 추천 영화": 1,
     [`${memberAge}세 ${memberGender} 추천 영화`]: 2,
     "유튜브 기반 추천 영화": 3,
   };
 
   // 더보기 버튼 클릭 처리
-  const handleMoreClick = () => {
-    const sortType = sortTypeMap[listType || ""]; // listType이 null일 경우 빈 문자열로 처리
+const handleMoreClick = () => {
+  const ottId = convertOTTNameToId(filterOTT);
 
-    if (sortType) {
-      navigate(`/recommend/more?sort=${sortType}`);
-    }
-  };
-  
+  if (ottId !== null) {
+    navigate(`/recommend/more?sort=${ottId}`);
+  }
+};
+
+
   const convertOTTNameToId = (
     ottName: string | null | undefined
   ): number | null => {
-    if (!ottName) return null;
+    if (!ottName || ottName === "All") return null;  // "All" 처리 추가
     const ottList = [
       { name: "넷플릭스", id: 8 },
       { name: "디즈니플러스", id: 337 },
@@ -85,12 +85,11 @@ const MovieItemList: React.FC<Props> = ({
       page: 0,
       size: 20,
       "member-id": memberId,
-      type: sortTypeMap[listType || ""] || null, // listType이 null일 경우 빈 문자열로 처리
+      type: sortTypeMap[listType || ""] || null,
     };
 
     getAllMovies(requestParams)
       .then((response) => {
-        // TODO: convertOTTNameToId 함수를 정의하거나 가져와야 함
         const targetOttId = convertOTTNameToId(filterOTT);
         const filteredMovies = response.data.content.filter(
           (movie: MovieType) => {
@@ -125,11 +124,14 @@ const MovieItemList: React.FC<Props> = ({
           </StyledBtn>
         )}
       </StyledListBtn>
-      <Slider {...sliderSettings}>
+      <div className="grid grid-cols-10 gap-4">
+
+      {/* <Slider {...sliderSettings}> */}
         {movies.map((movie) => (
           <MovieItem key={movie.movieId} movie={movie} />
         ))}
-      </Slider>
+      {/* </Slider> */}
+      </div>
     </>
   );
 };

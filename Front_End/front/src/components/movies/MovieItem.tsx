@@ -150,7 +150,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
           <StyledDetailInCol>
             <StyledDetailInRow>
               {movie.keywordResDtos.map((keyword) => (
-                <HashTag size="Standard" color="WhiteGhost">
+                <HashTag key={keyword.keywordId} size="Standard" color="WhiteGhost">
                   {keyword.keywordName}
                 </HashTag>
               ))}
