@@ -62,5 +62,5 @@ const StyledReviewContainer = styled.div`
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  height: 400px;
+  height: 100%;
 `;
