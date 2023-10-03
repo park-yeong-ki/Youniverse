@@ -22,7 +22,7 @@ import ProfileReview from "../review/ProfileReview";
 import UserZodiacSign from "../users/UserZodiacSign";
 import SoulMovieItemList from "../movies/SoulMovieItemList";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import ProfileFollowWrap from "../users/ProfileFollowWrap";
+import ProfileFollowWrap from "../users/ProfileChangeableWrap";
 import { postFollow, FollowParams, deleteFollow } from "../../apis/FrontendApi";
 
 interface ProfileUserInfoProps {
@@ -252,8 +252,8 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
           {selectStatus && (
             <ProfileFollowWrap
               memberData={memberData}
-              followStatus={selectStatus}
-              setFollowStatus={setSelectStatus}
+              selectStatus={selectStatus}
+              setSelectStatus={setSelectStatus}
             />
           )}
         </StyledChangableComponent>
@@ -299,7 +299,8 @@ const StyledFirstRowBetween = styled.div`
 
 const StyledChangableComponent = styled.div`
   ${FlexColBetween}
-  height: 65%;
+  height: 60%;
+  width: 100%;
 `;
 
 const StyledRowBetween = styled.div`
