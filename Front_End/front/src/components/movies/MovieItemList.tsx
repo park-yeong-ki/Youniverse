@@ -104,7 +104,7 @@ const MovieItemList: React.FC<Props> = ({
       let requestParams: any = { page, size: 20 };
       if (listType === "다른 유저의 인생영화 추천") {
         try {
-          const response = await getMember(1); // memberId가 0으로 호출
+          const response = await getMember(0); // memberId가 0으로 호출
           console.log(response)
           const bestMoviesWithDetail = await Promise.all(
             response.data.bestMovieResDtos.map(async (bestMovie: any) => {
