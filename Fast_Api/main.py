@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from youniverse.routers import youtube
+from youniverse.routers import users
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -20,6 +21,7 @@ app.add_middleware(
 
 # 이후 FastAPI 엔드포인트와 라우터 정의
 app.include_router(youtube.router)
+app.include_router(users.router)
 
 @app.get("/", tags=["get"])
 async def get_Test():

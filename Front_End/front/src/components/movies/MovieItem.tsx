@@ -22,10 +22,15 @@ import {
 type MovieItemProps = {
   movie: MovieType;
   $cardWidth?: string;
+  onClick?: () => void;
+  $profile?: boolean;
+  // 필요한 경우 다른 props 타입도 여기에 추가
 };
 
 const MovieItem: React.FC<MovieItemProps> = ({
   movie,
+  onClick,
+  $profile,
   ...props
 }) => {
   const navigate = useNavigate();
@@ -129,14 +134,14 @@ const MovieItem: React.FC<MovieItemProps> = ({
   }, [movie, memberId]);
 
   return (
-    <StyledCardWrapper $cardWidth={props.$cardWidth}>
+    <StyledCardWrapper $cardWidth={props.$cardWidth} onClick={onClick}>
       <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
           {/* focus가 되어있을 때는 Large / 아닐 때는 Medium */}
           <StyledTitle
-            size="Large"
+            size={$profile ? "Medium" : "Large"}
             color="White"
             fontFamily="PyeongChang-Bold"
             onClick={() => {
@@ -147,45 +152,57 @@ const MovieItem: React.FC<MovieItemProps> = ({
           >
             {movie.title}
           </StyledTitle>
-          <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            평점 {movie.rate}
-          </Text>
-          <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            {movie.runtime}분
-          </Text>
-          <StyledDetailInCol>
-            <StyledDetailInRow>
-              {movie.keywordResDtos.slice(0, 3).map((keyword) => (
-                <HashTag
-                  key={keyword.keywordId}
-                  size="Standard"
-                  color="WhiteGhost"
-                >
-                  {keyword.keywordName}
-                </HashTag>
-              ))}
-            </StyledDetailInRow>
-          </StyledDetailInCol>
-          <StyledDetailInCol>
-            {likeStatus === false ? (
-              <Btn size="Circle" color="White" onClick={handleLikePush}>
-                💖
-              </Btn>
-            ) : (
-              <Btn size="Circle" color="White" onClick={handleLikePush}>
-                ✅
-              </Btn>
-            )}
-            {recommendStatus === false ? (
-              <Btn size="X-Small" color="Black" onClick={handleRecommendPush}>
-                추천받지 않을래요
-              </Btn>
-            ) : (
-              <Btn size="X-Small" color="White" onClick={handleRecommendPush}>
-                다시 추천해주세요
-              </Btn>
-            )}
-          </StyledDetailInCol>
+          {!$profile && (
+            <>
+              <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+                평점 {movie.rate}
+              </Text>
+              <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+                {movie.runtime}분
+              </Text>
+              <StyledDetailInCol>
+                <StyledDetailInRow>
+                  {movie.keywordResDtos.slice(0, 3).map((keyword) => (
+                    <HashTag
+                      key={keyword.keywordId}
+                      size="Standard"
+                      color="WhiteGhost"
+                    >
+                      {keyword.keywordName}
+                    </HashTag>
+                  ))}
+                </StyledDetailInRow>
+              </StyledDetailInCol>
+              <StyledDetailInCol>
+                {likeStatus === false ? (
+                  <Btn size="Circle" color="White" onClick={handleLikePush}>
+                    💖
+                  </Btn>
+                ) : (
+                  <Btn size="Circle" color="White" onClick={handleLikePush}>
+                    ✅
+                  </Btn>
+                )}
+                {recommendStatus === false ? (
+                  <Btn
+                    size="X-Small"
+                    color="Black"
+                    onClick={handleRecommendPush}
+                  >
+                    추천받지 않을래요
+                  </Btn>
+                ) : (
+                  <Btn
+                    size="X-Small"
+                    color="White"
+                    onClick={handleRecommendPush}
+                  >
+                    다시 추천해주세요
+                  </Btn>
+                )}
+              </StyledDetailInCol>
+            </>
+          )}
         </StyledDetailOut>
       </StyledCardHover>
     </StyledCardWrapper>

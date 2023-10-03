@@ -6,7 +6,7 @@ session = engine.sessionmaker()
 
 # tmdb 키워드 가져오기
 def get_tmdb_keyword():
-    results = session.query(models.Keyword.keyword_name).filter(models.Keyword.source == 0).all()
+    results = session.query(models.Keyword.keyword_name).all()
     return [result[0] for result in results]
 
 #키워드가 있는 영화의 id가져오기

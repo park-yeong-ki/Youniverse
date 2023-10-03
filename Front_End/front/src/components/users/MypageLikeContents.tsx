@@ -3,59 +3,74 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { MY_PAGE_LIKE } from "../../commons/constants/String";
-import { getAllMovies } from "../../apis/FrontendApi";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-import { MovieType } from "../../types/MovieType";
 import MovieItem from "../movies/MovieItem";
 import { FlexCenter } from "../../commons/style/SharedStyle";
+import { UserType } from "../../pages/profile/MyProfilePage";
 
-const MypageLikeContents = () => {
-  const [movies, setMovies] = useState<MovieType[]>([]);
+interface MypageLikeContentsProps {
+  memberData: UserType | null;
+}
 
-  // 영화 데이터를 불러오는 로직
+const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
+  memberData,
+}) => {
+  // const [movies, setMovies] = useState<MovieType[]>([]);
+  const [likedMovies, setLikedMovies] = useState<Array<any>>([]);
+
+  // 좋아요 누른 영화 데이터 설정 로직
   useEffect(() => {
-    getAllMovies()
-      .then((response) => {
-        console.log(response.data.content);
-        setMovies(response.data.content);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (memberData && memberData.heartMovieResDtos) {
+      setLikedMovies(memberData.heartMovieResDtos);
+    }
+  }, [memberData]);
+
   return (
     <div>
       <div>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
-          유저{MY_PAGE_LIKE}
+          {memberData?.nickname}
+          {MY_PAGE_LIKE}
         </Text>
-        <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-          💖 {movies.length}
+        <Text
+          size="Small"
+          color="White"
+          fontFamily="YESGothic-Regular"
+          className="ml-3"
+        >
+          💖 {likedMovies.length}
         </Text>
       </div>
       <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
         <div className="grid grid-cols-3 gap-3">
-          {movies.length === 0 ? (
+          {likedMovies.length === 0 ? (
             <div className="col-span-3 text-center">
               아직 좋아요한 영화가 없습니다
             </div>
           ) : (
             <>
-              {movies.slice(0, 2).map((movie) => (
-                <MovieItem key={movie.movieId} movie={movie} />
+              {likedMovies.slice(0, 2).map((movie) => (
+                <MovieItem
+                  key={movie.heartMovieId}
+                  movie={movie.movieSimpleResDto}
+                  $profile
+                />
               ))}
 
-              {movies.length > 2 && (
+              {likedMovies.length > 2 && (
                 <StyledThirdWrapper>
-                  <MovieItem movie={movies[2]} />
+                  <MovieItem
+                    movie={likedMovies[2].movieSimpleResDto}
+                    $profile
+                  />
                   <StyledAddWrapper>
                     <Text
                       size="Medium"
                       color="White"
-                      fontFamily="YESGothic-Bold"
+                      fontFamily="PyeongChang-Bold"
                     >
-                      +{movies.length - 2}
+                      +{likedMovies.length - 2}
                     </Text>
                   </StyledAddWrapper>
                 </StyledThirdWrapper>
