@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,9 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useRecoilValue } from "recoil";
+import { UserDetailInfoState } from "../../pages/store/State";
+import { getMember } from "../../apis/FrontendApi";
 
 ChartJS.register(
   CategoryScale,
@@ -66,30 +69,53 @@ export const options = {
   },
 };
 
-const labels = [
-  "키워드1",
-  "키워드2",
-  "키워드3",
-  "키워드4",
-  "키워드5",
-  "키워드6",
-  "키워드7",
-];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [500, 600, 400, 700, 650, 720, 590],
-      borderColor: "rgb(255, 249, 200)",
-      backgroundColor: "#ffffff",
-    },
-  ],
-};
-
 const LineChart: React.FC<LineChartProps> = () => {
-  return <Line options={options} data={data} />;
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Youtube Keyword Movie Ranks",
+        data: [],
+        borderColor: "rgb(255, 249, 200)",
+        backgroundColor: "#ffffff",
+      },
+    ],
+  });
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+
+  useEffect(() => {
+    const getChartData = async () => {
+      try {
+        // memberId 가 null 또는 undefined인 경우 함수 실행 중지
+        if (memberId == null) {
+          console.error("memberId is null or undefined");
+          return;
+        }
+        const response = await getMember(memberId);
+        const youtubeKeywords = response.data.youtubeKeywordResDtos;
+        const labels = youtubeKeywords.map((k: any) => k.youtubeKeywordName);
+        const data = youtubeKeywords.map((k: any) => k.movieRank);
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: "Youtube Keyword Movie Ranks",
+              data,
+              borderColor: "rgb(255, 249, 200)",
+              backgroundColor: "#ffffff",
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching the chart data", error);
+      }
+    };
+
+    getChartData();
+  }, [memberId]);
+
+  return <Line options={options} data={chartData} />;
 };
 
 export default LineChart;

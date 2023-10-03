@@ -1,22 +1,3 @@
-// import Wrapper from "../atoms/Wrapper";
-// import LineChart from "./LineChart";
-
-// interface LineChartWrapperProps {
-//   chartWidth?: string | number; // 수정
-//   chartHeight?: string | number; // 수정
-// }
-
-// const LineChartWrapper: React.FC<LineChartWrapperProps> = () => {
-//   return (
-//     <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
-//       <LineChart />
-//     </Wrapper>
-//   );
-// };
-
-// export default LineChartWrapper;
-// 유저의 별자리를 보여주는 컴포넌트
-
 import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 import LineChart from "./LineChart";
