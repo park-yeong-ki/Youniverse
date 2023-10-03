@@ -25,18 +25,22 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
   }, [selectedOTT]);
 
   return (
-    <Wrapper
-      size="Standard"
-      color="WhiteGhost"
-      padding="Medium"
-      onScroll={handleScroll}
-    >
-      <MovieItemList
-        filterOTT={selectedOTT}
-        listType={listType}
-        page={page}
-      />
-    </Wrapper>
+
+      <Wrapper
+        size="Standard"
+        color="WhiteGhost"
+        padding="Medium"
+        onScroll={handleScroll}
+        height="70vh" // 예시: Wrapper의 높이를 80vh로 설정
+      >
+        <MovieItemList
+          filterOTT={selectedOTT}
+          listType={listType}
+          page={page}
+          layout="vertical" // 세로 스크롤로 적용
+        />
+      </Wrapper>
+
   );
 };
 

@@ -9,15 +9,13 @@ interface WrapperProps {
   children: ReactNode;
   padding: WrapperPadding;
   className?: string;
-  onScroll? : (e: React.UIEvent<HTMLDivElement>) => void;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  height?: string;
 }
 
 /** Wrapper SIZE */
 /** 별자리 차트 Wrapper 메인, 마이페이지, 추천페이지에서 크기 지정 */
-export type WrapperSize =
-  | "Standard"
-  | "Small"
-  | "YouTube";
+export type WrapperSize = "Standard" | "Small" | "YouTube";
 
 /** Wrapper COLOR
  * (적용 예시)
@@ -101,11 +99,12 @@ const WrapperPaddingStyles: Record<WrapperPadding, WrapperPaddingStyle> = {
 
 /** styled-component => Wrapper */
 const StyledWrapper = styled.div<WrapperProps>`
-  height: ${(props) => WrapperStyles[props.size].height};
+  height: ${(props) => props.height || WrapperStyles[props.size].height};
   width: ${(props) => WrapperStyles[props.size].width};
   border-radius: ${(props) => WrapperStyles[props.size].borderRadius};
   padding: ${(props) => WrapperPaddingStyles[props.padding].padding};
   background-color: ${(props) => WrapperColors[props.color].backgroundColor};
+  overflow-y: auto; // 스크롤 추가
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) =>
@@ -122,6 +121,7 @@ const Wrapper = ({
   padding,
   className,
   onScroll,
+  height,
 }: WrapperProps) => {
   return (
     <StyledWrapper
@@ -130,6 +130,8 @@ const Wrapper = ({
       color={color}
       padding={padding}
       className={className}
+      onScroll={onScroll} // 스크롤 이벤트 바인딩
+      height={height}
     >
       {children}
     </StyledWrapper>

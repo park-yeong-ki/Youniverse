@@ -25,12 +25,13 @@ type Props = {
   page?: number;
 };
 
-const MovieItemList: React.FC<Props> = ({
+const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = ({
   filterOTT,
   listType,
   movies: propMovies = [],
   showMoreButton,
   page,
+  layout = 'horizontal', // default value
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
@@ -40,6 +41,10 @@ const MovieItemList: React.FC<Props> = ({
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
   const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
+
+  // 조건에 따라 스타일 선택
+  const MovieContainer = layout === 'horizontal' ? MovieContainerHorizontal : MovieContainerVertical;
+  
 
   // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
@@ -210,7 +215,7 @@ const StyledBtn = styled(Btn)`
   width: 100px;
 `;
 
-const MovieContainer = styled.div`
+const MovieContainerHorizontal = styled.div`
   display: flex;
   overflow-x: auto;
   gap: 16px;
@@ -218,6 +223,16 @@ const MovieContainer = styled.div`
   /* your movie item */
   & > div {
     flex-shrink: 0;
-    width: 200px; /* Your item width */
+    width: 10%; /* Your item width */
+  }
+`;
+
+/* MovieContainer의 스타일을 세로 스크롤로 변경 */
+const MovieContainerVertical = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  & > div {
+    width: 10%;
   }
 `;

@@ -155,7 +155,7 @@ const MovieItem: React.FC<MovieItemProps> = ({
           </Text>
           <StyledDetailInCol>
             <StyledDetailInRow>
-              {movie.keywordResDtos.map((keyword) => (
+              {movie.keywordResDtos.slice(0, 3).map((keyword) => (
                 <HashTag
                   key={keyword.keywordId}
                   size="Standard"
