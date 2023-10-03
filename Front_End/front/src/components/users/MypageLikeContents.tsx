@@ -42,7 +42,7 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
           💖 {likedMovies.length}
         </Text>
       </div>
-      <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
+      <Wrapper size="Standard" color="WhiteGhost" padding="Narrow" className=" mt-2">
         <div className="grid grid-cols-3 gap-3">
           {likedMovies.length === 0 ? (
             <div className="col-span-3 text-center">

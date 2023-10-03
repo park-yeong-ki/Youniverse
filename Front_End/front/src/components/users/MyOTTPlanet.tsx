@@ -30,7 +30,7 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
         </Text>
       </StyledTextWrapper>
       {/* OTT 행성 Wrapper */}
-      <StyledOTTWrapper size="Standard" color="WhiteGhost" padding="Narrow">
+      <StyledOTTWrapper size="Standard" color="WhiteGhost" padding="Narrow" className=" mt-2">
         {/* 행성 + 이름 (유저 정보에 따라 변경하기) */}
         <div>
           <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">

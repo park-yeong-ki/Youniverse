@@ -14,7 +14,12 @@ const UserZodiacSign = () => {
           유저{MY_PAGE_STAR}
         </Text>
         {/* 별자리 wrapper */}
-        <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
+        <Wrapper
+          size="Standard"
+          color="WhiteGhost"
+          padding="Narrow"
+          className="mt-2"
+        >
           <StyledZodiacWrapper>여기에 차트 들어가용</StyledZodiacWrapper>
         </Wrapper>
       </div>
