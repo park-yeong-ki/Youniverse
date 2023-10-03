@@ -28,7 +28,7 @@ const memberGender = useRecoilValue(UserJoinInfoState).gender
         </CustomSection>
         <CustomSection>
           <MainContainer>
-            <RecommendNotYouTube lists={["평점 기반 추천 영화", "인생영화 추천"]} />
+            <RecommendNotYouTube lists={["평점 기반 추천 영화", "다른 유저의 인생영화 추천"]} />
           </MainContainer>
         </CustomSection>
       </SectionsContainer>

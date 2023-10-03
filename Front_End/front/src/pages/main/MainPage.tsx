@@ -15,6 +15,7 @@ import {
 } from "../../commons/constants/String";
 import { getEmailMember } from "../../apis/FrontendApi";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
+import LineChart from "../../components/chart/LineChart";
 
 const MainPage = () => {
   const isLoggedIn = useRecoilValue(LoginState);
@@ -90,6 +91,7 @@ const MainPage = () => {
         <div>
           <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
             {userDetailInfo.nickname}님의 별자리
+            <LineChart></LineChart>
           </Text>
           {/* 메인 페이지에 들어올 별자리 + 별자리로 추천 받기 버튼 */}
         </div>

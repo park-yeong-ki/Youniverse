@@ -47,11 +47,11 @@ const ProfileReviewItem: React.FC<ReviewProps> = ({ review }) => {
 
   return (
     <div onClick={handleClickToDetail}>
-      <div>
+      <StyledMovieTitletContainer>
         <Text size="Medium" color="Black" fontFamily="YESGothic-Regular">
           {title}
         </Text>
-      </div>
+      </StyledMovieTitletContainer>
       <StyledRowBetweenContainer>
         <StyledTextContainer>
           <StyledText
@@ -65,14 +65,14 @@ const ProfileReviewItem: React.FC<ReviewProps> = ({ review }) => {
           </StyledText>
         </StyledTextContainer>
         <StyledRateBottomContainer>
-          <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
-            {reviewRate}
+          <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
+            ⭐ {reviewRate}/5
           </Text>
         </StyledRateBottomContainer>
       </StyledRowBetweenContainer>
 
-      <StyledReviewContentWrapper size="Small" color="White" padding="Narrow">
-        <Text size="Small" color="Black" fontFamily="YESGothic-Regular">
+      <StyledReviewContentWrapper size="Small" color="White" padding="Thin">
+        <Text size="X-Small" color="Black" fontFamily="YESGothic-Regular">
           {reviewContent}
         </Text>
       </StyledReviewContentWrapper>
@@ -83,11 +83,20 @@ const ProfileReviewItem: React.FC<ReviewProps> = ({ review }) => {
 export default ProfileReviewItem;
 
 const StyledReviewContentWrapper = styled(Wrapper)`
-  height: 100px;
+  height: 100%;
+  margin-top: 5px;
+`;
+
+const StyledMovieTitletContainer = styled.div`
+  height: 100%;
+  margin-bottom: 10px;
+  padding: 0px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const StyledTextContainer = styled.div`
-  //아무리 해도 왜 붙지 않니...
   margin-top: 0;
   margin-bottom: 0;
 `;
@@ -100,6 +109,7 @@ const StyledText = styled(Text)`
 
 const StyledRowBetweenContainer = styled.div`
   ${FlexRowBetween}
+  padding: 0px 5px;
 `;
 
 const StyledRateBottomContainer = styled.div`

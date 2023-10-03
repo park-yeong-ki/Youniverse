@@ -59,3 +59,18 @@ export type OTTType = {
     genreResDtos: GenreType[];
   };
   
+  export type BestMovieType = {
+    bestMovieId: number;
+    movieSimpleResDto: {
+      movieId: number;
+      title: string;
+      movieImage: string;
+      keywordResDtos: {
+        keywordId: number;
+        keywordName: string;
+      }[];
+      rate: number;
+      runtime: number;
+    };
+    movie: MovieType;
+  };

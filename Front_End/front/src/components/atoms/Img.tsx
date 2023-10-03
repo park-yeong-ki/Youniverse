@@ -9,7 +9,7 @@ interface ImageProps {
 }
 
 /** 이미지 SIZE */
-type ImageSize = "X-Large" | "Large" | "Medium" | "Small";
+type ImageSize = "2X-Large" | "X-Large" | "Large" | "Medium" | "Small";
 
 /** 이미지 STYLE 타입 지정 */
 type ImageStyle = {
@@ -18,6 +18,9 @@ type ImageStyle = {
 
 /** 이미지 STYLE */
 const ImageStyles: Record<ImageSize, ImageStyle> = {
+  "2X-Large": {
+    height: "224px",
+  },
   "X-Large": {
     height: "180px",
   },

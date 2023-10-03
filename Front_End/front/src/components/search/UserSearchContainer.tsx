@@ -66,7 +66,7 @@ const UserSearchContainer: React.FC = () => {
     <StyledStandardWhiteGhostWrapper
       size="Standard"
       color="WhiteGhost"
-      padding="Medium"
+      padding="Narrow"
     >
       <StyledColBetweenContainer>
         <StyledSearchBoxContainer>
