@@ -38,9 +38,10 @@ const StyledWrapper = styled(Wrapper)`
 
 const StyledYouTubeStar = styled.div`
   width: 40%;
-  height: 80%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 12px;
 `;
 
 const StyledYouTubeRec = styled.div`

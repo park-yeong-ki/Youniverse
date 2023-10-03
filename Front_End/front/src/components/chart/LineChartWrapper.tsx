@@ -12,7 +12,7 @@ const LineChartWrapper: React.FC<LineChartWrapperProps> = () => {
     <>
       <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
         <StyledZodiacWrapper>
-          <LineChart />
+          <LineChart width="600px" height="200px" />
         </StyledZodiacWrapper>
       </Wrapper>
     </>
