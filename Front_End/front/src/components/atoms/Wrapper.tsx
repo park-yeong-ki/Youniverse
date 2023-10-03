@@ -25,7 +25,7 @@ export type WrapperSize = "Standard" | "Small" | "YouTube";
 type WrapperColor = "White" | "BlackGhost" | "WhiteGhost" | "Clear";
 
 /** Wrapper PADDING */
-type WrapperPadding = "Wide" | "Medium" | "Narrow";
+type WrapperPadding = "Wide" | "Medium" | "Narrow" | "Thin";
 
 /** Wrapper 스타일 타입 지정 */
 type WrapperStyle = {
@@ -94,6 +94,9 @@ const WrapperPaddingStyles: Record<WrapperPadding, WrapperPaddingStyle> = {
   },
   Narrow: {
     padding: "1.5rem 1rem ", // 상하 (1.5rem), 좌우 (1rem)
+  },
+  Thin: {
+    padding: "0.5rem 0.5rem", // 상하좌우(0.5rem)
   },
 };
 

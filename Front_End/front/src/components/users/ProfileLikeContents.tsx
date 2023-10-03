@@ -1,23 +1,18 @@
 // 마이페이지에 있는 ㅇㅇ 님이 좋아한 콘텐츠 컴포넌트
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
-import { MY_PAGE_LIKE } from "../../commons/constants/String";
 import Text from "../atoms/Text";
-import Wrapper from "../atoms/Wrapper";
 import MovieItem from "../movies/MovieItem";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import { StyledAllWrapper } from "./MyOTTPlanet";
 
 interface MypageLikeContentsProps {
   memberData: UserType | null;
 }
 
-const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
+const ProfileLikeContents: React.FC<MypageLikeContentsProps> = ({
   memberData,
 }) => {
-  // const [movies, setMovies] = useState<MovieType[]>([]);
   const [likedMovies, setLikedMovies] = useState<Array<any>>([]);
 
   // 좋아요 누른 영화 데이터 설정 로직
@@ -28,27 +23,8 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
   }, [memberData]);
 
   return (
-    <StyledAllWrapper>
-      <div>
-        <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
-          {memberData?.nickname}
-          {MY_PAGE_LIKE}
-        </Text>
-        <Text
-          size="Small"
-          color="White"
-          fontFamily="YESGothic-Regular"
-          className="ml-3"
-        >
-          💖 {likedMovies.length}
-        </Text>
-      </div>
-      <Wrapper
-        size="Standard"
-        color="WhiteGhost"
-        padding="Narrow"
-        className=" mt-2"
-      >
+    <div>
+      <StyledNoneContainer>
         <div className="grid grid-cols-3 gap-3">
           {likedMovies.length === 0 ? (
             <div className="col-span-3 text-center">
@@ -61,6 +37,7 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
                   key={movie.heartMovieId}
                   movie={movie.movieSimpleResDto}
                   $profile
+                  $cardWidth="80%"
                 />
               ))}
 
@@ -84,12 +61,16 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
             </>
           )}
         </div>
-      </Wrapper>
-    </StyledAllWrapper>
+      </StyledNoneContainer>
+    </div>
   );
 };
 
-export default MypageLikeContents;
+export default ProfileLikeContents;
+
+const StyledNoneContainer = styled.div`
+  padding: 1rem 1rem;
+`;
 
 const StyledThirdWrapper = styled.div`
   border-radius: 12px;

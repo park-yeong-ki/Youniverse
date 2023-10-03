@@ -118,7 +118,7 @@ const SoulMovieItemList = () => {
           {nickname}
           {FAVORITE_MOVIE}
         </Text>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-5 gap-4 mt-2">
           {soulMovieData?.map((soulMovie, index) => (
             <SoulMovieItem
               key={index}

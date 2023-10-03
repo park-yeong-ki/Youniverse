@@ -5,20 +5,26 @@ import { MY_PAGE_STAR } from "../../commons/constants/String";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
+import { StyledAllWrapper } from "./MyOTTPlanet";
 import LineChart from "../chart/LineChart";
 
 const UserZodiacSign = () => {
   return (
     <>
-      <div>
+      <StyledAllWrapper>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
           유저{MY_PAGE_STAR}
         </Text>
         {/* 별자리 wrapper */}
-        <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
+        <Wrapper
+          size="Standard"
+          color="WhiteGhost"
+          padding="Narrow"
+          className="mt-2"
+        >
           <StyledZodiacWrapper><LineChart /></StyledZodiacWrapper>
         </Wrapper>
-      </div>
+      </StyledAllWrapper>
     </>
   );
 };

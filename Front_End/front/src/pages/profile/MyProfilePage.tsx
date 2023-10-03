@@ -17,7 +17,8 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-// import ProfileReview from "../../components/review/ProfileReview";
+import ProfileReview from "../../components/review/ProfileReview";
+import { FollowerType } from "../../components/organisms/OtherProfileContainer";
 
 export type UserType = {
   memberId: number;
@@ -37,7 +38,7 @@ export type UserType = {
     keywordName: string;
     source: number;
   }>;
-  followers: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
+  followers: Array<FollowerType>;
   followings: Array<any>;
   heartMovieResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
   bestMovieResDtos: Array<SoulMovie>;
@@ -82,8 +83,7 @@ const MyProfilePage = () => {
                   </StyledRowWrap>
                   <StyledRowWrap>
                     <MypageLikeContents memberData={memberData} />
-                    <div></div>
-                    {/* <ProfileReview /> */}
+                    <ProfileReview memberId={Number(memberId)} />
                   </StyledRowWrap>
                   <StyledSoulWrap>
                     <SoulMovieItemList />
@@ -109,13 +109,11 @@ const MyProfilePage = () => {
 export default MyProfilePage;
 
 const StyledContentWrap = styled.div`
-  ${FlexColBetweenLeft}/* overflow-y: scroll; */
+  ${FlexColBetweenLeft}
+  overflow-y: scroll;
 `;
 
-const StyledSoulWrap = styled.div`
-  height: 33%;
-  overflow: hidden;
-`;
+const StyledSoulWrap = styled.div``;
 
 const StyledRowWrap = styled.div`
   ${FlexRowBetween}
@@ -124,9 +122,9 @@ const StyledRowWrap = styled.div`
     height: 100%;
   }
   & > div:last-child {
-    width: 54%;
+    width: 53%;
     height: 100%;
   }
-  height: 33%;
-  overflow: hidden;
+  margin-bottom: 1.25rem;
+  height: 44%;
 `;

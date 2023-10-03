@@ -7,7 +7,7 @@ import { LoginState, UserDetailInfoState, UserInfoState } from "../store/State";
 import { ROUTES } from "./../../commons/constants/Routes";
 import GoogleLoginBtn from "../../components/@commons/GoogleLoginBtn";
 import Text from "../../components/atoms/Text";
-import { FlexColBetween } from "../../commons/style/SharedStyle";
+import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import {
   LOGO,
   MAIN_NOT_LOGIN_PART,
@@ -15,7 +15,7 @@ import {
   MAIN_NOT_LOGIN_PART2,
 } from "../../commons/constants/String";
 import { getEmailMember } from "../../apis/FrontendApi";
-// import LineChartWrapper from "../../components/chart/LineChartWrapper";
+import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import LineChart from "../../components/chart/LineChart";
 import Wrapper from "../../components/atoms/Wrapper";
 import Btn from "../../components/atoms/Btn";
@@ -71,11 +71,11 @@ const MainPage = () => {
   }, [email, setUserDetailInfo]);
 
   return (
-    <>
+    <MainPaddingContainer>
       {/* 로그인 안했을 때 (비회원 화면) */}
       {!isLoggedIn && (
-        <>
-          <StyeldFlexColBetween>
+        <StyledMainWrapper>
+          <StyledFlexColBetween>
             <div>
               <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
                 {LOGO}
@@ -90,9 +90,9 @@ const MainPage = () => {
             <Text size="X-Large" color="White" fontFamily="PyeongChang-Light">
               {MAIN_NOT_LOGIN_PART2}
             </Text>
-          </StyeldFlexColBetween>
+          </StyledFlexColBetween>
           <GoogleLoginBtn />
-        </>
+        </StyledMainWrapper>
       )}
 
       {/* 로그인 했을 때 (회원 화면) */}
@@ -118,13 +118,13 @@ const MainPage = () => {
           </SyledIsLoggedin>
         )}
       </SyledIsLoggedin>
-    </>
+    </MainPaddingContainer>
   );
 };
 
 export default MainPage;
 
-const StyeldFlexColBetween = styled.div`
+const StyledFlexColBetween = styled.div`
   ${FlexColBetween}
 `;
 
@@ -150,4 +150,15 @@ const StyledBtn = styled(Btn)`
   align-items: center;
   flex-direction: column;
   width: 60%;
+`;
+
+const StyledMainWrapper = styled.div`
+  ${FlexCenter}
+  flex-direction: column;
+  width: 40%;
+  height: 80%;
+  margin: 0 auto;
+  & > button {
+    margin-top: 24px;
+  }
 `;
