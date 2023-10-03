@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { SEARCH_USER_PAGE } from "../../commons/constants/String";
 import {
@@ -19,14 +20,23 @@ import {
   FOLLOWER,
   LIKEIT,
 } from "../../commons/constants/String";
+import ProfileFollowWrap from "../users/ProfileFollowWrap";
 
 interface ProfileUserInfoProps {
   memberData: UserType | null;
+  selectStatus: string;
+  setSelectStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
   memberData,
+  selectStatus,
+  setSelectStatus,
 }) => {
+  /** 팔로워 보여주는 변화 확인용 */
+  useEffect(() => {
+    console.log("팔로워 기준 변경: ", selectStatus);
+  }, [selectStatus]);
   if (!memberData) {
     return (
       <StyledStandardWhiteGhostWrapper
@@ -47,7 +57,7 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
       color="WhiteGhost"
       padding="Narrow"
     >
-      <StyledColBetween>
+      <StyledOverallColBetween>
         <StyledFirstRowBetween>
           <ProfileImage className="w-1/3">
             <Img
@@ -76,45 +86,67 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
               {memberData?.introduce}
             </StyledSmallWhiteGhostWrapper>
             <StyledRowBetween>
-              <StyledColBetween>
+              <StyledColBetween onClick={() => setSelectStatus(LIKEIT)}>
                 <div>
-                  <Text
+                  <StyledText
                     size="Large"
                     color="Black"
                     fontFamily="PyeongChang-Bold"
                   >
                     {memberData?.heartMovieResDtos?.length}
-                  </Text>
+                  </StyledText>
                 </div>
                 <div>{LIKEIT}</div>
               </StyledColBetween>
-              <StyledColBetween>
-                <Text size="Large" color="Black" fontFamily="PyeongChang-Bold">
+              <StyledColBetween onClick={() => setSelectStatus(FOLLOWER)}>
+                <StyledText
+                  size="Large"
+                  color="Black"
+                  fontFamily="PyeongChang-Bold"
+                >
                   {memberData?.followers.length}
-                </Text>
+                </StyledText>
                 <div>{FOLLOWER}</div>
               </StyledColBetween>
-              <StyledColBetween>
-                <Text size="Large" color="Black" fontFamily="PyeongChang-Bold">
+              <StyledColBetween onClick={() => setSelectStatus(FOLLOWING)}>
+                <StyledText
+                  size="Large"
+                  color="Black"
+                  fontFamily="PyeongChang-Bold"
+                >
                   {memberData?.followings.length}
-                </Text>
+                </StyledText>
                 <div>{FOLLOWING}</div>
               </StyledColBetween>
             </StyledRowBetween>
           </div>
         </StyledFirstRowBetween>
         <StyledChangableComponent>
-          <StyledRowBetween>
-            <div className="w-1/3">
-              <UserZodiacSign />
-            </div>
-            <ProfileReview className="w-2/3" memberId={memberData?.memberId} />
-          </StyledRowBetween>
-          <StyledRowBetween>
-            <SoulMovieItemList />
-          </StyledRowBetween>
+          {!selectStatus && (
+            <>
+              <StyledRowBetween>
+                <div className="w-1/3">
+                  <UserZodiacSign />
+                </div>
+                <ProfileReview
+                  className="w-2/3"
+                  memberId={memberData?.memberId}
+                />
+              </StyledRowBetween>
+              <StyledRowBetween>
+                <SoulMovieItemList />
+              </StyledRowBetween>
+            </>
+          )}
+          {selectStatus && (
+            <ProfileFollowWrap
+              memberData={memberData}
+              followStatus={selectStatus}
+              setFollowStatus={setSelectStatus}
+            />
+          )}
         </StyledChangableComponent>
-      </StyledColBetween>
+      </StyledOverallColBetween>
     </StyledStandardWhiteGhostWrapper>
   );
 };
@@ -163,9 +195,20 @@ const StyledRowBetween = styled.div`
   ${FlexRowBetween}
   width: 100%;
 `;
+const StyledOverallColBetween = styled.div`
+  ${FlexColBetween}
+  width:95%;
+  height: 100%;
+`;
 
 const StyledColBetween = styled.div`
   ${FlexColBetween}
   width:95%;
   height: 100%;
+`;
+
+const StyledText = styled(Text)`
+  &:hover {
+    cursor: pointer;
+  }
 `;

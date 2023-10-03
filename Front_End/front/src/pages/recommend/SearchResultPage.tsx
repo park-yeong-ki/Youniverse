@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import ResultContainers from "../../components/search/ResultContainers";
 import SearchContainer from "../../components/search/SearchContainer";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
-import { MovieType } from "../../components/movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 
 interface LocationState {
   searchTerm: string;

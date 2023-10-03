@@ -15,7 +15,9 @@ import { UserType } from "../../pages/profile/MyProfilePage";
 const OtherUserProfilePage = () => {
   const { userId } = useParams<{ userId: string }>();
   const [memberData, setMemberData] = useState<UserType | null>(null);
+  const [selectStatus, setSelectStatus] = useState<string>("");
   const memberId = userId;
+
   useEffect(() => {
     getMember(Number(memberId))
       .then((response) => {
@@ -29,7 +31,11 @@ const OtherUserProfilePage = () => {
   return (
     <MainPaddingContainer>
       <StyledOtherUserProfile>
-        <OtherProfileContainer memberData={memberData} />
+        <OtherProfileContainer
+          memberData={memberData}
+          selectStatus={selectStatus}
+          setSelectStatus={setSelectStatus}
+        />
         <StyledSearchRecommend>
           <UserSearchContainer />
           {/* <UserRecommendContainer /> */}

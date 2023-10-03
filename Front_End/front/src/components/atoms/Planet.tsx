@@ -10,7 +10,7 @@ interface PlanetProps {
   handleClickedPlanets?: (planetId: number, $isSelected: boolean) => void;
   // $point?: boolean; // 클릭 여부 확인
   // onClick?: () => void;
-
+  initialSelected?: boolean;
   $mypage?: boolean; // 마이페이지 행성 부분
 }
 
@@ -63,7 +63,7 @@ const Planet = ({
   $mypage,
   ...props
 }: PlanetProps) => {
-  const [selectPlanet, setSelectPlanet] = useState(false);
+  const [selectPlanet, setSelectPlanet] = useState(props.initialSelected || false);
 
   const handleClick = () => {
     if ($mypage) return; // $mypage prop되면 return

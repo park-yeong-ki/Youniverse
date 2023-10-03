@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ReviewItem } from "./ProfileReviewItemList";
-import { MovieType } from "../movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 import { getMovie } from "../../apis/FrontendApi";
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";

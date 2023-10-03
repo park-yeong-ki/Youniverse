@@ -1,5 +1,5 @@
 import MovieItem from "./MovieItem";
-import { MovieType } from "./MovieItemList";
+import { MovieType } from "../../types/MovieType";
 
 type Props = {
   movies?: MovieType[]; // 추가

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
 import SearchMovieItemList from "../movies/SearchMovieItemList";
-import { MovieType } from "../movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 
 interface ResultContainersProps {
   searchResults: MovieType[];

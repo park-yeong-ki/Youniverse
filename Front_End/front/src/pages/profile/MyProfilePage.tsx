@@ -17,8 +17,8 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-import { MovieType } from "../../components/movies/MovieItemList";
-//import ProfileReview from "../../components/review/ProfileReview";
+import { MovieType } from "../../types/MovieType";
+// import ProfileReview from "../../components/review/ProfileReview";
 
 export type UserType = {
   memberId: number;
@@ -66,14 +66,15 @@ const MyProfilePage = () => {
       <div className="flex gap-6 h-full">
         {memberData && (
           <>
-            <div className="w-1/4">
+            <div className="w-1/5">
               <MypageUserInfo
                 memberData={memberData}
+                setMemberData={setMemberData}
                 followStatus={followStatus}
                 setFollowStatus={setFollowStatus}
               />
             </div>
-            <StyledContentWrap className="w-3/4">
+            <StyledContentWrap className="w-4/5">
               {!followStatus && (
                 <>
                   <StyledRowWrap>

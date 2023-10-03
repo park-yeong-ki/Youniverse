@@ -6,7 +6,7 @@ import { MY_PAGE_LIKE } from "../../commons/constants/String";
 import { getAllMovies } from "../../apis/FrontendApi";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-import { MovieType } from "../movies/MovieItemList";
+import { MovieType } from "../../types/MovieType";
 import MovieItem from "../movies/MovieItem";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 
