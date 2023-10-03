@@ -9,6 +9,7 @@ import { FlexColBetween } from "../../commons/style/SharedStyle";
 import MoreRecommendMovie from "../../components/movies/MoreRecommendMovie";
 import MoreRecommendOTT from "../../components/movies/MoreRecommendOTT";
 import Text from "../../components/atoms/Text";
+import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 
 
 const MoreRecommendationPage = () => {
@@ -20,7 +21,7 @@ const MoreRecommendationPage = () => {
   const memberNickname = useRecoilValue(UserJoinInfoState).nickname
 
   return (
-    <>
+    <MainPaddingContainer>
       <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
         {memberNickname}{RECOMMEND_PAGE_MORE}
       </Text>
@@ -28,7 +29,7 @@ const MoreRecommendationPage = () => {
         <MoreRecommendOTT onSelectOTT={setSelectedOTT} />
         <MoreRecommendMovie selectedOTT={selectedOTT} listType={listTypeParam} />
       </StyledMoreRecommend>
-    </>
+    </MainPaddingContainer>
   );
 };
 
@@ -36,4 +37,5 @@ export default MoreRecommendationPage;
 
 const StyledMoreRecommend = styled.div`
   ${FlexColBetween}
+  gap: 16px;
 `;

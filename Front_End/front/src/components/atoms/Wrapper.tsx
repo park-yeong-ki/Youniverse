@@ -9,6 +9,8 @@ interface WrapperProps {
   children: ReactNode;
   padding: WrapperPadding;
   className?: string;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  height?: string;
 }
 
 /** Wrapper SIZE */
@@ -100,11 +102,12 @@ const WrapperPaddingStyles: Record<WrapperPadding, WrapperPaddingStyle> = {
 
 /** styled-component => Wrapper */
 const StyledWrapper = styled.div<WrapperProps>`
-  height: ${(props) => WrapperStyles[props.size].height};
+  height: ${(props) => props.height || WrapperStyles[props.size].height};
   width: ${(props) => WrapperStyles[props.size].width};
   border-radius: ${(props) => WrapperStyles[props.size].borderRadius};
   padding: ${(props) => WrapperPaddingStyles[props.padding].padding};
   background-color: ${(props) => WrapperColors[props.color].backgroundColor};
+  overflow-y: auto; // 스크롤 추가
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) =>
@@ -120,6 +123,8 @@ const Wrapper = ({
   color,
   padding,
   className,
+  onScroll,
+  height,
 }: WrapperProps) => {
   return (
     <StyledWrapper
@@ -128,6 +133,8 @@ const Wrapper = ({
       color={color}
       padding={padding}
       className={className}
+      onScroll={onScroll} // 스크롤 이벤트 바인딩
+      height={height}
     >
       {children}
     </StyledWrapper>
