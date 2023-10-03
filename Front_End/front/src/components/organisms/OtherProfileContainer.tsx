@@ -1,6 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { UserDetailInfoState } from "../../pages/store/State";
 import styled from "styled-components";
-import { SEARCH_USER_PAGE } from "../../commons/constants/String";
+import {
+  SEARCH_USER_PAGE,
+  FOLLOW,
+  FOLLOWING,
+  FOLLOWER,
+  LIKEIT,
+} from "../../commons/constants/String";
 import {
   FlexCenter,
   FlexColBetween,
@@ -14,54 +22,123 @@ import ProfileReview from "../review/ProfileReview";
 import UserZodiacSign from "../users/UserZodiacSign";
 import SoulMovieItemList from "../movies/SoulMovieItemList";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import {
-  FOLLOW,
-  FOLLOWING,
-  FOLLOWER,
-  LIKEIT,
-} from "../../commons/constants/String";
 import ProfileFollowWrap from "../users/ProfileFollowWrap";
-import { postFollow } from "../../apis/FrontendApi";
-import { FollowParams } from "../../apis/FrontendApi";
-import { useRecoilValue } from "recoil";
-import { UserDetailInfoState } from "../../pages/store/State";
+import { postFollow, FollowParams, deleteFollow } from "../../apis/FrontendApi";
 
 interface ProfileUserInfoProps {
   memberData: UserType | null;
   selectStatus: string;
   setSelectStatus: React.Dispatch<React.SetStateAction<string>>;
+  refreshMemberData: () => void;
 }
+
+export type FollowerType = {
+  followId: number;
+  followerResDto?: {
+    memberId: number;
+    nickname: string;
+    memberImage: string | null;
+    keywordResDtos: Array<{
+      keywordId: number;
+      keywordName: string;
+    }>;
+  };
+  followingResDto?: any; // 나중에 정확하게 정의 필요
+};
 
 const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
   memberData,
   selectStatus,
   setSelectStatus,
+  refreshMemberData,
 }) => {
   /** 팔로워 보여주는 변화 확인용 */
   useEffect(() => {
     console.log("팔로워 기준 변경: ", selectStatus);
   }, [selectStatus]);
 
-  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+  const currentUserId = useRecoilValue(UserDetailInfoState).memberId;
+  const [followerList, setFollowerList] = useState<FollowerType[]>([]);
+  useEffect(() => {
+    if (memberData && memberData.followers) {
+      setFollowerList(memberData.followers);
+    }
+  }, [memberData]);
 
-  const handleFollowUser = async () => {
-    /**팔로워 팔로잉 각 아이디 설정 */
-    if (memberId !== null && memberData !== null) {
-      const followParams: FollowParams = {
-        followerId: memberId,
-        followingId: memberData.memberId,
-      };
+  const getCurrentFollowerFollowId = (): number | undefined => {
+    const follower = followerList.find(
+      (follower) =>
+        follower.followerResDto &&
+        follower.followerResDto.memberId === currentUserId
+    );
+    return follower?.followId;
+  };
 
-      try {
-        console.log("팔로우 등록 정보: ", followParams);
-        const response = await postFollow(followParams);
-        if (response.status === 200) {
-          console.log("팔로우 등록 성공:", response.data);
-        } else {
-          console.error("팔로우 데이터 전송 실패:", response.statusText);
+  const isCurrentUserAFollower = () => {
+    return followerList.some(
+      (follower) =>
+        follower.followerResDto &&
+        follower.followerResDto.memberId === currentUserId
+    );
+  };
+
+  const handleFollowToggle = async () => {
+    if (currentUserId !== null && memberData !== null) {
+      if (isCurrentUserAFollower()) {
+        const followId = getCurrentFollowerFollowId();
+        if (!followId) {
+          console.error("유효하지 않은 followId");
+          return;
         }
-      } catch (error) {
-        console.error("팔로우 등록 API 요청 중 에러 발생", error);
+        // 이미 팔로우 중이라면 언팔로우 처리
+        try {
+          const response = await deleteFollow(followId);
+          if (response.status === 200) {
+            console.log("팔로우 취소 성공:", response.data);
+            // followerList에서 현재 사용자 제거
+            setFollowerList((prevState) =>
+              prevState.filter(
+                (follower) =>
+                  follower.followerResDto?.memberId !== currentUserId
+              )
+            );
+            refreshMemberData();
+          } else {
+            console.error("팔로우 취소 실패:", response.statusText);
+          }
+        } catch (error) {
+          console.error("팔로우 취소 API 요청 중 에러 발생", error);
+        }
+      } else {
+        // 팔로우 처리
+        const followParams: FollowParams = {
+          followerId: currentUserId,
+          followingId: memberData.memberId,
+        };
+        try {
+          const response = await postFollow(followParams);
+          if (response.status === 200) {
+            console.log("팔로우 등록 성공:", response.data);
+            // followerList에 현재 사용자 추가
+            setFollowerList((prevState) => [
+              ...prevState,
+              {
+                followId: response.data.followId,
+                followerResDto: {
+                  memberId: currentUserId,
+                  nickname: "임시 닉네임", // 임시값, 실제로는 API 응답 또는 다른 곳에서 가져와야 합니다.
+                  memberImage: null, // 임시값
+                  keywordResDtos: [], // 임시값
+                },
+              },
+            ]);
+            refreshMemberData();
+          } else {
+            console.error("팔로우 데이터 전송 실패:", response.statusText);
+          }
+        } catch (error) {
+          console.error("팔로우 등록 API 요청 중 에러 발생", error);
+        }
       }
     }
   };
@@ -101,9 +178,15 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
                 </Text>
               </UserNameContainer>
               <UserFollowBtnContainer>
-                <Btn size="Small" color="Black" onClick={handleFollowUser}>
-                  {FOLLOW}
-                </Btn>
+                {currentUserId !== memberData?.memberId && (
+                  <Btn
+                    size="Small"
+                    color={isCurrentUserAFollower() ? "White" : "Black"}
+                    onClick={handleFollowToggle} // 이 부분을 수정
+                  >
+                    {isCurrentUserAFollower() ? FOLLOWING : FOLLOW}
+                  </Btn>
+                )}
               </UserFollowBtnContainer>
             </StyledRowBetween>
             <StyledSmallWhiteGhostWrapper

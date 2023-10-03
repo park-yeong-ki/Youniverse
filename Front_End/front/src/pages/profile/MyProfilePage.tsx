@@ -19,6 +19,7 @@ import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
 import { MovieType } from "../../types/MovieType";
 // import ProfileReview from "../../components/review/ProfileReview";
+import { FollowerType } from "../../components/organisms/OtherProfileContainer";
 
 export type UserType = {
   memberId: number;
@@ -38,7 +39,7 @@ export type UserType = {
     keywordName: string;
     source: number;
   }>;
-  followers: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
+  followers: Array<FollowerType>;
   followings: Array<any>;
   heartMovieResDtos: Array<MovieType>;
   bestMovieResDtos: Array<SoulMovie>;

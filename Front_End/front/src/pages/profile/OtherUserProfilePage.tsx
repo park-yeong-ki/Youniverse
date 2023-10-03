@@ -18,6 +18,17 @@ const OtherUserProfilePage = () => {
   const [selectStatus, setSelectStatus] = useState<string>("");
   const memberId = userId;
 
+  const refreshMemberData = () => {
+    getMember(Number(memberId))
+      .then((response) => {
+        console.log("개별 회원 조회", `${memberId}번 회원=`, response.data);
+        setMemberData(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getMember(Number(memberId))
       .then((response) => {
@@ -35,6 +46,7 @@ const OtherUserProfilePage = () => {
           memberData={memberData}
           selectStatus={selectStatus}
           setSelectStatus={setSelectStatus}
+          refreshMemberData={refreshMemberData}
         />
         <StyledSearchRecommend>
           <UserSearchContainer />
