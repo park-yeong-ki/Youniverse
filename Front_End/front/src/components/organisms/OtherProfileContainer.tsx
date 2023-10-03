@@ -43,7 +43,7 @@ export type FollowerType = {
       keywordName: string;
     }>;
   };
-  followingResDto?: any; // 나중에 정확하게 정의 필요
+  followingResDto?: any;
 };
 
 const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
@@ -90,18 +90,12 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
           console.error("유효하지 않은 followId");
           return;
         }
-        // 이미 팔로우 중이라면 언팔로우 처리
+        // 이미 팔로우 중이라면 팔로우 취소
         try {
           const response = await deleteFollow(followId);
           if (response.status === 200) {
             console.log("팔로우 취소 성공:", response.data);
-            // followerList에서 현재 사용자 제거
-            setFollowerList((prevState) =>
-              prevState.filter(
-                (follower) =>
-                  follower.followerResDto?.memberId !== currentUserId
-              )
-            );
+
             refreshMemberData();
           } else {
             console.error("팔로우 취소 실패:", response.statusText);
@@ -110,7 +104,7 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
           console.error("팔로우 취소 API 요청 중 에러 발생", error);
         }
       } else {
-        // 팔로우 처리
+        // 팔로우 등록
         const followParams: FollowParams = {
           followerId: currentUserId,
           followingId: memberData.memberId,
@@ -119,19 +113,7 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
           const response = await postFollow(followParams);
           if (response.status === 200) {
             console.log("팔로우 등록 성공:", response.data);
-            // followerList에 현재 사용자 추가
-            setFollowerList((prevState) => [
-              ...prevState,
-              {
-                followId: response.data.followId,
-                followerResDto: {
-                  memberId: currentUserId,
-                  nickname: "임시 닉네임", // 임시값, 실제로는 API 응답 또는 다른 곳에서 가져와야 합니다.
-                  memberImage: null, // 임시값
-                  keywordResDtos: [], // 임시값
-                },
-              },
-            ]);
+
             refreshMemberData();
           } else {
             console.error("팔로우 데이터 전송 실패:", response.statusText);
