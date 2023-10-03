@@ -44,7 +44,7 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
               <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
                 {memberData?.nickname} {MY_PAGE_LIKE}
               </Text>
-              <StyledCircleNumber isActive={selectStatus === LIKEIT}>
+              <StyledCircleNumber isactive={selectStatus === LIKEIT}>
                 {memberData?.heartMovieResDtos.length}
               </StyledCircleNumber>
             </StyledRowContainer>
@@ -54,7 +54,7 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
               <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
                 {memberData?.nickname} 님의 {FOLLOWING}
               </Text>
-              <StyledCircleNumber isActive={selectStatus === FOLLOWING}>
+              <StyledCircleNumber isactive={selectStatus === FOLLOWING}>
                 {memberData?.followings.length}
               </StyledCircleNumber>
             </StyledRowContainer>
@@ -64,7 +64,7 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
               <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
                 {memberData?.nickname} 님의 {FOLLOWER}
               </Text>
-              <StyledCircleNumber isActive={selectStatus === FOLLOWER}>
+              <StyledCircleNumber isactive={selectStatus === FOLLOWER}>
                 {memberData?.followers.length}
               </StyledCircleNumber>
             </StyledRowContainer>
@@ -89,7 +89,7 @@ const StyledArrowContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-export const StyledCircleNumber = styled.div<{ isActive?: boolean }>`
+export const StyledCircleNumber = styled.div<{ isactive?: boolean }>`
   width: 24px;
   height: 24px;
   line-height: 24px;
@@ -98,7 +98,7 @@ export const StyledCircleNumber = styled.div<{ isActive?: boolean }>`
   font-weight: bold;
   font-size: 12px;
   border-radius: 50%;
-  background-color: ${(props) => (props.isActive ? "#000" : "#ccc")};
+  background-color: ${(props) => (props.isactive ? "#000" : "#ccc")};
   margin-left: 5px;
 `;
 

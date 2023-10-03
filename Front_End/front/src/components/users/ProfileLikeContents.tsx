@@ -1,86 +1,76 @@
+// 마이페이지에 있는 ㅇㅇ 님이 좋아한 콘텐츠 컴포넌트
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Text from "../atoms/Text";
-import { MovieType } from "../../types/MovieType";
 import MovieItem from "../movies/MovieItem";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import { UserType } from "../../pages/profile/MyProfilePage";
 
-export type HeartMovieType = {
-  heartMovieId: number;
-  memberSimpleResDto: null | {
-    /* 필요한 타입 정보 */
-  };
-  movieSimpleResDto: MovieType;
-};
-
-interface ProfileLikeContentsProps {
+interface MypageLikeContentsProps {
   memberData: UserType | null;
 }
 
-const ProfileLikeContents: React.FC<ProfileLikeContentsProps> = ({
+const ProfileLikeContents: React.FC<MypageLikeContentsProps> = ({
   memberData,
 }) => {
-  const [likemovies, setLikeMovies] = useState<HeartMovieType[]>([]);
+  const [likedMovies, setLikedMovies] = useState<Array<any>>([]);
 
+  // 좋아요 누른 영화 데이터 설정 로직
   useEffect(() => {
-    if (memberData?.heartMovieResDtos) {
-      setLikeMovies(memberData.heartMovieResDtos);
+    if (memberData && memberData.heartMovieResDtos) {
+      setLikedMovies(memberData.heartMovieResDtos);
     }
   }, [memberData]);
 
-  // // 영화 데이터를 불러오는 로직
-  // useEffect(() => {
-  //   getAllMovies()
-  //     .then((response) => {
-  //       console.log(response.data.content);
-  //       setLikeMovies(response.data.content);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
   return (
     <div>
-      {/* <div>
-        <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
-          유저{MY_PAGE_LIKE}
-        </Text>
-        <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-          💖 {movies.length}
-        </Text>
-      </div> */}
-      {/* <Wrapper size="Standard" color="WhiteGhost" padding="Narrow"> */}
-      <div className="grid grid-cols-3 gap-3">
-        {likemovies.length === 0 ? (
-          <div className="col-span-3 text-center">
-            아직 좋아요한 영화가 없습니다
-          </div>
-        ) : (
-          <>
-            {likemovies.slice(0, 2).map((movie) => (
-              <MovieItem key={movie.movieId} movie={movie} />
-            ))}
+      <StyledNoneContainer>
+        <div className="grid grid-cols-3 gap-3">
+          {likedMovies.length === 0 ? (
+            <div className="col-span-3 text-center">
+              아직 좋아요한 영화가 없습니다
+            </div>
+          ) : (
+            <>
+              {likedMovies.slice(0, 2).map((movie) => (
+                <MovieItem
+                  key={movie.heartMovieId}
+                  movie={movie.movieSimpleResDto}
+                  $profile
+                  $cardWidth="80%"
+                />
+              ))}
 
-            {likemovies.length > 2 && (
-              <StyledThirdWrapper>
-                <MovieItem movie={likemovies[2]} />
-                <StyledAddWrapper>
-                  <Text size="Medium" color="White" fontFamily="YESGothic-Bold">
-                    +{likemovies.length - 2}
-                  </Text>
-                </StyledAddWrapper>
-              </StyledThirdWrapper>
-            )}
-          </>
-        )}
-      </div>
-      {/* </Wrapper> */}
+              {likedMovies.length > 2 && (
+                <StyledThirdWrapper>
+                  <MovieItem
+                    movie={likedMovies[2].movieSimpleResDto}
+                    $profile
+                  />
+                  <StyledAddWrapper>
+                    <Text
+                      size="Medium"
+                      color="White"
+                      fontFamily="PyeongChang-Bold"
+                    >
+                      +{likedMovies.length - 2}
+                    </Text>
+                  </StyledAddWrapper>
+                </StyledThirdWrapper>
+              )}
+            </>
+          )}
+        </div>
+      </StyledNoneContainer>
     </div>
   );
 };
 
 export default ProfileLikeContents;
+
+const StyledNoneContainer = styled.div`
+  padding: 1rem 1rem;
+`;
 
 const StyledThirdWrapper = styled.div`
   border-radius: 12px;
