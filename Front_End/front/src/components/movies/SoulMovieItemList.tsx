@@ -6,7 +6,7 @@ import Text from "../atoms/Text";
 import { FAVORITE_MOVIE } from "../../commons/constants/String";
 import SoulMovieItem from "./SoulMovieItem";
 import { UserDetailInfoState } from "../../pages/store/State";
-import { getMember } from "../../apis/FrontendApi";
+import { getMember, postBest } from "../../apis/FrontendApi";
 import styled from "styled-components";
 import SearchContainer from "../search/SearchContainer";
 import ResultContainers from "../search/ResultContainers";
@@ -76,6 +76,19 @@ const SoulMovieItemList = () => {
   const onAddMovie = () => {
     setAddMovieModal(true);
   };
+  /** 클릭하면 인생영화 등록 axios */
+  const handleMovieSelection = (selectedMovie: MovieType) => {
+    const movieId = selectedMovie.movieId;
+    postBest(Number(memberId), movieId)
+      .then((response) => {
+        const updatedData = [...soulMovieData, response.data];
+        setSoulMovieData(updatedData);
+        setAddMovieModal(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       {/* 모달창 */}
@@ -90,6 +103,7 @@ const SoulMovieItemList = () => {
             <ResultContainers
               searchResults={searchResults}
               searchTerm={searchTerm}
+              onMovieSelect={handleMovieSelection}
             />
             <IconBox
               Icon={HiOutlineX}

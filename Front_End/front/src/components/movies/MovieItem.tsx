@@ -22,10 +22,11 @@ import {
 type MovieItemProps = {
   movie: MovieType;
   $cardWidth?: string;
+  onClick?: () => void;
   // 필요한 경우 다른 props 타입도 여기에 추가
 };
 
-const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
+const MovieItem: React.FC<MovieItemProps> = ({ movie, onClick, ...props }) => {
   const navigate = useNavigate();
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   // 좋아요 관련 상태
@@ -127,7 +128,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   }, [movie, memberId]);
 
   return (
-    <StyledCardWrapper $cardWidth={props.$cardWidth}>
+    <StyledCardWrapper $cardWidth={props.$cardWidth} onClick={onClick}>
       <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
@@ -150,7 +151,11 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
           <StyledDetailInCol>
             <StyledDetailInRow>
               {movie.keywordResDtos.map((keyword) => (
-                <HashTag key={keyword.keywordId} size="Standard" color="WhiteGhost">
+                <HashTag
+                  key={keyword.keywordId}
+                  size="Standard"
+                  color="WhiteGhost"
+                >
                   {keyword.keywordName}
                 </HashTag>
               ))}
