@@ -11,6 +11,7 @@ import { FlexCenter } from "../../commons/style/SharedStyle";
 
 interface ProfileReviewProps {
   memberId: number | undefined;
+  className?: string;
 }
 
 const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
@@ -46,7 +47,13 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
         color="WhiteGhost"
         padding="Narrow"
       >
-        <ProfileReviewItemList reviews={reviewList} />
+        {reviewList.length === 0 ? (
+          <Text size="Small" color="Black" fontFamily="PyeongChang-Light">
+            아직 리뷰를 등록하지 않으셨네요
+          </Text>
+        ) : (
+          <ProfileReviewItemList reviews={reviewList} />
+        )}
       </StyledStandardWhiteGhostWrapper>
     </StyledReviewContainer>
   );
@@ -55,12 +62,11 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
 export default ProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 70%;
-  height: 100%;
+  width: 55%;
   margin-left: 20px;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  height: 400px;
+  height: 100%;
 `;
