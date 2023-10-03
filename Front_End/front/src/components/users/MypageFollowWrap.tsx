@@ -1,6 +1,7 @@
 // 마이페이지에서 팔로우, 팔로워 눌렀을 때 우측에 보이는 wrapper
 
 // import { useState } from "react";
+import { useNavigate } from "react-router";
 import Text from "../atoms/Text";
 import Btn from "../atoms/Btn";
 import {
@@ -15,6 +16,7 @@ import { HiChevronLeft } from "react-icons/hi";
 import { UserType } from "../../pages/profile/MyProfilePage";
 import { AlignCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
 import UserFollowContainer from "../organisms/UserFollowContainer";
+import { ROUTES } from "../../commons/constants/Routes";
 
 interface MypageFollowProps {
   memberData: UserType | null;
@@ -27,8 +29,13 @@ const MypageFollowWrap: React.FC<MypageFollowProps> = ({
   followStatus,
   setFollowStatus,
 }) => {
+  const navigate = useNavigate();
   const keywords = memberData?.keywordResDtos;
   console.log(keywords);
+
+  const handleToUserSearch = () => {
+    navigate(ROUTES.PROFILE);
+  };
 
   return (
     <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
@@ -68,19 +75,19 @@ const MypageFollowWrap: React.FC<MypageFollowProps> = ({
             </StyledCircleNumber>
           </StyledTextNumWrap>
         </StyledChangeWrap>
-        <Btn size="Small" color="White">
+        <Btn size="Small" color="White" onClick={handleToUserSearch}>
           {SEARCH_USER}
         </Btn>
       </StyledTopWrap>
 
       {/* 팔로잉 / 팔로워 목록 보여주는 공간 */}
       {followStatus === FOLLOWING && (
-        <StyledFollowWrap size="Standard" color="White" padding="Medium">
+        <StyledFollowWrap size="Standard" color="WhiteGhost" padding="Medium">
           <UserFollowContainer followStatus={followStatus} />
         </StyledFollowWrap>
       )}
       {followStatus === FOLLOWER && (
-        <StyledFollowWrap size="Standard" color="White" padding="Medium">
+        <StyledFollowWrap size="Standard" color="WhiteGhost" padding="Medium">
           <UserFollowContainer followStatus={followStatus} />
         </StyledFollowWrap>
       )}

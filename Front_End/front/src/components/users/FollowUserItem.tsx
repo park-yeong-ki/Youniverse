@@ -40,19 +40,18 @@ const FollowUserItem = ({
           <Img size="Large" src={image} onClick={handleToClickedUser} />
           <div>{nickname}</div>
           <div>
-            {hashtags.map((hashtag, index) => (
-              <HashTag key={index} size="Standard" color="White">
+            {hashtags.slice(0, 1).map((hashtag, index) => (
+              <StyledHashTag key={index} size="Profile" color="White">
                 {hashtag}
-              </HashTag>
+              </StyledHashTag>
             ))}
           </div>
-
           <div>
-            <Btn size="Small" color="Black">
+            <StyledBtn size="X-Small" color="Black">
               <Text size="X-Small" color="White" fontFamily="YESGothic-Regular">
                 {FOLLOW}
               </Text>
-            </Btn>
+            </StyledBtn>
           </div>
         </StyledColBetweenContainer>
       </StyledCenterContainer>
@@ -64,7 +63,6 @@ export default FollowUserItem;
 
 const StyledUserContainer = styled.div`
   ${FlexCenter}
-  border: solid 0.5px white;
   border-radius: 12px;
   padding: 5px;
   width: 100%;
@@ -79,4 +77,12 @@ const StyledCenterContainer = styled.div<{ isSelected?: boolean }>`
 
 const StyledColBetweenContainer = styled.div`
   ${FlexColBetween}
+`;
+
+const StyledHashTag = styled(HashTag)`
+  width: 100px;
+`;
+
+const StyledBtn = styled(Btn)`
+  width: 80px;
 `;
