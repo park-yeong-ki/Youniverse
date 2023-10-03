@@ -188,6 +188,7 @@ public interface MemberMapper extends CustomMapper {
                             recommendOttResDto.setOttName(ottMovie.getOtt().getOttName());
                             recommendOttResDto.setOttUrl(ottMovie.getOtt().getOttUrl());
                             recommendOttResDto.setOttImage(ottMovie.getOtt().getOttImage());
+                            recommendOttResDto.setCount(1);
                             map.put(ottMovie.getOtt().getOttId(), recommendOttResDto);
                         }
                     }
