@@ -238,10 +238,17 @@ export const deleteHate = (hateMovieId: number) =>
 //====================================================
 
 /** 인생영화 등록 */
-export const postBest = () =>
-  mainAxios.post(`/best-movies/register`, {
-    headers: { Accept: "application/json" },
-  });
+export const postBest = (memberId: number, movieId: number) =>
+  mainAxios.post(
+    `/best-movies/register`,
+    {
+      memberId,
+      movieId,
+    },
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
 
 /** 인생영화 조회 */
 export const getBest = (bestMovieId: number) =>

@@ -17,7 +17,6 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-import { MovieType } from "../../types/MovieType";
 // import ProfileReview from "../../components/review/ProfileReview";
 import { FollowerType } from "../../components/organisms/OtherProfileContainer";
 
@@ -41,7 +40,7 @@ export type UserType = {
   }>;
   followers: Array<FollowerType>;
   followings: Array<any>;
-  heartMovieResDtos: Array<MovieType>;
+  heartMovieResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
   bestMovieResDtos: Array<SoulMovie>;
   reviewResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
 };
@@ -80,10 +79,11 @@ const MyProfilePage = () => {
                 <>
                   <StyledRowWrap>
                     <UserZodiacSign />
-                    <MyOTTPlanet />
+                    <MyOTTPlanet memberData={memberData} />
                   </StyledRowWrap>
                   <StyledRowWrap>
-                    <MypageLikeContents />
+                    <MypageLikeContents memberData={memberData} />
+                    <div></div>
                     {/* <ProfileReview /> */}
                   </StyledRowWrap>
                   <StyledSoulWrap>
@@ -110,20 +110,24 @@ const MyProfilePage = () => {
 export default MyProfilePage;
 
 const StyledContentWrap = styled.div`
-  ${FlexColBetweenLeft}
+  ${FlexColBetweenLeft}/* overflow-y: scroll; */
 `;
 
 const StyledSoulWrap = styled.div`
-  height: 30%;
+  height: 33%;
+  overflow: hidden;
 `;
 
 const StyledRowWrap = styled.div`
   ${FlexRowBetween}
   & > div:first-child {
     width: 44%;
+    height: 100%;
   }
   & > div:last-child {
     width: 54%;
+    height: 100%;
   }
-  height: 34%;
+  height: 33%;
+  overflow: hidden;
 `;

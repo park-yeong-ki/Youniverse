@@ -64,3 +64,9 @@ export const FlexRowEvenly = css`
     margin-bottom: 20px;
   }
 `;
+/** flex + 가로, 가운데, 양쪽 정렬 */
+export const FlexRowAround = css`
+  ${FlexBase}
+  justify-content: space-around;
+  align-items: center;
+`;

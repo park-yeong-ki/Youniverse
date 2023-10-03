@@ -210,8 +210,8 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 
             {/* 해시태그 (키워드) wrapper */}
             <StyledKeywordWrap>
-              {selectedKeywords?.map((keyword) => (
-                <HashTag size="Standard" color="White">
+              {selectedKeywords?.map((keyword, index) => (
+                <HashTag size="Standard" color="White" key={index}>
                   # {keyword.keywordName}
                 </HashTag>
               ))}
@@ -248,7 +248,12 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
             {/* OTT 행성 wrapper */}
             <StyledRowWrap>
               {selectedOtts?.map((ott) => (
-                <a href={ott.ottUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={ott.ottUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={ott.ottId}
+                >
                   <Planet
                     size="Small"
                     src={ott.ottImage}
@@ -355,19 +360,14 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
             </StyledRowWrap>
 
             {/* 수정 취소 버튼 wrapper */}
-            <StyledBtnWrap>
-              <StyledUpdateWrap>
-                <Btn size="Small" color="White" onClick={handleCancel}>
-                  취소
-                </Btn>
-                <Btn size="Small" color="Black" onClick={handleUpdateChange}>
-                  수정 완료
-                </Btn>
-              </StyledUpdateWrap>
-              <Btn size="Small" color="BlackStroke">
-                선호 키워드 변경
+            <StyledUpdateWrap>
+              <Btn size="Small" color="White" onClick={handleCancel}>
+                취소
               </Btn>
-            </StyledBtnWrap>
+              <Btn size="Small" color="Black" onClick={handleUpdateChange}>
+                수정 완료
+              </Btn>
+            </StyledUpdateWrap>
           </>
         )}
       </StyledUpdateWrapper>
