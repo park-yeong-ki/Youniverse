@@ -5,6 +5,7 @@ import { MY_PAGE_STAR } from "../../commons/constants/String";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
+import LineChart from "../chart/LineChart";
 
 const UserZodiacSign = () => {
   return (
@@ -15,7 +16,7 @@ const UserZodiacSign = () => {
         </Text>
         {/* 별자리 wrapper */}
         <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
-          <StyledZodiacWrapper>여기에 차트 들어가용</StyledZodiacWrapper>
+          <StyledZodiacWrapper><LineChart /></StyledZodiacWrapper>
         </Wrapper>
       </div>
     </>

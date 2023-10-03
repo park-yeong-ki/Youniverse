@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-// import Slider from "react-slick";
+// import { ScrollMenu } from 'react-horizontal-scrolling-menu';
+// import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 import {
   UserDetailInfoState,
@@ -21,26 +22,15 @@ type Props = {
   listType?: string | null;
   movies?: MovieType[];
   showMoreButton?: boolean;
-  useSlider?: boolean;
   page?: number;
 };
-
-// const sliderSettings = {
-//   infinite: true,
-//   slidesToShow: 8,
-//   swipeToSlide: true,
-//   autoplay: true,
-//   autoplaySpeed: 3000,
-//   arrows: true,
-//   pauseOnHover: true,
-// };
 
 const MovieItemList: React.FC<Props> = ({
   filterOTT,
   listType,
   movies: propMovies = [],
   showMoreButton,
-  page, // 이 부분 추가
+  page,
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
@@ -50,12 +40,6 @@ const MovieItemList: React.FC<Props> = ({
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
   const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
-
-  // const sortTypeMap = {
-  //   "선호도기반 추천 영화": 1,
-  //   [`${memberAge}세 ${memberGender} 추천 영화`]: 2,
-  //   "유튜브 기반 추천 영화": 3,
-  // };
 
   // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
@@ -74,7 +58,6 @@ const MovieItemList: React.FC<Props> = ({
       default:
         break;
     }
-
     // navigate to the recommendation page with a sort type
     if (sortType) {
       navigate(`/recommend/more?sort=${sortType}`);
@@ -105,10 +88,8 @@ const MovieItemList: React.FC<Props> = ({
       if (listType === "다른 유저의 인생영화 추천") {
         try {
           const response = await getMember(0); // memberId가 0으로 호출
-          console.log(response)
           const bestMoviesWithDetail = await Promise.all(
             response.data.bestMovieResDtos.map(async (bestMovie: any) => {
-              console.log( response.data.bestMovieResDtos)
               const movieDetailResponse = await getMovie(bestMovie.bestMovieId); // 추가로 movie 데이터를 로딩합니다.
               return {
                 ...bestMovie,
@@ -168,7 +149,39 @@ const MovieItemList: React.FC<Props> = ({
 
     loadMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterOTT, listType, memberId]);
+  }, [filterOTT, listType, memberId, page]);
+
+  const renderMovies = () => {
+    if (listType === "다른 유저의 인생영화 추천") {
+      return bestMovies.length > 0 ? (
+        bestMovies.map((bestMovie) => (
+          <div>
+            <BestMovieItem
+              key={bestMovie.bestMovieId}
+              bestMovie={bestMovie}
+              movie={bestMovie.movie}
+            />
+          </div>
+        ))
+      ) : (
+        <NoMovieText />
+      );
+    } else {
+      return movies.length > 0 ? (
+        movies.map((movie) => (
+          <MovieItem key={movie.movieId} movie={movie} $cardWidth="200px" />
+        ))
+      ) : (
+        <NoMovieText />
+      );
+    }
+  };
+
+  const NoMovieText = () => (
+    <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">
+      영화가 없습니다.
+    </Text>
+  );
 
   return (
     <>
@@ -177,34 +190,12 @@ const MovieItemList: React.FC<Props> = ({
           {listType}
         </Text>
         {showMoreButton && (
-          <StyledBtn
-            size="Medium"
-            color="Black"
-            onClick={() => handleMoreClick()}
-          >
+          <StyledBtn size="Medium" color="Black" onClick={handleMoreClick}>
             더보기
           </StyledBtn>
         )}
       </StyledListBtn>
-      <div className="grid grid-cols-10 gap-4">
-        {listType === "다른 유저의 인생영화 추천" ? (
-          bestMovies.length > 0 ? (
-            bestMovies.map((bestMovie) => (
-              <BestMovieItem key={bestMovie.bestMovieId} bestMovie={bestMovie} movie={bestMovie.movie} />
-            ))
-          ) : (
-            <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">
-              영화가 없습니다.
-            </Text>
-          )
-        ) : movies.length > 0 ? (
-          movies.map((movie) => <MovieItem key={movie.movieId} movie={movie} />)
-        ) : (
-          <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">
-            영화가 없습니다.
-          </Text>
-        )}
-      </div>
+      <MovieContainer>{renderMovies()}</MovieContainer>
     </>
   );
 };
@@ -217,4 +208,16 @@ const StyledListBtn = styled.div`
 
 const StyledBtn = styled(Btn)`
   width: 100px;
+`;
+
+const MovieContainer = styled.div`
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+
+  /* your movie item */
+  & > div {
+    flex-shrink: 0;
+    width: 200px; /* Your item width */
+  }
 `;

@@ -34,7 +34,6 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
       <MovieItemList
         filterOTT={selectedOTT}
         listType={listType}
-        useSlider={false}
         page={page}
       />
     </Wrapper>
