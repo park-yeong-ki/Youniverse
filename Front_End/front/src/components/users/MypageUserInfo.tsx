@@ -210,8 +210,8 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 
             {/* 해시태그 (키워드) wrapper */}
             <StyledKeywordWrap>
-              {selectedKeywords?.map((keyword) => (
-                <HashTag size="Standard" color="White">
+              {selectedKeywords?.map((keyword, index) => (
+                <HashTag size="Standard" color="White" key={index}>
                   # {keyword.keywordName}
                 </HashTag>
               ))}
@@ -248,7 +248,12 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
             {/* OTT 행성 wrapper */}
             <StyledRowWrap>
               {selectedOtts?.map((ott) => (
-                <a href={ott.ottUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={ott.ottUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={ott.ottId}
+                >
                   <Planet
                     size="Small"
                     src={ott.ottImage}

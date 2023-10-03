@@ -21,14 +21,14 @@ type KeywordResDto = {
   source: number;
 };
 
-type MemberSimpleResDto = {
+export type MemberSimpleResDto = {
   memberId: number;
   nickname: string;
   memberImage: string;
   keywordResDtos: KeywordResDto[];
 };
 
-type MovieSimpleResDto = {
+export type MovieSimpleResDto = {
   movieId: number;
   title: string;
   movieImage: string;
