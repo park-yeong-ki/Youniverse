@@ -48,5 +48,4 @@ export const GlobalStyles = createGlobalStyle`
         font-weight: normal;
         font-style: normal;
     }
-
 `;

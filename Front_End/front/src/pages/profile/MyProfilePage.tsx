@@ -78,10 +78,11 @@ const MyProfilePage = () => {
                 <>
                   <StyledRowWrap>
                     <UserZodiacSign />
-                    <MyOTTPlanet />
+                    <MyOTTPlanet memberData={memberData} />
                   </StyledRowWrap>
                   <StyledRowWrap>
                     <MypageLikeContents memberData={memberData} />
+                    <div></div>
                     {/* <ProfileReview /> */}
                   </StyledRowWrap>
                   <StyledSoulWrap>
@@ -108,20 +109,24 @@ const MyProfilePage = () => {
 export default MyProfilePage;
 
 const StyledContentWrap = styled.div`
-  ${FlexColBetweenLeft}
+  ${FlexColBetweenLeft}/* overflow-y: scroll; */
 `;
 
 const StyledSoulWrap = styled.div`
-  height: 30%;
+  height: 33%;
+  overflow: hidden;
 `;
 
 const StyledRowWrap = styled.div`
   ${FlexRowBetween}
   & > div:first-child {
     width: 44%;
+    height: 100%;
   }
   & > div:last-child {
     width: 54%;
+    height: 100%;
   }
-  height: 34%;
+  height: 33%;
+  overflow: hidden;
 `;
