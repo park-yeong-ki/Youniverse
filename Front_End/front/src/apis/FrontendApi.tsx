@@ -35,6 +35,11 @@ export interface keywordsParams {
   random?: boolean;
 }
 
+export type FollowParams = {
+  followerId: number;
+  followingId: number;
+};
+
 /** 회원가입 */
 export const postMember = (userJoinInfo: UserJoinInfo) =>
   mainAxios.post(`/members/register`, userJoinInfo, {
@@ -138,8 +143,8 @@ export const getAllOTTs = () =>
 // ==============================
 
 /** 팔로우 등록 */
-export const postFollow = () =>
-  mainAxios.post(`/follows/register`, {
+export const postFollow = (followParams: FollowParams) =>
+  mainAxios.post(`/follows/register`, followParams, {
     headers: { Accept: "application/json" },
   });
 

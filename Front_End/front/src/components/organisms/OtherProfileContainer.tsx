@@ -21,6 +21,10 @@ import {
   LIKEIT,
 } from "../../commons/constants/String";
 import ProfileFollowWrap from "../users/ProfileFollowWrap";
+import { postFollow } from "../../apis/FrontendApi";
+import { FollowParams } from "../../apis/FrontendApi";
+import { useRecoilValue } from "recoil";
+import { UserDetailInfoState } from "../../pages/store/State";
 
 interface ProfileUserInfoProps {
   memberData: UserType | null;
@@ -37,6 +41,30 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
   useEffect(() => {
     console.log("팔로워 기준 변경: ", selectStatus);
   }, [selectStatus]);
+
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+
+  const handleFollowUser = async () => {
+    /**팔로워 팔로잉 각 아이디 설정 */
+    if (memberId !== null && memberData !== null) {
+      const followParams: FollowParams = {
+        followerId: memberId,
+        followingId: memberData.memberId,
+      };
+
+      try {
+        console.log("팔로우 등록 정보: ", followParams);
+        const response = await postFollow(followParams);
+        if (response.status === 200) {
+          console.log("팔로우 등록 성공:", response.data);
+        } else {
+          console.error("팔로우 데이터 전송 실패:", response.statusText);
+        }
+      } catch (error) {
+        console.error("팔로우 등록 API 요청 중 에러 발생", error);
+      }
+    }
+  };
   if (!memberData) {
     return (
       <StyledStandardWhiteGhostWrapper
@@ -73,7 +101,7 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
                 </Text>
               </UserNameContainer>
               <UserFollowBtnContainer>
-                <Btn size="Small" color="Black">
+                <Btn size="Small" color="Black" onClick={handleFollowUser}>
                   {FOLLOW}
                 </Btn>
               </UserFollowBtnContainer>
