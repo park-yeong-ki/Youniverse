@@ -14,7 +14,7 @@ import {
   MAIN_NOT_LOGIN_PART2,
 } from "../../commons/constants/String";
 import { getEmailMember } from "../../apis/FrontendApi";
-import LineChartWrapper from "../../components/chart/LineChartWrapper";
+// import LineChartWrapper from "../../components/chart/LineChartWrapper";
 import LineChart from "../../components/chart/LineChart";
 
 const MainPage = () => {

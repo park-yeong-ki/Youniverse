@@ -12,8 +12,9 @@ import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
 import MovieItem from "./MovieItem";
-import { getAllMovies } from "../../apis/FrontendApi";
-import { MovieType, OTTType } from "../../types/MovieType";
+import BestMovieItem from "./BestMovieItem";
+import { getAllMovies, getMember, getMovie } from "../../apis/FrontendApi";
+import { MovieType, OTTType, BestMovieType } from "../../types/MovieType";
 
 type Props = {
   filterOTT?: string | null;
@@ -47,6 +48,8 @@ const MovieItemList: React.FC<Props> = ({
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   const memberAge = useRecoilValue(UserJoinInfoState).age;
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
+
+  const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
 
   // const sortTypeMap = {
   //   "선호도기반 추천 영화": 1,
@@ -99,8 +102,25 @@ const MovieItemList: React.FC<Props> = ({
   useEffect(() => {
     const loadMovies = async () => {
       let requestParams: any = { page, size: 20 };
-
-      if (listType === "선호도기반 추천 영화" || listType === "1") {
+      if (listType === "다른 유저의 인생영화 추천") {
+        try {
+          const response = await getMember(1); // memberId가 0으로 호출
+          console.log(response)
+          const bestMoviesWithDetail = await Promise.all(
+            response.data.bestMovieResDtos.map(async (bestMovie: any) => {
+              console.log( response.data.bestMovieResDtos)
+              const movieDetailResponse = await getMovie(bestMovie.bestMovieId); // 추가로 movie 데이터를 로딩합니다.
+              return {
+                ...bestMovie,
+                movie: movieDetailResponse.data, // movie 정보를 추가합니다.
+              };
+            })
+          );
+          setBestMovies(bestMoviesWithDetail); // 상세 정보가 담긴 bestMovie 정보를 state에 저장
+        } catch (error) {
+          console.error("Error fetching best movies: ", error);
+        }
+      } else if (listType === "선호도기반 추천 영화" || listType === "1") {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
@@ -167,7 +187,17 @@ const MovieItemList: React.FC<Props> = ({
         )}
       </StyledListBtn>
       <div className="grid grid-cols-10 gap-4">
-        {movies.length > 0 ? (
+        {listType === "다른 유저의 인생영화 추천" ? (
+          bestMovies.length > 0 ? (
+            bestMovies.map((bestMovie) => (
+              <BestMovieItem key={bestMovie.bestMovieId} bestMovie={bestMovie} movie={bestMovie.movie} />
+            ))
+          ) : (
+            <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">
+              영화가 없습니다.
+            </Text>
+          )
+        ) : movies.length > 0 ? (
           movies.map((movie) => <MovieItem key={movie.movieId} movie={movie} />)
         ) : (
           <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">

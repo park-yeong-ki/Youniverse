@@ -10,7 +10,7 @@ import {
 } from "../../commons/style/SharedStyle";
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
-import { MovieType } from "../../types/MovieType";
+import { MovieType, BestMovieType } from "../../types/MovieType";
 import { UserDetailInfoState } from "./../../pages/store/State";
 import {
   postHeart,
@@ -20,12 +20,15 @@ import {
 } from "../../apis/FrontendApi";
 
 type MovieItemProps = {
-  movie: MovieType;
+  movie?: MovieType;
   $cardWidth?: string;
+  bestMovie?: BestMovieType;
+  // 필요한 경우 다른 props 타입도 여기에 추가
 };
 
-const MovieItem: React.FC<MovieItemProps> = ({
+const BestMovieItem: React.FC<MovieItemProps> = ({
   movie,
+  bestMovie,
   ...props
 }) => {
   const navigate = useNavigate();
@@ -45,8 +48,8 @@ const MovieItem: React.FC<MovieItemProps> = ({
   const handleLikePush = () => {
     if (!likeStatus) {
       console.log("좋아요 버튼을 눌렀어요", memberId);
-      if (memberId !== null && movie.movieId) {
-        postHeart(memberId, movie.movieId)
+      if (memberId !== null && bestMovie?.bestMovieId) {
+        postHeart(memberId, bestMovie.bestMovieId)
           .then((res) => {
             setLikeStatus(true);
             setHeartMovieId(res.data.heartMovieId);
@@ -60,7 +63,7 @@ const MovieItem: React.FC<MovieItemProps> = ({
       }
     } else {
       console.log("좋아요 취소 버튼을 눌렀어요");
-      console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
+      console.log("movie.heartMovieResDtos: ", movie?.heartMovieResDtos);
       if (heartMovieId !== null) {
         deleteHeart(heartMovieId)
           .then(() => {
@@ -79,8 +82,8 @@ const MovieItem: React.FC<MovieItemProps> = ({
     if (!recommendStatus) {
       console.log("추천받지 않을래요 버튼을 눌렀어요");
 
-      if (memberId !== null && movie.movieId) {
-        postHate(memberId, movie.movieId)
+      if (memberId !== null && bestMovie?.bestMovieId) {
+        postHate(memberId, bestMovie.bestMovieId)
           .then((res) => {
             setRecommendStatus(true);
             setHateMovieId(res.data.hateMovieId);
@@ -109,11 +112,11 @@ const MovieItem: React.FC<MovieItemProps> = ({
   };
 
   useEffect(() => {
-    const heart = movie.heartMovieResDtos?.find(
+    const heart = movie?.heartMovieResDtos?.find(
       (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
 
-    const hate = movie.hateMovieResDtos?.find(
+    const hate = movie?.hateMovieResDtos?.find(
       (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
 
@@ -130,7 +133,7 @@ const MovieItem: React.FC<MovieItemProps> = ({
 
   return (
     <StyledCardWrapper $cardWidth={props.$cardWidth}>
-      <StyledMoviePoster src={movie.movieImage} />
+      <StyledMoviePoster src={bestMovie?.movieSimpleResDto.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
@@ -140,22 +143,22 @@ const MovieItem: React.FC<MovieItemProps> = ({
             color="White"
             fontFamily="PyeongChang-Bold"
             onClick={() => {
-              if (movie.movieId) {
-                handleTitleClick(movie.movieId);
+              if (bestMovie?.bestMovieId) {
+                handleTitleClick(bestMovie.bestMovieId);
               }
             }}
           >
-            {movie.title}
+            {bestMovie?.movieSimpleResDto.title}
           </StyledTitle>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            평점 {movie.rate}
+            평점 {bestMovie?.movieSimpleResDto.rate}
           </Text>
           <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            {movie.runtime}분
+            {bestMovie?.movieSimpleResDto.runtime}분
           </Text>
           <StyledDetailInCol>
             <StyledDetailInRow>
-              {movie.keywordResDtos.map((keyword) => (
+              {bestMovie?.movieSimpleResDto.keywordResDtos.map((keyword) => (
                 <HashTag
                   key={keyword.keywordId}
                   size="Standard"
@@ -192,7 +195,7 @@ const MovieItem: React.FC<MovieItemProps> = ({
   );
 };
 
-export default MovieItem;
+export default BestMovieItem;
 
 /** 영화 포스터 Img 스타일 */
 export const StyledMoviePoster = styled.img`
