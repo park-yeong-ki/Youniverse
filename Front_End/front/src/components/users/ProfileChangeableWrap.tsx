@@ -11,6 +11,7 @@ import IconBox from "../atoms/IconBox";
 import { HiChevronLeft } from "react-icons/hi";
 import { UserType } from "../../pages/profile/MyProfilePage";
 import ProfileLikeContents from "./ProfileLikeContents";
+import ProfileUserFollowContainer from "../organisms/ProfileUserFollowContainer";
 
 interface ProfileChangeableProps {
   memberData: UserType | null;
@@ -73,8 +74,18 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
       </StyledRowContainer>
       <div>
         {/* 팔로잉 / 팔로워 목록 보여주는 공간 */}
-        {selectStatus === FOLLOWING && "팔로잉 목록 보여줘용"}
-        {selectStatus === FOLLOWER && "팔로워 목록 보여줘용"}
+        {selectStatus === FOLLOWING && memberData && (
+          <ProfileUserFollowContainer
+            followStatus={selectStatus}
+            currentUserId={memberData?.memberId}
+          />
+        )}
+        {selectStatus === FOLLOWER && memberData && (
+          <ProfileUserFollowContainer
+            followStatus={selectStatus}
+            currentUserId={memberData?.memberId}
+          />
+        )}
         {selectStatus === LIKEIT && (
           <ProfileLikeContents memberData={memberData} />
         )}

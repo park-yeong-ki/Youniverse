@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
