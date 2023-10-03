@@ -5,11 +5,12 @@ import { MY_PAGE_STAR } from "../../commons/constants/String";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
+import { StyledAllWrapper } from "./MyOTTPlanet";
 
 const UserZodiacSign = () => {
   return (
     <>
-      <div>
+      <StyledAllWrapper>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
           유저{MY_PAGE_STAR}
         </Text>
@@ -22,7 +23,7 @@ const UserZodiacSign = () => {
         >
           <StyledZodiacWrapper>여기에 차트 들어가용</StyledZodiacWrapper>
         </Wrapper>
-      </div>
+      </StyledAllWrapper>
     </>
   );
 };

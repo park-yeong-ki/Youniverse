@@ -82,7 +82,6 @@ const MyProfilePage = () => {
                   </StyledRowWrap>
                   <StyledRowWrap>
                     <MypageLikeContents memberData={memberData} />
-                    <div></div>
                     <ProfileReview memberId={Number(memberId)} />
                   </StyledRowWrap>
                   <StyledSoulWrap>
@@ -119,10 +118,12 @@ const StyledRowWrap = styled.div`
   ${FlexRowBetween}
   & > div:first-child {
     width: 44%;
+    height: 100%;
   }
   & > div:last-child {
     width: 53%;
+    height: 100%;
   }
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   height: 44%;
 `;

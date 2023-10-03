@@ -8,6 +8,7 @@ import Wrapper from "../atoms/Wrapper";
 import MovieItem from "../movies/MovieItem";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import { UserType } from "../../pages/profile/MyProfilePage";
+import { StyledAllWrapper } from "./MyOTTPlanet";
 
 interface MypageLikeContentsProps {
   memberData: UserType | null;
@@ -27,7 +28,7 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
   }, [memberData]);
 
   return (
-    <div>
+    <StyledAllWrapper>
       <div>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
           {memberData?.nickname}
@@ -42,7 +43,12 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
           💖 {likedMovies.length}
         </Text>
       </div>
-      <Wrapper size="Standard" color="WhiteGhost" padding="Narrow" className=" mt-2">
+      <Wrapper
+        size="Standard"
+        color="WhiteGhost"
+        padding="Narrow"
+        className=" mt-2"
+      >
         <div className="grid grid-cols-3 gap-3">
           {likedMovies.length === 0 ? (
             <div className="col-span-3 text-center">
@@ -79,7 +85,7 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
           )}
         </div>
       </Wrapper>
-    </div>
+    </StyledAllWrapper>
   );
 };
 
