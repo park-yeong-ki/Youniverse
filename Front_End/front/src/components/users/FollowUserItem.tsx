@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
 import Btn from "../atoms/Btn";
@@ -7,16 +7,10 @@ import Text from "../atoms/Text";
 import HashTag from "../atoms/HashTag";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import { FOLLOW } from "../../commons/constants/String";
+import { User } from "./FollowUserItemList";
 
-type UserProps = {
-  id: number;
-  nickname: string;
-  image: string;
-  hashtags: string[];
-};
-
-interface Props {
-  user: UserProps;
+interface FollowerUserItemProps {
+  user: User;
   isSelected: boolean;
   onSelect: () => void;
 }
@@ -25,7 +19,8 @@ const FollowUserItem = ({
   user,
   isSelected: selectedFromParent,
   onSelect,
-}: Props) => {
+}: FollowerUserItemProps) => {
+  const navigate = useNavigate();
   const [isSelected, setIsSelected] = useState(selectedFromParent);
   const { id, nickname, image, hashtags } = user;
 
@@ -33,15 +28,7 @@ const FollowUserItem = ({
   const handleToClickedUser = async () => {
     setIsSelected(!isSelected);
     onSelect();
-    try {
-      /** 백서버에 사용자 정보 요청 */
-      const response = await axios.get(`api 주소/${id}`);
-      console.log(response.data.user);
-
-      // 받은 데이터 프로필에 뿌리기
-    } catch (error) {
-      console.error("데이터 가져오기 실패", error);
-    }
+    navigate(`/profile/${id}`);
   };
   return (
     <StyledUserContainer>
@@ -49,8 +36,8 @@ const FollowUserItem = ({
         isSelected={isSelected}
         onClick={handleToClickedUser}
       >
-        <Img size="Large" src={image} />
         <StyledColBetweenContainer>
+          <Img size="Large" src={image} onClick={handleToClickedUser} />
           <div>{nickname}</div>
           <div>
             {hashtags.map((hashtag, index) => (

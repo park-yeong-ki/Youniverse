@@ -14,6 +14,7 @@ import IconBox from "../atoms/IconBox";
 import { HiChevronLeft } from "react-icons/hi";
 import { UserType } from "../../pages/profile/MyProfilePage";
 import { AlignCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
+import UserFollowContainer from "../organisms/UserFollowContainer";
 
 interface MypageFollowProps {
   memberData: UserType | null;
@@ -73,8 +74,16 @@ const MypageFollowWrap: React.FC<MypageFollowProps> = ({
       </StyledTopWrap>
 
       {/* 팔로잉 / 팔로워 목록 보여주는 공간 */}
-      {followStatus === FOLLOWING && <StyledFollowWrap></StyledFollowWrap>}
-      {followStatus === FOLLOWER && <StyledFollowWrap></StyledFollowWrap>}
+      {followStatus === FOLLOWING && (
+        <StyledFollowWrap size="Standard" color="White" padding="Medium">
+          <UserFollowContainer followStatus={followStatus} />
+        </StyledFollowWrap>
+      )}
+      {followStatus === FOLLOWER && (
+        <StyledFollowWrap size="Standard" color="White" padding="Medium">
+          <UserFollowContainer followStatus={followStatus} />
+        </StyledFollowWrap>
+      )}
     </Wrapper>
   );
 };
@@ -115,9 +124,7 @@ const StyledTopWrap = styled.div`
   margin-bottom: 3%;
 `;
 
-const StyledFollowWrap = styled.div`
-  width: 100%;
-  height: 85%;
-  background-color: #fff;
+const StyledFollowWrap = styled(Wrapper)`
   overflow-y: auto;
+  border-radius: 28px;
 `;
