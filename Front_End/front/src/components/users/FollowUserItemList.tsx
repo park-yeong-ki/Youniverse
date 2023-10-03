@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import FollowUserItem from "./FollowUserItem";
-import { FlexColBetween } from "../../commons/style/SharedStyle";
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 
-type User = {
+export type User = {
   id: number;
   nickname: string;
   image: string;
@@ -35,5 +35,5 @@ const FollowUserItemList: React.FC<Props> = ({ users }) => {
 export default FollowUserItemList;
 
 const StyledCenter = styled.div`
-  ${FlexColBetween}
+  ${FlexRowBetween}
 `;

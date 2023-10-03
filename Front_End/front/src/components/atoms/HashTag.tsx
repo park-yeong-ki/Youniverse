@@ -9,7 +9,7 @@ interface HashTagProps {
 }
 
 /** 해시태그 SIZE */
-type HashTagSize = "Standard" | "Huge";
+type HashTagSize = "Standard" | "Huge" | "Profile";
 
 /** 해시태그 COLOR
  * (적용 예시)
@@ -46,6 +46,12 @@ const HashTagStyles: Record<HashTagSize, HashTagStyle> = {
     width: "fit-content",
     fontSize: "16px",
     borderRadius: "12px",
+  },
+  Profile: {
+    height: "24px",
+    width: "80px",
+    fontSize: "12px",
+    borderRadius: "8px",
   },
 };
 
