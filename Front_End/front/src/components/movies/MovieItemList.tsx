@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
+import Slick from "./Slick";
+
 import {
   UserDetailInfoState,
   UserJoinInfoState,
@@ -11,9 +13,8 @@ import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
 import MovieItem from "./MovieItem";
-import BestMovieItem from "./BestMovieItem";
-import { getAllMovies, getMember, getMovie } from "../../apis/FrontendApi";
-import { MovieType, OTTType, BestMovieType } from "../../types/MovieType";
+import { getAllMovies } from "../../apis/FrontendApi";
+import { MovieType, OTTType } from "../../types/MovieType";
 
 type Props = {
   filterOTT?: string | null;
@@ -31,7 +32,6 @@ const MovieItemList: React.FC<
   movies: propMovies = [],
   showMoreButton,
   page,
-  layout = "horizontal", // default value
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
@@ -39,12 +39,6 @@ const MovieItemList: React.FC<
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   const memberAge = useRecoilValue(UserJoinInfoState).age;
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
-
-  const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
-
-  // 조건에 따라 스타일 선택
-  // const MovieContainer =
-  //   layout === "horizontal" ? MovieContainerHorizontal : MovieContainerVertical;
 
   // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
@@ -90,23 +84,7 @@ const MovieItemList: React.FC<
   useEffect(() => {
     const loadMovies = async () => {
       let requestParams: any = { page, size: 20 };
-      if (listType === "다른 유저의 인생영화 추천") {
-        try {
-          const response = await getMember(0); // memberId가 0으로 호출
-          const bestMoviesWithDetail = await Promise.all(
-            response.data.bestMovieResDtos.map(async (bestMovie: any) => {
-              const movieDetailResponse = await getMovie(bestMovie.bestMovieId); // 추가로 movie 데이터를 로딩합니다.
-              return {
-                ...bestMovie,
-                movie: movieDetailResponse.data, // movie 정보를 추가합니다.
-              };
-            })
-          );
-          setBestMovies(bestMoviesWithDetail); // 상세 정보가 담긴 bestMovie 정보를 state에 저장
-        } catch (error) {
-          console.error("Error fetching best movies: ", error);
-        }
-      } else if (listType === "선호도기반 추천 영화") {
+      if (listType === "선호도기반 추천 영화") {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
@@ -155,26 +133,20 @@ const MovieItemList: React.FC<
 
   const renderMovies = () => {
     if (propMovies && propMovies.length > 0) {
-      return propMovies.map((movie) => (
-        <MovieItem key={movie.movieId} movie={movie} />
-      ));
-    } else if (listType === "다른 유저의 인생영화 추천") {
-      return bestMovies.length > 0 ? (
-        bestMovies.map((bestMovie) => (
-          <div>
-            <BestMovieItem
-              key={bestMovie.bestMovieId}
-              bestMovie={bestMovie}
-              movie={bestMovie.movie}
-            />
-          </div>
-        ))
-      ) : (
-        <NoMovieText />
+      return (
+        <div className="grid grid-cols-5 gap-5">
+          {propMovies.map((movie) => (
+            <MovieItem key={movie.movieId} movie={movie} />
+          ))}
+        </div>
       );
     } else {
       return movies.length > 0 ? (
-        movies.map((movie) => <MovieItem key={movie.movieId} movie={movie} />)
+        <Slick speed={500} autoplay={true}>
+          {movies.map((movie) => (
+            <MovieItem key={movie.movieId} movie={movie} />
+          ))}
+        </Slick>
       ) : (
         <NoMovieText />
       );
@@ -199,7 +171,7 @@ const MovieItemList: React.FC<
           </StyledBtn>
         )}
       </StyledListBtn>
-      <div className="grid grid-cols-5 gap-4">{renderMovies()}</div>
+      <div>{renderMovies()}</div>
     </RecommendPaddingContainer>
   );
 };
@@ -213,26 +185,6 @@ const StyledListBtn = styled.div`
 const StyledBtn = styled(Btn)`
   width: 100px;
 `;
-
-// const MovieContainerHorizontal = styled.div`
-//   display: flex;
-//   overflow-x: auto;
-//   gap: 16px;
-//   padding-bottom: 0.5rem;
-//   padding-top: 0.5rem;
-//   /* your movie item */
-//   & > div {
-//     flex-shrink: 0;
-//   }
-// `;
-
-/* MovieContainer의 스타일을 세로 스크롤로 변경 */
-// const MovieContainerVertical = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   gap: 16px;
-//   justify-content: flex-start;
-// `;
 
 const RecommendPaddingContainer = styled.div`
   padding: 1rem;

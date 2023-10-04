@@ -83,7 +83,6 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
           filterOTT={selectedOTT}
           listType={listType}
           page={page}
-          layout="vertical" // 세로 스크롤로 적용
           movies={sortMovies}
         />
       </StyledWrapper>
