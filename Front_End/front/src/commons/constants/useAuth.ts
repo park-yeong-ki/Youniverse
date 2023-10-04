@@ -69,7 +69,7 @@ export function useAuth() {
       setIsChecking(false);
   }
   checkAuthentication();
-}, [accessToken, refreshToken]);
+}, [accessToken, refreshToken, setUserInfo]);
 
 return { isAuthenticated, isChecking };
 }
