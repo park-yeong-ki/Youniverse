@@ -68,7 +68,7 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
 
   useEffect(() => {
     fetchMovies(page);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, selectedOTT, listType]); // 페이지 번호가 변경될 때마다 새로운 데이터 로드
 
   return (
@@ -100,7 +100,7 @@ const RecommendPaddingContainer = styled.div`
 const StyledWrapper = styled(Wrapper)`
   width: 100%;
   border-radius: 28px;
-  height: calc(100vh - 240px);
+  height: calc(100vh - 320px);
   background-color: #ffffff80;
   overflow-y: auto;
   box-sizing: border-box;

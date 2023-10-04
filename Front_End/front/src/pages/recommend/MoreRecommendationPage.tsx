@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-
 import { UserJoinInfoState } from "../store/State";
 import { RECOMMEND_PAGE_MORE } from "../../commons/constants/String";
 import { FlexColBetween } from "../../commons/style/SharedStyle";
@@ -30,10 +29,9 @@ const MoreRecommendationPage = () => {
       case 3:
         return "유튜브 기반";
       default:
-        return "푸하항";
+        return "";
     }
   };
-  console.log("sort:", sort);
 
   return (
     <MainPaddingContainer>
