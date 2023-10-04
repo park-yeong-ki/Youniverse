@@ -52,8 +52,7 @@ export const RECOMMEND_PAGE_YOUTUBE = "유튜브 기반 추천";
 export const RECOMMEND_PAGE_LIKE = "선호도 기반 추천";
 export const RECOMMEND_PAGE_SCORE = "평점 기반 추천";
 export const RECOMMEND_PAGE_AGE = "에게 추천하는 영화";
-export const RECOMMEND_PAGE_MORE_YOUTUBE = "님의 유튜브 맞춤 추천 콘텐츠";
-export const RECOMMEND_PAGE_MORE = "님의 추천 콘텐츠";
+export const RECOMMEND_PAGE_MORE = " 추천 콘텐츠";
 export const RECOMMEND_PAGE_MORE_SELECT = "에서 추천받은 콘텐츠";
 
 // 영화 상세페이지

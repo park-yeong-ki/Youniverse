@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
@@ -15,14 +15,30 @@ const MoreRecommendationPage = () => {
   const [selectedOTT, setSelectedOTT] = useState<string | null>(null);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const listTypeParam = searchParams.get("type");
-
+  const listTypeParam = searchParams.get("sort");
+  const { sort } = useParams<{ sort?: string }>();
   const memberNickname = useRecoilValue(UserJoinInfoState).nickname;
+  const memberAge = useRecoilValue(UserJoinInfoState).age;
+  const memberGender = useRecoilValue(UserJoinInfoState).gender;
+
+  const getRecommendationType = (sort: string | null | undefined) => {
+    switch (Number(sort)) {
+      case 1:
+        return "선호도조사 기반";
+      case 2:
+        return `${memberAge}세 ${memberGender}`;
+      case 3:
+        return "유튜브 기반";
+      default:
+        return "푸하항";
+    }
+  };
+  console.log("sort:", sort);
 
   return (
     <MainPaddingContainer>
       <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-        {memberNickname}
+        {memberNickname}님의 {getRecommendationType(sort ?? null)}
         {RECOMMEND_PAGE_MORE}
       </Text>
       <StyledMoreRecommend>
@@ -37,7 +53,6 @@ const MoreRecommendationPage = () => {
 };
 
 export default MoreRecommendationPage;
-
 
 const StyledMoreRecommend = styled.div`
   ${FlexColBetween}
