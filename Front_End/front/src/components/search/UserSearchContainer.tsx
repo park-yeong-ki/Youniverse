@@ -12,7 +12,11 @@ export type User = {
   memberId: number;
   nickname: string;
   memberImage: string;
-  keywordResDtos: keywords[];
+  youtubeKeywordResDtos: Array<{
+    youtubeKeywordId: number;
+    youtubeKeywordName: string;
+    movieRank: number;
+  }>;
 };
 
 export type keywords = {
