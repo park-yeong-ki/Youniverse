@@ -57,6 +57,7 @@ const CircleButton = styled.button`
     margin-bottom: 0.5rem;
   }
 `;
+
 const StyledWrapper = styled(Wrapper)`
   display: flex;
   justify-content: space-around;

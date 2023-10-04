@@ -156,7 +156,7 @@ const MovieItemList: React.FC<
   const renderMovies = () => {
     if (propMovies && propMovies.length > 0) {
       return propMovies.map((movie) => (
-        <MovieItem key={movie.movieId} movie={movie} $cardWidth="260px" />
+        <MovieItem key={movie.movieId} movie={movie} />
       ));
     } else if (listType === "다른 유저의 인생영화 추천") {
       return bestMovies.length > 0 ? (
@@ -174,9 +174,7 @@ const MovieItemList: React.FC<
       );
     } else {
       return movies.length > 0 ? (
-        movies.map((movie) => (
-          <MovieItem key={movie.movieId} movie={movie} $cardWidth="260px" />
-        ))
+        movies.map((movie) => <MovieItem key={movie.movieId} movie={movie} />)
       ) : (
         <NoMovieText />
       );
@@ -201,7 +199,7 @@ const MovieItemList: React.FC<
           </StyledBtn>
         )}
       </StyledListBtn>
-      <MovieContainer>{renderMovies()}</MovieContainer>
+      <div className="grid grid-cols-5 gap-4">{renderMovies()}</div>
     </RecommendPaddingContainer>
   );
 };

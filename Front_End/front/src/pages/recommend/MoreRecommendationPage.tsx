@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { UserJoinInfoState } from "../store/State";
+import { UserJoinInfoState, UserDetailInfoState } from "../store/State";
 import { RECOMMEND_PAGE_MORE } from "../../commons/constants/String";
 import { FlexColBetween } from "../../commons/style/SharedStyle";
 import MoreRecommendMovie from "../../components/movies/MoreRecommendMovie";
@@ -16,7 +16,7 @@ const MoreRecommendationPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const listTypeParam = searchParams.get("sort");
   const { sort } = useParams<{ sort?: string }>();
-  const memberNickname = useRecoilValue(UserJoinInfoState).nickname;
+  const memberNickname = useRecoilValue(UserDetailInfoState).nickname;
   const memberAge = useRecoilValue(UserJoinInfoState).age;
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 

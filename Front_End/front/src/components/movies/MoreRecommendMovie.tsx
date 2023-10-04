@@ -107,8 +107,10 @@ const StyledWrapper = styled(Wrapper)`
 `;
 
 const StyledMovieItemList = styled(MovieItemList)`
-  display: flex;
+  width: 100%;
+  height: 100%;
+  /* display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: space-between;
+  justify-content: space-between; */
 `;
