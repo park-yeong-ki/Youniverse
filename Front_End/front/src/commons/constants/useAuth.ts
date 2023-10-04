@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
   UserInfoState,
 } from "../../pages/store/State";
-import jwtDecode from 'jwt-decode';
 import { useState, useEffect } from 'react';
 
 
@@ -22,10 +21,6 @@ import { useState, useEffect } from 'react';
     "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
   const client_secret = "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";
 
-// type DecodedToken = {
-//   exp: number;
-// };
-
 export function useAuth() {
   const accessToken = useRecoilValue(UserInfoState).accessToken;
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
@@ -33,33 +28,12 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
-  console.log("accessToken: ", accessToken)
-
-  // const isTokenExpired = (): boolean => {
-  //   if(!accessToken) {
-  //     return false;
-  //   }
-  //   console.log("accessToken(isTokenExpired): ", accessToken)
-  //   // const decodedToken = jwtDecode(accessToken) as DecodedToken;  
-  //   let decodedToken: DecodedToken | null = null;
-  //     try {
-  //         decodedToken = jwtDecode(accessToken) as DecodedToken;
-  //     } catch (error) {
-  //         console.error("Error decoding the token:", error);
-  //         return false;
-  //     }
-  //   const expirationTime = decodedToken.exp; //토큰 만료시간이 초 단위라서
-  //   const now = Date.now() / 1000; // 초 단위로 변환
-  //   console.log("decodedToken: ", decodedToken)
-  //   console.log("expirationTime: ", expirationTime)
-  //   console.log("now: {}", now)
-  //   return now > expirationTime; //토큰 만료시 true
-  // };
+  // console.log("accessToken: ", accessToken)
 
   useEffect(() => {
-    console.log("accessToken(UseEffect진입): ", accessToken)
+    // console.log("accessToken(UseEffect진입): ", accessToken)
     async function checkAuthentication() {
-      console.log("accessToken(checkAuthentication): ", accessToken)
+      // console.log("accessToken(checkAuthentication): ", accessToken)
         if (!accessToken) { //atk없으면
             setIsAuthenticated(false);
             setIsChecking(false);
