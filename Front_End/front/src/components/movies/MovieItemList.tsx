@@ -43,8 +43,8 @@ const MovieItemList: React.FC<
   const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
 
   // 조건에 따라 스타일 선택
-  const MovieContainer =
-    layout === "horizontal" ? MovieContainerHorizontal : MovieContainerVertical;
+  // const MovieContainer =
+  //   layout === "horizontal" ? MovieContainerHorizontal : MovieContainerVertical;
 
   // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
@@ -214,25 +214,25 @@ const StyledBtn = styled(Btn)`
   width: 100px;
 `;
 
-const MovieContainerHorizontal = styled.div`
-  display: flex;
-  overflow-x: auto;
-  gap: 16px;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  /* your movie item */
-  & > div {
-    flex-shrink: 0;
-  }
-`;
+// const MovieContainerHorizontal = styled.div`
+//   display: flex;
+//   overflow-x: auto;
+//   gap: 16px;
+//   padding-bottom: 0.5rem;
+//   padding-top: 0.5rem;
+//   /* your movie item */
+//   & > div {
+//     flex-shrink: 0;
+//   }
+// `;
 
 /* MovieContainer의 스타일을 세로 스크롤로 변경 */
-const MovieContainerVertical = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: flex-start;
-`;
+// const MovieContainerVertical = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 16px;
+//   justify-content: flex-start;
+// `;
 
 const RecommendPaddingContainer = styled.div`
   padding: 1rem;
