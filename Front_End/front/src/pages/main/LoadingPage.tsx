@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 
 import {
+  DataState,
   LoginState,
   UserDetailInfoState,
   UserInfoState,
@@ -46,6 +47,8 @@ const LoadingPage = () => {
 
   const accessToken = useRecoilValue(UserInfoState).accessToken;
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
+
+  const [dataState, setDataState] = useRecoilState<boolean>(DataState);
 
   const currentURL = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentURL).search);
@@ -463,7 +466,7 @@ const LoadingPage = () => {
   }
 
   // 재요청을 보냈을 때 (데이터 분석 요청)
-  if (isLoggedIn && accessToken) {
+  if (isLoggedIn && accessToken && dataState) {
     // accessToken 유효 여부를 체크
     const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`;
 
@@ -473,6 +476,7 @@ const LoadingPage = () => {
       .then((response) => {
         console.log(response);
         youtubeRequestData(accessToken);
+        setDataState(false);
         navigate(ROUTES.MAIN);
       })
       // accessToken 만료되었을 때
