@@ -47,13 +47,11 @@ const BestMovieItem: React.FC<MovieItemProps> = ({
 
   const handleLikePush = () => {
     if (!likeStatus) {
-      console.log("좋아요 버튼을 눌렀어요", memberId);
       if (memberId !== null && bestMovie?.bestMovieId) {
         postHeart(memberId, bestMovie.bestMovieId)
           .then((res) => {
             setLikeStatus(true);
             setHeartMovieId(res.data.heartMovieId);
-            console.log("좋아요 요청 성공!", res);
           })
           .catch((err) => {
             console.error("좋아요 요청 실패:", err);
@@ -62,14 +60,11 @@ const BestMovieItem: React.FC<MovieItemProps> = ({
         console.error("memberId is null");
       }
     } else {
-      console.log("좋아요 취소 버튼을 눌렀어요");
-      console.log("movie.heartMovieResDtos: ", movie?.heartMovieResDtos);
       if (heartMovieId !== null) {
         deleteHeart(heartMovieId)
           .then(() => {
             setLikeStatus(false);
             setHeartMovieId(null); // 삭제 후 heartMovieId 초기화
-            console.log("좋아요 삭제 성공!");
           })
           .catch((err) => {
             console.error("좋아요 삭제 실패:", err);
@@ -80,14 +75,11 @@ const BestMovieItem: React.FC<MovieItemProps> = ({
 
   const handleRecommendPush = () => {
     if (!recommendStatus) {
-      console.log("추천받지 않을래요 버튼을 눌렀어요");
-
       if (memberId !== null && bestMovie?.bestMovieId) {
         postHate(memberId, bestMovie.bestMovieId)
           .then((res) => {
             setRecommendStatus(true);
             setHateMovieId(res.data.hateMovieId);
-            console.log("추천받지 않을래요 요청 성공!", res);
           })
           .catch((err) => {
             console.error("추천받지 않을래요 요청 실패:", err);
@@ -96,13 +88,11 @@ const BestMovieItem: React.FC<MovieItemProps> = ({
         console.error("memberId is null");
       }
     } else {
-      console.log("다시 추천해주세요 버튼을 눌렀어요");
       if (hateMovieId !== null) {
         deleteHate(hateMovieId)
           .then(() => {
             setRecommendStatus(false);
             setHateMovieId(null); // 삭제 후 hateMovieId 초기화
-            console.log("다시 추천 요청 성공!");
           })
           .catch((err) => {
             console.error("다시 추천 요청 실패:", err);

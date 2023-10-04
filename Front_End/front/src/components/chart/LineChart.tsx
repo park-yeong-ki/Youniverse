@@ -24,6 +24,8 @@ ChartJS.register(
   Legend
 );
 
+
+
 interface LineChartProps {
   width?: string | number;
   height?: string | number;
@@ -35,61 +37,9 @@ interface YoutubeKeyword {
   movieRank: number;
 }
 
-interface Dataset {
-  data: number[];
-}
-
-interface MetaData {
-  data: any[]; // 여기서 any 타입을 적절한 타입으로 대체할 수 있습니다.
-}
-
-interface ChartInstance {
-  ctx: CanvasRenderingContext2D;
-  scales: {
-    [key: string]: any; // 여기서 any 타입을 적절한 타입으로 대체할 수 있습니다.
-  };
-  data: {
-    datasets: Dataset[];
-    labels: string[];
-  };
-  getDatasetMeta: (index: number) => MetaData;
-}
-
 const options = {
   responsive: false,
   plugins: {
-    afterDraw: (chart: ChartInstance) => {
-      try {
-        console.log("afterDraw is called");
-        const ctx = chart.ctx;
-        if (!ctx) {
-          console.error("Context is not available");
-          return;
-        }
-        const yAxis = chart.scales["y"];
-        const xAxis = chart.scales["x"];
-
-        ctx.font = "20px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#000";
-
-        chart.data.datasets.forEach(
-          (dataset: Dataset, datasetIndex: number) => {
-            const meta = chart.getDatasetMeta(datasetIndex);
-            meta.data.forEach((point: any, pointIndex: number) => {
-              // 타입 any를 구체화하는 것을 추천합니다.
-              const x = xAxis.getPixelForValue(chart.data.labels[pointIndex]);
-              const y = yAxis.getPixelForValue(dataset.data[pointIndex]);
-              console.log("Drawing emoji at:", x, y); // 로깅 추가
-              ctx.fillText("🚀", x, y - 20);
-            });
-          }
-        );
-      } catch (error) {
-        console.error("Error inside afterDraw", error);
-      }
-    },
     legend: {
       display: false,
     },
@@ -122,8 +72,9 @@ const options = {
       borderDash: [5, 5], // 이 부분을 추가하여 라인을 점선 스타일로 만듭니다. 첫 번째 숫자는 점의 길이, 두 번째 숫자는 공백의 길이입니다.
     },
     point: {
-      radius: 3, // 포인트의 크기를 조절합니다. 원하는 크기로 조절하세요.
+      radius: 5, // 포인트의 크기를 조절합니다. 원하는 크기로 조절하세요.
       backgroundColor: "rgb(255, 249, 200)", // 포인트의 색상입니다. 원하는 색상으로 조절하세요.
+      pointStyle: 'star',
     },
   },
 };
@@ -138,7 +89,7 @@ interface ChartData {
   }>;
 }
 
-const LineChart: React.FC<LineChartProps> = () => {
+const LineChart: React.FC<LineChartProps> = ({ width, height }) => {
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
     datasets: [
@@ -186,7 +137,7 @@ const LineChart: React.FC<LineChartProps> = () => {
     getChartData();
   }, [memberId]);
 
-  return <Line options={options} data={chartData} />;
+  return <Line options={options} data={chartData} width={width} height={height}/>;
 };
 
 export default LineChart;
