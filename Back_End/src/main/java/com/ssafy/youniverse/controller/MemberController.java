@@ -112,15 +112,25 @@ public class MemberController {
     }
 
     @GetMapping("/check/{email}")
-    public ResponseEntity<String> checkMemberByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<?> checkMemberByEmail(@PathVariable("email") String email) {
         Member member = memberService.checkMemberByEmail(email);
+        MemberResDto memberResDto = null;
         // 회원 정보가 존재하는지 확인
-        if (member != null) {
+        if (member != null && member.getNickname() != null) {
             // 회원인 경우
-            return new ResponseEntity<>("회원", HttpStatus.OK);
+            memberResDto = memberMapper.memberToMemberResDto(member);
+            return new ResponseEntity<>(memberResDto, HttpStatus.OK);
         } else {
-            // 비회원인 경우
-            return new ResponseEntity<>("비회원", HttpStatus.OK);
+            if (member == null) { //가입한 회원이 아닌 경우
+                member = new Member();
+                member.setEmail(email);
+
+                Member createdMember = memberService.createMember(member);
+                memberResDto = memberMapper.memberToMemberResDto(createdMember);
+            } else { //추가 정보 기입하지 않은 회원인 경우
+                memberResDto = memberMapper.memberToMemberResDto(member);
+            } 
+            return new ResponseEntity<>(memberResDto, HttpStatus.OK);
         }
     }
 }
