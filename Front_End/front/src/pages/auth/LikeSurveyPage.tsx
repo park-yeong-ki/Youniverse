@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { LoginState, UserJoinInfoState } from "../../pages/store/State";
+import {
+  LoginState,
+  MemberIdState,
+  UserJoinInfoState,
+} from "../../pages/store/State";
 import { LIKE_SURVEY } from "../../commons/constants/String";
 import LikeForm from "../../components/organisms/LikeForm";
 import Text from "../../components/atoms/Text";
 import { TO_MAIN } from "../../commons/constants/String";
 import Btn from "../../components/atoms/Btn";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
-import { postMember } from "../../apis/FrontendApi";
+import { putMember } from "../../apis/FrontendApi";
 import { MainContainer } from "../../commons/style/layoutStyle";
 import { ROUTES } from "../../commons/constants/Routes";
 
@@ -18,6 +22,7 @@ const LikeSurveyPage = () => {
   const setIsLoggedIn = useSetRecoilState(LoginState);
   const [userJoinInfo, setUserJoinInfo] = useRecoilState(UserJoinInfoState);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
+  const memberIdState = useRecoilValue(MemberIdState);
   const handleToMainButtonClick = async () => {
     const updatedUserJoinInfo = {
       ...userJoinInfo,
@@ -26,7 +31,10 @@ const LikeSurveyPage = () => {
 
     setUserJoinInfo(updatedUserJoinInfo);
     try {
-      const response = await postMember(updatedUserJoinInfo);
+      const response = await putMember(
+        Number(memberIdState),
+        updatedUserJoinInfo
+      );
       if (response.status === 200) {
         console.log("회원 정보 등록 성공:", response.data);
         setIsLoggedIn(true);
