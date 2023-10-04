@@ -33,19 +33,6 @@ const LoadingPage = () => {
   const resetUserDetailInfo = useResetRecoilState(UserDetailInfoState);
   const resetLogin = useResetRecoilState(LoginState);
 
-  // 소key
-  // const client_id =
-  //   "776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com";
-  // const client_secret = "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";
-
-  // const client_id =
-  //   "781680119308-d0jbnhpcmrcj7fb65ls9crj7lh6k7v9q.apps.googleusercontent.com";
-  // const client_secret = "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";
-
-  const client_id =
-    "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
-  const client_secret = "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";
-
   const accessToken = useRecoilValue(UserInfoState).accessToken;
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
 
@@ -55,13 +42,29 @@ const LoadingPage = () => {
   const currentURL = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentURL).search);
   const codes: string | null = urlParams.get("code");
-  // const apiKey = "AIzaSyAbqPlaSAh5ppO1pOrnOS21vx0mIMGmMfs HTTP/1.1";
-  const apiKey = "AIzaSyAq0XhPo72HneDoFyxkD-WDJFoNzknrd04 HTTP/1.1";
-  const fastURL = "http://127.0.0.1:8000"; //로컬
-  // const fastURL = 'http://j9b204.p.ssafy.io/fast';//서버
 
+  const redirectURL = process.env.REACT_APP_REDIRECT_URL || "";
+  const clientId = process.env.REACT_APP_CLIENTID || "";
+  const apiKey = process.env.REACT_APP_APIKEY || "";
+  const clientSecret = process.env.REACT_APP_SECRET || "";
+  const fastServerURL = process.env.REACT_APP_FAST_SERVER_URL || "";
+  
   // 상태 변수 추가
-  let allData: string = "";
+  let userEmail: string = "";
+  let allData: string = " ";
+  let cnt = 0;
+  let failCnt = 0;
+
+  // 카운트 증가 함수
+  const countToAdd = () => {
+    cnt++;
+    return cnt;
+  };
+
+  const failCountToAdd = () => {
+    failCnt++;
+    return failCnt;
+  };
 
   // 문자열을 이어붙이는 함수
   const appendToAllData = (text: string) => {
@@ -71,20 +74,23 @@ const LoadingPage = () => {
   //fastapi로 요청 보낼 함수
   const sendDataToServer = async () => {
     try {
+      console.log("allData: ",allData)
+      console.log("userEmail: ",userEmail)
       const dataToSend = {
-        allData: allData,
+        "data": allData,
+        "email": userEmail,
       };
 
-      const response = await axios.post(fastURL + "/youtube", dataToSend, {
+      const response = await axios.post(fastServerURL + "/youtube/data", dataToSend, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       if (response.status === 200) {
-        console.log("데이터를 서버로 전송했습니다.");
+        console.log("fastapi 서버로 전송했습니다.");
       } else {
-        console.error("서버 응답이 실패했습니다.");
+        console.error("fastapi 서버 응답이 실패했습니다.");
       }
     } catch (error) {
       console.error("데이터를 서버로 보내는 동안 오류 발생:", error);
@@ -182,42 +188,11 @@ const LoadingPage = () => {
                 })
                 .then((response) => {
                   console.log("영상 정보: ", response.data.items);
-
-                  // interface VideoItem {
-                  //   kind: "youtube#searchResult";
-                  //   etag: string;
-                  //   id: {
-                  //     kind: string;
-                  //     videoId: string;
-                  //   };
-                  //   snippet: {
-                  //     channelId: string;
-                  //     title: string;
-                  //     description: string;
-                  //     channelTitle: string;
-                  //   };
-                  // }
-
-                  // const data: VideoItem[] = response.data.items;
-                  // const videoId: string[] = data.map((item) => item.id.videoId);
-                  // const titles: string[] = data.map((item) => item.snippet.title);
-                  // const description: string[] = data.map((item) => item.snippet.description);
-
-                  // 배열을 쉼표로 구분된 하나의 텍스트 만들기
-                  appendToAllData(response.data.item.snippet.title);
-                  appendToAllData(response.data.item.snippet.description);
-
-                  // // 각 인덱스 위치의 항목을 합쳐서 하나의 배열로 만듭니다.
-                  // const combinedData: Array<{
-                  //   videoId: string;
-                  //   title: string;
-                  //   description: string;
-                  // }> = videoId.map((_, index) => ({
-                  //   videoId: videoId[index],
-                  //   title: titles[index],
-                  //   description: description[index],
-                  // }));
-                  // console.log("채널 영상 추출: ", combinedData);
+                  for (const item of response.data.items) {
+                    // 배열을 쉼표로 구분된 하나의 텍스트 만들기
+                    appendToAllData(item.snippet.title);
+                    appendToAllData(item.snippet.description);
+                  }
                 })
                 .catch((error) => {
                   console.error("영상 정보 요청 실패:", error);
@@ -287,16 +262,9 @@ const LoadingPage = () => {
             //플레이리스트 안 영상 정보 가져오기
             const sendPlaylistRequests = async (playlistIds: string[]) => {
               // 모든 요청이 완료될 때 상태를 저장할 배열
-              const requestStatus = [];
+
               try {
                 for (const playlistId of playlistIds) {
-                  if (!playlistId) {
-                    console.log(`Skipping playlistId because it is null.`);
-                    // console.log("모든 데이터: ", allData);
-                    sendDataToServer();
-                    continue;
-                  }
-
                   axios
                     .get(
                       "https://youtube.googleapis.com/youtube/v3/playlistItems",
@@ -311,63 +279,25 @@ const LoadingPage = () => {
                       }
                     )
                     .then((response) => {
-                      console.log(
-                        "플레이리스트 영상 정보: ",
-                        response.data.items
-                      );
-
-                      // interface PlaylistItem {
-                      //   kind: "youtube#searchResult";
-                      //   etag: string;
-                      //   snippet: {
-                      //     description: string;
-                      //     title: string;
-                      //     resourceId: {
-                      //       kind: string;
-                      //       videoId: string;
-                      //     };
-                      //   };
-                      // }
-
-                      // const data: PlaylistItem[] = response.data.items;
-                      // // const videoId: string[] = data.map((item) => item.snippet.resourceId.videoId);
-                      // const titles: string[] = data.map((item) => item.snippet.title);
-                      // const description: string[] = data.map(
-                      //   (item) => item.snippet.description
-                      // );
-
-                      // // 배열을 쉼표로 구분된 하나의 텍스트 만들기
-                      // allData += ", " + titles.join(", ");
-                      // allData += ", " + description.join(", ");
-                      appendToAllData(response.data.item.snippet.title);
-                      appendToAllData(response.data.item.snippet.description);
-
-                      // // 각 인덱스 위치의 항목을 합쳐서 하나의 배열로 만듭니다.
-                      // const combinedData: Array<{
-                      //   title: string;
-                      //   description: string;
-                      // }> = videoId.map((_, index) => ({
-                      //   title: titles[index],
-                      //   description: description[index],
-                      // }));
-                      // console.log("플레이리스트 영상 추출: ", combinedData);
-                      // console.log("모든 데이터: ", allData);
-
-                      // 요청이 성공한 경우 상태 배열에 추가
-                      requestStatus.push("success");
-                      // 모든 요청이 완료되었는지 확인
-                      const isAllRequestsCompleted =
-                        requestStatus.length === playlistIds.length;
-
+                      console.log("플레이리스트 영상 정보: ", response.data.items);
+                      for (const item of response.data.items) {
+                        appendToAllData(item.snippet.title);
+                        appendToAllData(item.snippet.description);
+                      }
+                      // // 요청이 성공한 경우 상태를 증가시킴
                       // 모든 요청이 완료된 경우 sendDataToServer 호출
-                      if (isAllRequestsCompleted) sendDataToServer();
+                      if (countToAdd() === playlistIds.length) {
+                        console.log("데이터 fastapi에 보내기");
+                        sendDataToServer();
+                      }
                     })
-
                     .catch((error) => {
                       console.error("플레이리스트 영상 요청 실패:", error);
 
-                      // 요청이 실패한 경우 상태 배열에 추가
-                      requestStatus.push("error");
+                      if (failCountToAdd() === playlistIds.length) {
+                        console.log("데이터 fastapi에 보내기");
+                        sendDataToServer();
+                      }
                     });
                 }
               } catch (error) {
@@ -377,7 +307,12 @@ const LoadingPage = () => {
                 );
               }
             };
-            sendPlaylistRequests(playlistId);
+            
+            if (!playlistId || playlistId.length === 0) {
+              console.log(`Skipping playlistId because it is empty or null.`);
+              sendDataToServer();
+            }else sendPlaylistRequests(playlistId);
+
           })
           .catch((error) => {
             console.error("재생목록 요청 실패:", error);
@@ -396,11 +331,10 @@ const LoadingPage = () => {
   if (codes !== null) {
     console.log("code 데이터:", codes);
     requestData.append("code", codes);
-    requestData.append("redirect_uri", "http://localhost:3000/loading");
+    requestData.append("redirect_uri", redirectURL);
     requestData.append("grant_type", "authorization_code");
-    requestData.append("client_id", client_id);
-    requestData.append("client_secret", client_secret);
-    // const apiKey = 'AIzaSyC54-nXX1Zj-HFzgqaNrY4ikA4NaIp5IUE HTTP/1.1';
+    requestData.append("client_id", clientId);
+    requestData.append("client_secret", clientSecret);
 
     // 토큰을 얻는 POST 요청
     axios
@@ -424,7 +358,7 @@ const LoadingPage = () => {
           })
           .then((response) => {
             console.log("사용자 정보: ", response.data);
-            const userEmail = response.data.email;
+            userEmail = response.data.email;
             const userImage = response.data.picture;
 
             // 이메일로 회원가입 여부 체크
@@ -491,23 +425,24 @@ const LoadingPage = () => {
           handleTokenExpiry();
           return;
         }
-        const data = {
-          client_id: client_id,
-          client_secret: client_secret,
-          refresh_token: refreshToken,
-          grant_type: "refresh_token",
-        };
-        // accessToken 재발급!!!
-        axios
-          .post(url, new URLSearchParams(data))
-          .then((response) => {
-            console.log(response.data);
-            setUserInfo((prev) => ({
-              ...prev,
-              accessToken: response.data.access_token,
-            }));
-            navigate(ROUTES.LOADING);
-          })
+      const data = new URLSearchParams({
+        client_id: clientId || "", // clientId가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
+        client_secret: clientSecret || "", // clientSecret가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
+        refresh_token: refreshToken,
+        grant_type: "refresh_token",
+      });
+      
+      // axios 요청
+      axios
+        .post(url, data)
+        .then((response) => {
+          console.log(response.data);
+          setUserInfo((prev) => ({
+            ...prev,
+            accessToken: response.data.access_token,
+          }));
+          navigate(ROUTES.LOADING);
+        })
           // refreshToken도 만료되었을 때!!!
           .catch((error) => {
             console.error("Error refreshing token:", error);
@@ -515,6 +450,7 @@ const LoadingPage = () => {
           });
       });
   }
+
   return (
     <MainPaddingContainer>
       <StyledLoadingCenter>
