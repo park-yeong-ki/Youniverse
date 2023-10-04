@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import FollowUserItemList from "../users/FollowUserItemList";
 import { FOLLOWER, FOLLOWING } from "../../commons/constants/String";
 import { getAllFollows } from "../../apis/FrontendApi";
+import styled from "styled-components";
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 
 interface KeywordType {
   keywordId: number;
@@ -69,7 +71,7 @@ const OtherProfileFollowContainer: React.FC<UserFollowContainerProps> = ({
   }, [allFollowList, followStatus, currentUserId]);
 
   return (
-    <div>
+    <StyledUserContainer>
       {followStatus === FOLLOWING && (
         <FollowUserItemList
           users={followingList.map((following) => ({
@@ -95,8 +97,13 @@ const OtherProfileFollowContainer: React.FC<UserFollowContainerProps> = ({
           }))}
         />
       )}
-    </div>
+    </StyledUserContainer>
   );
 };
 
 export default OtherProfileFollowContainer;
+
+const StyledUserContainer = styled.div`
+  margin-top: 5%;
+  ${FlexRowBetween}
+`;

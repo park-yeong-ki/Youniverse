@@ -88,7 +88,7 @@ const StyledHashTag = styled.div<HashTagProps>`
   border-radius: ${(props) => HashTagStyles[props.size].borderRadius};
   background-color: ${(props) => HashTagColors[props.color].backgroundColor};
   color: ${(props) => HashTagColors[props.color]?.color ?? "#000"};
-  margin-right: 5px;
+  margin-right: ${(props) => (props.size === "Profile" ? "0px" : "5px")};
 
   // 해시태그 프레임 안에 글자 정중앙 위치
   display: flex;
