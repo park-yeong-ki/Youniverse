@@ -40,7 +40,6 @@ function ProtectedApp() {
   }
 
   return (
-    <RecoilRoot>
       <Router>
         <GlobalStyles />
         {/* <StarryBackground /> */}
@@ -68,7 +67,6 @@ function ProtectedApp() {
           <Route path={ROUTES.NOTFOUND} Component={NOTFOUND} />
         </Routes>
       </Router>
-    </RecoilRoot>
   );
 }
 

@@ -22,9 +22,9 @@ import { useState, useEffect } from 'react';
     "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
   const client_secret = "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";
 
-type DecodedToken = {
-  exp: number;
-};
+// type DecodedToken = {
+//   exp: number;
+// };
 
 export function useAuth() {
   const accessToken = useRecoilValue(UserInfoState).accessToken;
@@ -33,18 +33,33 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
-  const isTokenExpired = (): boolean => {
-    if(!accessToken) {
-      return false;
-    }
-    const decodedToken = jwtDecode(accessToken) as DecodedToken;  
-    const expirationTime = decodedToken.exp; //토큰 만료시간이 초 단위라서
-    const now = Date.now() / 1000; // 초 단위로 변환
-    return now > expirationTime; //토큰 만료시 true
-  };
+  console.log("accessToken: ", accessToken)
+
+  // const isTokenExpired = (): boolean => {
+  //   if(!accessToken) {
+  //     return false;
+  //   }
+  //   console.log("accessToken(isTokenExpired): ", accessToken)
+  //   // const decodedToken = jwtDecode(accessToken) as DecodedToken;  
+  //   let decodedToken: DecodedToken | null = null;
+  //     try {
+  //         decodedToken = jwtDecode(accessToken) as DecodedToken;
+  //     } catch (error) {
+  //         console.error("Error decoding the token:", error);
+  //         return false;
+  //     }
+  //   const expirationTime = decodedToken.exp; //토큰 만료시간이 초 단위라서
+  //   const now = Date.now() / 1000; // 초 단위로 변환
+  //   console.log("decodedToken: ", decodedToken)
+  //   console.log("expirationTime: ", expirationTime)
+  //   console.log("now: {}", now)
+  //   return now > expirationTime; //토큰 만료시 true
+  // };
 
   useEffect(() => {
+    console.log("accessToken(UseEffect진입): ", accessToken)
     async function checkAuthentication() {
+      console.log("accessToken(checkAuthentication): ", accessToken)
         if (!accessToken) { //atk없으면
             setIsAuthenticated(false);
             setIsChecking(false);
@@ -52,28 +67,34 @@ export function useAuth() {
         }
         const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`;
         try {
-            if (!isTokenExpired()) { //atk 만료안되었으면
-                await axios.get(url);
-                setIsAuthenticated(true);
-            } else if (refreshToken) { //atk 만료되었으면
+          await axios.get(url);
+          setIsAuthenticated(true);
+        } catch (error) {
+            if (refreshToken) {
+                console.log("rtk로 재발급 O 진입");
                 const data = {
                     client_id: client_id,
                     client_secret: client_secret,
                     refresh_token: refreshToken,
                     grant_type: "refresh_token",
                 };
-                const response = await axios.post(`https://oauth2.googleapis.com/token`, new URLSearchParams(data));
-                setUserInfo((prev) => ({ ...prev, accessToken: response.data.access_token }));
-                setIsAuthenticated(true);
+                try {
+                    const response = await axios.post(`https://oauth2.googleapis.com/token`, new URLSearchParams(data));
+                    setUserInfo((prev) => ({ ...prev, accessToken: response.data.access_token }));
+                    setIsAuthenticated(true);
+                } catch (error) {
+                    console.log("catch 진입 (refresh token error)");
+                    console.log("error log: {}", error);
+                    setIsAuthenticated(false);
+                }
             } else {
+                console.log("else 진입");
                 setIsAuthenticated(false);
             }
-        } catch (error) {
-            setIsAuthenticated(false);
         }
-        setIsChecking(false);
-    }
-    checkAuthentication();
+      setIsChecking(false);
+  }
+  checkAuthentication();
 }, [accessToken, refreshToken]);
 
 return { isAuthenticated, isChecking };
