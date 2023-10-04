@@ -17,6 +17,7 @@ import Text from "../atoms/Text";
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   LoginState,
+  MemberIdState,
   UserDetailInfoState,
   UserInfoState,
   UserJoinInfoState,
@@ -38,6 +39,8 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
   const resetUserDetailInfo = useResetRecoilState(UserDetailInfoState);
   const resetLogin = useResetRecoilState(LoginState);
+  // const resetMemberId = useResetRecoilState(MemberIdState);
+  const setMemberId = useSetRecoilState(MemberIdState);
   const isLogin = useRecoilValue(LoginState);
   const userDetailInfo = useRecoilValue(UserDetailInfoState);
   const nickname = userDetailInfo.nickname;
@@ -57,6 +60,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
     navigate("/");
     resetUserInfo();
     resetUserDetailInfo();
+    setMemberId(null);
     setUserJoinInfo({
       email: "",
       nickname: "",

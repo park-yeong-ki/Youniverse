@@ -17,6 +17,13 @@ export const DataState = atom<boolean>({
   effects_UNSTABLE: [persistAtom],
 });
 
+/** 멤버 아이디 저장 */
+export const MemberIdState = atom<number | null>({
+  key: "MemberIdState",
+  default: null,
+  effects_UNSTABLE: [persistAtom],
+});
+
 /** 유저 정보 저장 */
 
 type UserInfo = {
