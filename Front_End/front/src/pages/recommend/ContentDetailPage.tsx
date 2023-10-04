@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { SectionsContainer, Section } from "react-fullpage";
 
 import { UserDetailInfoState } from "../../pages/store/State";
 import { getMovie } from "../../apis/FrontendApi";
-import { FlexColAround } from "../../commons/style/SharedStyle";
+import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import Wrapper from "../../components/atoms/Wrapper";
 import MovieDetail from "../../components/movies/MovieDetail";
 import Review from "../../components/review/Review";
-import MovieDetailYouTube from "../../components/movies/MovieDetailYouTube";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import { MovieType } from "../../types/MovieType";
 
@@ -51,44 +49,34 @@ const ContentDetailPage = () => {
       });
   }, [movieId]);
 
-  let options = {
-    anchors: ["MovieDetail", "YouTubeRecommend"],
-  };
-
   return (
-    <SectionsContainer {...options}>
-      <CustomSection>
-        <MainPaddingContainer>
-          <StyledDetail>
-            <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
-              {movie && <MovieDetail movie={movie} />}
-            </Wrapper>
+    <MainPaddingContainer>
+      <StyledDetail>
+        <StyledDetailWrapper size="Small" color="WhiteGhost" padding="Narrow">
+          {movie && <MovieDetail movie={movie} />}
+        </StyledDetailWrapper>
 
-            <Wrapper size="Small" color="WhiteGhost" padding="Narrow">
-              {reviews && (
-                <Review reviews={reviews} userReview={userReview || null} />
-              )}
-            </Wrapper>
-          </StyledDetail>
-        </MainPaddingContainer>
-      </CustomSection>
-
-      <CustomSection>
-        <MainPaddingContainer>
-          <MovieDetailYouTube />
-        </MainPaddingContainer>
-      </CustomSection>
-    </SectionsContainer>
+        <StyledReviewWrapper size="Small" color="WhiteGhost" padding="Narrow">
+          {reviews && (
+            <Review reviews={reviews} userReview={userReview || null} />
+          )}
+        </StyledReviewWrapper>
+      </StyledDetail>
+    </MainPaddingContainer>
   );
 };
 
 export default ContentDetailPage;
 
 const StyledDetail = styled.div`
-  ${FlexColAround}
-  gap: 20px; /* 원하는 간격을 여기에 지정하세요. */
+  ${FlexColBetween}
+  height: 100%;
 `;
 
-const CustomSection = styled(Section)`
-  /* height: calc(100vh - 70px); */
+const StyledDetailWrapper = styled(Wrapper)`
+  ${FlexCenter}
+  height: 60%;
+`;
+const StyledReviewWrapper = styled(Wrapper)`
+  height: 38%;
 `;

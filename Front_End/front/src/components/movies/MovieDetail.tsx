@@ -4,7 +4,11 @@ import { HiOutlineHeart, HiHeart } from "react-icons/hi";
 import styled from "styled-components";
 
 import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart API import
-import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
+import {
+  FlexCenter,
+  FlexColBetweenLeft,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
 import { UserDetailInfoState } from "../../pages/store/State";
 import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
 import { MovieType } from "../../types/MovieType";
@@ -12,6 +16,10 @@ import Text from "../atoms/Text";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
 import Planet from "../atoms/Planet";
+import {
+  DETAIL_PAGE_DIRECTOR,
+  DETAIL_PAGE_ACTOR,
+} from "../../commons/constants/String";
 
 type MovieItemProps = {
   movie: MovieType;
@@ -71,40 +79,35 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
           <Text size="X-Large" color="Black" fontFamily="PyeongChang-Light">
             {movie?.title}
           </Text>
-          <HashTag size="Huge" color="White">
-            ⭐{movie?.rate}
-          </HashTag>
-          <StyledSquareBtn
-            size="Small"
-            color="Black"
-            onClick={handleHeartClick}
-          >
-            {likeStatus ? <HiHeart /> : <HiOutlineHeart />}
-          </StyledSquareBtn>
+          <ListHorizontal>
+            <HashTag size="Huge" color="White">
+              ⭐{movie?.rate}
+            </HashTag>
+            <StyledSquareBtn
+              size="Small"
+              color="Black"
+              onClick={handleHeartClick}
+            >
+              {likeStatus ? <HiHeart /> : <HiOutlineHeart />}
+            </StyledSquareBtn>
+          </ListHorizontal>
         </StyledTitleBtnWrapper>
 
         <div className="flex gap-2">
-          <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
-            키워드
-          </Text>
-          {movie?.keywordResDtos?.map((keyword, index) => (
+          {movie?.keywordResDtos?.slice(0, 5).map((keyword, index) => (
             <span key={keyword.keywordName}>
-              <HashTag size="Standard" color="White">
+              <HashTag size="MovieKeyword" color="White">
                 {keyword.keywordName}
               </HashTag>
             </span>
           ))}
         </div>
-
-        <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
-          줄거리
-        </Text>
         <div>{movie?.overView}</div>
 
         {/* 감독 정보 */}
         <ListHorizontal>
           <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
-            감독
+            {DETAIL_PAGE_DIRECTOR}
           </Text>
           {movie?.directorResDtos?.map((director) => (
             <span key={director.directorName}>{director.directorName}</span>
@@ -114,7 +117,7 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
         {/* 배우 정보 */}
         <ListHorizontal>
           <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
-            배우
+            {DETAIL_PAGE_ACTOR}
           </Text>
           {movie?.actorResDtos?.slice(0, 5).map((actor, index, array) => (
             <span key={actor.actorName}>
@@ -125,14 +128,11 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
         </ListHorizontal>
 
         <OttWrapper>
-          <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
-            OTT 행성
-          </Text>
           <OttList>
             {movie?.ottResDtos?.map((ott, index) => (
               <OttItem key={ott.ottName}>
                 <a href={ott.ottUrl} target="_blank" rel="noopener noreferrer">
-                  <Planet size="Small" src={ott.ottImage}></Planet>
+                  <Planet size="MovieDetailSize" src={ott.ottImage}></Planet>
                 </a>
               </OttItem>
             ))}
@@ -147,13 +147,15 @@ export default MovieDetail;
 
 /** 영화 디테일 컴포넌트 전체 Wrap */
 const StyledDetailWrapper = styled.div`
-  ${FlexRowBetween}
+  display: flex;
+  justify-content: space-between;
   width: 80%;
   margin: 0 auto;
 `;
 
 /** 영화 디테일 컴포넌트 내 영화 정보 (포스터 제외) Wrap */
 const StyledMovieDetail = styled.div`
+  ${FlexColBetweenLeft}
   width: 65%;
 `;
 
@@ -164,6 +166,7 @@ const StyledSquareBtn = styled(Btn)`
   text-align: center;
 `;
 const StyledTitleBtnWrapper = styled.div`
+  ${FlexRowBetween}
   display: flex;
   align-items: center;
   gap: 15px; // 이 값을 조절하여 요소 간의 간격을 변경할 수 있습니다.
