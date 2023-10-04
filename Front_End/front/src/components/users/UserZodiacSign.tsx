@@ -7,13 +7,17 @@ import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import { StyledAllWrapper } from "./MyOTTPlanet";
 import LineChart from "../chart/LineChart";
-
-const UserZodiacSign = () => {
+import { UserType } from "../../pages/profile/MyProfilePage";
+interface UserZodiacSignProps {
+  memberData?: UserType | null;
+}
+const UserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
   return (
     <>
       <StyledAllWrapper>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
-          유저{MY_PAGE_STAR}
+          {memberData?.nickname}
+          {MY_PAGE_STAR}
         </Text>
         {/* 별자리 wrapper */}
         <Wrapper
@@ -22,7 +26,9 @@ const UserZodiacSign = () => {
           padding="Narrow"
           className="mt-2"
         >
-          <StyledZodiacWrapper><LineChart /></StyledZodiacWrapper>
+          <StyledZodiacWrapper>
+            <LineChart />
+          </StyledZodiacWrapper>
         </Wrapper>
       </StyledAllWrapper>
     </>
