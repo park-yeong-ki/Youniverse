@@ -30,6 +30,7 @@ function App() {
   );
 }
 
+
 function ProtectedApp() {
 
   const { isAuthenticated, isChecking } = useAuth();
@@ -51,10 +52,30 @@ function ProtectedApp() {
           <Route path={ROUTES.ADDINFO} Component={ADDINFO} />
           <Route path={ROUTES.SURVEY} Component={SURVEY} />
           <Route path={ROUTES.OTTSELECT} Component={OTTSELECT} />
-          <Route path={ROUTES.MYPAGE} Component={MYPAGE} />
-          <Route path={ROUTES.PROFILE} Component={PROFILE} />
-          <Route path={ROUTES.SEARCH} Component={SEARCH} />
-          {/* <Route path={ROUTES.RECOMMEND} Component={RECOMMEND} /> */}
+          <Route 
+            path={ROUTES.MYPAGE} 
+            element={ 
+              isAuthenticated 
+              ? <MYPAGE /> 
+              : <Navigate to="/" /> 
+            } 
+          />
+          <Route 
+            path={ROUTES.PROFILE} 
+            element={ 
+              isAuthenticated 
+              ? <PROFILE /> 
+              : <Navigate to="/" /> 
+            } 
+          />
+          <Route 
+            path={ROUTES.SEARCH} 
+            element={ 
+              isAuthenticated 
+              ? <SEARCH /> 
+              : <Navigate to="/" /> 
+            } 
+          />
           <Route 
             path={ROUTES.RECOMMEND} 
             element={ 
@@ -63,7 +84,14 @@ function ProtectedApp() {
               : <Navigate to="/" /> 
             } 
           />
-          <Route path={ROUTES.MOVIE_DETAIL} Component={MOVIE_DETAIL} />
+          <Route 
+            path={ROUTES.MOVIE_DETAIL} 
+            element={ 
+              isAuthenticated 
+              ? <MOVIE_DETAIL /> 
+              : <Navigate to="/" /> 
+            } 
+          />
           <Route path={ROUTES.NOTFOUND} Component={NOTFOUND} />
         </Routes>
       </Router>
