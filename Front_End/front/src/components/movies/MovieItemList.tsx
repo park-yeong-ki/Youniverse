@@ -68,12 +68,11 @@ const MovieItemList: React.FC<
   ): number | null => {
     if (!ottName) return null;
     const ottList = [
-      { name: "넷플릭스", id: 8 },
-      { name: "디즈니플러스", id: 337 },
-      { name: "왓챠", id: 97 },
-      { name: "애플티비", id: 2 },
-      { name: "애플티비플러스", id: 350 },
-      { name: "웨이브", id: 356 },
+      { name: "Netflix", id: 8 },
+      { name: "Disney Plus", id: 337 },
+      { name: "Watcha", id: 97 },
+      { name: "Apple TV", id: 2 },
+      { name: "wavve", id: 356 },
     ];
 
     const ott = ottList.find((o) => o.name === ottName);
@@ -166,7 +165,7 @@ const MovieItemList: React.FC<
           {listType}
         </Text>
         {showMoreButton && (
-          <StyledBtn size="Medium" color="Black" onClick={handleMoreClick}>
+          <StyledBtn size="Small" color="Black" onClick={handleMoreClick}>
             더보기
           </StyledBtn>
         )}
@@ -183,9 +182,9 @@ const StyledListBtn = styled.div`
 `;
 
 const StyledBtn = styled(Btn)`
-  width: 100px;
+  width: 80px;
 `;
 
 const RecommendPaddingContainer = styled.div`
-  padding: 1rem;
+  padding: 2rem;
 `;
