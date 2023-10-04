@@ -17,9 +17,10 @@ import { useState, useEffect } from 'react';
   // const client_secret = "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";
   
   // 동key2
-  const client_id =
-    "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
-  const client_secret = "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";
+  const client_id = process.env.REACT_APP_CLIENTID || "";
+    // "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
+  const client_secret = process.env.REACT_APP_SECRET || "";
+  // "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";
 
 export function useAuth() {
   const accessToken = useRecoilValue(UserInfoState).accessToken;
