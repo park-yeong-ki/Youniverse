@@ -10,8 +10,8 @@ import styled from "styled-components";
 import IconBox from "../atoms/IconBox";
 import { HiChevronLeft } from "react-icons/hi";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import ProfileLikeContents from "./ProfileLikeContents";
-import ProfileUserFollowContainer from "../organisms/ProfileUserFollowContainer";
+import ProfileLikeContents from "./OtherProfileLikeContents";
+import ProfileUserFollowContainer from "../organisms/OtherProfileFollowContainer";
 
 interface ProfileChangeableProps {
   memberData: UserType | null;
@@ -19,7 +19,7 @@ interface ProfileChangeableProps {
   setSelectStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
+const OtherProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
   memberData,
   selectStatus,
   setSelectStatus,
@@ -94,7 +94,7 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
   );
 };
 
-export default ProfileChangeableWrap;
+export default OtherProfileChangeableWrap;
 
 const StyledArrowContainer = styled.div`
   display: flex;

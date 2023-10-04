@@ -115,7 +115,7 @@ const StyledContentWrap = styled.div`
 
 const StyledSoulWrap = styled.div``;
 
-const StyledRowWrap = styled.div`
+export const StyledRowWrap = styled.div`
   ${FlexRowBetween}
   & > div:first-child {
     width: 44%;

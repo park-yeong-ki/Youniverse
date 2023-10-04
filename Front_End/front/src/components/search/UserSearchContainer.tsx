@@ -110,6 +110,6 @@ const StyledTextContainer = styled.div``;
 
 const StyledUserResultContainer = styled.div`
   width: 100%;
-  height: 70%;
+  height: 80%;
   overflow-y: auto;
 `;

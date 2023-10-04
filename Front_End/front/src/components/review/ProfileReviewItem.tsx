@@ -83,12 +83,10 @@ const ProfileReviewItem: React.FC<ReviewProps> = ({ review }) => {
 export default ProfileReviewItem;
 
 const StyledReviewContentWrapper = styled(Wrapper)`
-  height: 100%;
   margin-top: 5px;
 `;
 
 const StyledMovieTitletContainer = styled.div`
-  height: 100%;
   margin-bottom: 10px;
   padding: 0px 5px;
   white-space: nowrap;
