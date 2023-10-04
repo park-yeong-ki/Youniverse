@@ -54,6 +54,7 @@ const SearchContainer = ({
       Promise.all(promises)
         .then((results) => {
           // 모든 결과를 결합합니다.
+          console.log("results#################", results)
           const allMovies = results.flatMap((result) => result.data.content);
           // 중복 영화를 제거합니다.
           const uniqueMovies = Array.from(
@@ -83,7 +84,7 @@ const SearchContainer = ({
 
       getAllMovies(filters)
         .then((response) => {
-          const movies = response.data.content;
+          const movies = response.data.content; 
           setSearchResults(movies);
         })
         .catch((err) => {
