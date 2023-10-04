@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 
 import RecommendSection from "../../components/movies/RecommendSection";
 import RecommendNotYouTube from "../../components/movies/RecommendNotYouTube";
-import { MainContainer } from "./../../commons/style/layoutStyle";
+// import { MainContainer } from "./../../commons/style/layoutStyle";
 
 import { UserJoinInfoState } from "./../../pages/store/State";
 
@@ -18,32 +18,29 @@ const RecommendationMainPage = () => {
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
 
   return (
-    <MainContainer>
+    <>
       <SectionsContainer {...options}>
         <CustomSection>
-          <MainContainer>
-            <RecommendSection />
-          </MainContainer>
+          <RecommendSection />
         </CustomSection>
         <CustomSection>
-          <MainContainer>
-            <RecommendNotYouTube
-              lists={[
-                "선호도기반 추천 영화",
-                `${memberAge}세 ${memberGender} 추천 영화`,
-              ]}
-            />
-          </MainContainer>
+          <RecommendNotYouTube
+            lists={[
+              "선호도기반 추천 영화",
+              `${memberAge}세 ${memberGender} 추천 영화`,
+            ]}
+          />
         </CustomSection>
       </SectionsContainer>
-    </MainContainer>
+    </>
   );
 };
 
 export default RecommendationMainPage;
 
 const CustomSection = styled(Section)`
+  width: 100%;
   height: calc(100vh - 70px);
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
 `;

@@ -134,14 +134,14 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
 
         {/* 로그아웃 */}
         {isLogin && (
-          <Text
-            size="Small"
-            color="White"
-            fontFamily="YESGothic-Bold"
-            onClick={handleLogOut}
+          <LogoutText
+          size="Small"
+          color="White"
+          fontFamily="YESGothic-Bold"
+          onClick={handleLogOut}
           >
             로그아웃
-          </Text>
+          </LogoutText>
         )}
       </StyledMenu>
     </StyledSidebar>
@@ -178,6 +178,7 @@ const StyledSidebar = styled.div`
   &.open {
     animation: ${slideIn} 0.2s forwards;
   }
+  
 `;
 
 const StyledMenu = styled.div`
@@ -209,7 +210,16 @@ const StyledMenu = styled.div`
       /** 호버했을 때 반짝이게 */
       &:hover {
         text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+        
       }
     }
   }
+`;
+
+
+const LogoutText = styled(Text)`
+  position: fixed;  
+  bottom: 50px;  
+  right: 50px;  
+  cursor: pointer; 
 `;

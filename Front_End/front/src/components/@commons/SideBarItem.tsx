@@ -27,4 +27,11 @@ export default SidebarItem;
 
 const StyledMenu = styled.div`
   ${FlexColAround}
+  margin: 3rem;
+  &:hover {
+
+      // Text 컴포넌트가 p 태그를 사용한다고 가정합니다.
+      text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+
+  }
 `;
