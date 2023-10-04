@@ -17,8 +17,8 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-import ProfileReview from "../../components/review/ProfileReview";
 import { FollowerType } from "../../components/organisms/OtherProfileContainer";
+import MyProfileReview from "../../components/review/MyProfileReview";
 
 export type UserType = {
   memberId: number;
@@ -83,7 +83,7 @@ const MyProfilePage = () => {
                   </StyledRowWrap>
                   <StyledRowWrap>
                     <MypageLikeContents memberData={memberData} />
-                    <ProfileReview memberId={Number(memberId)} />
+                    <MyProfileReview memberId={Number(memberId)} />
                   </StyledRowWrap>
                   <StyledSoulWrap>
                     <SoulMovieItemList />
@@ -110,7 +110,8 @@ export default MyProfilePage;
 
 const StyledContentWrap = styled.div`
   ${FlexColBetweenLeft}
-  overflow-y: scroll;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 `;
 
 const StyledSoulWrap = styled.div``;

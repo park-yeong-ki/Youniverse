@@ -409,8 +409,6 @@ const LoadingPage = () => {
         console.log("토큰: ", access_token);
         console.log("전체 데이터==================", response.data);
 
-        youtubeRequestData(access_token);
-
         // 이메일 정보 가져오기
         axios
           .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -440,6 +438,7 @@ const LoadingPage = () => {
                   navigate(ROUTES.MAIN);
                 } else if (response.data === "비회원") {
                   // 비회원인 경우
+                  youtubeRequestData(access_token);
                   setUserInfo((prev) => ({
                     ...prev,
                     accessToken: access_token,
