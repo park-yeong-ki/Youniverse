@@ -36,10 +36,9 @@ type ProtectedRouteProps = {
 
 function ProtectedRoute({ isAuthenticated, element }: ProtectedRouteProps) {
   if (!isAuthenticated) {
-    alert("로그인이 필요한 페이지입니다!");
+    alert("로그인이 필요한 페이지입니다.");
     return <Navigate to="/" />;
   }
-
   return <>{element}</>;
 }
 
@@ -56,7 +55,6 @@ function ProtectedApp() {
           <div></div>
         ) : (
         <>
-
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
           <Route path={ROUTES.LOADING} Component={LOADING} />
@@ -106,6 +104,12 @@ function ProtectedApp() {
             path={ROUTES.MOVIE_DETAIL}
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated} element={<MOVIE_DETAIL />} />
+            }
+          />
+          <Route 
+            path={ROUTES.RECOMMEND_MORE}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<RECOMMEND_MORE />} />
             }
           />
           <Route path={ROUTES.NOTFOUND} Component={NOTFOUND} />
