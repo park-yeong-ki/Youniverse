@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-// import { ScrollMenu } from 'react-horizontal-scrolling-menu';
-// import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 import {
   UserDetailInfoState,
@@ -25,13 +23,15 @@ type Props = {
   page?: number;
 };
 
-const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = ({
+const MovieItemList: React.FC<
+  Props & { layout?: "horizontal" | "vertical" }
+> = ({
   filterOTT,
   listType,
   movies: propMovies = [],
   showMoreButton,
   page,
-  layout = 'horizontal', // default value
+  layout = "horizontal", // default value
 }) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<MovieType[]>([]);
@@ -43,29 +43,29 @@ const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = 
   const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
 
   // 조건에 따라 스타일 선택
-  const MovieContainer = layout === 'horizontal' ? MovieContainerHorizontal : MovieContainerVertical;
-  
+  const MovieContainer =
+    layout === "horizontal" ? MovieContainerHorizontal : MovieContainerVertical;
 
   // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
-    let sortType: number | null = null;
+    let sort: number | null = null;
 
     switch (listType) {
       case "선호도기반 추천 영화":
-        sortType = 1;
+        sort = 1;
         break;
       case `${memberAge}세 ${memberGender} 추천 영화`:
-        sortType = 2;
+        sort = 2;
         break;
       case "유튜브 기반 추천 영화":
-        sortType = 3;
+        sort = 3;
         break;
       default:
         break;
     }
     // navigate to the recommendation page with a sort type
-    if (sortType) {
-      navigate(`/recommend/more?sort=${sortType}`);
+    if (sort) {
+      navigate(`/recommend/more/${sort}`);
     }
   };
 
@@ -106,22 +106,19 @@ const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = 
         } catch (error) {
           console.error("Error fetching best movies: ", error);
         }
-      } else if (listType === "선호도기반 추천 영화" || listType === "1") {
+      } else if (listType === "선호도기반 추천 영화") {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
           type: 1,
         };
-      } else if (
-        listType === `${memberAge}세 ${memberGender} 추천 영화` ||
-        listType === "2"
-      ) {
+      } else if (listType === `${memberAge}세 ${memberGender} 추천 영화`) {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
           type: 2,
         };
-      } else if (listType === "유튜브 기반 추천 영화" || listType === "3") {
+      } else if (listType === "유튜브 기반 추천 영화") {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
@@ -157,7 +154,11 @@ const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = 
   }, [filterOTT, listType, memberId, page]);
 
   const renderMovies = () => {
-    if (listType === "다른 유저의 인생영화 추천") {
+    if (propMovies && propMovies.length > 0) {
+      return propMovies.map((movie) => (
+        <MovieItem key={movie.movieId} movie={movie} $cardWidth="260px" />
+      ));
+    } else if (listType === "다른 유저의 인생영화 추천") {
       return bestMovies.length > 0 ? (
         bestMovies.map((bestMovie) => (
           <div>
@@ -174,7 +175,7 @@ const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = 
     } else {
       return movies.length > 0 ? (
         movies.map((movie) => (
-          <MovieItem key={movie.movieId} movie={movie} $cardWidth="200px" />
+          <MovieItem key={movie.movieId} movie={movie} $cardWidth="260px" />
         ))
       ) : (
         <NoMovieText />
@@ -189,7 +190,7 @@ const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = 
   );
 
   return (
-    <>
+    <RecommendPaddingContainer>
       <StyledListBtn>
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {listType}
@@ -201,7 +202,7 @@ const MovieItemList: React.FC<Props & { layout?: 'horizontal' | 'vertical' }> = 
         )}
       </StyledListBtn>
       <MovieContainer>{renderMovies()}</MovieContainer>
-    </>
+    </RecommendPaddingContainer>
   );
 };
 
@@ -219,11 +220,11 @@ const MovieContainerHorizontal = styled.div`
   display: flex;
   overflow-x: auto;
   gap: 16px;
-
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
   /* your movie item */
   & > div {
     flex-shrink: 0;
-    width: 10%; /* Your item width */
   }
 `;
 
@@ -232,7 +233,9 @@ const MovieContainerVertical = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  & > div {
-    width: 10%;
-  }
+  justify-content: flex-start;
+`;
+
+const RecommendPaddingContainer = styled.div`
+  padding: 1rem;
 `;

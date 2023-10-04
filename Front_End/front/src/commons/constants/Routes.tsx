@@ -8,7 +8,7 @@ export const ROUTES = {
     MYPAGE: '/mypage/:userId',
     PROFILE: '/profile/:userId',
     RECOMMEND: '/recommend',
-    RECOMMEND_MORE: '/recommend/more',
+    RECOMMEND_MORE: '/recommend/more/:sort',
     MOVIE_DETAIL: '/movie/:movieId',
     NOTFOUND: '/*',
   };

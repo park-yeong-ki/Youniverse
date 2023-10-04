@@ -7,7 +7,7 @@ type Props = {
 
 const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
   return (
-    <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
+    <Wrapper size="Standard" color="WhiteGhost" padding="Narrow">
       {/* 예제를 위해 간단한 버튼 추가. 실제 구현에서는 원하는 OTT 선택 UI로 변경 가능. */}
       <button onClick={() => onSelectOTT("All")}>전체보기</button>
       <button onClick={() => onSelectOTT("넷플릭스")}>Netflix</button>

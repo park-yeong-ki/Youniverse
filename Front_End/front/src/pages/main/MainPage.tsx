@@ -142,6 +142,7 @@ const SyledIsLoggedin = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 32px;
+  height: calc(100vh - 70px);
 `;
 
 const StyledBtn = styled(Btn)`

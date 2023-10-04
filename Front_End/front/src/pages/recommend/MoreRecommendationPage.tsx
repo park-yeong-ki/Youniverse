@@ -11,29 +11,33 @@ import MoreRecommendOTT from "../../components/movies/MoreRecommendOTT";
 import Text from "../../components/atoms/Text";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 
-
 const MoreRecommendationPage = () => {
   const [selectedOTT, setSelectedOTT] = useState<string | null>(null);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const listTypeParam = searchParams.get("type");
 
-  const memberNickname = useRecoilValue(UserJoinInfoState).nickname
+  const memberNickname = useRecoilValue(UserJoinInfoState).nickname;
 
   return (
     <MainPaddingContainer>
       <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-        {memberNickname}{RECOMMEND_PAGE_MORE}
+        {memberNickname}
+        {RECOMMEND_PAGE_MORE}
       </Text>
       <StyledMoreRecommend>
         <MoreRecommendOTT onSelectOTT={setSelectedOTT} />
-        <MoreRecommendMovie selectedOTT={selectedOTT} listType={listTypeParam} />
+        <MoreRecommendMovie
+          selectedOTT={selectedOTT}
+          listType={listTypeParam}
+        />
       </StyledMoreRecommend>
     </MainPaddingContainer>
   );
 };
 
 export default MoreRecommendationPage;
+
 
 const StyledMoreRecommend = styled.div`
   ${FlexColBetween}
