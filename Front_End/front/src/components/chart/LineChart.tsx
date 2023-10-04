@@ -24,11 +24,10 @@ ChartJS.register(
   Legend
 );
 
-
-
 interface LineChartProps {
   width?: string | number;
   height?: string | number;
+  otherMemberId?: number;
 }
 
 // YoutubeKeyword 타입을 정의
@@ -74,7 +73,7 @@ const options = {
     point: {
       radius: 5, // 포인트의 크기를 조절합니다. 원하는 크기로 조절하세요.
       backgroundColor: "rgb(255, 249, 200)", // 포인트의 색상입니다. 원하는 색상으로 조절하세요.
-      pointStyle: 'star',
+      pointStyle: "star",
     },
   },
 };
@@ -89,7 +88,20 @@ interface ChartData {
   }>;
 }
 
-const LineChart: React.FC<LineChartProps> = ({ width, height }) => {
+const LineChart: React.FC<LineChartProps> = ({
+  width,
+  height,
+  otherMemberId,
+}) => {
+  const defaultMemberId = useRecoilValue(UserDetailInfoState).memberId;
+  const [memberId, setMemberId] = useState<number | null>(defaultMemberId);
+
+  useEffect(() => {
+    if (otherMemberId) {
+      setMemberId(otherMemberId);
+    }
+  }, [otherMemberId]);
+
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
     datasets: [
@@ -101,7 +113,6 @@ const LineChart: React.FC<LineChartProps> = ({ width, height }) => {
       },
     ],
   });
-  const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
   useEffect(() => {
     const getChartData = async () => {
@@ -137,7 +148,9 @@ const LineChart: React.FC<LineChartProps> = ({ width, height }) => {
     getChartData();
   }, [memberId]);
 
-  return <Line options={options} data={chartData} width={width} height={height}/>;
+  return (
+    <Line options={options} data={chartData} width={width} height={height} />
+  );
 };
 
 export default LineChart;

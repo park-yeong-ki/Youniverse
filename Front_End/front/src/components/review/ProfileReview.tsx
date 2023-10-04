@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { MY_PAGE_REVIEW } from "../../commons/constants/String";
+import {
+  MY_PAGE_REVIEW,
+  SEARCH_USER_REVIEWLIST,
+} from "../../commons/constants/String";
 import Text from "../atoms/Text";
 import { getMember } from "../../apis/FrontendApi";
 import ProfileReviewItemList from "./ProfileReviewItemList";
@@ -46,10 +49,11 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
         size="Standard"
         color="WhiteGhost"
         padding="Narrow"
+        className="mt-2"
       >
         {reviewList.length === 0 ? (
           <Text size="Small" color="Black" fontFamily="PyeongChang-Light">
-            아직 리뷰를 등록하지 않으셨네요
+            {SEARCH_USER_REVIEWLIST}
           </Text>
         ) : (
           <ProfileReviewItemList reviews={reviewList} />
@@ -62,12 +66,10 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
 export default ProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 55%;
-  margin-left: 20px;
+  width: 60%;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  margin-top: 5px;
-  height: 195px;
+  height: 240px;
 `;
