@@ -9,7 +9,7 @@ interface HashTagProps {
 }
 
 /** 해시태그 SIZE */
-type HashTagSize = "Standard" | "Huge" | "Profile";
+type HashTagSize = "Standard" | "Huge" | "Profile" | "MovieKeyword";
 
 /** 해시태그 COLOR
  * (적용 예시)
@@ -53,6 +53,13 @@ const HashTagStyles: Record<HashTagSize, HashTagStyle> = {
     fontSize: "12px",
     borderRadius: "8px",
   },
+
+  MovieKeyword: {
+    height: "24px",
+    width: "fit-content",
+    fontSize: "12px",
+    borderRadius: "8px",
+  },
 };
 
 /** 해시태그 BGCOLOR, COLOR 스타일 지정 */
@@ -91,29 +98,85 @@ const StyledHashTag = styled.div<HashTagProps>`
 
 /** 해시태그 컴포넌트 */
 const HashTag = ({ size, children, color }: HashTagProps) => {
-  return (
-    <StyledHashTag
-      size={size}
-      color={color}
-      title={typeof children === "string" ? children : ""}
-    >
-      <span
-        style={{
-          display: "flex",
-          alignItems: "center",
-          height: "100%",
-          paddingLeft: "5px",
-          paddingRight: "5px",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          maxWidth: "calc(100% - 15px)",
-        }}
+  if (size === "Standard") {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            paddingLeft: "5px",
+            paddingRight: "5px",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "calc(100% - 15px)",
+          }}
+        >
+          {children}
+        </span>
+      </StyledHashTag>
+    );
+  } else if (size === "MovieKeyword") {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            whiteSpace: "nowrap",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {children}
+        </span>
+      </StyledHashTag>
+    );
+  } else if (size === "Huge") {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            whiteSpace: "nowrap",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {children}
+        </span>
+      </StyledHashTag>
+    );
+  } else {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
       >
         {children}
-      </span>
-    </StyledHashTag>
-  );
+      </StyledHashTag>
+    );
+  }
 };
 
 export default HashTag;

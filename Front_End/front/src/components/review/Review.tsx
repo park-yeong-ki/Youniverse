@@ -38,8 +38,7 @@ const Review: React.FC<ReviewProps> = ({ reviews, userReview }) => {
         </div>
       </div>
     </>
-);
-
+  );
 };
 
 export default Review;
