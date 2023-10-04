@@ -12,7 +12,11 @@ export type User = {
   memberId: number;
   nickname: string;
   memberImage: string;
-  keywordResDtos: keywords[];
+  youtubeKeywordResDtos: Array<{
+    youtubeKeywordId: number;
+    youtubeKeywordName: string;
+    movieRank: number;
+  }>;
 };
 
 export type keywords = {
@@ -110,6 +114,6 @@ const StyledTextContainer = styled.div``;
 
 const StyledUserResultContainer = styled.div`
   width: 100%;
-  height: 70%;
+  height: 80%;
   overflow-y: auto;
 `;

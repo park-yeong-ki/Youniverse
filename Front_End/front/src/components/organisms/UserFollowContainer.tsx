@@ -76,7 +76,7 @@ const UserFollowContainer: React.FC<UserFollowContainerProps> = ({
           users={followingList.map((following) => ({
             id: following.memberId,
             nickname: following.nickname,
-            image: following.memberImage || "/assets/기본프로필.jpg",
+            image: following.memberImage || "/assets/DefaultProfile.png",
             hashtags: following.keywordResDtos.map(
               (keyword) => keyword.keywordName
             ),
@@ -89,7 +89,7 @@ const UserFollowContainer: React.FC<UserFollowContainerProps> = ({
           users={followerList.map((follower) => ({
             id: follower.memberId,
             nickname: follower.nickname,
-            image: follower.memberImage || "/assets/기본프로필.jpg",
+            image: follower.memberImage || "/assets/DefaultProfile.png",
             hashtags: follower.keywordResDtos.map(
               (keyword) => keyword.keywordName
             ),

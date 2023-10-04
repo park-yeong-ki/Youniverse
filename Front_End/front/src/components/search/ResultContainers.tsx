@@ -21,7 +21,10 @@ const ResultContainers: React.FC<ResultContainersProps> = ({
         #{searchTerm}
       </Text>
       {searchResults.length > 0 ? (
-        <SearchMovieItemList onMovieSelect={onMovieSelect} movies={searchResults} />
+        <SearchMovieItemList
+          onMovieSelect={onMovieSelect}
+          movies={searchResults}
+        />
       ) : (
         <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
           검색결과가 없습니다

@@ -55,7 +55,6 @@ const MovieItem: React.FC<MovieItemProps> = ({
           .then((res) => {
             setLikeStatus(true);
             setHeartMovieId(res.data.heartMovieId);
-            console.log("좋아요 요청 성공!", res);
           })
           .catch((err) => {
             console.error("좋아요 요청 실패:", err);
@@ -64,14 +63,12 @@ const MovieItem: React.FC<MovieItemProps> = ({
         console.error("memberId is null");
       }
     } else {
-      console.log("좋아요 취소 버튼을 눌렀어요");
       console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
       if (heartMovieId !== null) {
         deleteHeart(heartMovieId)
           .then(() => {
             setLikeStatus(false);
             setHeartMovieId(null); // 삭제 후 heartMovieId 초기화
-            console.log("좋아요 삭제 성공!");
           })
           .catch((err) => {
             console.error("좋아요 삭제 실패:", err);
@@ -82,14 +79,11 @@ const MovieItem: React.FC<MovieItemProps> = ({
 
   const handleRecommendPush = () => {
     if (!recommendStatus) {
-      console.log("추천받지 않을래요 버튼을 눌렀어요");
-
       if (memberId !== null && movie.movieId) {
         postHate(memberId, movie.movieId)
           .then((res) => {
             setRecommendStatus(true);
             setHateMovieId(res.data.hateMovieId);
-            console.log("추천받지 않을래요 요청 성공!", res);
           })
           .catch((err) => {
             console.error("추천받지 않을래요 요청 실패:", err);
@@ -98,13 +92,11 @@ const MovieItem: React.FC<MovieItemProps> = ({
         console.error("memberId is null");
       }
     } else {
-      console.log("다시 추천해주세요 버튼을 눌렀어요");
       if (hateMovieId !== null) {
         deleteHate(hateMovieId)
           .then(() => {
             setRecommendStatus(false);
             setHateMovieId(null); // 삭제 후 hateMovieId 초기화
-            console.log("다시 추천 요청 성공!");
           })
           .catch((err) => {
             console.error("다시 추천 요청 실패:", err);
@@ -155,24 +147,22 @@ const MovieItem: React.FC<MovieItemProps> = ({
           {!$profile && (
             <>
               <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-                평점 {movie.rate}
+                ⭐ {movie.rate}
               </Text>
               <Text size="Small" color="White" fontFamily="YESGothic-Regular">
                 {movie.runtime}분
               </Text>
-              <StyledDetailInCol>
-                <StyledDetailInRow>
-                  {movie.keywordResDtos.slice(0, 3).map((keyword) => (
-                    <HashTag
-                      key={keyword.keywordId}
-                      size="Standard"
-                      color="WhiteGhost"
-                    >
-                      {keyword.keywordName}
-                    </HashTag>
-                  ))}
-                </StyledDetailInRow>
-              </StyledDetailInCol>
+              <StyledDetailInRow>
+                {movie.keywordResDtos.slice(0, 3).map((keyword) => (
+                  <HashTag
+                    key={keyword.keywordId}
+                    size="MovieKeyword"
+                    color="WhiteGhost"
+                  >
+                    {keyword.keywordName}
+                  </HashTag>
+                ))}
+              </StyledDetailInRow>
               <StyledDetailInCol>
                 {likeStatus === false ? (
                   <Btn size="Circle" color="White" onClick={handleLikePush}>

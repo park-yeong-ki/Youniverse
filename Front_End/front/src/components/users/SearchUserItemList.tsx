@@ -9,7 +9,6 @@ interface Props {
 }
 
 const SearchUserItemList: React.FC<Props> = ({ users }) => {
-  /** 선택된 사용자의 ID를 저장 */
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   return (

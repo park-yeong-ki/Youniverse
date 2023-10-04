@@ -1,4 +1,4 @@
-import { mainAxios } from "../libs/axios";
+import { mainAxios, fastApiAxios } from "../libs/axios";
 
 type UserJoinInfo = {
   email: string | null;
@@ -289,3 +289,10 @@ export const deleteReview = (reviewId: number) =>
   });
 
 //===============================================
+
+/** 사용자 추천 FAST API */
+
+export const userRecommend = (memberId: number) =>
+  fastApiAxios.get(`/users/info?member_id=${memberId}`, {
+    headers: { Accept: "application/json" },
+  });

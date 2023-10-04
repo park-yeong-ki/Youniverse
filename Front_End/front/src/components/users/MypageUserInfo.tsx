@@ -60,7 +60,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   );
 
   const selectedOtts = memberData?.ottResDtos; // 선택한 Ott
-  const selectedKeywords = memberData?.keywordResDtos; // 선택한 keyword
+  const selectedKeywords = memberData?.youtubeKeywordResDtos; // 유튜브 키워드로 변경
   const selectedOttsNumber = selectedOtts?.map((ott) => ott.ottId);
   const [selectedPlanets, setSelectedPlanets] = useState<number[]>(
     selectedOttsNumber ? [...selectedOttsNumber] : []
@@ -216,9 +216,9 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
 
             {/* 해시태그 (키워드) wrapper */}
             <StyledKeywordWrap>
-              {selectedKeywords?.map((keyword, index) => (
+              {selectedKeywords?.slice(0, 4).map((keyword, index) => (
                 <HashTag size="Standard" color="White" key={index}>
-                  # {keyword.keywordName}
+                  # {keyword.youtubeKeywordName}
                 </HashTag>
               ))}
             </StyledKeywordWrap>

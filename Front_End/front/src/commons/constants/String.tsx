@@ -1,4 +1,4 @@
-  // 메인페이지
+// 메인페이지
 export const LOGO = "Youniverse";
 export const MAIN_NOT_LOGIN_PART = "와 함께";
 export const MAIN_NOT_LOGIN_PART1 = "취향 별자리를 그리고";
@@ -52,8 +52,7 @@ export const RECOMMEND_PAGE_YOUTUBE = "유튜브 기반 추천";
 export const RECOMMEND_PAGE_LIKE = "선호도 기반 추천";
 export const RECOMMEND_PAGE_SCORE = "평점 기반 추천";
 export const RECOMMEND_PAGE_AGE = "에게 추천하는 영화";
-export const RECOMMEND_PAGE_MORE_YOUTUBE = "님의 유튜브 맞춤 추천 콘텐츠";
-export const RECOMMEND_PAGE_MORE = "님의 추천 콘텐츠";
+export const RECOMMEND_PAGE_MORE = " 추천 콘텐츠";
 export const RECOMMEND_PAGE_MORE_SELECT = "에서 추천받은 콘텐츠";
 
 // 영화 상세페이지
@@ -80,6 +79,8 @@ export const SEARCH_USER = "새로운 유저 찾기";
 export const SEARCH_USER_SEARCH_CONTAINER =
   "닉네임 또는 취향 키워드를 입력해주세요";
 export const SEARCH_USER_RECOMMEND = "님의 취향메이트 추천";
+export const SEARCH_USER_REVIEWLIST =
+  "영화 상세 페이지에서 리뷰를 작성해주세요.";
 
 // DROPDOWN
 export const DROP_DOWN_ALL = "전체";

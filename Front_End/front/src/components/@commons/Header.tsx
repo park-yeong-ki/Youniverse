@@ -11,6 +11,7 @@ const StyledHeader = styled.div`
   ${FlexRowBetween}
   width: 100%;
   height: 70px;
+  padding: 0 1.25rem;
 `;
 
 const Header = () => {
@@ -22,13 +23,11 @@ const Header = () => {
   // 메인 페이지로 이동
   const handleToMain = () => {
     navigate("/");
-    console.log("메인으로 이동됐음");
   };
 
   const toggleSidebar = () => {
     // Sidebar 이전 상태를 기반으로 상태 전환
     setIsSidebarOpen((prevState) => !prevState);
-    console.log(isSidebarOpen ? "sidebar 닫음" : "sidebar 열었음");
   };
 
   return (

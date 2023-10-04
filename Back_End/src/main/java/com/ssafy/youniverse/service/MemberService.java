@@ -73,7 +73,7 @@ public class MemberService {
         } else if (StringUtils.hasText(total)) { //입력어로 키워드와 닉네임 모두 조회
             memberPage = memberRepository.findAllByTotal(total, pageable);
         } else { // 회원 전체 조회
-            memberPage = memberRepository.findAll(pageable);
+            memberPage = memberRepository.findAllByNicknameIsNotNull(pageable);
         }
         return memberPage;
     }

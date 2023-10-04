@@ -9,7 +9,7 @@ interface HashTagProps {
 }
 
 /** 해시태그 SIZE */
-type HashTagSize = "Standard" | "Huge" | "Profile";
+type HashTagSize = "Standard" | "Huge" | "Profile" | "MovieKeyword";
 
 /** 해시태그 COLOR
  * (적용 예시)
@@ -37,7 +37,7 @@ type HashTagColorStyle = {
 const HashTagStyles: Record<HashTagSize, HashTagStyle> = {
   Standard: {
     height: "24px",
-    width: "fit-content",
+    width: "68px",
     fontSize: "12px",
     borderRadius: "8px",
   },
@@ -50,6 +50,13 @@ const HashTagStyles: Record<HashTagSize, HashTagStyle> = {
   Profile: {
     height: "24px",
     width: "80px",
+    fontSize: "12px",
+    borderRadius: "8px",
+  },
+
+  MovieKeyword: {
+    height: "24px",
+    width: "fit-content",
     fontSize: "12px",
     borderRadius: "8px",
   },
@@ -81,6 +88,7 @@ const StyledHashTag = styled.div<HashTagProps>`
   border-radius: ${(props) => HashTagStyles[props.size].borderRadius};
   background-color: ${(props) => HashTagColors[props.color].backgroundColor};
   color: ${(props) => HashTagColors[props.color]?.color ?? "#000"};
+  margin-right: ${(props) => (props.size === "Profile" ? "0px" : "5px")};
 
   // 해시태그 프레임 안에 글자 정중앙 위치
   display: flex;
@@ -90,11 +98,85 @@ const StyledHashTag = styled.div<HashTagProps>`
 
 /** 해시태그 컴포넌트 */
 const HashTag = ({ size, children, color }: HashTagProps) => {
-  return (
-    <StyledHashTag size={size} color={color}>
-      {children}
-    </StyledHashTag>
-  );
+  if (size === "Standard") {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            paddingLeft: "5px",
+            paddingRight: "5px",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "calc(100% - 15px)",
+          }}
+        >
+          {children}
+        </span>
+      </StyledHashTag>
+    );
+  } else if (size === "MovieKeyword") {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            whiteSpace: "nowrap",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {children}
+        </span>
+      </StyledHashTag>
+    );
+  } else if (size === "Huge") {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            whiteSpace: "nowrap",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {children}
+        </span>
+      </StyledHashTag>
+    );
+  } else {
+    return (
+      <StyledHashTag
+        size={size}
+        color={color}
+        title={typeof children === "string" ? children : ""}
+      >
+        {children}
+      </StyledHashTag>
+    );
+  }
 };
 
 export default HashTag;

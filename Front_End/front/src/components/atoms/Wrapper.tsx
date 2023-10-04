@@ -87,7 +87,7 @@ const WrapperColors: Record<WrapperColor, WrapperColorStyle> = {
 /** Wrapper PADDING 스타일 */
 const WrapperPaddingStyles: Record<WrapperPadding, WrapperPaddingStyle> = {
   Wide: {
-    padding: "5rem 2rem", // 상하 (5rem), 좌우 (2rem)
+    padding: "3rem 2rem", // 상하 (5rem), 좌우 (2rem)
   },
   Medium: {
     padding: "3rem 1.5rem", // 상하 (3rem), 좌우 (1.5rem)

@@ -15,7 +15,7 @@ interface PlanetProps {
 }
 
 /** 행성 SIZE */
-type PlanetSize = "Standard" | "Medium" | "Small";
+type PlanetSize = "Standard" | "Medium" | "Small" | "MovieDetailSize";
 
 /** 행성 STYLE 타입 지정 */
 type PlanetStyle = {
@@ -32,6 +32,9 @@ const PlanetStyles: Record<PlanetSize, PlanetStyle> = {
   },
   Small: {
     height: "24px",
+  },
+  MovieDetailSize: {
+    height: "52px",
   },
 };
 
@@ -63,7 +66,9 @@ const Planet = ({
   $mypage,
   ...props
 }: PlanetProps) => {
-  const [selectPlanet, setSelectPlanet] = useState(props.initialSelected || false);
+  const [selectPlanet, setSelectPlanet] = useState(
+    props.initialSelected || false
+  );
 
   const handleClick = () => {
     if ($mypage) return; // $mypage prop되면 return

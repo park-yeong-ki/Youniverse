@@ -2,11 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
-import Btn from "../atoms/Btn";
-import Text from "../atoms/Text";
 import HashTag from "../atoms/HashTag";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
-import { FOLLOW } from "../../commons/constants/String";
 import { User } from "./FollowUserItemList";
 
 interface FollowerUserItemProps {
@@ -32,10 +29,7 @@ const FollowUserItem = ({
   };
   return (
     <StyledUserContainer>
-      <StyledCenterContainer
-        isSelected={isSelected}
-        onClick={handleToClickedUser}
-      >
+      <StyledCenterContainer isSelected={isSelected}>
         <StyledColBetweenContainer>
           <Img size="Large" src={image} onClick={handleToClickedUser} />
           <div>{nickname}</div>
@@ -45,13 +39,6 @@ const FollowUserItem = ({
                 {hashtag}
               </StyledHashTag>
             ))}
-          </div>
-          <div>
-            <StyledBtn size="X-Small" color="Black">
-              <Text size="X-Small" color="White" fontFamily="YESGothic-Regular">
-                {FOLLOW}
-              </Text>
-            </StyledBtn>
           </div>
         </StyledColBetweenContainer>
       </StyledCenterContainer>
@@ -70,6 +57,7 @@ const StyledUserContainer = styled.div`
 
 const StyledCenterContainer = styled.div<{ isSelected?: boolean }>`
   ${FlexCenter}
+  gap: 10px;
   &:hover {
     cursor: pointer;
   }
@@ -77,12 +65,10 @@ const StyledCenterContainer = styled.div<{ isSelected?: boolean }>`
 
 const StyledColBetweenContainer = styled.div`
   ${FlexColBetween}
+  margin: 0px 10px;
+  gap: 10px;
 `;
 
 const StyledHashTag = styled(HashTag)`
   width: 100px;
-`;
-
-const StyledBtn = styled(Btn)`
-  width: 80px;
 `;
