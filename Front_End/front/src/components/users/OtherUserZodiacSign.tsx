@@ -8,10 +8,11 @@ import { FlexCenter } from "../../commons/style/SharedStyle";
 import { StyledAllWrapper } from "./MyOTTPlanet";
 import LineChart from "../chart/LineChart";
 import { UserType } from "../../pages/profile/MyProfilePage";
+
 interface UserZodiacSignProps {
   memberData?: UserType | null;
 }
-const UserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
+const OtherUserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
   return (
     <>
       <StyledAllWrapper>
@@ -27,7 +28,7 @@ const UserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
           className="mt-2"
         >
           <StyledZodiacWrapper>
-            <LineChart />
+            <LineChart otherMemberId={memberData?.memberId} />
           </StyledZodiacWrapper>
         </Wrapper>
       </StyledAllWrapper>
@@ -35,13 +36,13 @@ const UserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
   );
 };
 
-export default UserZodiacSign;
+export default OtherUserZodiacSign;
 
 /** 별자리 차트 감싸는 그라디언트 박스 */
 const StyledZodiacWrapper = styled.div`
   ${FlexCenter}
   width: 100%;
-  height: 100%;
+  height: 190px;
   border-radius: 28px;
   background: linear-gradient(
     180deg,

@@ -59,6 +59,7 @@ const StyledInput = styled.input<InputProps>`
   font-size: 16px;
   border-radius: 12px;
   box-sizing: border-box;
+  padding: 0 8px;
   border: ${(props) => InputColors[props.color || "Clear"].border};
   background-color: ${(props) =>
     InputColors[props.color || "Clear"].backgroundColor};

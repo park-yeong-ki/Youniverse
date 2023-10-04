@@ -19,7 +19,7 @@ import Text from "../atoms/Text";
 import Img from "../atoms/Img";
 import Btn from "../atoms/Btn";
 import ProfileReview from "../review/ProfileReview";
-import UserZodiacSign from "../users/UserZodiacSign";
+import OtherUserZodiacSign from "../users/OtherUserZodiacSign";
 import SoulMovieItemList from "../movies/SoulMovieItemList";
 import { UserType } from "../../pages/profile/MyProfilePage";
 import ProfileFollowWrap from "../users/OtherProfileChangeableWrap";
@@ -217,13 +217,8 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
         {!selectStatus && (
           <>
             <StyledRowBetween>
-              <div className="w-1/3">
-                <UserZodiacSign />
-              </div>
-              <ProfileReview
-                className="w-2/3"
-                memberId={memberData?.memberId}
-              />
+              <OtherUserZodiacSign memberData={memberData} />
+              <ProfileReview memberId={memberData?.memberId} />
             </StyledRowBetween>
             <StyledRowWrap>
               <SoulMovieItemList />

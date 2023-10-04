@@ -84,7 +84,7 @@ const MyProfilePage = () => {
               {!followStatus && (
                 <>
                   <StyledRowWrap>
-                    <UserZodiacSign />
+                    <UserZodiacSign memberData={memberData} />
                     <MyOTTPlanet memberData={memberData} />
                   </StyledRowWrap>
                   <StyledRowWrap>

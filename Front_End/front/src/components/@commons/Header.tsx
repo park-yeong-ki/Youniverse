@@ -11,6 +11,7 @@ const StyledHeader = styled.div`
   ${FlexRowBetween}
   width: 100%;
   height: 70px;
+  padding: 0 1.25rem;
 `;
 
 const Header = () => {

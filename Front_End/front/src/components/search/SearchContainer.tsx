@@ -7,6 +7,7 @@ import SearchBox from "../organisms/SearchBox";
 import Text from "../atoms/Text";
 import { getAllMovies } from "../../apis/FrontendApi";
 import { MovieType } from "../../types/MovieType";
+import styled from "styled-components";
 
 const SearchContainer = ({
   setSearchResults,
@@ -15,8 +16,8 @@ const SearchContainer = ({
   setSearchResults: (movies: MovieType[]) => void;
   setSearchTerm: (term: string) => void;
 }) => {
-  const location = useLocation();  // 현재 URL의 정보를 가져옵니다.
-  const navigate = useNavigate();  // 라우팅을 위한 함수를 가져옵니다.
+  const location = useLocation(); // 현재 URL의 정보를 가져옵니다.
+  const navigate = useNavigate(); // 라우팅을 위한 함수를 가져옵니다.
 
   // URL에서 'query' 파라미터를 추출합니다.
   const params = new URLSearchParams(location.search);
@@ -29,7 +30,7 @@ const SearchContainer = ({
     if (initialSearchTerm) {
       handleSearch(initialSearchTerm, "all"); // 원하는 검색 유형을 설정합니다.
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]); // URL의 query 파라미터가 변경될 때 이 훅을 실행합니다.
 
   const handleSearch = (term: string, valueType: string | null) => {
@@ -38,7 +39,7 @@ const SearchContainer = ({
       return;
     }
     setLocalSearchTerm(term);
-    navigate(`${location.pathname}?query=${term}`);  // 검색어를 URL에 추가합니다.
+    navigate(`${location.pathname}?query=${term}`); // 검색어를 URL에 추가합니다.
     setSearchTerm(term);
 
     let filters: any = { page: 0, size: 10 };
@@ -94,13 +95,21 @@ const SearchContainer = ({
   };
 
   return (
-    <Wrapper size="Standard" color="WhiteGhost" padding="Medium">
+    <StyledSearchContainerWrap
+      size="Standard"
+      color="WhiteGhost"
+      padding="Medium"
+    >
       <Text size="Large" color="Black" fontFamily="YESGothic-Bold">
         "{localSearchTerm}" {SEARCH_PAGE}
       </Text>
       <SearchBox theme="dark" type="movie" onSearch={handleSearch} />
-    </Wrapper>
+    </StyledSearchContainerWrap>
   );
 };
 
 export default SearchContainer;
+
+const StyledSearchContainerWrap = styled(Wrapper)`
+  overflow: visible;
+`;
