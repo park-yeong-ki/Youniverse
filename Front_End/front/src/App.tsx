@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { ReactNode } from 'react';
 import { RecoilRoot } from "recoil";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 // import StarryBackground from "./commons/style/StarryBackground";
@@ -30,21 +29,33 @@ function App() {
   );
 }
 
+type ProtectedRouteProps = {
+  isAuthenticated: boolean;
+  element: ReactNode;
+};
+
+function ProtectedRoute({ isAuthenticated, element }: ProtectedRouteProps) {
+  if (!isAuthenticated) {
+    alert("로그인이 필요한 페이지입니다!");
+    return <Navigate to="/" />;
+  }
+
+  return <>{element}</>;
+}
+
 
 function ProtectedApp() {
 
   const { isAuthenticated, isChecking } = useAuth();
 
-  if (isChecking) {
-    // 로딩 중인 경우, 여기서 로딩 UI를 보여줄 수 있습니다.
-    return <div>Loading...</div>;
-  }
-
   return (
       <Router>
         <GlobalStyles />
-        {/* <StarryBackground /> */}
         <Header />
+        {isChecking ? (
+          <div></div>
+        ) : (
+        <>
 
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
@@ -53,47 +64,41 @@ function ProtectedApp() {
           <Route path={ROUTES.SURVEY} Component={SURVEY} />
           <Route path={ROUTES.OTTSELECT} Component={OTTSELECT} />
           <Route 
-            path={ROUTES.MYPAGE} 
-            element={ 
-              isAuthenticated 
-              ? <MYPAGE /> 
-              : <Navigate to="/" /> 
-            } 
+            path={ROUTES.MYPAGE}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<MYPAGE />} />
+            }
           />
           <Route 
-            path={ROUTES.PROFILE} 
-            element={ 
-              isAuthenticated 
-              ? <PROFILE /> 
-              : <Navigate to="/" /> 
-            } 
+            path={ROUTES.PROFILE}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<PROFILE />} />
+            }
           />
           <Route 
-            path={ROUTES.SEARCH} 
-            element={ 
-              isAuthenticated 
-              ? <SEARCH /> 
-              : <Navigate to="/" /> 
-            } 
+            path={ROUTES.SEARCH}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<SEARCH />} />
+            }
           />
           <Route 
-            path={ROUTES.RECOMMEND} 
-            element={ 
-              isAuthenticated 
-              ? <RECOMMEND /> 
-              : <Navigate to="/" /> 
-            } 
+            path={ROUTES.RECOMMEND}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<RECOMMEND />} />
+            }
           />
           <Route 
-            path={ROUTES.MOVIE_DETAIL} 
-            element={ 
-              isAuthenticated 
-              ? <MOVIE_DETAIL /> 
-              : <Navigate to="/" /> 
-            } 
+            path={ROUTES.MOVIE_DETAIL}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<MOVIE_DETAIL />} />
+            }
           />
           <Route path={ROUTES.NOTFOUND} Component={NOTFOUND} />
         </Routes>
+        </>
+
+        )}
+        {/* <StarryBackground /> */}
       </Router>
   );
 }

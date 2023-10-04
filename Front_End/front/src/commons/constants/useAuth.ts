@@ -28,12 +28,12 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
-  // console.log("accessToken: ", accessToken)
+  console.log("accessToken: ", accessToken)
 
   useEffect(() => {
-    // console.log("accessToken(UseEffect진입): ", accessToken)
+    console.log("accessToken(UseEffect진입): ", accessToken)
     async function checkAuthentication() {
-      // console.log("accessToken(checkAuthentication): ", accessToken)
+      console.log("accessToken(checkAuthentication): ", accessToken)
         if (!accessToken) { //atk없으면
             setIsAuthenticated(false);
             setIsChecking(false);
