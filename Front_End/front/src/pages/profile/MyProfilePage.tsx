@@ -43,6 +43,11 @@ export type UserType = {
   heartMovieResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
   bestMovieResDtos: Array<SoulMovie>;
   reviewResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
+  youtubeKeywordResDtos: Array<{
+    youtubeKeywordId: number;
+    youtubeKeywordName: string;
+    movieRank: number;
+  }>;
   recommendOttResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
 };
 
@@ -79,7 +84,7 @@ const MyProfilePage = () => {
               {!followStatus && (
                 <>
                   <StyledRowWrap>
-                    <UserZodiacSign />
+                    <UserZodiacSign memberData={memberData} />
                     <MyOTTPlanet memberData={memberData} />
                   </StyledRowWrap>
                   <StyledRowWrap>

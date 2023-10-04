@@ -53,13 +53,13 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected }) => {
           <StyledColBetweenContainer>
             <StyledNicknameContainer>{user.nickname}</StyledNicknameContainer>
             <StyledkeywordContainer>
-              {user.keywordResDtos.slice(0, 2).map((keywords, index) => (
+              {user.youtubeKeywordResDtos.slice(0, 2).map((keywords, index) => (
                 <HashTag
                   key={index}
                   size="Standard"
                   color={isHovered ? "Black" : isSelected ? "Black" : "White"}
                 >
-                  {keywords.keywordName}
+                  {keywords.youtubeKeywordName}
                 </HashTag>
               ))}
             </StyledkeywordContainer>

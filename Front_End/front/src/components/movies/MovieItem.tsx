@@ -79,7 +79,6 @@ const MovieItem: React.FC<MovieItemProps> = ({
 
   const handleRecommendPush = () => {
     if (!recommendStatus) {
-
       if (memberId !== null && movie.movieId) {
         postHate(memberId, movie.movieId)
           .then((res) => {
@@ -148,24 +147,22 @@ const MovieItem: React.FC<MovieItemProps> = ({
           {!$profile && (
             <>
               <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-                평점 {movie.rate}
+                ⭐ {movie.rate}
               </Text>
               <Text size="Small" color="White" fontFamily="YESGothic-Regular">
                 {movie.runtime}분
               </Text>
-              <StyledDetailInCol>
-                <StyledDetailInRow>
-                  {movie.keywordResDtos.slice(0, 3).map((keyword) => (
-                    <HashTag
-                      key={keyword.keywordId}
-                      size="Standard"
-                      color="WhiteGhost"
-                    >
-                      {keyword.keywordName}
-                    </HashTag>
-                  ))}
-                </StyledDetailInRow>
-              </StyledDetailInCol>
+              <StyledDetailInRow>
+                {movie.keywordResDtos.slice(0, 3).map((keyword) => (
+                  <HashTag
+                    key={keyword.keywordId}
+                    size="MovieKeyword"
+                    color="WhiteGhost"
+                  >
+                    {keyword.keywordName}
+                  </HashTag>
+                ))}
+              </StyledDetailInRow>
               <StyledDetailInCol>
                 {likeStatus === false ? (
                   <Btn size="Circle" color="White" onClick={handleLikePush}>

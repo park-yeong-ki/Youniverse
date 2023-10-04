@@ -1,4 +1,4 @@
-  // 메인페이지
+// 메인페이지
 export const LOGO = "Youniverse";
 export const MAIN_NOT_LOGIN_PART = "와 함께";
 export const MAIN_NOT_LOGIN_PART1 = "취향 별자리를 그리고";
@@ -79,6 +79,8 @@ export const SEARCH_USER = "새로운 유저 찾기";
 export const SEARCH_USER_SEARCH_CONTAINER =
   "닉네임 또는 취향 키워드를 입력해주세요";
 export const SEARCH_USER_RECOMMEND = "님의 취향메이트 추천";
+export const SEARCH_USER_REVIEWLIST =
+  "영화 상세 페이지에서 리뷰를 작성해주세요.";
 
 // DROPDOWN
 export const DROP_DOWN_ALL = "전체";
