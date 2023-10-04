@@ -32,19 +32,6 @@ const LoadingPage = () => {
   const resetUserDetailInfo = useResetRecoilState(UserDetailInfoState);
   const resetLogin = useResetRecoilState(LoginState);
 
-  // 소key
-  // const client_id =
-  //   "776331757143-c17p5tgmtrc53mnrqrst4f5s6ltg3npj.apps.googleusercontent.com";
-  // const client_secret = "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";
-
-  // const client_id =
-  //   "781680119308-d0jbnhpcmrcj7fb65ls9crj7lh6k7v9q.apps.googleusercontent.com";
-  // const client_secret = "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";
-
-  const client_id =
-    "515621990572-qofqid3d40c2u7t7in2n5gjmf4hg4tre.apps.googleusercontent.com";
-  const client_secret = "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";
-
   const accessToken = useRecoilValue(UserInfoState).accessToken;
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
 
@@ -53,11 +40,13 @@ const LoadingPage = () => {
   const currentURL = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentURL).search);
   const codes: string | null = urlParams.get("code");
-  // const apiKey = "AIzaSyAbqPlaSAh5ppO1pOrnOS21vx0mIMGmMfs HTTP/1.1";
-  const apiKey = "AIzaSyAq0XhPo72HneDoFyxkD-WDJFoNzknrd04 HTTP/1.1";
-  const fastURL = "http://127.0.0.1:8000"; //로컬
-  // const fastURL = 'http://j9b204.p.ssafy.io/fast';//서버
 
+  const redirectURL = process.env.REACT_APP_REDIRECT_URL || "";
+  const clientId = process.env.REACT_APP_CLIENTID || "";
+  const apiKey = process.env.REACT_APP_APIKEY || "";
+  const clientSecret = process.env.REACT_APP_SECRET || "";
+  const serverURL = process.env.REACT_APP_SERVER_URL || "";
+  
   // 상태 변수 추가
   let allData: string = "";
 
@@ -73,7 +62,7 @@ const LoadingPage = () => {
         allData: allData,
       };
 
-      const response = await axios.post(fastURL + "/youtube", dataToSend, {
+      const response = await axios.post(serverURL + "fast/youtube", dataToSend, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -393,11 +382,10 @@ const LoadingPage = () => {
   if (codes !== null) {
     console.log("code 데이터:", codes);
     requestData.append("code", codes);
-    requestData.append("redirect_uri", "http://localhost:3000/loading");
+    requestData.append("redirect_uri", redirectURL);
     requestData.append("grant_type", "authorization_code");
-    requestData.append("client_id", client_id);
-    requestData.append("client_secret", client_secret);
-    // const apiKey = 'AIzaSyC54-nXX1Zj-HFzgqaNrY4ikA4NaIp5IUE HTTP/1.1';
+    requestData.append("client_id", clientId);
+    requestData.append("client_secret", clientSecret);
 
     // 토큰을 얻는 POST 요청
     axios
@@ -487,23 +475,24 @@ const LoadingPage = () => {
           handleTokenExpiry();
           return;
         }
-        const data = {
-          client_id: client_id,
-          client_secret: client_secret,
-          refresh_token: refreshToken,
-          grant_type: "refresh_token",
-        };
-        // accessToken 재발급!!!
-        axios
-          .post(url, new URLSearchParams(data))
-          .then((response) => {
-            console.log(response.data);
-            setUserInfo((prev) => ({
-              ...prev,
-              accessToken: response.data.access_token,
-            }));
-            navigate(ROUTES.LOADING);
-          })
+      const data = new URLSearchParams({
+        client_id: clientId || "", // clientId가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
+        client_secret: clientSecret || "", // clientSecret가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
+        refresh_token: refreshToken,
+        grant_type: "refresh_token",
+      });
+      
+      // axios 요청
+      axios
+        .post(url, data)
+        .then((response) => {
+          console.log(response.data);
+          setUserInfo((prev) => ({
+            ...prev,
+            accessToken: response.data.access_token,
+          }));
+          navigate(ROUTES.LOADING);
+        })
           // refreshToken도 만료되었을 때!!!
           .catch((error) => {
             console.error("Error refreshing token:", error);
@@ -511,6 +500,7 @@ const LoadingPage = () => {
           });
       });
   }
+  
   return (
     <MainPaddingContainer>
       <StyledLoadingCenter>
