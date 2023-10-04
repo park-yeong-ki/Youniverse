@@ -1,41 +1,31 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import Img from "../atoms/Img";
 import HashTag from "../atoms/HashTag";
-import { FlexCenter } from "../../commons/style/SharedStyle";
-
-type UserProps = {
-  id: number;
-  nickname: string;
-  image: string;
-  hashtags: string[];
-};
-
+import {
+  FlexCenter,
+  FlexColBetweenLeft,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
+import { RecommendUser } from "../organisms/UserRecommendContainer";
+import { getMember } from "../../apis/FrontendApi";
 interface Props {
-  user: UserProps;
+  user: RecommendUser;
   isSelected: boolean;
   onSelect: () => void;
 }
 
-const RecommendUserItem = ({
-  user,
-  isSelected: selectedFromParent,
-  onSelect,
-}: Props) => {
-  const [isSelected, setIsSelected] = useState(selectedFromParent);
-  const { id, nickname, image, hashtags } = user;
-
+const RecommendUserItem = ({ user, isSelected }: Props) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const navigate = useNavigate();
   /**클릭 시 사용자 ID를 이용해 프로필 이동 */
   const handleToClickedUser = async () => {
-    setIsSelected(!isSelected);
-    onSelect();
     try {
-      /** 백서버에 사용자 정보 요청 */
-      const response = await axios.get(`api 주소/${id}`);
-      console.log(response.data.user);
-
-      // 받은 데이터 프로필에 뿌리기
+      const response = await getMember(user.member_id);
+      console.log(response.data);
+      navigate(`/profile/${user.member_id}`);
+      console.log("클릭한 유저id", `${user.member_id}`);
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
     }
@@ -44,26 +34,37 @@ const RecommendUserItem = ({
   return (
     <StyledUserContainer>
       <StyledCenterContainer
-        isSelected={isSelected}
+        $isSelected={isSelected}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         onClick={handleToClickedUser}
       >
-        <div>
-          <Img size="Medium" src={image} />
-          <div>
-            <div>{nickname}</div>
-            <div>
-              {hashtags.map((hashtag, index) => (
+        <StyledRowBetweenContainer>
+          <StyledProfileImageContainer>
+            <Img
+              size="Small"
+              src={
+                user.member_image !== null
+                  ? user.member_image
+                  : "/assets/DefaultProfile.png"
+              }
+            />
+          </StyledProfileImageContainer>
+          <StyledColBetweenContainer>
+            <div>{user.nickname}</div>
+            <StyledHashTagRowBetweenContainer>
+              {user.keyword.slice(0, 2).map((hashtag, index) => (
                 <HashTag
                   key={index}
                   size="Standard"
-                  color={isSelected ? "Black" : "White"}
+                  color={isHovered ? "Black" : isSelected ? "Black" : "White"}
                 >
                   {hashtag}
                 </HashTag>
               ))}
-            </div>
-          </div>
-        </div>
+            </StyledHashTagRowBetweenContainer>
+          </StyledColBetweenContainer>
+        </StyledRowBetweenContainer>
       </StyledCenterContainer>
     </StyledUserContainer>
   );
@@ -72,16 +73,34 @@ const RecommendUserItem = ({
 export default RecommendUserItem;
 
 const StyledUserContainer = styled.div`
-  border: solid 0.5px white;
   border-radius: 12px;
   padding: 5px;
   width: 100%;
 `;
 
-const StyledCenterContainer = styled.div<{ isSelected?: boolean }>`
+const StyledCenterContainer = styled.div<{ $isSelected?: boolean }>`
   ${FlexCenter}
-  background-color: ${(props) => (props.isSelected ? "white" : "transparent")};
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: ${(props) => (props.$isSelected ? "white" : "transparent")};
   &:hover {
     cursor: pointer;
+    background-color: white;
   }
+`;
+const StyledProfileImageContainer = styled.div``;
+
+const StyledColBetweenContainer = styled.div`
+  ${FlexColBetweenLeft}
+  margin-left: 15px;
+`;
+
+const StyledRowBetweenContainer = styled.div`
+  ${FlexRowBetween}
+  width: 90%;
+`;
+
+const StyledHashTagRowBetweenContainer = styled.div`
+  ${FlexRowBetween}
 `;

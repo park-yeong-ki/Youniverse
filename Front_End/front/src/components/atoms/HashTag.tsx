@@ -37,7 +37,7 @@ type HashTagColorStyle = {
 const HashTagStyles: Record<HashTagSize, HashTagStyle> = {
   Standard: {
     height: "24px",
-    width: "fit-content",
+    width: "68px",
     fontSize: "12px",
     borderRadius: "8px",
   },
@@ -81,6 +81,7 @@ const StyledHashTag = styled.div<HashTagProps>`
   border-radius: ${(props) => HashTagStyles[props.size].borderRadius};
   background-color: ${(props) => HashTagColors[props.color].backgroundColor};
   color: ${(props) => HashTagColors[props.color]?.color ?? "#000"};
+  margin-right: 5px;
 
   // 해시태그 프레임 안에 글자 정중앙 위치
   display: flex;
@@ -91,8 +92,26 @@ const StyledHashTag = styled.div<HashTagProps>`
 /** 해시태그 컴포넌트 */
 const HashTag = ({ size, children, color }: HashTagProps) => {
   return (
-    <StyledHashTag size={size} color={color}>
-      {children}
+    <StyledHashTag
+      size={size}
+      color={color}
+      title={typeof children === "string" ? children : ""}
+    >
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+          height: "100%",
+          paddingLeft: "5px",
+          paddingRight: "5px",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          maxWidth: "calc(100% - 15px)",
+        }}
+      >
+        {children}
+      </span>
     </StyledHashTag>
   );
 };

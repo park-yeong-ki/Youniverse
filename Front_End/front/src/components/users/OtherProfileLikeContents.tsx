@@ -10,7 +10,7 @@ interface MypageLikeContentsProps {
   memberData: UserType | null;
 }
 
-const ProfileLikeContents: React.FC<MypageLikeContentsProps> = ({
+const OtherProfileLikeContents: React.FC<MypageLikeContentsProps> = ({
   memberData,
 }) => {
   const [likedMovies, setLikedMovies] = useState<Array<any>>([]);
@@ -66,7 +66,7 @@ const ProfileLikeContents: React.FC<MypageLikeContentsProps> = ({
   );
 };
 
-export default ProfileLikeContents;
+export default OtherProfileLikeContents;
 
 const StyledNoneContainer = styled.div`
   padding: 1rem 1rem;

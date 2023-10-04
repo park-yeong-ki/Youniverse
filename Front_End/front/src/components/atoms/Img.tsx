@@ -9,7 +9,13 @@ interface ImageProps {
 }
 
 /** 이미지 SIZE */
-type ImageSize = "2X-Large" | "X-Large" | "Large" | "Medium" | "Small";
+type ImageSize =
+  | "2X-Large"
+  | "X-Large"
+  | "Large"
+  | "Medium"
+  | "Small"
+  | "SearchProfile";
 
 /** 이미지 STYLE 타입 지정 */
 type ImageStyle = {
@@ -32,6 +38,9 @@ const ImageStyles: Record<ImageSize, ImageStyle> = {
   },
   Small: {
     height: "44px",
+  },
+  SearchProfile: {
+    height: "80px",
   },
 };
 /** styled-component => 이미지 */

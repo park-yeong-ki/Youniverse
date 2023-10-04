@@ -7,24 +7,28 @@ import { UserDetailInfoState } from "../../pages/store/State";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import RecommendUserItemList from "../users/RecommendUserItemList";
 import { SEARCH_USER_RECOMMEND } from "../../commons/constants/String";
-import { getMember } from "../../apis/FrontendApi";
+import { userRecommend } from "../../apis/FrontendApi";
 
-type User = {
-  id: number;
+export type RecommendUser = {
+  member_id: number;
+  age: number;
+  email: string;
+  gender: string;
+  introduce: string;
+  member_image: string;
   nickname: string;
-  image: string;
-  hashtags: string[];
+  keyword: string[];
 };
 
 const UserRecommendContainer = () => {
   const { nickname, memberId } = useRecoilValue(UserDetailInfoState);
-  const [recommendList, setrecommendList] = useState<User[]>([]);
-  // 임시로 나의 프로필 조회하도록 코딩 -> 향후에 추천받은 유저리스트로 변경
+  const [recommendList, setrecommendList] = useState<RecommendUser[]>([]);
+
   useEffect(() => {
     const getRecommendUsers = async () => {
       if (typeof memberId === "number") {
         try {
-          const response = await getMember(memberId);
+          const response = await userRecommend(memberId);
           setrecommendList(response.data.users);
         } catch (error) {
           console.error("추천 사용자 리스트 가져오기 실패: ", error);
@@ -39,7 +43,7 @@ const UserRecommendContainer = () => {
     <StyledStandardWhiteGhostWrapper
       size="Standard"
       color="WhiteGhost"
-      padding="Medium"
+      padding="Narrow"
     >
       <StyledColBetweenContainer>
         <StyledTextContainer>
@@ -50,7 +54,6 @@ const UserRecommendContainer = () => {
         </StyledTextContainer>
         <StyledUserContainer>
           <RecommendUserItemList users={recommendList} />
-          <p>현재는 아무것도 없지만 추천 리스트가 나올 것이다</p>
         </StyledUserContainer>
       </StyledColBetweenContainer>
     </StyledStandardWhiteGhostWrapper>
@@ -68,12 +71,16 @@ const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
 const StyledColBetweenContainer = styled.div`
   ${FlexColBetween}
   height: 100%;
+  width: 100%;
 `;
 
 const StyledTextContainer = styled.div`
   font-weight: bold;
+  margin-top: 10px;
 `;
 
 const StyledUserContainer = styled.div`
-  height: 90%;
+  width: 100%;
+  height: 85%;
+  overflow-y: auto;
 `;
