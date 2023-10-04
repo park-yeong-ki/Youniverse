@@ -217,13 +217,8 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
         {!selectStatus && (
           <>
             <StyledRowBetween>
-              <div className="w-1/3">
-                <OtherUserZodiacSign memberData={memberData}/>
-              </div>
-              <ProfileReview
-                className="w-2/3"
-                memberId={memberData?.memberId}
-              />
+              <OtherUserZodiacSign memberData={memberData} />
+              <ProfileReview memberId={memberData?.memberId} />
             </StyledRowBetween>
             <StyledRowWrap>
               <SoulMovieItemList />

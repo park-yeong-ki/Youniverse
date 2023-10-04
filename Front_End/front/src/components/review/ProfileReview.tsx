@@ -46,6 +46,7 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
         size="Standard"
         color="WhiteGhost"
         padding="Narrow"
+        className="mt-2"
       >
         {reviewList.length === 0 ? (
           <Text size="Small" color="Black" fontFamily="PyeongChang-Light">
@@ -62,12 +63,10 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
 export default ProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 55%;
-  margin-left: 20px;
+  width: 60%;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  margin-top: 5px;
-  height: 195px;
+  height: 240px;
 `;
