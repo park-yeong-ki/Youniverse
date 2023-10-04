@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 
-import {
-  RECOMMEND_PAGE_CONTAINER_KEYWORD,
-  RECOMMEND_PAGE_CONTAINER_YOUTUBE,
-} from "../../commons/constants/String";
-
-import { FlexRowBetween } from "../../commons/style/SharedStyle";
-
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
 import LineChartWrapper from "../chart/LineChartWrapper";
 import styled from "styled-components";
-import MyOTTPlanet from "../users/MyOTTPlanet";
 import { useRecoilValue } from "recoil";
 import { UserDetailInfoState } from "../../pages/store/State";
+import RecommendMyOTTPlanet from "../users/RecommendMyOTTPlanet";
 import { getMember } from "../../apis/FrontendApi";
 import { UserType } from "../../pages/profile/MyProfilePage";
+import {
+  MY_PAGE_OTT,
+  RECOMMEND_PAGE_CONTAINER_KEYWORD,
+} from "../../commons/constants/String";
+
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 
 const RecommendYouTube = () => {
   const currentId = useRecoilValue(UserDetailInfoState).memberId;
@@ -33,19 +32,24 @@ const RecommendYouTube = () => {
   }, [currentId]);
 
   return (
-    <StyledWrapper size="YouTube" color="WhiteGhost" padding="Narrow">
+    <StyledWrapper
+      size="YouTube"
+      color="WhiteGhost"
+      padding="Wide"
+      className="mt-2"
+    >
       <StyledYouTubeStar>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
           {RECOMMEND_PAGE_CONTAINER_KEYWORD}
         </Text>
         <LineChartWrapper chartWidth="100%" chartHeight="100%" />
       </StyledYouTubeStar>
-      <StyledYouTubeRec>
+      <StyledOTTPlanet>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
-          {RECOMMEND_PAGE_CONTAINER_YOUTUBE}
+          {memberData?.nickname} {MY_PAGE_OTT}
         </Text>
-        <MyOTTPlanet memberData={memberData} />
-      </StyledYouTubeRec>
+        <RecommendMyOTTPlanet memberData={memberData} />
+      </StyledOTTPlanet>
     </StyledWrapper>
   );
 };
@@ -54,16 +58,21 @@ export default RecommendYouTube;
 
 const StyledWrapper = styled(Wrapper)`
   ${FlexRowBetween}
+  padding-left: 5%;
+  padding-right: 5%;
 `;
 
 const StyledYouTubeStar = styled.div`
-  width: 40%;
+  width: 47%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  padding-bottom: 8px;
 `;
 
-const StyledYouTubeRec = styled.div`
-  width: 56%;
+const StyledOTTPlanet = styled.div`
+  height: 100%;
+  width: 47%;
+  gap: 10px;
 `;
