@@ -11,6 +11,7 @@ import axios from "axios";
 import {
   DataState,
   LoginState,
+  MemberIdState,
   UserDetailInfoState,
   UserInfoState,
   UserJoinInfoState,
@@ -49,6 +50,7 @@ const LoadingPage = () => {
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
 
   const [dataState, setDataState] = useRecoilState<boolean>(DataState);
+  const setMemberIdState = useSetRecoilState(MemberIdState);
 
   const currentURL = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentURL).search);
@@ -95,6 +97,7 @@ const LoadingPage = () => {
     navigate("/");
     resetUserInfo();
     resetUserDetailInfo();
+    setMemberIdState(null);
     setUserJoinInfo({
       email: "",
       nickname: "",
@@ -428,7 +431,7 @@ const LoadingPage = () => {
             getCheckEmailMember(userEmail)
               .then((response) => {
                 console.log(response);
-                if (response.data === "회원") {
+                if (response.data.nickname !== null) {
                   // 회원인 경우
                   setUserInfo((prev) => ({
                     ...prev,
@@ -439,7 +442,7 @@ const LoadingPage = () => {
                   }));
                   setIsLoggedIn(true);
                   navigate(ROUTES.MAIN);
-                } else if (response.data === "비회원") {
+                } else if (response.data.nickname === null) {
                   // 비회원인 경우
                   youtubeRequestData(access_token);
                   setUserInfo((prev) => ({
@@ -449,6 +452,7 @@ const LoadingPage = () => {
                     email: userEmail,
                     image: userImage,
                   }));
+                  setMemberIdState(response.data.memberId);
                   navigate(ROUTES.ADDINFO);
                 }
               })
