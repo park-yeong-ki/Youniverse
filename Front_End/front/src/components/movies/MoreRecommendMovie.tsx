@@ -18,15 +18,12 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
   listType,
 }) => {
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
-
   const [page, setPage] = useState(0);
-  const [sortMovies, setSortMovies] = useState<MovieType[]>([]); // 영화 정보 상태
-
+  const [sortMovies, setSortMovies] = useState<MovieType[]>([]);
   const { sort } = useParams<{ sort?: string }>();
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (pageNum: number) => {
     try {
-      // 만약 sort 파라미터가 URL에 존재하지 않으면 기본값이나 에러 처리를 수행할 수 있습니다.
       if (!sort) {
         console.error("Type parameter is missing in the URL");
         return;
@@ -38,12 +35,19 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
       }
 
       const response = await getAllMovies({
-        page: page,
-        type: numericType, // URL에서 가져온 type을 요청의 파라미터로 사용합니다.
+        page: pageNum,
+        type: numericType,
         "member-id": memberId,
       });
-      console.log(response);
-      setSortMovies(response.data.content);
+
+      let fetchedMovies = response.data.content;
+
+      if (selectedOTT && selectedOTT !== "All") {
+        fetchedMovies = fetchedMovies.filter((movie: MovieType) =>
+          movie.ottResDtos.some((ott) => ott.ottName === selectedOTT)
+        );
+      }
+      setSortMovies((prevMovies) => [...prevMovies, ...fetchedMovies]);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
@@ -57,12 +61,15 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
   };
 
   useEffect(() => {
-    fetchMovies();
-    // 초기화 로직이 필요하다면 여기에 추가합니다.
+    // 초기화 로직: 선택된 OTT가 변경되면 영화 목록과 페이지 번호를 초기화합니다.
+    setSortMovies([]);
     setPage(0);
-    // 페이지 번호, 선택된 OTT, 리스트 타입이 변경될 때마다 fetchMovies를 다시 호출합니다.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, selectedOTT, listType]);
+  }, [selectedOTT, listType]);
+
+  useEffect(() => {
+    fetchMovies(page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, selectedOTT, listType]); // 페이지 번호가 변경될 때마다 새로운 데이터 로드
 
   return (
     <RecommendPaddingContainer>
