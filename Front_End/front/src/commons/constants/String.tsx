@@ -52,8 +52,7 @@ export const RECOMMEND_PAGE_YOUTUBE = "유튜브 기반 추천";
 export const RECOMMEND_PAGE_LIKE = "선호도 기반 추천";
 export const RECOMMEND_PAGE_SCORE = "평점 기반 추천";
 export const RECOMMEND_PAGE_AGE = "에게 추천하는 영화";
-export const RECOMMEND_PAGE_MORE_YOUTUBE = "님의 유튜브 맞춤 추천 콘텐츠";
-export const RECOMMEND_PAGE_MORE = "님의 추천 콘텐츠";
+export const RECOMMEND_PAGE_MORE = " 추천 콘텐츠";
 export const RECOMMEND_PAGE_MORE_SELECT = "에서 추천받은 콘텐츠";
 
 // 영화 상세페이지
@@ -66,7 +65,7 @@ export const DETAIL_PAGE_YOUTUBE_VIDEO = "유튜브 요약 영상 & 관련 영�
 // 마이페이지
 export const MY_PAGE_STAR = "님의 별자리✨";
 export const MY_PAGE_OTT = "님의 OTT행성";
-export const MY_PAGE_OTT_RECOMMEND = "추천 콘텐츠 보러가기";
+export const MY_PAGE_OTT_RECOMMEND = "콘텐츠 보러가기";
 export const MY_PAGE_LIKE = "님이 좋아한 콘텐츠";
 export const MY_PAGE_REVIEW = "님이 남긴 리뷰";
 export const MY_PAGE_PROFILE_EDIT = "프로필 수정";

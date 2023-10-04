@@ -1,16 +1,16 @@
-import React from "react";
-import Text from "../atoms/Text";
 import RecommendYouTube from "./RecommendYouTube";
 import MovieItemList from "./MovieItemList";
 
 const RecommendSection = () => {
   return (
-    <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
+    <>
       <RecommendYouTube />
-      <MovieItemList showMoreButton={true} listType="유튜브 기반 추천" />
-    </Text>
+      <MovieItemList
+        showMoreButton={true}
+        listType="유튜브 기반 추천 영화"
+      />
+    </>
   );
 };
-
 
 export default RecommendSection;

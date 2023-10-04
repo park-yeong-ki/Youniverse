@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,9 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useRecoilValue } from "recoil";
+import { UserDetailInfoState } from "../../pages/store/State";
+import { getMember } from "../../apis/FrontendApi";
 
 ChartJS.register(
   CategoryScale,
@@ -21,16 +24,24 @@ ChartJS.register(
   Legend
 );
 
+
+
 interface LineChartProps {
-  width?: string | number; // 수정
-  height?: string | number; // 수정
+  width?: string | number;
+  height?: string | number;
 }
 
-export const options = {
+// YoutubeKeyword 타입을 정의
+interface YoutubeKeyword {
+  youtubeKeywordName: string;
+  movieRank: number;
+}
+
+const options = {
   responsive: false,
   plugins: {
     legend: {
-      display: false, // 범례를 숨깁니다.
+      display: false,
     },
     title: {
       display: false,
@@ -57,39 +68,76 @@ export const options = {
   },
   elements: {
     line: {
-      tension: 0, // 이 부분은 라인을 곡선 없이 직선으로 만듭니다. 필요에 따라 제거할 수 있습니다.
+      tension: 0, // 라인을 곡선 없이 직선으로 만듭니다. 필요에 따라 제거할 수 있습니다.
+      borderDash: [5, 5], // 이 부분을 추가하여 라인을 점선 스타일로 만듭니다. 첫 번째 숫자는 점의 길이, 두 번째 숫자는 공백의 길이입니다.
     },
     point: {
       radius: 5, // 포인트의 크기를 조절합니다. 원하는 크기로 조절하세요.
       backgroundColor: "rgb(255, 249, 200)", // 포인트의 색상입니다. 원하는 색상으로 조절하세요.
+      pointStyle: 'star',
     },
   },
 };
 
-const labels = [
-  "키워드1",
-  "키워드2",
-  "키워드3",
-  "키워드4",
-  "키워드5",
-  "키워드6",
-  "키워드7",
-];
+interface ChartData {
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+    borderColor: string;
+    backgroundColor: string;
+  }>;
+}
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [500, 600, 400, 700, 650, 720, 590],
-      borderColor: "rgb(255, 249, 200)",
-      backgroundColor: "#ffffff",
-    },
-  ],
-};
+const LineChart: React.FC<LineChartProps> = ({ width, height }) => {
+  const [chartData, setChartData] = useState<ChartData>({
+    labels: [],
+    datasets: [
+      {
+        label: "Youtube Keyword Movie Ranks",
+        data: [],
+        borderColor: "rgb(255, 249, 200)",
+        backgroundColor: "#ffffff",
+      },
+    ],
+  });
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
-const LineChart: React.FC<LineChartProps> = () => {
-  return <Line options={options} data={data} />;
+  useEffect(() => {
+    const getChartData = async () => {
+      try {
+        if (memberId == null) {
+          console.error("memberId is null or undefined");
+          return;
+        }
+        const response = await getMember(memberId);
+        const youtubeKeywords: YoutubeKeyword[] =
+          response.data.youtubeKeywordResDtos;
+        const labels = youtubeKeywords.map(
+          (k: YoutubeKeyword) => k.youtubeKeywordName
+        );
+        const data = youtubeKeywords.map((k: YoutubeKeyword) => k.movieRank);
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: "Youtube Keyword Movie Ranks",
+              data,
+              borderColor: "rgb(255, 249, 200)",
+              backgroundColor: "#ffffff",
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching the chart data", error);
+      }
+    };
+
+    getChartData();
+  }, [memberId]);
+
+  return <Line options={options} data={chartData} width={width} height={height}/>;
 };
 
 export default LineChart;

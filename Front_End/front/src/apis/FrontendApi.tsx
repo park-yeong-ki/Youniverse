@@ -1,4 +1,4 @@
-import { mainAxios } from "../libs/axios";
+import { mainAxios, fastApiAxios } from "../libs/axios";
 
 type UserJoinInfo = {
   email: string | null;
@@ -10,14 +10,15 @@ type UserJoinInfo = {
   ottList: number[];
 };
 
-type UpdateMemberType = {
+export type UpdateMemberType = {
   nickname: string;
-  gender: string;
+  email: string | null;
+  gender: string | null;
   age: number;
   introduce: string;
   keywordList: number[];
   ottList: number[];
-  file: File;
+  file?: File | null;
 };
 
 export interface UserSearchParams {
@@ -34,6 +35,11 @@ export interface keywordsParams {
   random?: boolean;
 }
 
+export type FollowParams = {
+  followerId: number;
+  followingId: number;
+};
+
 /** 회원가입 */
 export const postMember = (userJoinInfo: UserJoinInfo) =>
   mainAxios.post(`/members/register`, userJoinInfo, {
@@ -43,23 +49,31 @@ export const postMember = (userJoinInfo: UserJoinInfo) =>
 /** 회원정보 수정 */
 export const putMember = (memberId: number, data: UpdateMemberType) => {
   const formData = new FormData();
-  // memberReqDto 내용 추가
+  // 기존의 JSON 데이터를 'memberReqDto'라는 키에 넣기
+  const memberData = {
+    nickname: data.nickname,
+    email: data.email,
+    gender: data.gender,
+    age: data.age,
+    introduce: data.introduce,
+    ottList: data.ottList,
+    keywordList: data.keywordList,
+  };
   formData.append(
     "memberReqDto",
-    JSON.stringify({
-      nickname: data.nickname,
-      gender: data.gender,
-      age: data.age,
-      introduce: data.introduce,
-      ottList: data.ottList,
-      keywordList: data.keywordList,
-    })
+    new Blob([JSON.stringify(memberData)], { type: "application/json" })
   );
-  // 이미지 추가
-  formData.append("image", data.file);
+
+  // 이미지 추가 (추가했을 경우에만)
+  if (data.file && data.file !== null) {
+    formData.append("image", data.file);
+  }
 
   return mainAxios.put(`/members/${memberId}`, formData, {
-    headers: { Accept: "application/json" },
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+    },
   });
 };
 
@@ -129,8 +143,8 @@ export const getAllOTTs = () =>
 // ==============================
 
 /** 팔로우 등록 */
-export const postFollow = () =>
-  mainAxios.post(`/follows/register`, {
+export const postFollow = (followParams: FollowParams) =>
+  mainAxios.post(`/follows/register`, followParams, {
     headers: { Accept: "application/json" },
   });
 
@@ -224,10 +238,17 @@ export const deleteHate = (hateMovieId: number) =>
 //====================================================
 
 /** 인생영화 등록 */
-export const postBest = () =>
-  mainAxios.post(`/best-movies/register`, {
-    headers: { Accept: "application/json" },
-  });
+export const postBest = (memberId: number, movieId: number) =>
+  mainAxios.post(
+    `/best-movies/register`,
+    {
+      memberId,
+      movieId,
+    },
+    {
+      headers: { Accept: "application/json" },
+    }
+  );
 
 /** 인생영화 조회 */
 export const getBest = (bestMovieId: number) =>
@@ -268,3 +289,10 @@ export const deleteReview = (reviewId: number) =>
   });
 
 //===============================================
+
+/** 사용자 추천 FAST API */
+
+export const userRecommend = (memberId: number) =>
+  fastApiAxios.get(`/users/info?member_id=${memberId}`, {
+    headers: { Accept: "application/json" },
+  });

@@ -5,9 +5,7 @@ import {
   RECOMMEND_PAGE_CONTAINER_YOUTUBE,
 } from "../../commons/constants/String";
 
-import {
-  FlexRowBetween,
-} from "../../commons/style/SharedStyle";
+import { FlexRowBetween } from "../../commons/style/SharedStyle";
 
 import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
@@ -17,12 +15,12 @@ import styled from "styled-components";
 const RecommendYouTube = () => {
   return (
     <StyledWrapper size="YouTube" color="WhiteGhost" padding="Narrow">
-      <StyledYouTubeStar>
-        <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
-          {RECOMMEND_PAGE_CONTAINER_KEYWORD}
-        </Text>
-        <LineChartWrapper chartWidth="100%" chartHeight="100%" />
-      </StyledYouTubeStar>
+        <StyledYouTubeStar>
+          <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
+            {RECOMMEND_PAGE_CONTAINER_KEYWORD}
+          </Text>
+          <LineChartWrapper chartWidth="100%" chartHeight="100%" />
+        </StyledYouTubeStar>
       <StyledYouTubeRec>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
           {RECOMMEND_PAGE_CONTAINER_YOUTUBE}
@@ -40,6 +38,10 @@ const StyledWrapper = styled(Wrapper)`
 
 const StyledYouTubeStar = styled.div`
   width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const StyledYouTubeRec = styled.div`

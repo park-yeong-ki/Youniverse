@@ -1,171 +1,206 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useRecoilValue } from "recoil";
 
+import {
+  UserDetailInfoState,
+  UserJoinInfoState,
+} from "./../../pages/store/State";
+import styled from "styled-components";
 import { FlexRowBetween } from "../../commons/style/SharedStyle";
 import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
 import MovieItem from "./MovieItem";
-
-import { getAllMovies } from "../../apis/FrontendApi";
+import BestMovieItem from "./BestMovieItem";
+import { getAllMovies, getMember, getMovie } from "../../apis/FrontendApi";
+import { MovieType, OTTType, BestMovieType } from "../../types/MovieType";
 
 type Props = {
   filterOTT?: string | null;
-  listType?: string;
+  listType?: string | null;
   movies?: MovieType[];
   showMoreButton?: boolean;
+  page?: number;
 };
 
-type OTTType = {
-  ottId: number;
-  ottImage: string;
-  ottName: string;
-  ottPrice: number;
-  ottUrl: string;
-};
-
-type ActorType = {
-  actorId: number;
-  actorImage: string;
-  actorName: string;
-};
-
-type DirectorType = {
-  directorId: number;
-  directorImage: string;
-  directorName: string;
-};
-
-type GenreType = {
-  genreId: number;
-  genreName: string;
-};
-
-type KeywordType = {
-  keywordId: number;
-  keywordName: string;
-  source: number;
-};
-
-export type MovieType = {
-  movieId: number;
-  title: string;
-  movieImage: string;
-  rate: number;
-  runtime: number;
-  ottResDtos: OTTType[];
-  overView: string;
-  heartMovieResDtos: {
-    heartMovieId: number;
-    memberSimpleResDto: {
-      memberId: number;
-      memberImage: string | null;
-      nickname: string;
-    };
-  }[];
-  hateMovieResDtos: {
-    hateMovieId: number;
-    memberSimpleResDto: {
-      memberId: number;
-      memberImage: string | null;
-      nickname: string;
-    };
-  }[];
-  actorResDtos: ActorType[];
-  directorResDtos: DirectorType[];
-  keywordResDtos: KeywordType[];
-  genreResDtos: GenreType[];
-};
-
-const convertOTTNameToId = (
-  ottName: string | null | undefined
-): number | null => {
-  if (!ottName) return null; // 이 줄을 추가하여 null 또는 undefined를 처리합니다.
-
-  switch (ottName) {
-    case "넷플릭스":
-      return 1;
-    case "디즈니플러스":
-      return 2;
-    case "왓챠":
-      return 3;
-    case "애플티비":
-      return 4;
-    case "웨이브":
-      return 5;
-    default:
-      return null;
-  }
-};
-
-const MovieItemList: React.FC<Props> = ({
+const MovieItemList: React.FC<
+  Props & { layout?: "horizontal" | "vertical" }
+> = ({
   filterOTT,
   listType,
-  movies: propMovies = [], // 변수 이름 변경
+  movies: propMovies = [],
   showMoreButton,
+  page,
+  layout = "horizontal", // default value
 }) => {
-  // 필요한 경우 filterOTT 값을 사용하여 영화 목록을 필터링하면 됩니다.
-  // listType: 유튜브 기반 추천, @@님의 선호도 기반, @@@님의 인생영화 ... 이런 텍스트
-  // filterOTT: 추천 -> 더보기 들어갔을 때 OTT 선택해서 필터링 하는거
-  // 검색결과에 맞는 영화 추가 필요
   const navigate = useNavigate();
-
   const [movies, setMovies] = useState<MovieType[]>([]);
 
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
+  const memberAge = useRecoilValue(UserJoinInfoState).age;
+  const memberGender = useRecoilValue(UserJoinInfoState).gender;
+
+  const [bestMovies, setBestMovies] = useState<BestMovieType[]>([]);
+
+  // 조건에 따라 스타일 선택
+  // const MovieContainer =
+  //   layout === "horizontal" ? MovieContainerHorizontal : MovieContainerVertical;
+
+  // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
-    navigate(`/recommend/more`);
+    let sort: number | null = null;
+
+    switch (listType) {
+      case "선호도기반 추천 영화":
+        sort = 1;
+        break;
+      case `${memberAge}세 ${memberGender} 추천 영화`:
+        sort = 2;
+        break;
+      case "유튜브 기반 추천 영화":
+        sort = 3;
+        break;
+      default:
+        break;
+    }
+    // navigate to the recommendation page with a sort type
+    if (sort) {
+      navigate(`/recommend/more/${sort}`);
+    }
   };
 
-  useEffect(() => {
-    getAllMovies()
-      .then((response) => {
-        console.log("Movies from API:", response.data.content);
+  const convertOTTNameToId = (
+    ottName: string | null | undefined
+  ): number | null => {
+    if (!ottName) return null;
+    const ottList = [
+      { name: "넷플릭스", id: 8 },
+      { name: "디즈니플러스", id: 337 },
+      { name: "왓챠", id: 97 },
+      { name: "애플티비", id: 2 },
+      { name: "애플티비플러스", id: 350 },
+      { name: "웨이브", id: 356 },
+    ];
 
+    const ott = ottList.find((o) => o.name === ottName);
+    return ott ? ott.id : null;
+  };
+
+  // 영화 데이터 가져오기
+  useEffect(() => {
+    const loadMovies = async () => {
+      let requestParams: any = { page, size: 20 };
+      if (listType === "다른 유저의 인생영화 추천") {
+        try {
+          const response = await getMember(0); // memberId가 0으로 호출
+          const bestMoviesWithDetail = await Promise.all(
+            response.data.bestMovieResDtos.map(async (bestMovie: any) => {
+              const movieDetailResponse = await getMovie(bestMovie.bestMovieId); // 추가로 movie 데이터를 로딩합니다.
+              return {
+                ...bestMovie,
+                movie: movieDetailResponse.data, // movie 정보를 추가합니다.
+              };
+            })
+          );
+          setBestMovies(bestMoviesWithDetail); // 상세 정보가 담긴 bestMovie 정보를 state에 저장
+        } catch (error) {
+          console.error("Error fetching best movies: ", error);
+        }
+      } else if (listType === "선호도기반 추천 영화") {
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          type: 1,
+        };
+      } else if (listType === `${memberAge}세 ${memberGender} 추천 영화`) {
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          type: 2,
+        };
+      } else if (listType === "유튜브 기반 추천 영화") {
+        requestParams = {
+          ...requestParams,
+          "member-id": memberId,
+          type: 3,
+        };
+      }
+
+      try {
+        const response = await getAllMovies(requestParams);
         const targetOttId = convertOTTNameToId(filterOTT);
 
         const filteredMovies = response.data.content.filter(
           (movie: MovieType) => {
-            console.log("OTTs for movie:", movie.title, movie.ottResDtos);
-            // filterOTT가 null이면 전체 영화를 반환
             if (!targetOttId) return true;
-
-            // ottResDtos 배열에 targetOttId와 일치하는 ottId가 있는지 확인
             return movie.ottResDtos.some(
               (ott: OTTType) => ott.ottId === targetOttId
             );
           }
         );
-        console.log("Filtered Movies:", filteredMovies);
-        setMovies(filteredMovies);
-      })
-      .catch((err) => {
+        if (page === 0) {
+          // 첫 페이지일 경우 기존 영화 목록을 리셋
+          setMovies(filteredMovies);
+        } else {
+          setMovies((prevMovies) => [...prevMovies, ...filteredMovies]);
+        }
+      } catch (err) {
         console.log(err);
-      });
-  }, [filterOTT]);
+      }
+    };
+
+    loadMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterOTT, listType, memberId, page]);
+
+  const renderMovies = () => {
+    if (propMovies && propMovies.length > 0) {
+      return propMovies.map((movie) => (
+        <MovieItem key={movie.movieId} movie={movie} />
+      ));
+    } else if (listType === "다른 유저의 인생영화 추천") {
+      return bestMovies.length > 0 ? (
+        bestMovies.map((bestMovie) => (
+          <div>
+            <BestMovieItem
+              key={bestMovie.bestMovieId}
+              bestMovie={bestMovie}
+              movie={bestMovie.movie}
+            />
+          </div>
+        ))
+      ) : (
+        <NoMovieText />
+      );
+    } else {
+      return movies.length > 0 ? (
+        movies.map((movie) => <MovieItem key={movie.movieId} movie={movie} />)
+      ) : (
+        <NoMovieText />
+      );
+    }
+  };
+
+  const NoMovieText = () => (
+    <Text size="Medium" color="Black" fontFamily="PyeongChang-Bold">
+      영화가 없습니다.
+    </Text>
+  );
 
   return (
-    <>
-      {filterOTT}
+    <RecommendPaddingContainer>
       <StyledListBtn>
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {listType}
         </Text>
         {showMoreButton && (
-          <StyledBtn
-            size="Medium"
-            color="Black"
-            onClick={() => handleMoreClick()}
-          >
+          <StyledBtn size="Medium" color="Black" onClick={handleMoreClick}>
             더보기
           </StyledBtn>
         )}
       </StyledListBtn>
-      <div className="grid grid-cols-5 gap-4">
-        {movies.map((movie) => (
-          <MovieItem key={movie.movieId} movie={movie} />
-        ))}
-      </div>
-    </>
+      <div className="grid grid-cols-5 gap-4">{renderMovies()}</div>
+    </RecommendPaddingContainer>
   );
 };
 
@@ -177,4 +212,28 @@ const StyledListBtn = styled.div`
 
 const StyledBtn = styled(Btn)`
   width: 100px;
+`;
+
+// const MovieContainerHorizontal = styled.div`
+//   display: flex;
+//   overflow-x: auto;
+//   gap: 16px;
+//   padding-bottom: 0.5rem;
+//   padding-top: 0.5rem;
+//   /* your movie item */
+//   & > div {
+//     flex-shrink: 0;
+//   }
+// `;
+
+/* MovieContainer의 스타일을 세로 스크롤로 변경 */
+// const MovieContainerVertical = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 16px;
+//   justify-content: flex-start;
+// `;
+
+const RecommendPaddingContainer = styled.div`
+  padding: 1rem;
 `;

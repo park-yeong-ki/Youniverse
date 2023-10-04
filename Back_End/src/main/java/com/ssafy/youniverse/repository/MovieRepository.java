@@ -34,9 +34,11 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             "(select gender from member where member_id = :memberId)))", nativeQuery = true)
     Page<Movie> findAllByAgeAndGender(@Param("memberId") Integer memberId, Pageable pageable);
 
-    @Query(value = "select mv from Movie mv where mv.movieId in " +
-            "(select om.movie.movieId from OttMovie om where om.ott.ottId = :ottId)")
-    Page<Movie> findAllByOttId(@Param("ottId") Integer ottId, Pageable pageable);
+    @Query(value = "select * from movie where movie_id in " +
+            "(select movie_id from recommend_movie where member_id = :memberId AND " +
+            "movie_id in " +
+            "(select movie_id from ott_movie where ott_id = :ottId))", nativeQuery = true)
+    Page<Movie> findAllByOttId(@Param("ottId") Integer ottId, @Param("memberId") Integer memberId, Pageable pageable);
 
     //유튜브 추천
     @Query(value = "select * from movie where movie_id in " +

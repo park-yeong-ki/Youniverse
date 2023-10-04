@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+
+import { getMember } from "../../apis/FrontendApi";
+import { UserDetailInfoState } from "../store/State";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
+import {
+  FlexColBetweenLeft,
+  FlexRowBetween,
+} from "../../commons/style/SharedStyle";
 import SoulMovieItemList, {
   SoulMovie,
 } from "../../components/movies/SoulMovieItemList";
@@ -8,10 +17,8 @@ import MypageFollowWrap from "../../components/users/MypageFollowWrap";
 import MypageLikeContents from "../../components/users/MypageLikeContents";
 import MypageUserInfo from "../../components/users/MypageUserInfo";
 import UserZodiacSign from "../../components/users/UserZodiacSign";
-import { useRecoilValue } from "recoil";
-import { UserDetailInfoState } from "../store/State";
-import { getMember } from "../../apis/FrontendApi";
-import { MovieType } from "../../components/movies/MovieItemList";
+import { FollowerType } from "../../components/organisms/OtherProfileContainer";
+import MyProfileReview from "../../components/review/MyProfileReview";
 
 export type UserType = {
   memberId: number;
@@ -23,6 +30,7 @@ export type UserType = {
   memberImage: string;
   ottResDtos: Array<{
     ottImage: string;
+    ottId: number;
     ottName: string;
     ottUrl: string;
   }>;
@@ -30,11 +38,12 @@ export type UserType = {
     keywordName: string;
     source: number;
   }>;
-  followers: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
+  followers: Array<FollowerType>;
   followings: Array<any>;
-  heartMovieResDtos: Array<MovieType>;
+  heartMovieResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
   bestMovieResDtos: Array<SoulMovie>;
   reviewResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
+  recommendOttResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
 };
 
 const MyProfilePage = () => {
@@ -55,24 +64,32 @@ const MyProfilePage = () => {
 
   return (
     <MainPaddingContainer>
-      <div className="flex gap-5">
+      <div className="flex gap-6 h-full">
         {memberData && (
           <>
-            <div className="w-1/4">
+            <div className="w-1/5">
               <MypageUserInfo
                 memberData={memberData}
+                setMemberData={setMemberData}
                 followStatus={followStatus}
                 setFollowStatus={setFollowStatus}
               />
             </div>
-            <div className="w-3/4">
+            <StyledContentWrap className="w-4/5">
               {!followStatus && (
-                <div>
-                  <SoulMovieItemList />
-                  <MyOTTPlanet />
-                  <MypageLikeContents />
-                  <UserZodiacSign />
-                </div>
+                <>
+                  <StyledRowWrap>
+                    <UserZodiacSign />
+                    <MyOTTPlanet memberData={memberData} />
+                  </StyledRowWrap>
+                  <StyledRowWrap>
+                    <MypageLikeContents memberData={memberData} />
+                    <MyProfileReview memberId={Number(memberId)} />
+                  </StyledRowWrap>
+                  <StyledSoulWrap>
+                    <SoulMovieItemList />
+                  </StyledSoulWrap>
+                </>
               )}
 
               {followStatus && (
@@ -82,7 +99,7 @@ const MyProfilePage = () => {
                   setFollowStatus={setFollowStatus}
                 />
               )}
-            </div>
+            </StyledContentWrap>
           </>
         )}
       </div>
@@ -91,3 +108,25 @@ const MyProfilePage = () => {
 };
 
 export default MyProfilePage;
+
+const StyledContentWrap = styled.div`
+  ${FlexColBetweenLeft}
+  overflow-y: auto;
+  padding-right: 0.5rem;
+`;
+
+const StyledSoulWrap = styled.div``;
+
+export const StyledRowWrap = styled.div`
+  ${FlexRowBetween}
+  & > div:first-child {
+    width: 44%;
+    height: 100%;
+  }
+  & > div:last-child {
+    width: 53%;
+    height: 100%;
+  }
+  margin-bottom: 1.25rem;
+  height: 44%;
+`;

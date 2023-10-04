@@ -10,7 +10,7 @@ import {
 } from "../../commons/style/SharedStyle";
 import HashTag from "../atoms/HashTag";
 import Btn from "../atoms/Btn";
-import { MovieType } from "./MovieItemList";
+import { MovieType } from "../../types/MovieType";
 import { UserDetailInfoState } from "./../../pages/store/State";
 import {
   postHeart,
@@ -22,10 +22,17 @@ import {
 type MovieItemProps = {
   movie: MovieType;
   $cardWidth?: string;
+  onClick?: () => void;
+  $profile?: boolean;
   // 필요한 경우 다른 props 타입도 여기에 추가
 };
 
-const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
+const MovieItem: React.FC<MovieItemProps> = ({
+  movie,
+  onClick,
+  $profile,
+  ...props
+}) => {
   const navigate = useNavigate();
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   // 좋아요 관련 상태
@@ -43,12 +50,11 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   const handleLikePush = () => {
     if (!likeStatus) {
       console.log("좋아요 버튼을 눌렀어요", memberId);
-      if (memberId !== null) {
+      if (memberId !== null && movie.movieId) {
         postHeart(memberId, movie.movieId)
           .then((res) => {
             setLikeStatus(true);
             setHeartMovieId(res.data.heartMovieId);
-            console.log("좋아요 요청 성공!", res);
           })
           .catch((err) => {
             console.error("좋아요 요청 실패:", err);
@@ -57,14 +63,12 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
         console.error("memberId is null");
       }
     } else {
-      console.log("좋아요 취소 버튼을 눌렀어요");
       console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
       if (heartMovieId !== null) {
         deleteHeart(heartMovieId)
           .then(() => {
             setLikeStatus(false);
             setHeartMovieId(null); // 삭제 후 heartMovieId 초기화
-            console.log("좋아요 삭제 성공!");
           })
           .catch((err) => {
             console.error("좋아요 삭제 실패:", err);
@@ -75,14 +79,12 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
 
   const handleRecommendPush = () => {
     if (!recommendStatus) {
-      console.log("추천받지 않을래요 버튼을 눌렀어요");
 
-      if (memberId !== null) {
+      if (memberId !== null && movie.movieId) {
         postHate(memberId, movie.movieId)
           .then((res) => {
             setRecommendStatus(true);
             setHateMovieId(res.data.hateMovieId);
-            console.log("추천받지 않을래요 요청 성공!", res);
           })
           .catch((err) => {
             console.error("추천받지 않을래요 요청 실패:", err);
@@ -91,13 +93,11 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
         console.error("memberId is null");
       }
     } else {
-      console.log("다시 추천해주세요 버튼을 눌렀어요");
       if (hateMovieId !== null) {
         deleteHate(hateMovieId)
           .then(() => {
             setRecommendStatus(false);
             setHateMovieId(null); // 삭제 후 hateMovieId 초기화
-            console.log("다시 추천 요청 성공!");
           })
           .catch((err) => {
             console.error("다시 추천 요청 실패:", err);
@@ -110,11 +110,10 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
     const heart = movie.heartMovieResDtos?.find(
       (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
-    
+
     const hate = movie.hateMovieResDtos?.find(
       (resDto) => resDto.memberSimpleResDto?.memberId === memberId
     );
-    
 
     if (heart) {
       setLikeStatus(true);
@@ -128,60 +127,75 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, ...props }) => {
   }, [movie, memberId]);
 
   return (
-    <StyledCardWrapper $cardWidth={props.$cardWidth}>
+    <StyledCardWrapper $cardWidth={props.$cardWidth} onClick={onClick}>
       <StyledMoviePoster src={movie.movieImage} />
       {/* hover이거나 focus가 되어있을 때 적용시킬 부분 */}
       <StyledCardHover>
         <StyledDetailOut>
           {/* focus가 되어있을 때는 Large / 아닐 때는 Medium */}
           <StyledTitle
-            size="Large"
+            size={$profile ? "Medium" : "Large"}
             color="White"
             fontFamily="PyeongChang-Bold"
-            onClick={() => handleTitleClick(movie.movieId)}
+            onClick={() => {
+              if (movie.movieId) {
+                handleTitleClick(movie.movieId);
+              }
+            }}
           >
             {movie.title}
           </StyledTitle>
-          <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            평점 {movie.rate}
-          </Text>
-          <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-            {movie.runtime}분
-          </Text>
-          <StyledDetailInCol>
-            <StyledDetailInRow>
-              {/* for문 적용하기 (데이터 어떻게 오는지 확인 후) */}
-              <HashTag size="Standard" color="WhiteGhost">
-                # 키워드
-              </HashTag>
-              <HashTag size="Standard" color="WhiteGhost">
-                # 키워드
-              </HashTag>
-              <HashTag size="Standard" color="WhiteGhost">
-                # 키워드
-              </HashTag>
-            </StyledDetailInRow>
-          </StyledDetailInCol>
-          <StyledDetailInCol>
-            {likeStatus === false ? (
-              <Btn size="Circle" color="White" onClick={handleLikePush}>
-                💖
-              </Btn>
-            ) : (
-              <Btn size="Circle" color="White" onClick={handleLikePush}>
-                ✅
-              </Btn>
-            )}
-            {recommendStatus === false ? (
-              <Btn size="X-Small" color="Black" onClick={handleRecommendPush}>
-                추천받지 않을래요
-              </Btn>
-            ) : (
-              <Btn size="X-Small" color="White" onClick={handleRecommendPush}>
-                다시 추천해주세요
-              </Btn>
-            )}
-          </StyledDetailInCol>
+          {!$profile && (
+            <>
+              <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+                평점 {movie.rate}
+              </Text>
+              <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+                {movie.runtime}분
+              </Text>
+              <StyledDetailInCol>
+                <StyledDetailInRow>
+                  {movie.keywordResDtos.slice(0, 3).map((keyword) => (
+                    <HashTag
+                      key={keyword.keywordId}
+                      size="Standard"
+                      color="WhiteGhost"
+                    >
+                      {keyword.keywordName}
+                    </HashTag>
+                  ))}
+                </StyledDetailInRow>
+              </StyledDetailInCol>
+              <StyledDetailInCol>
+                {likeStatus === false ? (
+                  <Btn size="Circle" color="White" onClick={handleLikePush}>
+                    💖
+                  </Btn>
+                ) : (
+                  <Btn size="Circle" color="White" onClick={handleLikePush}>
+                    ✅
+                  </Btn>
+                )}
+                {recommendStatus === false ? (
+                  <Btn
+                    size="X-Small"
+                    color="Black"
+                    onClick={handleRecommendPush}
+                  >
+                    추천받지 않을래요
+                  </Btn>
+                ) : (
+                  <Btn
+                    size="X-Small"
+                    color="White"
+                    onClick={handleRecommendPush}
+                  >
+                    다시 추천해주세요
+                  </Btn>
+                )}
+              </StyledDetailInCol>
+            </>
+          )}
         </StyledDetailOut>
       </StyledCardHover>
     </StyledCardWrapper>

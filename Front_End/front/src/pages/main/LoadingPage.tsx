@@ -1,9 +1,15 @@
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router";
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 import axios from "axios";
 
 import {
+  DataState,
   LoginState,
   UserDetailInfoState,
   UserInfoState,
@@ -18,7 +24,8 @@ import Text from "../../components/atoms/Text";
 const LoadingPage = () => {
   const navigate = useNavigate();
   const setUserInfo = useSetRecoilState(UserInfoState);
-  const setIsLoggedIn = useSetRecoilState(LoginState);
+  // const setIsLoggedIn = useSetRecoilState(LoginState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
   const resetUserInfo = useResetRecoilState(UserInfoState);
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
@@ -40,6 +47,8 @@ const LoadingPage = () => {
 
   const accessToken = useRecoilValue(UserInfoState).accessToken;
   const refreshToken = useRecoilValue(UserInfoState).refreshToken;
+
+  const [dataState, setDataState] = useRecoilState<boolean>(DataState);
 
   const currentURL = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentURL).search);
@@ -403,8 +412,6 @@ const LoadingPage = () => {
         console.log("토큰: ", access_token);
         console.log("전체 데이터==================", response.data);
 
-        youtubeRequestData(access_token);
-
         // 이메일 정보 가져오기
         axios
           .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -434,6 +441,7 @@ const LoadingPage = () => {
                   navigate(ROUTES.MAIN);
                 } else if (response.data === "비회원") {
                   // 비회원인 경우
+                  youtubeRequestData(access_token);
                   setUserInfo((prev) => ({
                     ...prev,
                     accessToken: access_token,
@@ -458,7 +466,7 @@ const LoadingPage = () => {
   }
 
   // 재요청을 보냈을 때 (데이터 분석 요청)
-  if (accessToken) {
+  if (isLoggedIn && accessToken && dataState) {
     // accessToken 유효 여부를 체크
     const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`;
 
@@ -468,6 +476,7 @@ const LoadingPage = () => {
       .then((response) => {
         console.log(response);
         youtubeRequestData(accessToken);
+        setDataState(false);
         navigate(ROUTES.MAIN);
       })
       // accessToken 만료되었을 때

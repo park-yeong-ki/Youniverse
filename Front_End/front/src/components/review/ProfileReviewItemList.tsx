@@ -38,15 +38,15 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  autoplay: false,
-  autoplaySpeed: 3000,
+  autoplay: true,
+  autoplaySpeed: 4000,
   vertical: true,
   arrows: false,
 };
 
 const ProfileReviewItemList: React.FC<Props> = ({ reviews }) => {
   return (
-    <StyledSlider {...settings} >
+    <StyledSlider {...settings}>
       {reviews.map((review) => (
         <div key={review.reviewId}>
           <ProfileReviewItem review={review} />
@@ -60,5 +60,4 @@ export default ProfileReviewItemList;
 
 const StyledSlider = styled(Slider)`
   width: 100%;
-  height: 100%;
 `;

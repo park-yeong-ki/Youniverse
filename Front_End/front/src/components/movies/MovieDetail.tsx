@@ -3,16 +3,16 @@ import { useRecoilValue } from "recoil";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi";
 import styled from "styled-components";
 
-import { UserDetailInfoState } from "../../pages/store/State";
-import { MovieType } from "./MovieItemList";
-import Text from "../atoms/Text";
+import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart API import
 import { FlexCenter, FlexRowBetween } from "../../commons/style/SharedStyle";
+import { UserDetailInfoState } from "../../pages/store/State";
 import { StyledCardWrapper, StyledMoviePoster } from "./MovieItem";
+import { MovieType } from "../../types/MovieType";
+import Text from "../atoms/Text";
 import Btn from "../atoms/Btn";
 import HashTag from "../atoms/HashTag";
-import { postHeart, deleteHeart } from "../../apis/FrontendApi"; // postHeart API import
-import Planet
- from "../atoms/Planet";
+import Planet from "../atoms/Planet";
+
 type MovieItemProps = {
   movie: MovieType;
 };
@@ -61,7 +61,7 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
   return (
     <StyledDetailWrapper>
       {/* 영화 포스터 */}
-      <StyledCardWrapper $detail $cardWidth="30%">
+      <StyledCardWrapper $detail $cardWidth="25%">
         <StyledMoviePoster src={movie?.movieImage} />
       </StyledCardWrapper>
 
@@ -71,72 +71,73 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
           <Text size="X-Large" color="Black" fontFamily="PyeongChang-Light">
             {movie?.title}
           </Text>
-          <div>
-            <HashTag size="Huge" color="White">
-              ⭐{movie?.rate}
-            </HashTag>
-            <StyledSquareBtn
-              size="Small"
-              color="Black"
-              onClick={handleHeartClick}
-            >
-              {likeStatus ? <HiHeart /> : <HiOutlineHeart />}
-            </StyledSquareBtn>
-          </div>
+          <HashTag size="Huge" color="White">
+            ⭐{movie?.rate}
+          </HashTag>
+          <StyledSquareBtn
+            size="Small"
+            color="Black"
+            onClick={handleHeartClick}
+          >
+            {likeStatus ? <HiHeart /> : <HiOutlineHeart />}
+          </StyledSquareBtn>
         </StyledTitleBtnWrapper>
 
-        <div>
+        <div className="flex gap-2">
           <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
             키워드
           </Text>
           {movie?.keywordResDtos?.map((keyword, index) => (
-            <div key={keyword.keywordName}>
+            <span key={keyword.keywordName}>
               <HashTag size="Standard" color="White">
                 {keyword.keywordName}
               </HashTag>
-            </div>
+            </span>
           ))}
         </div>
 
+        <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
+          줄거리
+        </Text>
         <div>{movie?.overView}</div>
 
         {/* 감독 정보 */}
-        <div>
+        <ListHorizontal>
           <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
             감독
           </Text>
-          {movie?.directorResDtos?.map((director, index) => (
-            <div key={director.directorName}>
-              <img src={director.directorImage} alt={director.directorName} />
-              <div>{director.directorName}</div>
-            </div>
+          {movie?.directorResDtos?.map((director) => (
+            <span key={director.directorName}>{director.directorName}</span>
           ))}
-        </div>
+        </ListHorizontal>
 
         {/* 배우 정보 */}
-        <div>
+        <ListHorizontal>
           <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
             배우
           </Text>
-          {movie?.actorResDtos?.map((actor, index) => (
-            <div key={actor.actorName}>
-              <img src={actor.actorImage} alt={actor.actorName} />
-              <div>{actor.actorName}</div>
-            </div>
+          {movie?.actorResDtos?.slice(0, 5).map((actor, index, array) => (
+            <span key={actor.actorName}>
+              {actor.actorName}
+              {index !== array.length - 1 && ","}
+            </span>
           ))}
-        </div>
+        </ListHorizontal>
 
-        <div>
+        <OttWrapper>
           <Text size="Small" color="Black" fontFamily="YESGothic-Bold">
             OTT 행성
           </Text>
-          {movie?.ottResDtos?.map((ott, index) => (
-            <div key={ott.ottName}>
-              <Planet size="Small" src={ott.ottImage}></Planet>
-              <div>{ott.ottName}</div>
-            </div>
-          ))}
-        </div>
+          <OttList>
+            {movie?.ottResDtos?.map((ott, index) => (
+              <OttItem key={ott.ottName}>
+                <a href={ott.ottUrl} target="_blank" rel="noopener noreferrer">
+                  <Planet size="Small" src={ott.ottImage}></Planet>
+                </a>
+              </OttItem>
+            ))}
+          </OttList>
+        </OttWrapper>
       </StyledMovieDetail>
     </StyledDetailWrapper>
   );
@@ -153,7 +154,7 @@ const StyledDetailWrapper = styled.div`
 
 /** 영화 디테일 컴포넌트 내 영화 정보 (포스터 제외) Wrap */
 const StyledMovieDetail = styled.div`
-  width: 55%;
+  width: 65%;
 `;
 
 /** 정사각형 아이콘 들어가는 버튼 스타일링 36*36 */
@@ -162,8 +163,31 @@ const StyledSquareBtn = styled(Btn)`
   width: 36px;
   text-align: center;
 `;
-
-/** 제목, 버튼 묶음 들어가는 공간 */
 const StyledTitleBtnWrapper = styled.div`
-  ${FlexRowBetween}
+  display: flex;
+  align-items: center;
+  gap: 15px; // 이 값을 조절하여 요소 간의 간격을 변경할 수 있습니다.
+`;
+
+const OttWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const OttList = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const OttItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ListHorizontal = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; // 항목이 많아질 경우 여러 줄로 나누어짐
 `;
