@@ -17,8 +17,8 @@ async def get_Test():
     # return user.get_members_info(result_users)
     return "배포 테스트"
 
-@router.get("/")
-async def get_Users(member_id: int):
+@router.get("/info")
+async def get_User(member_id: int):
     # 사용자 필터링
     result_users = user.similarily(member_id)
 
@@ -27,4 +27,3 @@ async def get_Users(member_id: int):
 
     # JSON 응답 반환
     return {"users": users_info}
-
