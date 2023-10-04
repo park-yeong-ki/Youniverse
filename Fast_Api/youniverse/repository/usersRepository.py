@@ -6,9 +6,20 @@ session = engine.sessionmaker()
 
 # 내 키워드 가져오기
 def get_keyword(member_id_to_fetch):
-    myKeywords = [row[0] for row in session.query(models.YoutubeKeyword.youtube_keyword_name).filter_by(member_id=member_id_to_fetch).order_by(models.YoutubeKeyword.movie_rank).all()]
+    result = session.query(models.YoutubeKeyword.youtube_keyword_name) \
+        .filter_by(member_id=member_id_to_fetch) \
+        .order_by(models.YoutubeKeyword.movie_rank) \
+        .all()
+    return [row[0] for row in result]
 
-    return myKeywords
+# 내 키워드 상위 3개 가져오기
+def get_top3_keyword(member_id_to_fetch):
+    result = session.query(models.YoutubeKeyword.youtube_keyword_name) \
+        .filter_by(member_id=member_id_to_fetch) \
+        .order_by(models.YoutubeKeyword.movie_rank) \
+        .limit(3) \
+        .all()
+    return [row[0] for row in result]
 
 # 모든 회원의 키워드 가져오기 (내 것 제외)
 def get_member_keyword(member_id_to_fetch):
@@ -39,7 +50,8 @@ def get_members_info(member_ids):
             "gender": user.gender,
             "introduce": user.introduce,
             "member_image": user.member_image,
-            "nickname": user.nickname
+            "nickname": user.nickname,
+            "keyword": get_top3_keyword(user.member_id)
         }
         users_info.append(user_info)
 

@@ -10,6 +10,13 @@ export const LoginState = atom<boolean>({
   effects_UNSTABLE: [persistAtom],
 });
 
+/** 데이터 분석 여부 저장 */
+export const DataState = atom<boolean>({
+  key: "DataState",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
 /** 유저 정보 저장 */
 
 type UserInfo = {

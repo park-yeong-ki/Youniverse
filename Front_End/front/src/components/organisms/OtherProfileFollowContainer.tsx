@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import FollowUserItemList from "../users/FollowUserItemList";
 import { FOLLOWER, FOLLOWING } from "../../commons/constants/String";
 import { getAllFollows } from "../../apis/FrontendApi";
-import { useRecoilValue } from "recoil";
-import { UserDetailInfoState } from "../../pages/store/State";
 
 interface KeywordType {
   keywordId: number;
@@ -32,12 +30,13 @@ interface FollowType {
 
 interface UserFollowContainerProps {
   followStatus: string;
+  currentUserId: number;
 }
 
-const UserFollowContainer: React.FC<UserFollowContainerProps> = ({
+const OtherProfileFollowContainer: React.FC<UserFollowContainerProps> = ({
   followStatus,
+  currentUserId,
 }) => {
-  const currentUserId = useRecoilValue(UserDetailInfoState).memberId;
   const [allFollowList, setAllFollowList] = useState<FollowType[]>([]);
   const [followingList, setFollowingList] = useState<FollowingResDto[]>([]);
   const [followerList, setFollowerList] = useState<FollowerResDto[]>([]);
@@ -100,4 +99,4 @@ const UserFollowContainer: React.FC<UserFollowContainerProps> = ({
   );
 };
 
-export default UserFollowContainer;
+export default OtherProfileFollowContainer;

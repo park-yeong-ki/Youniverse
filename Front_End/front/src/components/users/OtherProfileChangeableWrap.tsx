@@ -10,7 +10,8 @@ import styled from "styled-components";
 import IconBox from "../atoms/IconBox";
 import { HiChevronLeft } from "react-icons/hi";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import ProfileLikeContents from "./ProfileLikeContents";
+import ProfileLikeContents from "./OtherProfileLikeContents";
+import ProfileUserFollowContainer from "../organisms/OtherProfileFollowContainer";
 
 interface ProfileChangeableProps {
   memberData: UserType | null;
@@ -18,7 +19,7 @@ interface ProfileChangeableProps {
   setSelectStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
+const OtherProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
   memberData,
   selectStatus,
   setSelectStatus,
@@ -73,8 +74,18 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
       </StyledRowContainer>
       <div>
         {/* 팔로잉 / 팔로워 목록 보여주는 공간 */}
-        {selectStatus === FOLLOWING && "팔로잉 목록 보여줘용"}
-        {selectStatus === FOLLOWER && "팔로워 목록 보여줘용"}
+        {selectStatus === FOLLOWING && memberData && (
+          <ProfileUserFollowContainer
+            followStatus={selectStatus}
+            currentUserId={memberData?.memberId}
+          />
+        )}
+        {selectStatus === FOLLOWER && memberData && (
+          <ProfileUserFollowContainer
+            followStatus={selectStatus}
+            currentUserId={memberData?.memberId}
+          />
+        )}
         {selectStatus === LIKEIT && (
           <ProfileLikeContents memberData={memberData} />
         )}
@@ -83,7 +94,7 @@ const ProfileChangeableWrap: React.FC<ProfileChangeableProps> = ({
   );
 };
 
-export default ProfileChangeableWrap;
+export default OtherProfileChangeableWrap;
 
 const StyledArrowContainer = styled.div`
   display: flex;

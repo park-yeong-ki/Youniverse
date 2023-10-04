@@ -22,7 +22,7 @@ import ProfileReview from "../review/ProfileReview";
 import UserZodiacSign from "../users/UserZodiacSign";
 import SoulMovieItemList from "../movies/SoulMovieItemList";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import ProfileFollowWrap from "../users/ProfileChangeableWrap";
+import ProfileFollowWrap from "../users/OtherProfileChangeableWrap";
 import { postFollow, FollowParams, deleteFollow } from "../../apis/FrontendApi";
 
 interface ProfileUserInfoProps {
@@ -126,15 +126,15 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
   };
   if (!memberData) {
     return (
-      <StyledStandardWhiteGhostWrapper
+      <StyledNoneStandardWhiteGhostWrapper
         size="Standard"
         color="WhiteGhost"
-        padding="Medium"
+        padding="Wide"
       >
         <Text size="Large" color="Black" fontFamily="PyeongChang-Light">
           {SEARCH_USER_PAGE}
         </Text>
-      </StyledStandardWhiteGhostWrapper>
+      </StyledNoneStandardWhiteGhostWrapper>
     );
   }
 
@@ -142,111 +142,114 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
     <StyledStandardWhiteGhostWrapper
       size="Standard"
       color="WhiteGhost"
-      padding="Narrow"
+      padding="Wide"
     >
-      <StyledOverallColBetween>
-        <StyledFirstRowBetween>
-          <ProfileImage className="w-1/3">
-            <Img
-              size="2X-Large"
-              src={memberData?.memberImage || "/assets/기본프로필.jpg"}
-            />
-          </ProfileImage>
-          <div className="w-2/3">
-            <StyledRowBetween>
-              <UserNameContainer>
-                <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
-                  {memberData?.nickname}
-                </Text>
-              </UserNameContainer>
-              <UserFollowBtnContainer>
-                {currentUserId !== memberData?.memberId && (
-                  <Btn
-                    size="Small"
-                    color={isCurrentUserAFollower() ? "White" : "Black"}
-                    onClick={handleFollowToggle} // 이 부분을 수정
-                  >
-                    {isCurrentUserAFollower() ? FOLLOWING : FOLLOW}
-                  </Btn>
-                )}
-              </UserFollowBtnContainer>
-            </StyledRowBetween>
-            <StyledSmallWhiteGhostWrapper
-              size="Small"
-              color="WhiteGhost"
-              padding="Narrow"
-            >
-              {memberData?.introduce}
-            </StyledSmallWhiteGhostWrapper>
-            <StyledRowBetween>
-              <StyledColBetween onClick={() => setSelectStatus(LIKEIT)}>
-                <div>
-                  <StyledText
-                    size="Large"
-                    color="Black"
-                    fontFamily="PyeongChang-Bold"
-                  >
-                    {memberData?.heartMovieResDtos?.length}
-                  </StyledText>
-                </div>
-                <div>{LIKEIT}</div>
-              </StyledColBetween>
-              <StyledColBetween onClick={() => setSelectStatus(FOLLOWER)}>
+      <StyledFirstRowBetween>
+        <ProfileImage className="w-1/3">
+          <Img
+            size="2X-Large"
+            src={memberData?.memberImage || "/assets/DefaultProfile.png"}
+          />
+        </ProfileImage>
+        <div className="w-2/3">
+          <StyledRowBetween>
+            <UserNameContainer>
+              <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
+                {memberData?.nickname}
+              </Text>
+            </UserNameContainer>
+            <UserFollowBtnContainer>
+              {currentUserId !== memberData?.memberId && (
+                <Btn
+                  size="Small"
+                  color={isCurrentUserAFollower() ? "White" : "Black"}
+                  onClick={handleFollowToggle} // 이 부분을 수정
+                >
+                  {isCurrentUserAFollower() ? FOLLOWING : FOLLOW}
+                </Btn>
+              )}
+            </UserFollowBtnContainer>
+          </StyledRowBetween>
+          <StyledSmallWhiteGhostWrapper
+            size="Small"
+            color="WhiteGhost"
+            padding="Narrow"
+          >
+            {memberData?.introduce}
+          </StyledSmallWhiteGhostWrapper>
+          <StyledRowBetween>
+            <StyledColBetween onClick={() => setSelectStatus(LIKEIT)}>
+              <div>
                 <StyledText
                   size="Large"
                   color="Black"
                   fontFamily="PyeongChang-Bold"
                 >
-                  {memberData?.followers.length}
+                  {memberData?.heartMovieResDtos?.length}
                 </StyledText>
-                <div>{FOLLOWER}</div>
-              </StyledColBetween>
-              <StyledColBetween onClick={() => setSelectStatus(FOLLOWING)}>
-                <StyledText
-                  size="Large"
-                  color="Black"
-                  fontFamily="PyeongChang-Bold"
-                >
-                  {memberData?.followings.length}
-                </StyledText>
-                <div>{FOLLOWING}</div>
-              </StyledColBetween>
+              </div>
+              <div>{LIKEIT}</div>
+            </StyledColBetween>
+            <StyledColBetween onClick={() => setSelectStatus(FOLLOWER)}>
+              <StyledText
+                size="Large"
+                color="Black"
+                fontFamily="PyeongChang-Bold"
+              >
+                {memberData?.followers.length}
+              </StyledText>
+              <div>{FOLLOWER}</div>
+            </StyledColBetween>
+            <StyledColBetween onClick={() => setSelectStatus(FOLLOWING)}>
+              <StyledText
+                size="Large"
+                color="Black"
+                fontFamily="PyeongChang-Bold"
+              >
+                {memberData?.followings.length}
+              </StyledText>
+              <div>{FOLLOWING}</div>
+            </StyledColBetween>
+          </StyledRowBetween>
+        </div>
+      </StyledFirstRowBetween>
+      <StyledChangableComponent>
+        {!selectStatus && (
+          <>
+            <StyledRowBetween>
+              <div className="w-1/3">
+                <UserZodiacSign />
+              </div>
+              <ProfileReview
+                className="w-2/3"
+                memberId={memberData?.memberId}
+              />
             </StyledRowBetween>
-          </div>
-        </StyledFirstRowBetween>
-        <StyledChangableComponent>
-          {!selectStatus && (
-            <>
-              <StyledRowBetween>
-                <div className="w-1/3">
-                  <UserZodiacSign />
-                </div>
-                <ProfileReview
-                  className="w-2/3"
-                  memberId={memberData?.memberId}
-                />
-              </StyledRowBetween>
-              <StyledRowBetween>
-                <SoulMovieItemList />
-              </StyledRowBetween>
-            </>
-          )}
-          {selectStatus && (
-            <ProfileFollowWrap
-              memberData={memberData}
-              selectStatus={selectStatus}
-              setSelectStatus={setSelectStatus}
-            />
-          )}
-        </StyledChangableComponent>
-      </StyledOverallColBetween>
+            <StyledRowWrap>
+              <SoulMovieItemList />
+            </StyledRowWrap>
+          </>
+        )}
+        {selectStatus && (
+          <ProfileFollowWrap
+            memberData={memberData}
+            selectStatus={selectStatus}
+            setSelectStatus={setSelectStatus}
+          />
+        )}
+      </StyledChangableComponent>
     </StyledStandardWhiteGhostWrapper>
   );
 };
 export default OtherProfileContainer;
 
-const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
+const StyledNoneStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
+  height: 100%;
+  width: 78%;
+`;
+const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
+  ${FlexColBetween}
   height: 100%;
   width: 78%;
 `;
@@ -255,6 +258,7 @@ const StyledSmallWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
   height: 100%;
   width: 100%;
+  margin-bottom: 20px;
 `;
 
 const ProfileImage = styled.div`
@@ -264,7 +268,6 @@ const ProfileImage = styled.div`
 
 const UserNameContainer = styled.div`
   height: auto;
-  align-items: left;
 `;
 
 const UserFollowBtnContainer = styled.div`
@@ -276,33 +279,33 @@ const UserFollowBtnContainer = styled.div`
 const StyledFirstRowBetween = styled.div`
   ${FlexRowBetween}
   width: 100%;
-  height: 35%;
 `;
 
 const StyledChangableComponent = styled.div`
   ${FlexColBetween}
-  height: 60%;
+  margin-top:2%;
+  height: 100%;
   width: 100%;
 `;
 
 const StyledRowBetween = styled.div`
   ${FlexRowBetween}
   width: 100%;
-`;
-const StyledOverallColBetween = styled.div`
-  ${FlexColBetween}
-  width:95%;
-  height: 100%;
+  margin-bottom: 10px;
 `;
 
 const StyledColBetween = styled.div`
   ${FlexColBetween}
   width:95%;
-  height: 100%;
 `;
 
 const StyledText = styled(Text)`
   &:hover {
     cursor: pointer;
   }
+`;
+const StyledRowWrap = styled.div`
+  margin-top: 1.5rem;
+  height: 100%;
+  width: 100%;
 `;

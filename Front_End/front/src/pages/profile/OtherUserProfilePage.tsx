@@ -4,7 +4,7 @@ import styled from "styled-components";
 import OtherProfileContainer from "../../components/organisms/OtherProfileContainer";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import UserSearchContainer from "../../components/search/UserSearchContainer";
-// import UserRecommendContainer from "../../components/organisms/UserRecommendContainer";
+import UserRecommendContainer from "../../components/organisms/UserRecommendContainer";
 import {
   FlexRowBetween,
   FlexColBetween,
@@ -50,7 +50,7 @@ const OtherUserProfilePage = () => {
         />
         <StyledSearchRecommend>
           <UserSearchContainer />
-          {/* <UserRecommendContainer /> */}
+          <UserRecommendContainer />
         </StyledSearchRecommend>
       </StyledOtherUserProfile>
     </MainPaddingContainer>

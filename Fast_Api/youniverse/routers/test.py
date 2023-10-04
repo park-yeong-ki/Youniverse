@@ -3,9 +3,9 @@ from youniverse.repository import testRepository
 
 router = APIRouter(
     prefix="/test",
-    tags=["Datas"]
+    tags=["test"]
 )
 
 @router.get("/")
 async def first_get():
-    return testRepository.get_test()
+    return "배포 확인"

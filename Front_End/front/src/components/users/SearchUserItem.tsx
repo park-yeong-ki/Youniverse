@@ -42,18 +42,18 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected }) => {
         <StyledRowBetweenContainer>
           <StyledProfileImageContainer>
             <Img
-              size="Medium"
+              size="Small"
               src={
                 user.memberImage !== null
                   ? user.memberImage
-                  : "/assets/기본프로필.jpg"
+                  : "/assets/DefaultProfile.png"
               }
             />
           </StyledProfileImageContainer>
           <StyledColBetweenContainer>
             <StyledNicknameContainer>{user.nickname}</StyledNicknameContainer>
             <StyledkeywordContainer>
-              {user.keywordResDtos.map((keywords, index) => (
+              {user.keywordResDtos.slice(0, 2).map((keywords, index) => (
                 <HashTag
                   key={index}
                   size="Standard"
@@ -90,17 +90,20 @@ const StyledCenterContainer = styled.div<{ $isSelected?: boolean }>`
 `;
 const StyledRowBetweenContainer = styled.div`
   ${FlexRowBetween}
-  width: 80%;
+  width: 90%;
 `;
 
 const StyledProfileImageContainer = styled.div``;
 
 const StyledColBetweenContainer = styled.div`
   ${FlexColBetweenLeft}
+  margin-left: 15px;
 `;
 
 const StyledNicknameContainer = styled.div`
   height: 40%;
 `;
 
-const StyledkeywordContainer = styled.div``;
+const StyledkeywordContainer = styled.div`
+  ${FlexRowBetween}
+`;

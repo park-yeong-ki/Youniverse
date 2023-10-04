@@ -8,13 +8,14 @@ import { getMember } from "../../apis/FrontendApi";
 import ProfileReviewItemList from "./ProfileReviewItemList";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
+import { StyledAllWrapper } from "../users/MyOTTPlanet";
 
 interface ProfileReviewProps {
   memberId: number | undefined;
   className?: string;
 }
 
-const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
+const MyProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
   const [reviewList, setReviewList] = useState<[]>([]);
   const [nickname, setNickname] = useState<string>("");
 
@@ -37,7 +38,7 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
   }, [memberId]);
 
   return (
-    <StyledReviewContainer>
+    <StyledAllWrapper>
       <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
         {nickname}
         {MY_PAGE_REVIEW}
@@ -46,6 +47,7 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
         size="Standard"
         color="WhiteGhost"
         padding="Narrow"
+        className="mt-2"
       >
         {reviewList.length === 0 ? (
           <Text size="Small" color="Black" fontFamily="PyeongChang-Light">
@@ -55,19 +57,13 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
           <ProfileReviewItemList reviews={reviewList} />
         )}
       </StyledStandardWhiteGhostWrapper>
-    </StyledReviewContainer>
+    </StyledAllWrapper>
   );
 };
 
-export default ProfileReview;
-
-const StyledReviewContainer = styled.div`
-  width: 55%;
-  margin-left: 20px;
-`;
+export default MyProfileReview;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  margin-top: 5px;
-  height: 195px;
+  height: 100%;
 `;

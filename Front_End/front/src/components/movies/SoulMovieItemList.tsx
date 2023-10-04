@@ -49,7 +49,7 @@ const SoulMovieItemList = () => {
   const [searchResults, setSearchResults] = useState<MovieType[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const nickname = useRecoilValue(UserDetailInfoState).nickname;
+  const [nickname, setNickname] = useState<string>("");
 
   // 로그인유저와 페이지유저가 동일한지 확인하는 과정
   const memberId = useRecoilValue(UserDetailInfoState).memberId; // 리코일에서 가져온 아이디 (로그인 되어있는 유저)
@@ -62,6 +62,7 @@ const SoulMovieItemList = () => {
     getMember(Number(soulMemberId))
       .then((response) => {
         setSoulMovieData(response.data.bestMovieResDtos);
+        setNickname(response.data.nickname);
       })
       .catch((err) => {
         console.log(err);
@@ -89,6 +90,8 @@ const SoulMovieItemList = () => {
         console.log(error);
       });
   };
+
+  console.log(soulMovieData);
   return (
     <>
       {/* 모달창 */}

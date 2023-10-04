@@ -156,7 +156,7 @@ const StyledBtn = styled(Btn)`
 const StyledMainWrapper = styled.div`
   ${FlexCenter}
   flex-direction: column;
-  width: 40%;
+  width: 50%;
   height: 80%;
   margin: 0 auto;
   & > button {

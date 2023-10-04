@@ -7,7 +7,9 @@ import com.ssafy.youniverse.entity.*;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -169,6 +171,30 @@ public interface MemberMapper extends CustomMapper {
                 })
                 .collect(Collectors.toList())
         );
+
+        //추천 OTT 순위
+        Map<Integer, RecommendOttResDto> map = new HashMap();
+
+        member.getRecommendMovies().stream()
+                .forEach(recommendMovie -> {
+                    List<OttMovie> ottMovies = recommendMovie.getMovie().getOttMovies();
+                    for (OttMovie ottMovie : ottMovies) {
+                        if (map.containsKey(ottMovie.getOtt().getOttId())) {
+                            int prev = map.get(ottMovie.getOtt().getOttId()).getCount();
+                            map.get(ottMovie.getOtt().getOttId()).setCount(prev + 1);
+                        } else {
+                            RecommendOttResDto recommendOttResDto = new RecommendOttResDto();
+                            recommendOttResDto.setOttId(ottMovie.getOtt().getOttId());
+                            recommendOttResDto.setOttName(ottMovie.getOtt().getOttName());
+                            recommendOttResDto.setOttUrl(ottMovie.getOtt().getOttUrl());
+                            recommendOttResDto.setOttImage(ottMovie.getOtt().getOttImage());
+                            recommendOttResDto.setCount(1);
+                            map.put(ottMovie.getOtt().getOttId(), recommendOttResDto);
+                        }
+                    }
+                });
+
+        memberResDto.setRecommendOttResDtos(new ArrayList<>(map.values()));
 
         return memberResDto;
     }

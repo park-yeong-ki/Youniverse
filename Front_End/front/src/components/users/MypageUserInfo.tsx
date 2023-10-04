@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   MY_PAGE_PROFILE_EDIT,
@@ -12,7 +12,7 @@ import {
   ADDITIONAL_INFO_AGE_PLACEHOLDER,
 } from "../../commons/constants/String";
 import { ROUTES } from "../../commons/constants/Routes";
-import { UserInfoState } from "../../pages/store/State";
+import { DataState, UserInfoState } from "../../pages/store/State";
 import { getAllOTTs, putMember } from "../../apis/FrontendApi";
 
 import Btn from "../atoms/Btn";
@@ -45,6 +45,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   const navigate = useNavigate();
   const basicImage = useRecoilValue(UserInfoState).image;
   const email = useRecoilValue(UserInfoState).email;
+  const setDataState = useSetRecoilState(DataState);
 
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -84,6 +85,11 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
         console.error("OTT 리스트 가져오기 실패:", error);
       });
   }, [selectedPlanets]);
+
+  const handleDataStateChange = () => {
+    setDataState(true);
+    navigate(ROUTES.LOADING);
+  };
 
   const handleClickedPlanets = (planetId: number, $isSelected: boolean) => {
     if (selectedPlanets.includes(planetId)) {
@@ -271,7 +277,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
               <Btn
                 size="Small"
                 color="BlackStroke"
-                onClick={() => navigate(ROUTES.LOADING)}
+                onClick={handleDataStateChange}
               >
                 데이터 분석
               </Btn>
