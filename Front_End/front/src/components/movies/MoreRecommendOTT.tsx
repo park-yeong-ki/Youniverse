@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 
 type Props = {
-  onSelectOTT: (ott: string) => void;
+  onSelectOTT: (ottId: string) => void;
 };
 
 const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
@@ -13,23 +13,23 @@ const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
         <img src="/assets/Logo/All.png" alt="Netflix" />
         전체보기
       </CircleButton>
-      <CircleButton onClick={() => onSelectOTT("넷플릭스")}>
+      <CircleButton onClick={() => onSelectOTT("Netflix")}>
         <img src="/assets/Logo/Netflix.png" alt="Netflix" />
         Netflix
       </CircleButton>
-      <CircleButton onClick={() => onSelectOTT("왓챠")}>
+      <CircleButton onClick={() => onSelectOTT("Watcha")}>
         <img src="/assets/Logo/Watcha.png" alt="Watcha" />
         Watcha
       </CircleButton>
-      <CircleButton onClick={() => onSelectOTT("웨이브")}>
+      <CircleButton onClick={() => onSelectOTT("wavve")}>
         <img src="/assets/Logo/Wavve.png" alt="Wavve" />
         Wavve
       </CircleButton>
-      <CircleButton onClick={() => onSelectOTT("애플티비")}>
+      <CircleButton onClick={() => onSelectOTT("Apple TV")}>
         <img src="/assets/Logo/AppleTV.png" alt="Apple TV" />
         Apple TV
       </CircleButton>
-      <CircleButton onClick={() => onSelectOTT("디즈니플러스")}>
+      <CircleButton onClick={() => onSelectOTT("Disney Plus")}>
         <img src="/assets/Logo/DisneyPlus.png" alt="Disney Plus" />
         Disney Plus
       </CircleButton>
