@@ -60,9 +60,24 @@ function ProtectedApp() {
         <Routes>
           <Route path={ROUTES.MAIN} Component={MAIN} />
           <Route path={ROUTES.LOADING} Component={LOADING} />
-          <Route path={ROUTES.ADDINFO} Component={ADDINFO} />
-          <Route path={ROUTES.SURVEY} Component={SURVEY} />
-          <Route path={ROUTES.OTTSELECT} Component={OTTSELECT} />
+          <Route 
+            path={ROUTES.ADDINFO}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<ADDINFO />} />
+            }
+          />
+          <Route 
+            path={ROUTES.SURVEY}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<SURVEY />} />
+            }
+          />
+          <Route 
+            path={ROUTES.OTTSELECT}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<OTTSELECT />} />
+            }
+          />
           <Route 
             path={ROUTES.MYPAGE}
             element={
