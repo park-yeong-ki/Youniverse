@@ -43,6 +43,7 @@ export type UserType = {
   heartMovieResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
   bestMovieResDtos: Array<SoulMovie>;
   reviewResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
+  recommendOttResDtos: Array<any>; // 구체적인 타입 정보 들어오면 수정 @@@
 };
 
 const MyProfilePage = () => {
