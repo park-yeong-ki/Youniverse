@@ -19,7 +19,6 @@ import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import LineChart from "../../components/chart/LineChart";
 import Wrapper from "../../components/atoms/Wrapper";
 import Btn from "../../components/atoms/Btn";
-import RandomUserStar from "../../components/users/RandomUserStar";
 
 const MainPage = () => {
   const isLoggedIn = useRecoilValue(LoginState);
@@ -78,7 +77,6 @@ const MainPage = () => {
       {/* 로그인 했을 때 (회원 화면) */}
       {isLoggedIn && (
         <StyledIsLoggedinWrap>
-          <RandomUserStar />
           <StyledIsLoggedin>
             <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
               {userDetailInfo.nickname}님의 별자리
