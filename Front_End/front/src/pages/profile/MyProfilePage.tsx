@@ -6,7 +6,6 @@ import { getMember } from "../../apis/FrontendApi";
 import { UserDetailInfoState } from "../store/State";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import {
-  FlexColBetweenLeft,
   FlexRowBetween,
 } from "../../commons/style/SharedStyle";
 import SoulMovieItemList, {
@@ -119,7 +118,6 @@ const MyProfilePage = () => {
 export default MyProfilePage;
 
 const StyledContentWrap = styled.div`
-  ${FlexColBetweenLeft}
   overflow-y: auto;
   padding-right: 0.5rem;
 `;

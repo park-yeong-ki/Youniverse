@@ -82,7 +82,7 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
     if (mostUsed.count === 0) {
       const defaultOtt = {
         ottName: "-",
-        ottImage: "/assets/Logo/All.png",
+        ottImage: "/assets/Logo/NoPlanet.png",
         count: 0,
         ottId: 0,
         ottUrl: "",

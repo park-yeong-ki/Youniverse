@@ -8,7 +8,6 @@ import { getMember } from "../../apis/FrontendApi";
 import ProfileReviewItemList from "./ProfileReviewItemList";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
-import { StyledAllWrapper } from "../users/MyOTTPlanet";
 
 interface ProfileReviewProps {
   memberId: number | undefined;
@@ -38,7 +37,7 @@ const MyProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
   }, [memberId]);
 
   return (
-    <StyledAllWrapper>
+    <StyledPXWrapper>
       <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
         {nickname}
         {MY_PAGE_REVIEW}
@@ -57,7 +56,7 @@ const MyProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
           <ProfileReviewItemList reviews={reviewList} />
         )}
       </StyledStandardWhiteGhostWrapper>
-    </StyledAllWrapper>
+    </StyledPXWrapper>
   );
 };
 
@@ -65,5 +64,15 @@ export default MyProfileReview;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
+  height: 243.99px;
+`;
+
+export const StyledPXWrapper = styled.div`
   height: 100%;
+  & > *:first-child {
+    height: 15%;
+  }
+  & > *:last-child {
+    height: 243.99px;
+  }
 `;
