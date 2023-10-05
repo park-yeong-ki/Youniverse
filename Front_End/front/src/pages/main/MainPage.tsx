@@ -21,15 +21,13 @@ import Wrapper from "../../components/atoms/Wrapper";
 import Btn from "../../components/atoms/Btn";
 import RandomUserStar from "../../components/users/RandomUserStar";
 
-
-
-
 const MainPage = () => {
   const isLoggedIn = useRecoilValue(LoginState);
   const [userDetailInfo, setUserDetailInfo] =
     useRecoilState(UserDetailInfoState);
 
   const email = useRecoilValue(UserInfoState).email;
+  const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
   const navigate = useNavigate(); // useNavigate Hook 사용
 
@@ -81,14 +79,18 @@ const MainPage = () => {
       {/* 로그인 했을 때 (회원 화면) */}
       {isLoggedIn && (
         <StyledIsLoggedinWrap>
-          <RandomUserStar/>
+          <RandomUserStar />
           <StyledIsLoggedin>
             <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
               {userDetailInfo.nickname}님의 별자리
             </Text>
 
             <StyledWrapper size="Standard" padding="Narrow" color="WhiteGhost">
-              <LineChart width={940} height={400} />
+              <LineChart
+                width={940}
+                height={400}
+                otherMemberId={memberId ?? undefined}
+              />
             </StyledWrapper>
             <StyledBtn
               size="X-Large"
@@ -125,6 +127,7 @@ const StyledIsLoggedinWrap = styled.div`
 `;
 const StyledIsLoggedin = styled.div`
   ${FlexColBetween}
+  width: 70%;
   height: 80%;
 `;
 
