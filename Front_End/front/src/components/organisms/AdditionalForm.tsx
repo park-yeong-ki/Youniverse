@@ -27,21 +27,35 @@ import Btn from "../atoms/Btn";
 
 const AdditionalForm = () => {
   const navigate = useNavigate();
-  
+
   const email = useRecoilValue(UserInfoState).email;
   const [nickname, setNickname] = useState<string>("");
-  const [age, setAge] = useState<number>(0);
+  const [age, setAge] = useState<number | null>(null);
   const [gender, setGender] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
 
   const handleChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (
+      setter: React.Dispatch<React.SetStateAction<string>>,
+      maxLength?: number
+    ) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setter(event.target.value);
+      if (!maxLength || event.target.value.length <= maxLength) {
+        setter(event.target.value);
+      }
     };
-
   const handleGenderClick = (genderValue: string) => {
     setGender((prev) => (prev === genderValue ? "" : genderValue));
+  };
+
+  const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.valueAsNumber;
+
+    if (isNaN(value)) {
+      setAge(null);
+    } else if (value >= 0 && value <= 99) {
+      setAge(value);
+    }
   };
 
   const setUserJoinInfo = useSetRecoilState(UserJoinInfoState);
@@ -50,7 +64,7 @@ const AdditionalForm = () => {
     setUserJoinInfo((prev) => ({
       ...prev,
       nickname,
-      age,
+      age: age !== null ? age : 0,
       gender,
       introduce,
       email,
@@ -74,7 +88,7 @@ const AdditionalForm = () => {
               type="text"
               placeholder={ADDITIONAL_INFO_NICKNAME_PLACEHOLDER}
               value={nickname}
-              onChange={handleChange(setNickname)}
+              onChange={handleChange(setNickname, 8)}
             />
           </StyledInputContainer>
         </StyledContainerRowBetween>
@@ -104,11 +118,11 @@ const AdditionalForm = () => {
         <StyledContainerRowBetween>
           <StyledLabelContainer>{ADDITIONAL_INFO_AGE}</StyledLabelContainer>
           <StyledInputContainer>
-            <StyledClearInput
+            <NumberInputWithoutSpinner
               type="number"
               placeholder={ADDITIONAL_INFO_AGE_PLACEHOLDER}
-              value={age}
-              onChange={(e) => setAge(e.target.valueAsNumber)}
+              value={age === null ? "" : age}
+              onChange={handleAgeChange}
             />
           </StyledInputContainer>
         </StyledContainerRowBetween>
@@ -121,7 +135,7 @@ const AdditionalForm = () => {
               id="introduce"
               value={introduce}
               placeholder={ADDITIONAL_INFO_INTRODUCE_PLACEHOLDER}
-              onChange={handleChange(setIntroduce)}
+              onChange={handleChange(setIntroduce, 30)}
               maxLength={30}
             ></StyledTextArea>
           </StyledInputContainer>
@@ -198,4 +212,12 @@ export const StyledTextArea = styled.textarea`
   resize: none;
   padding: 5px 10px;
   box-sizing: border-box;
+`;
+const NumberInputWithoutSpinner = styled(StyledClearInput)`
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
