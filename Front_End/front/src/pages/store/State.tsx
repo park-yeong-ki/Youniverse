@@ -48,6 +48,13 @@ type UserJoinInfo = {
   ottList: number[];
 };
 
+/** 프로필 조회 컴포넌트 상태 저장 */
+export const SelectStatusState = atom<string>({
+  key: "SelectStatusState",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const UserInfoState = atom<UserInfo>({
   key: "UserInfoState",
   default: {

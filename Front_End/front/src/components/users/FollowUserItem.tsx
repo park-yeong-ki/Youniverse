@@ -5,6 +5,8 @@ import Img from "../atoms/Img";
 import HashTag from "../atoms/HashTag";
 import { FlexCenter, FlexColBetween } from "../../commons/style/SharedStyle";
 import { User } from "./FollowUserItemList";
+import { useSetRecoilState } from "recoil";
+import { SelectStatusState } from "../../pages/store/State";
 
 interface FollowerUserItemProps {
   user: User;
@@ -20,12 +22,14 @@ const FollowUserItem = ({
   const navigate = useNavigate();
   const [isSelected, setIsSelected] = useState(selectedFromParent);
   const { id, nickname, image, hashtags } = user;
+  const setSelectStatus = useSetRecoilState(SelectStatusState);
 
   /**클릭 시 사용자 ID를 이용해 프로필 이동 */
   const handleToClickedUser = async () => {
     setIsSelected(!isSelected);
     onSelect();
     navigate(`/profile/${id}`);
+    setSelectStatus("");
   };
   return (
     <StyledUserContainer>
