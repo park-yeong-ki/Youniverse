@@ -20,7 +20,6 @@ type Props = {
   filterOTT?: string | null;
   listType?: string | null;
   movies?: MovieType[];
-  showMoreButton?: boolean;
   page?: number;
 };
 
@@ -30,7 +29,6 @@ const MovieItemList: React.FC<
   filterOTT,
   listType,
   movies: propMovies = [],
-  showMoreButton,
   page,
 }) => {
   const navigate = useNavigate();
@@ -39,19 +37,19 @@ const MovieItemList: React.FC<
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   const memberAge = useRecoilValue(UserJoinInfoState).age;
   const memberGender = useRecoilValue(UserJoinInfoState).gender;
+  const memberNickname = useRecoilValue(UserDetailInfoState).nickname;
 
   // 더보기 버튼 클릭 처리
   const handleMoreClick = () => {
     let sort: number | null = null;
-
     switch (listType) {
-      case "선호도기반 추천 영화":
+      case `${memberNickname}님의 선호도 기반 추천 영화`:
         sort = 1;
         break;
-      case `${memberAge}세 ${memberGender} 추천 영화`:
+      case `${memberAge}세 ${memberGender}인 ${memberNickname}님을 위한 추천 영화`:
         sort = 2;
         break;
-      case "유튜브 기반 추천 영화":
+      case `${memberNickname}님의 유튜브 기반 추천 영화`:
         sort = 3;
         break;
       default:
@@ -63,24 +61,23 @@ const MovieItemList: React.FC<
     }
   };
 
-
   // 영화 데이터 가져오기
   useEffect(() => {
     const loadMovies = async () => {
       let requestParams: any = { page, size: 20 };
-      if (listType === "선호도기반 추천 영화") {
+      if (listType === `${memberNickname}님의 선호도 기반 추천 영화`) {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
           type: 1,
         };
-      } else if (listType === `${memberAge}세 ${memberGender} 추천 영화`) {
+      } else if (listType === `${memberAge}세 ${memberGender}인 ${memberNickname}님을 위한 추천 영화`) {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
           type: 2,
         };
-      } else if (listType === "유튜브 기반 추천 영화") {
+      } else if (listType === `${memberNickname}님의 유튜브 기반 추천 영화`) {
         requestParams = {
           ...requestParams,
           "member-id": memberId,
@@ -90,7 +87,7 @@ const MovieItemList: React.FC<
 
       try {
         const response = await getAllMovies(requestParams);
-        return setMovies(response.data.content)
+        return setMovies(response.data.content);
       } catch (err) {
         console.log(err);
       }
@@ -126,11 +123,10 @@ const MovieItemList: React.FC<
         <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
           {listType}
         </Text>
-        {showMoreButton && (
-          <StyledBtn size="Small" color="Black" onClick={handleMoreClick}>
-            더보기
-          </StyledBtn>
-        )}
+
+        <StyledBtn size="Small" color="Black" onClick={handleMoreClick}>
+          더보기
+        </StyledBtn>
       </StyledListBtn>
       <div>{renderMovies()}</div>
     </RecommendPaddingContainer>

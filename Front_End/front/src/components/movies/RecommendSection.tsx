@@ -1,13 +1,14 @@
+import { useRecoilValue } from "recoil";
 import RecommendYouTube from "./RecommendYouTube";
 import MovieItemList from "./MovieItemList";
-
+import { UserDetailInfoState } from "./../../pages/store/State";
 const RecommendSection = () => {
+  const memberNickname = useRecoilValue(UserDetailInfoState).nickname;
   return (
     <>
       <RecommendYouTube />
       <MovieItemList
-        showMoreButton={true}
-        listType="유튜브 기반 추천 영화"
+        listType={`${memberNickname}님의 유튜브 기반 추천 영화`}
       />
     </>
   );
