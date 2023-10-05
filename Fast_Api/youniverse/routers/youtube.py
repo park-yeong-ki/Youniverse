@@ -14,7 +14,7 @@ router = APIRouter(
 
 okt = Okt()
 
-@router.get("/test")
+@router.post("/test")
 async def get_Test():
     corpus = [
         '유튜브 알고리즘은 사용자에게 최적화된 비디오 콘텐츠를 제공하기 위한 시스템으로, 다양한 요소를 고려하여 작동합니다. 이 시스템은 유튜브 플랫폼에서 수 많은 비디오 중에서 사용자에게 최적의 콘텐츠를 추천하는 데 사용됩니다'
@@ -32,7 +32,12 @@ async def get_Test():
     top_send_keywords = top_keywords[:10]
 
     # youtube 분석 상위 키워드 결과 보내기
-    youtubeDataObject(top_send_keywords, 'gkathaud4884@gmail.com')
+    result = youtubeDataObject(top_send_keywords, 'gkathaud4884@gmail.com')
+    # 결과 확인
+    if result == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
+    top_keywords = ["영상", "광고", "운동", "리수", "낭술", "간지", "할머니", "영어", "일상", "한국"]
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
@@ -43,7 +48,12 @@ async def get_Test():
     print("추천 영화 목록 개수: "+str(len(movie_ids))+", 영화 id 목록:", movie_ids)
 
     # 코사인 유사도 결과 키워드 결과 보내기
-    movieDataObject(movie_ids,  'gkathaud4884@gmail.com')
+    result2 = movieDataObject(movie_ids,  'gkathaud4884@gmail.com')
+    if result2 == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
+
+    return "success"
 
 @router.post("/data")
 async def data_post(request_data: youtube):
@@ -66,7 +76,10 @@ async def data_post(request_data: youtube):
     random.shuffle(top_send_keywords)
 
     # youtube 분석 상위 키워드 결과 보내기
-    youtubeDataObject(top_send_keywords, request_data.email)
+    result = youtubeDataObject(top_send_keywords, request_data.email)
+    if result == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
@@ -77,7 +90,10 @@ async def data_post(request_data: youtube):
     print("추천 영화 목록 개수: "+str(len(movie_ids))+", 영화 id 목록:", movie_ids)
 
     # 코사인 유사도 결과 키워드 결과 보내기
-    movieDataObject(movie_ids,  request_data.email)
+    result2 = movieDataObject(movie_ids,  request_data.email)
+    if result2 == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
 
     return "success"
 
@@ -119,8 +135,8 @@ def preprocess(text):
                  "매일", "메리", "모닝", "몸종", "무한", "무드키", "무려", "무조건", "묶음", "바이",
                  "보유", "부리", "부수", "부스", "블러", "빨린", "삘받아", "사와코", "산신", "살짝",
                  "상놈", "상대", "서로", "세번", "소집", "수가", "수단", "수로", "쉬반", "저희", "유료", "광고", "영상", "저작권", "구독", "하루",
-                 "반응", "테크", "노마드", "브이", "튜브", "유", "허가", "댓글", "좋아요", "알람", "문제", "방법", "이유", "제품", "제품", "무상", "버전",
-                 "최적", "노출", "요소", "시스템", "작동"
+                 "반응", "테크", "노마드", "브이", "튜브", "유", "허가", "댓글", "좋아요", "알람", "문제", "방법", "이유", "제품", "제품", "무상", "버전", "비긴", "어게인"
+                 "최적", "노출", "요소", "시스템", "작동", "자주", "미국인", "문장", "표현", "내용", "쇼츠", "콘텐츠", "종류", "관련"
                  ]
     words = okt.nouns(text)
     words = [word for word in words if word not in stopwords]
@@ -146,14 +162,14 @@ def youtubeDataObject(result_keywords, email):
         "youtubeKeywordList": ranked_keywords,
         "email": email
     }
-    axiosRequest(data,"/youtube-keyword/update")
+    return axiosRequest(data,"/youtube-keyword/update")
 
 def movieDataObject(dataList, email):
     data = {
         "movieIdList": dataList,
         "email": email
     }
-    axiosRequest(data,"/recommend-movies/update")
+    return axiosRequest(data,"/recommend-movies/update")
 
 
 def axiosRequest(data, url):
@@ -166,5 +182,7 @@ def axiosRequest(data, url):
     # 응답 확인
     if response.status_code == 200:
         print("요청 성공")
+        return "success"
     else:
         print("요청 실패. 상태 코드:", response.status_code)
+        return "fail"
