@@ -117,8 +117,6 @@ const StyledFlexColBetween = styled.div`
 `;
 
 const StyledWrapper = styled(Wrapper)`
-  /* height: 600px;
-  width: 980px; */
   ${FlexCenter}
   width: 100%;
   height: 100%;

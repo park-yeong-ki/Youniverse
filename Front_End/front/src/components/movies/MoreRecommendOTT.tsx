@@ -1,14 +1,28 @@
 import React from "react";
 import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
+import { StyledIconBox } from "../../pages/recommend/ContentDetailPage";
+import { useNavigate } from "react-router-dom";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 
 type Props = {
   onSelectOTT: (ottName: string) => void;
 };
 
 const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
+  const navigate = useNavigate();
+
+  /** 뒤로가기 */
+  const handleNavigateBack = () => {
+    navigate(-1);
+  };
   return (
     <StyledWrapper size="Standard" color="WhiteGhost" padding="Thin">
+      <StyledIconBox
+        Icon={HiOutlineChevronLeft}
+        size={32}
+        onClick={handleNavigateBack}
+      />
       <CircleButton onClick={() => onSelectOTT("All")}>
         <img src="/assets/Logo/All.png" alt="Netflix" />
         전체보기
@@ -62,4 +76,5 @@ const StyledWrapper = styled(Wrapper)`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
 `;

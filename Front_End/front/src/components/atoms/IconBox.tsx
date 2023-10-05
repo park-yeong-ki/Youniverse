@@ -9,6 +9,7 @@ interface IconBoxProps {
   color?: string;
   onClick?: (event: React.MouseEvent) => void;
   style?: React.CSSProperties;
+  className?: string;
 }
 
 /** 아이콘 Wrapper STYLE */
@@ -30,9 +31,22 @@ const IconWrapper = styled.div<{ size?: number; color?: string }>`
 `;
 
 /** 아이콘 박스 컴포넌트 */
-const IconBox: React.FC<IconBoxProps> = ({ Icon, size, color, onClick, style }) => {
+const IconBox: React.FC<IconBoxProps> = ({
+  Icon,
+  size,
+  color,
+  onClick,
+  style,
+  className,
+}) => {
   return (
-    <IconWrapper size={size} color={color} onClick={onClick} style={style}>
+    <IconWrapper
+      size={size}
+      color={color}
+      onClick={onClick}
+      style={style}
+      className={className}
+    >
       {Icon && <Icon size={size} color={color} />}
     </IconWrapper>
   );

@@ -160,7 +160,7 @@ const StyledAddMovie = styled.div<{ $isUser: boolean }>`
   height: 100%;
   position: absolute;
   top: 0;
-  background-color: #ccc;
+  background: rgba(255, 255, 255, 0.5);
   color: #000;
   font-family: YESGothic-Bold;
 
@@ -168,7 +168,7 @@ const StyledAddMovie = styled.div<{ $isUser: boolean }>`
     props.$isUser &&
     `
     &:hover {
-      background-color: #b2b2b2;
+      background: rgba(255, 255, 255, 0.8);
     }
   `}
 `;

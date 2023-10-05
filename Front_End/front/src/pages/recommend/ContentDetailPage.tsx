@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { UserDetailInfoState } from "../../pages/store/State";
@@ -11,6 +11,8 @@ import MovieDetail from "../../components/movies/MovieDetail";
 import Review from "../../components/review/Review";
 import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import { MovieType } from "../../types/MovieType";
+import { HiOutlineChevronLeft } from "react-icons/hi";
+import IconBox from "../../components/atoms/IconBox";
 
 export type ReviewType = {
   memberSimpleResDto: {
@@ -24,6 +26,7 @@ export type ReviewType = {
 };
 
 const ContentDetailPage = () => {
+  const navigate = useNavigate();
   const memberId = useRecoilValue(UserDetailInfoState).memberId;
   // 영화 상세 정보 가져오는 axios 요청
   const [movie, setMovie] = useState<MovieType | null>(null);
@@ -49,10 +52,20 @@ const ContentDetailPage = () => {
       });
   }, [movieId]);
 
+  /** 뒤로가기 */
+  const handleNavigateBack = () => {
+    navigate(-1);
+  };
+
   return (
     <MainPaddingContainer>
       <StyledDetail>
         <StyledDetailWrapper size="Small" color="WhiteGhost" padding="Narrow">
+          <StyledIconBox
+            Icon={HiOutlineChevronLeft}
+            size={32}
+            onClick={handleNavigateBack}
+          />
           {movie && <MovieDetail movie={movie} />}
         </StyledDetailWrapper>
 
@@ -76,7 +89,14 @@ const StyledDetail = styled.div`
 const StyledDetailWrapper = styled(Wrapper)`
   ${FlexCenter}
   height: 60%;
+  position: relative;
 `;
 const StyledReviewWrapper = styled(Wrapper)`
   height: 38%;
+`;
+
+export const StyledIconBox = styled(IconBox)`
+  position: absolute;
+  left: 16px;
+  top: 16px;
 `;
