@@ -10,6 +10,8 @@ import {
 } from "../../commons/style/SharedStyle";
 import { getMember } from "../../apis/FrontendApi";
 import { User } from "../search/UserSearchContainer";
+import { useSetRecoilState } from "recoil";
+import { SelectStatusState } from "../../pages/store/State";
 
 interface Props {
   user: User;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const SearchUserItem: React.FC<Props> = ({ user, isSelected }) => {
+  const setSelectStatus = useSetRecoilState(SelectStatusState);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleToClickedUser = async () => {
@@ -25,6 +28,7 @@ const SearchUserItem: React.FC<Props> = ({ user, isSelected }) => {
       const response = await getMember(user.memberId);
       console.log(response.data);
       navigate(`/profile/${user.memberId}`);
+      setSelectStatus("");
       console.log("클릭한 유저id", `${user.memberId}`);
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
