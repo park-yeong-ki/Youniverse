@@ -53,57 +53,85 @@ const MainPage = () => {
 
   return (
     <MainPaddingContainer>
-      {/* 로그인 안했을 때 (비회원 화면) */}
-      {!isLoggedIn && (
-        <StyledMainWrapper>
-          <StyledFlexColBetween>
-            <div>
-              <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
-                {LOGO}
+      <StyledRandomWrapper>
+        {/* 로그인 안했을 때 (비회원 화면) */}
+        {!isLoggedIn && (
+          <StyledMainWrapper>
+            <StyledFlexColBetween>
+              <div>
+                <Text
+                  size="X-Large"
+                  color="White"
+                  fontFamily="PyeongChang-Bold"
+                >
+                  {LOGO}
+                </Text>
+                <Text
+                  size="X-Large"
+                  color="White"
+                  fontFamily="PyeongChang-Light"
+                >
+                  {MAIN_NOT_LOGIN_PART}
+                </Text>
+              </div>
+              <Text size="X-Large" color="White" fontFamily="PyeongChang-Light">
+                {MAIN_NOT_LOGIN_PART1}
               </Text>
               <Text size="X-Large" color="White" fontFamily="PyeongChang-Light">
-                {MAIN_NOT_LOGIN_PART}
+                {MAIN_NOT_LOGIN_PART2}
               </Text>
-            </div>
-            <Text size="X-Large" color="White" fontFamily="PyeongChang-Light">
-              {MAIN_NOT_LOGIN_PART1}
-            </Text>
-            <Text size="X-Large" color="White" fontFamily="PyeongChang-Light">
-              {MAIN_NOT_LOGIN_PART2}
-            </Text>
-          </StyledFlexColBetween>
-          <GoogleLoginBtn />
-        </StyledMainWrapper>
-      )}
+            </StyledFlexColBetween>
+            <GoogleLoginBtn />
+          </StyledMainWrapper>
+        )}
 
-      {/* 로그인 했을 때 (회원 화면) */}
-      {isLoggedIn && (
-        <StyledIsLoggedinWrap>
-          <RandomUserStar />
-          <StyledIsLoggedin>
-            <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
-              {userDetailInfo.nickname}님의 별자리
-            </Text>
+        {/* 로그인 했을 때 (회원 화면) */}
+        {isLoggedIn && (
+          <>
+            <StyledFirstRandom />
+            <StyledSecondRandom />
+            <StyledThirdRandom />
+            <StyledFourthRandom />
+            <StyledFifthRandom />
+            <StyledIsLoggedinWrap>
+              <StyledIsLoggedin>
+                <Text
+                  size="X-Large"
+                  color="White"
+                  fontFamily="PyeongChang-Bold"
+                >
+                  {userDetailInfo.nickname}님의 별자리
+                </Text>
 
-            <StyledWrapper size="Standard" padding="Narrow" color="WhiteGhost">
-              <LineChart
-                width={940}
-                height={400}
-                otherMemberId={memberId ?? undefined}
-              />
-            </StyledWrapper>
-            <StyledBtn
-              size="X-Large"
-              color="White"
-              onClick={navigateToRecommendPage}
-            >
-              <Text size="Medium" color="Black" fontFamily="PyeongChang-Light">
-                별자리로 영화 추천받기
-              </Text>
-            </StyledBtn>
-          </StyledIsLoggedin>
-        </StyledIsLoggedinWrap>
-      )}
+                <StyledWrapper
+                  size="Standard"
+                  padding="Narrow"
+                  color="WhiteGhost"
+                >
+                  <LineChart
+                    width={940}
+                    height={400}
+                    otherMemberId={memberId ?? undefined}
+                  />
+                </StyledWrapper>
+                <StyledBtn
+                  size="X-Large"
+                  color="White"
+                  onClick={navigateToRecommendPage}
+                >
+                  <Text
+                    size="Medium"
+                    color="Black"
+                    fontFamily="PyeongChang-Light"
+                  >
+                    별자리로 영화 추천받기
+                  </Text>
+                </StyledBtn>
+              </StyledIsLoggedin>
+            </StyledIsLoggedinWrap>
+          </>
+        )}
+      </StyledRandomWrapper>
     </MainPaddingContainer>
   );
 };
@@ -146,4 +174,43 @@ const StyledMainWrapper = styled.div`
     margin-top: 44px;
     width: 80%;
   }
+`;
+
+/** 랜덤 별 넣어줄 공간 */
+const StyledRandomWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+/** 별1 */
+const StyledFirstRandom = styled(RandomUserStar)`
+  position: absolute;
+  top: 10%;
+  left: 2%;
+`;
+/** 별2 */
+const StyledSecondRandom = styled(RandomUserStar)`
+  position: absolute;
+  top: 4%;
+  right: 12%;
+`;
+/** 별3 */
+const StyledThirdRandom = styled(RandomUserStar)`
+  position: absolute;
+  bottom: 20%;
+  left: 11%;
+`;
+/** 별4 */
+const StyledFourthRandom = styled(RandomUserStar)`
+  position: absolute;
+  bottom: 8%;
+  right: 8%;
+`;
+
+/** 별4 */
+const StyledFifthRandom = styled(RandomUserStar)`
+  position: absolute;
+  top: 18%;
+  left: 30%;
 `;

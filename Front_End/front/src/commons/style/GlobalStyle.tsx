@@ -10,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     /* 임시 배경 */
-    html, body {
+    /* html, body {
         width: 100%;
         height: 100%;
         background: linear-gradient(
@@ -22,7 +22,7 @@ export const GlobalStyles = createGlobalStyle`
         rgba(150, 123, 208, 0.18) 99.99%,
         rgba(145, 114, 211, 0) 100%
   );
-    }
+    } */
 
     @font-face {
         font-family: 'PyeongChangPeace-Bold';

@@ -6,7 +6,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-// import StarryBackground from "./commons/style/StarryBackground";
+import StarryBackground from "./commons/style/StarryBackground";
 import { GlobalStyles } from "./commons/style/GlobalStyle";
 import { ROUTES } from "./commons/constants/Routes";
 import { useAuth } from "./commons/constants/useAuth";
@@ -52,7 +52,7 @@ function ProtectedApp() {
 
   return (
     <Router>
-      {/* <StarryBackground /> */}
+      <StarryBackground />
       <GlobalStyles />
       <Header />
       {isChecking ? (
