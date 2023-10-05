@@ -142,5 +142,5 @@ export const StyledAllWrapper = styled.div`
 
 const StyledColCenter = styled.div`
   ${FlexColBetween}
-  height: 80%;
+  height: 100%;
 `;
