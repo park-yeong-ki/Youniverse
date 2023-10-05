@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { UserDetailInfoState } from "./../../pages/store/State";
 import Wrapper from "../atoms/Wrapper";
-import MovieItemList from "./MovieItemList";
+import SortMovieItemList from "./SortMovieItemList";
 import { getAllMovies } from "../../apis/FrontendApi";
 import { MovieType } from "../../types/MovieType";
 
@@ -47,7 +47,8 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
           movie.ottResDtos.some((ott) => ott.ottName === selectedOTT)
         );
       }
-      setSortMovies((prevMovies) => [...prevMovies, ...fetchedMovies]);
+      setSortMovies(() => [...fetchedMovies]);
+      console.log(selectedOTT, fetchedMovies)
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
@@ -71,6 +72,8 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, selectedOTT, listType]); // 페이지 번호가 변경될 때마다 새로운 데이터 로드
 
+  
+
   return (
     <RecommendPaddingContainer>
       <StyledWrapper
@@ -80,9 +83,7 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
         onScroll={handleScroll}
       >
         <StyledMovieItemList
-          filterOTT={selectedOTT}
           listType={listType}
-          page={page}
           movies={sortMovies}
         />
       </StyledWrapper>
@@ -105,7 +106,7 @@ const StyledWrapper = styled(Wrapper)`
   box-sizing: border-box;
 `;
 
-const StyledMovieItemList = styled(MovieItemList)`
+const StyledMovieItemList = styled(SortMovieItemList)`
   width: 100%;
   height: 100%;
   /* display: flex;

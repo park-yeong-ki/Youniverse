@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
 
 type Props = {
-  onSelectOTT: (ottId: string) => void;
+  onSelectOTT: (ottName: string) => void;
 };
 
 const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {

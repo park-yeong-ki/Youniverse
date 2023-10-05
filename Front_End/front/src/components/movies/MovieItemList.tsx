@@ -14,7 +14,7 @@ import Btn from "../atoms/Btn";
 import Text from "../atoms/Text";
 import MovieItem from "./MovieItem";
 import { getAllMovies } from "../../apis/FrontendApi";
-import { MovieType, OTTType } from "../../types/MovieType";
+import { MovieType } from "../../types/MovieType";
 
 type Props = {
   filterOTT?: string | null;
@@ -63,21 +63,6 @@ const MovieItemList: React.FC<
     }
   };
 
-  const convertOTTNameToId = (
-    ottName: string | null | undefined
-  ): number | null => {
-    if (!ottName) return null;
-    const ottList = [
-      { name: "Netflix", id: 8 },
-      { name: "Disney Plus", id: 337 },
-      { name: "Watcha", id: 97 },
-      { name: "Apple TV", id: 2 },
-      { name: "wavve", id: 356 },
-    ];
-
-    const ott = ottList.find((o) => o.name === ottName);
-    return ott ? ott.id : null;
-  };
 
   // 영화 데이터 가져오기
   useEffect(() => {
@@ -105,22 +90,7 @@ const MovieItemList: React.FC<
 
       try {
         const response = await getAllMovies(requestParams);
-        const targetOttId = convertOTTNameToId(filterOTT);
-
-        const filteredMovies = response.data.content.filter(
-          (movie: MovieType) => {
-            if (!targetOttId) return true;
-            return movie.ottResDtos.some(
-              (ott: OTTType) => ott.ottId === targetOttId
-            );
-          }
-        );
-        if (page === 0) {
-          // 첫 페이지일 경우 기존 영화 목록을 리셋
-          setMovies(filteredMovies);
-        } else {
-          setMovies((prevMovies) => [...prevMovies, ...filteredMovies]);
-        }
+        return setMovies(response.data.content)
       } catch (err) {
         console.log(err);
       }
@@ -131,15 +101,7 @@ const MovieItemList: React.FC<
   }, [filterOTT, listType, memberId, page]);
 
   const renderMovies = () => {
-    if (propMovies && propMovies.length > 0) {
-      return (
-        <div className="grid grid-cols-5 gap-5">
-          {propMovies.map((movie) => (
-            <MovieItem key={movie.movieId} movie={movie} />
-          ))}
-        </div>
-      );
-    } else {
+    if (movies && movies.length > 0) {
       return movies.length > 0 ? (
         <Slick speed={500} autoplay={true}>
           {movies.map((movie) => (
