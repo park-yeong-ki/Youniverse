@@ -47,7 +47,7 @@ export default UserZodiacSign;
 const StyledZodiacWrapper = styled.div`
   ${FlexCenter}
   width: 100%;
-  height: 100%;
+  height: 174px;
   border-radius: 28px;
   background: linear-gradient(
     180deg,

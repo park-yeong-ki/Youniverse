@@ -59,5 +59,5 @@ const ProfileReviewItemList: React.FC<Props> = ({ reviews }) => {
 export default ProfileReviewItemList;
 
 const StyledSlider = styled(Slider)`
-  width: 100%;
+  width: 95%;
 `;

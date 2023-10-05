@@ -8,7 +8,7 @@ import Wrapper from "../atoms/Wrapper";
 import MovieItem from "../movies/MovieItem";
 import { FlexCenter } from "../../commons/style/SharedStyle";
 import { UserType } from "../../pages/profile/MyProfilePage";
-import { StyledAllWrapper } from "./MyOTTPlanet";
+import { StyledPXWrapper } from "../review/MyProfileReview";
 
 interface MypageLikeContentsProps {
   memberData: UserType | null;
@@ -28,7 +28,7 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
   }, [memberData]);
 
   return (
-    <StyledAllWrapper>
+    <StyledPXWrapper>
       <div>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
           {memberData?.nickname}
@@ -52,7 +52,13 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
         <div className="grid grid-cols-3 gap-3">
           {likedMovies.length === 0 ? (
             <div className="col-span-3 text-center">
-              아직 좋아요한 영화가 없습니다
+              <StyledPXText
+                size="Small"
+                color="Black"
+                fontFamily="PyeongChang-Light"
+              >
+                아직 좋아요한 콘텐츠가 없어요
+              </StyledPXText>
             </div>
           ) : (
             <>
@@ -85,7 +91,7 @@ const MypageLikeContents: React.FC<MypageLikeContentsProps> = ({
           )}
         </div>
       </Wrapper>
-    </StyledAllWrapper>
+    </StyledPXWrapper>
   );
 };
 
@@ -109,4 +115,8 @@ const StyledAddWrapper = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
+`;
+
+const StyledPXText = styled(Text)`
+  line-height: 190px;
 `;
