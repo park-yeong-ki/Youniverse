@@ -86,7 +86,7 @@ const MyProfilePage = () => {
                   <StyledRowWrap>
                     <UserZodiacSign
                       width="420%"
-                      height="200%"
+                      height="160%"
                       memberData={memberData}
                     />
                     <MyOTTPlanet memberData={memberData} />
