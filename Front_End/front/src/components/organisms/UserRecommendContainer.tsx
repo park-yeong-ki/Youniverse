@@ -18,6 +18,7 @@ export type RecommendUser = {
   member_image: string;
   nickname: string;
   keyword: string[];
+  similarity: number;
 };
 
 const UserRecommendContainer = () => {
