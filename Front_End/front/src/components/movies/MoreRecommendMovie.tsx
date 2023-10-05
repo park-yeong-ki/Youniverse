@@ -36,27 +36,37 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
 
       const response = await getAllMovies({
         page: pageNum,
+        size: 20,
         type: numericType,
         "member-id": memberId,
       });
 
       let fetchedMovies = response.data.content;
-
       if (selectedOTT && selectedOTT !== "All") {
         fetchedMovies = fetchedMovies.filter((movie: MovieType) =>
           movie.ottResDtos.some((ott) => ott.ottName === selectedOTT)
         );
       }
-      setSortMovies(() => [...fetchedMovies]);
-      console.log(selectedOTT, fetchedMovies)
+      setSortMovies((prevMovies) => [...prevMovies, ...fetchedMovies]);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
   };
 
+  // const handleScroll = (e: any) => {
+  //   const target = e.target;
+  //   if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+  //     setPage((prev) => prev + 1);
+  //   }
+  // };
+
+  // 약간 애매한 handleScroll 무한스크롤 함수임 ..
   const handleScroll = (e: any) => {
     const target = e.target;
-    if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+    const isNearBottom =
+      Math.abs(target.scrollHeight - (target.scrollTop + target.clientHeight)) <
+      10;
+    if (isNearBottom) {
       setPage((prev) => prev + 1);
     }
   };
@@ -64,15 +74,16 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
   useEffect(() => {
     // 초기화 로직: 선택된 OTT가 변경되면 영화 목록과 페이지 번호를 초기화합니다.
     setSortMovies([]);
+    console.log(sortMovies);
     setPage(0);
+    console.log(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOTT, listType]);
 
   useEffect(() => {
     fetchMovies(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, selectedOTT, listType]); // 페이지 번호가 변경될 때마다 새로운 데이터 로드
-
-  
 
   return (
     <RecommendPaddingContainer>
@@ -82,10 +93,7 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
         padding="Narrow"
         onScroll={handleScroll}
       >
-        <StyledMovieItemList
-          listType={listType}
-          movies={sortMovies}
-        />
+        <StyledMovieItemList movies={sortMovies} />
       </StyledWrapper>
     </RecommendPaddingContainer>
   );
@@ -109,8 +117,4 @@ const StyledWrapper = styled(Wrapper)`
 const StyledMovieItemList = styled(SortMovieItemList)`
   width: 100%;
   height: 100%;
-  /* display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between; */
 `;
