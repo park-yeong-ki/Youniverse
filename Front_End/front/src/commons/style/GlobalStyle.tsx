@@ -65,4 +65,11 @@ export const GlobalStyles = createGlobalStyle`
         background-color: rgba(0,0,0,0.5);
         overflow: hidden;
     }
+    .slick-list {
+        margin-right: -24px;
+    }
+ 
+    .slick-slide {
+        padding-right: 24px;
+    }
 `;
