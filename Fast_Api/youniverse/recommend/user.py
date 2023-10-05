@@ -42,11 +42,32 @@ def similarily(member_id):
     # 상위 키워드에 대한 멤버를 유사도에 따라 내림차순 정렬
     similar_members_result.sort(key=lambda x: x[1], reverse=True)
 
-    print("사용자 필터링을 통한 결과:")
+    # print("사용자 필터링을 통한 결과:")
+    # for member_id, similarity_score in similar_members_result:
+    #     similarity_score_int = int(round(similarity_score * 1000))
+    #     similar_members.append((member_id, similarity_score_int))
+    #     print(f"{member_id} (유사도: {similarity_score_int})")
+
+    # 유사도 점수의 합과 개수 초기화
+    total_similarity_score = 0
+    num_scores = 0
+
+    # 유사도 점수 계산
     for member_id, similarity_score in similar_members_result:
-        similarity_score_int = int(round(similarity_score * 1000))
-        similar_members.append((member_id, similarity_score_int))
-        print(f"{member_id} (유사도: {similarity_score_int})")
+        total_similarity_score += similarity_score
+        num_scores += 1
+
+    # 평균 유사도 점수 계산
+    average_similarity_score = total_similarity_score / num_scores
+    print("average_similarity_score: ", average_similarity_score)
+    print("100%: ", average_similarity_score*2)
+    all_score = average_similarity_score*2
+
+    # 각 멤버의 유사도 백분율 계산 및 출력
+    for member_id, similarity_score in similar_members_result:
+        similarity_score_percentage = int(round(similarity_score / all_score * 100))
+        similar_members.append((member_id, similarity_score_percentage))
+        print(f"{member_id} (유사도: {similarity_score_percentage}%)")
 
     return similar_members[:5]
 
