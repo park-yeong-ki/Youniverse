@@ -64,7 +64,10 @@ const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
         </div>
         Apple TV
       </CircleButton>
-      <CircleButton onClick={() => handleClick("Disney Plus")}>
+      <CircleButton
+        onClick={() => handleClick("Disney Plus")}
+        selected={selectedOTT === "Disney Plus"}
+      >
         <div>
           <img src="/assets/Logo/DisneyPlus.png" alt="Disney Plus" />
         </div>

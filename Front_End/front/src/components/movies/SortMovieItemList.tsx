@@ -16,7 +16,7 @@ const SortMovieItemList: React.FC<Props> = ({ movies: propMovies = [] }) => {
 
   const renderMovies = () => {
     return propMovies && propMovies.length > 0 ? (
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid grid-cols-6 gap-5">
         {propMovies.map((movie) => (
           <MovieItem key={movie.movieId} movie={movie} />
         ))}
