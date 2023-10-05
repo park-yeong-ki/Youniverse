@@ -48,7 +48,7 @@ const LoadingPage = () => {
   const apiKey = process.env.REACT_APP_APIKEY || "";
   const clientSecret = process.env.REACT_APP_SECRET || "";
   const fastServerURL = process.env.REACT_APP_FAST_SERVER_URL || "";
-  
+
   // 상태 변수 추가
   let userEmail: string = "";
   let allData: string = " ";
@@ -71,29 +71,55 @@ const LoadingPage = () => {
     allData += ", " + text;
   };
 
+  let retryCount = 0; // 재시도 횟수를 추적
+
   //fastapi로 요청 보낼 함수
   const sendDataToServer = async () => {
     try {
-      console.log("allData: ",allData)
-      console.log("userEmail: ",userEmail)
+      console.log("allData: ", allData);
+      console.log("userEmail: ", userEmail);
       const dataToSend = {
-        "data": allData,
-        "email": userEmail,
+        data: allData,
+        email: userEmail,
       };
 
-      const response = await axios.post(fastServerURL + "/youtube/data", dataToSend, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        fastServerURL + "/youtube/data",
+        dataToSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.status === 200) {
+      console.log(response);
+
+      if (response.data === "success") {
         console.log("fastapi 서버로 전송했습니다.");
+        retryCount = 0; // 요청이 성공하면 재시도 횟수를 초기화
       } else {
         console.error("fastapi 서버 응답이 실패했습니다.");
+        retrySendData();
       }
     } catch (error) {
       console.error("데이터를 서버로 보내는 동안 오류 발생:", error);
+      retrySendData();
+    }
+  };
+
+  const retrySendData = () => {
+    if (retryCount < 2) {
+      // 두 번 이하로 재시도했을 때만 다시 요청
+      console.log("30초 후에 다시 시도합니다...");
+      retryCount++; // 재시도 횟수 증가
+      setTimeout(() => {
+        sendDataToServer();
+      }, 30000); // 30000ms = 30s
+    } else {
+      console.error(
+        "최대 재시도 횟수에 도달했습니다. 데이터 전송이 실패했습니다."
+      );
     }
   };
 
@@ -279,7 +305,10 @@ const LoadingPage = () => {
                       }
                     )
                     .then((response) => {
-                      console.log("플레이리스트 영상 정보: ", response.data.items);
+                      console.log(
+                        "플레이리스트 영상 정보: ",
+                        response.data.items
+                      );
                       for (const item of response.data.items) {
                         appendToAllData(item.snippet.title);
                         appendToAllData(item.snippet.description);
@@ -307,12 +336,11 @@ const LoadingPage = () => {
                 );
               }
             };
-            
+
             if (!playlistId || playlistId.length === 0) {
               console.log(`Skipping playlistId because it is empty or null.`);
               sendDataToServer();
-            }else sendPlaylistRequests(playlistId);
-
+            } else sendPlaylistRequests(playlistId);
           })
           .catch((error) => {
             console.error("재생목록 요청 실패:", error);
@@ -425,24 +453,24 @@ const LoadingPage = () => {
           handleTokenExpiry();
           return;
         }
-      const data = new URLSearchParams({
-        client_id: clientId || "", // clientId가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
-        client_secret: clientSecret || "", // clientSecret가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
-        refresh_token: refreshToken,
-        grant_type: "refresh_token",
-      });
-      
-      // axios 요청
-      axios
-        .post(url, data)
-        .then((response) => {
-          console.log(response.data);
-          setUserInfo((prev) => ({
-            ...prev,
-            accessToken: response.data.access_token,
-          }));
-          navigate(ROUTES.LOADING);
-        })
+        const data = new URLSearchParams({
+          client_id: clientId || "", // clientId가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
+          client_secret: clientSecret || "", // clientSecret가 정의되지 않았을 때를 대비하여 기본값으로 빈 문자열을 사용
+          refresh_token: refreshToken,
+          grant_type: "refresh_token",
+        });
+
+        // axios 요청
+        axios
+          .post(url, data)
+          .then((response) => {
+            console.log(response.data);
+            setUserInfo((prev) => ({
+              ...prev,
+              accessToken: response.data.access_token,
+            }));
+            navigate(ROUTES.LOADING);
+          })
           // refreshToken도 만료되었을 때!!!
           .catch((error) => {
             console.error("Error refreshing token:", error);
