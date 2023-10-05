@@ -74,9 +74,7 @@ const MoreRecommendMovie: React.FC<MovieProps> = ({
   useEffect(() => {
     // 초기화 로직: 선택된 OTT가 변경되면 영화 목록과 페이지 번호를 초기화합니다.
     setSortMovies([]);
-    console.log(sortMovies);
     setPage(0);
-    console.log(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOTT, listType]);
 

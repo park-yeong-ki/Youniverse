@@ -15,11 +15,12 @@ interface PlanetProps {
 }
 
 /** 행성 SIZE */
-type PlanetSize = "Standard" | "Medium" | "Small" | "MovieDetailSize";
+type PlanetSize = "Standard" | "Medium" | "Small" | "MovieDetailSize" | "AuthBtn" ;
 
 /** 행성 STYLE 타입 지정 */
 type PlanetStyle = {
   height: string;
+  width?: string;
 };
 
 /** 행성 STYLE */
@@ -36,6 +37,9 @@ const PlanetStyles: Record<PlanetSize, PlanetStyle> = {
   MovieDetailSize: {
     height: "52px",
   },
+  AuthBtn: {
+    height: "200px"
+  },
 };
 
 /** styled-component => Planet */
@@ -44,7 +48,8 @@ const StyledPlanet = styled.div<PlanetProps & { selected: boolean }>`
   height: ${(props) => PlanetStyles[props.size].height};
   overflow: hidden;
   border-radius: 50%;
-  background: url(${(props) => props.src}) center/cover;
+  background: url(${(props) => props.src}) no-repeat center center;  // 변경된 부분
+  background-size: ${(props) => (props.size === "AuthBtn" ? "95%" : "cover")};  // 변경된 부분
   position: relative;
 
   box-shadow: ${(props) =>
