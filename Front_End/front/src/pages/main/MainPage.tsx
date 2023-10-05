@@ -144,9 +144,10 @@ const StyledMainWrapper = styled.div`
   ${FlexCenter}
   flex-direction: column;
   width: 50%;
-  height: 80%;
+  height: 90%;
   margin: 0 auto;
   & > button {
-    margin-top: 24px;
+    margin-top: 44px;
+    width: 80%;
   }
 `;
