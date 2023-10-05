@@ -44,12 +44,13 @@ def similarily(member_id):
 
     print("사용자 필터링을 통한 결과:")
     for member_id, similarity_score in similar_members_result:
-        similar_members.append(member_id)
-        print(f"{member_id} (유사도: {similarity_score:.2f})")
+        similarity_score_int = int(round(similarity_score * 1000))
+        similar_members.append((member_id, similarity_score_int))
+        print(f"{member_id} (유사도: {similarity_score_int})")
 
     return similar_members[:5]
 
 # 사용자 정보 가져오기
-def get_members_info(member_ids):
-    return usersRepository.get_members_info(member_ids)
+def get_members_info(users):
+    return usersRepository.get_members_info(users)
 
