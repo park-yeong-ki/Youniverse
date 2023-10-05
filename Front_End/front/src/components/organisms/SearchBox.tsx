@@ -113,7 +113,7 @@ const StyledSearchBox = styled.div`
 
   // 드롭다운, 입력 필드, 검색 버튼의 flex 비율 설정
   & > *:nth-child(1) {
-    flex: 2;
+    flex: 3;
     margin-right: 8px; // 드롭다운의 오른쪽 마진 추가
   } // Dropdown
   & > *:nth-child(2) {

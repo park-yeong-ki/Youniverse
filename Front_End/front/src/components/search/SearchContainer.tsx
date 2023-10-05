@@ -55,7 +55,7 @@ const SearchContainer = ({
       Promise.all(promises)
         .then((results) => {
           // 모든 결과를 결합합니다.
-          console.log("results#################", results)
+          console.log("results#################", results);
           const allMovies = results.flatMap((result) => result.data.content);
           // 중복 영화를 제거합니다.
           const uniqueMovies = Array.from(
@@ -85,7 +85,7 @@ const SearchContainer = ({
 
       getAllMovies(filters)
         .then((response) => {
-          const movies = response.data.content; 
+          const movies = response.data.content;
           setSearchResults(movies);
         })
         .catch((err) => {
@@ -103,7 +103,9 @@ const SearchContainer = ({
       <Text size="Large" color="Black" fontFamily="YESGothic-Bold">
         "{localSearchTerm}" {SEARCH_PAGE}
       </Text>
-      <SearchBox theme="dark" type="movie" onSearch={handleSearch} />
+      <StyledSearchBarWrap>
+        <SearchBox theme="dark" type="movie" onSearch={handleSearch} />
+      </StyledSearchBarWrap>
     </StyledSearchContainerWrap>
   );
 };
@@ -112,4 +114,9 @@ export default SearchContainer;
 
 const StyledSearchContainerWrap = styled(Wrapper)`
   overflow: visible;
+`;
+
+const StyledSearchBarWrap = styled.div`
+  width: 70%;
+  margin: 1rem auto 0 auto;
 `;

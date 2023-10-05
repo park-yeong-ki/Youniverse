@@ -105,7 +105,7 @@ export default OTTForm;
 const OTTFormContainer = styled.div`
   ${FlexColBetween}
   padding-top: 50px;
-  height: 500px;
+  height: 400px;
 `;
 
 const PlanetsWrapper = styled.div<{ $isSelected: boolean }>`

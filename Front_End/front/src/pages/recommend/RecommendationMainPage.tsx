@@ -4,15 +4,15 @@ import { SectionsContainer, Section } from "react-fullpage";
 import { useRecoilValue } from "recoil";
 import RecommendSection from "../../components/movies/RecommendSection";
 import RecommendNotYouTube from "../../components/movies/RecommendNotYouTube";
-import { UserJoinInfoState, UserDetailInfoState } from "./../../pages/store/State";
+import { UserDetailInfoState } from "./../../pages/store/State";
 
 const RecommendationMainPage = () => {
   let options = {
     anchors: ["YouTube", "Recommend"],
   };
 
-  const memberAge = useRecoilValue(UserJoinInfoState).age;
-  const memberGender = useRecoilValue(UserJoinInfoState).gender;
+  const memberAge = useRecoilValue(UserDetailInfoState).age;
+  const memberGender = useRecoilValue(UserDetailInfoState).gender;
   const memberNickname = useRecoilValue(UserDetailInfoState).nickname;
 
   return (
