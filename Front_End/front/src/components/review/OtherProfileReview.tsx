@@ -17,7 +17,7 @@ interface ProfileReviewProps {
   className?: string;
 }
 
-const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
+const OtherProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
   const [reviewList, setReviewList] = useState<[]>([]);
   const [nickname, setNickname] = useState<string>("");
 
@@ -63,13 +63,13 @@ const ProfileReview: React.FC<ProfileReviewProps> = ({ memberId }) => {
   );
 };
 
-export default ProfileReview;
+export default OtherProfileReview;
 
 const StyledReviewContainer = styled.div`
-  width: 60%;
+  width: 49%;
 `;
 
 const StyledStandardWhiteGhostWrapper = styled(Wrapper)`
   ${FlexCenter}
-  height: 240px;
+  height: 300px;
 `;

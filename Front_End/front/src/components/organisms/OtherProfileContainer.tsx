@@ -18,7 +18,7 @@ import Wrapper from "../atoms/Wrapper";
 import Text from "../atoms/Text";
 import Img from "../atoms/Img";
 import Btn from "../atoms/Btn";
-import ProfileReview from "../review/ProfileReview";
+import ProfileReview from "../review/OtherProfileReview";
 import OtherUserZodiacSign from "../users/OtherUserZodiacSign";
 import SoulMovieItemList from "../movies/SoulMovieItemList";
 import { UserType } from "../../pages/profile/MyProfilePage";

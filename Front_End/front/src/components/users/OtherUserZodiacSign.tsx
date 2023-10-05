@@ -5,7 +5,6 @@ import { MY_PAGE_STAR } from "../../commons/constants/String";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
 import { FlexCenter } from "../../commons/style/SharedStyle";
-import { StyledAllWrapper } from "./MyOTTPlanet";
 import LineChart from "../chart/LineChart";
 import { UserType } from "../../pages/profile/MyProfilePage";
 
@@ -42,7 +41,7 @@ export default OtherUserZodiacSign;
 const StyledZodiacWrapper = styled.div`
   ${FlexCenter}
   width: 100%;
-  height: 190px;
+  height: 100%;
   border-radius: 28px;
   background: linear-gradient(
     180deg,
@@ -53,4 +52,16 @@ const StyledZodiacWrapper = styled.div`
     rgba(150, 123, 208, 0.18) 99.99%,
     rgba(145, 114, 211, 0) 100%
   );
+`;
+
+/** 전체 wrapper 텍스트와 콘텐츠 비율 설정 */
+export const StyledAllWrapper = styled.div`
+  height: 100%;
+  width: 49%;
+  & > *:first-child {
+    height: 14%;
+  }
+  & > *:last-child {
+    height: 87%;
+  }
 `;
