@@ -15,10 +15,20 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ memberId, review }) => {
 
   return (
     <ReviewContainer>
-      <MemberImage src={review.memberSimpleResDto.memberImage} alt="memberImg" />
+      <MemberImage
+        src={
+          review.memberSimpleResDto.memberImage
+            ? review.memberSimpleResDto.memberImage
+            : "/assets/DefaultProfile.png"
+        }
+        alt="memberImg"
+      />
+
       <MemberInfoContainer>
         <InfoContainerTop>
-          <ReviewText size="Small" color="Black" fontFamily="YESGothic-Bold">{review.memberSimpleResDto.nickname}</ReviewText>
+          <ReviewText size="Small" color="Black" fontFamily="YESGothic-Bold">
+            {review.memberSimpleResDto.nickname}
+          </ReviewText>
           <HashTag size="Standard" color="WhiteGhost">
             ⭐{review.reviewRate}
           </HashTag>
@@ -47,8 +57,8 @@ const MemberInfoContainer = styled.div`
 `;
 
 const MemberImage = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   margin-right: 10px;
 `;
