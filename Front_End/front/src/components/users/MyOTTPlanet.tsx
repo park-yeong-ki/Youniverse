@@ -101,7 +101,7 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
   console.log("ott 사용 비율", ottWithRatios);
 
   const handleNavigateMore = () => {
-    navigate(ROUTES.RECOMMEND_MORE);
+    navigate('/recommend/more/3');
   };
 
   return (

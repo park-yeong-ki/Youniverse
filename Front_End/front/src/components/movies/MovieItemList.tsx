@@ -118,9 +118,9 @@ const MovieItemList: React.FC<
   return (
     <RecommendPaddingContainer>
       <StyledListBtn>
-        <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
+        <StyledText size="Large" color="White" fontFamily="PyeongChang-Bold">
           {listType}
-        </Text>
+        </StyledText>
 
         <StyledBtn size="Small" color="Black" onClick={handleMoreClick}>
           더보기
@@ -139,6 +139,9 @@ const StyledListBtn = styled.div`
 
 const StyledBtn = styled(Btn)`
   width: 80px;
+`;
+const StyledText = styled(Text)`
+  margin-bottom: 0.5rem;
 `;
 
 const RecommendPaddingContainer = styled.div`
