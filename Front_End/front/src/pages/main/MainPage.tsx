@@ -33,27 +33,6 @@ const MainPage = () => {
     navigate(ROUTES.RECOMMEND); // RECOMMEND 페이지로 이동
   };
 
-  // 파라미터 정보 유무
-  // useEffect(() => {
-  //   // URL에서 'email' 파라미터 빼서 저장
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const accessToken = urlParams.get("accessToken");
-  //   const refreshToken = urlParams.get("refreshToken");
-  //   const email = urlParams.get("email");
-
-  //   // accessToken과 refreshToken 둘 다 null값이라면
-  //   if (userInfo.accessToken === null && userInfo.refreshToken === null) {
-  //     // 리코일에 저장
-  //     setUserInfo({ accessToken, refreshToken, email });
-  //   }
-
-  //   //  accessToken과 refreshToken 둘 다 있다면
-  //   if (accessToken && refreshToken) {
-  //     setIsLoggedIn(true); // 로그인 상태를 true로 변경
-  //     setUserInfo({ accessToken, refreshToken, email });
-  //   }
-  // }, [setIsLoggedIn, setUserInfo, userInfo.accessToken, userInfo.refreshToken]);
-
   useEffect(() => {
     /** GET 요청 (이메일로 회원 조회) */
     if (email) {
@@ -96,9 +75,9 @@ const MainPage = () => {
       )}
 
       {/* 로그인 했을 때 (회원 화면) */}
-      <SyledIsLoggedin>
-        {isLoggedIn && (
-          <SyledIsLoggedin>
+      {isLoggedIn && (
+        <StyledIsLoggedinWrap>
+          <StyledIsLoggedin>
             <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
               {userDetailInfo.nickname}님의 별자리
             </Text>
@@ -115,9 +94,9 @@ const MainPage = () => {
                 별자리로 영화 추천받기
               </Text>
             </StyledBtn>
-          </SyledIsLoggedin>
-        )}
-      </SyledIsLoggedin>
+          </StyledIsLoggedin>
+        </StyledIsLoggedinWrap>
+      )}
     </MainPaddingContainer>
   );
 };
@@ -129,28 +108,26 @@ const StyledFlexColBetween = styled.div`
 `;
 
 const StyledWrapper = styled(Wrapper)`
-  height: 600px;
-  width: 980px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* height: 600px;
+  width: 980px; */
+  ${FlexCenter}
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
 `;
 
-const SyledIsLoggedin = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 32px;
-  height: calc(100vh - 70px);
+const StyledIsLoggedinWrap = styled.div`
+  ${FlexCenter}
+  height: 100%;
+`;
+const StyledIsLoggedin = styled.div`
+  ${FlexColBetween}
+  height: 80%;
 `;
 
 const StyledBtn = styled(Btn)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   width: 60%;
+  margin-top: 1rem;
 `;
 
 const StyledMainWrapper = styled.div`
