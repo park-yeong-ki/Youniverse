@@ -1,11 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router";
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import axios from "axios";
 
 import {
@@ -83,15 +78,11 @@ const LoadingPage = () => {
         email: userEmail,
       };
 
-      const response = await axios.post(
-        fastServerURL + "/youtube/data",
-        dataToSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(fastServerURL + "/youtube/data", dataToSend, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       console.log(response);
 
@@ -115,11 +106,9 @@ const LoadingPage = () => {
       retryCount++; // 재시도 횟수 증가
       setTimeout(() => {
         sendDataToServer();
-      }, 30000); // 30000ms = 30s
+      }, 20000); // 20000ms = 20s
     } else {
-      console.error(
-        "최대 재시도 횟수에 도달했습니다. 데이터 전송이 실패했습니다."
-      );
+      console.error("최대 재시도 횟수에 도달했습니다. 데이터 전송이 실패했습니다.");
     }
   };
 
@@ -180,13 +169,9 @@ const LoadingPage = () => {
         }
 
         const data: SubscriptionItem[] = response.data.items; // 데이터 배열을 직접 설정
-        const channelId: string[] = data.map(
-          (item) => item.snippet.resourceId.channelId
-        ); //채널 아이디
+        const channelId: string[] = data.map((item) => item.snippet.resourceId.channelId); //채널 아이디
         const titles: string[] = data.map((item) => item.snippet.title); //채널 제목
-        const description: string[] = data.map(
-          (item) => item.snippet.description
-        ); //채널 설명
+        const description: string[] = data.map((item) => item.snippet.description); //채널 설명
         // console.log("데이터 추출: ", titles, channelId, description);
 
         // 배열을 쉼표로 구분된 하나의 텍스트로 만듭니다.
@@ -225,10 +210,7 @@ const LoadingPage = () => {
                 });
             }
           } catch (error) {
-            console.error(
-              `Error fetching data for channel ${channelId}:`,
-              error
-            );
+            console.error(`Error fetching data for channel ${channelId}:`, error);
           }
         };
         sendAxiosRequests(channelId);
@@ -242,14 +224,14 @@ const LoadingPage = () => {
     axios
       .get("https://youtube.googleapis.com/youtube/v3/channels", {
         params: {
-          part: "snippet",
+          part: "snippet,statistics",
           mine: true,
         },
         headers: apiHeaders,
       })
       .then((response) => {
         const MyData = response.data.items[0];
-        // console.log("MyData: ", MyData);
+        console.log("MyData: ", MyData);
         const Nikname = MyData.snippet.title;
         const description = MyData.snippet.description;
         const channelId = MyData.id;
@@ -280,9 +262,7 @@ const LoadingPage = () => {
             }
             const data: Playlist[] = response.data.items;
             const playlistId: string[] = data.map((item) => item.id); //플레이리스트 아이디
-            const playlistTitle: string[] = data.map(
-              (item) => item.snippet.title
-            ); //플레이리스트 제목
+            const playlistTitle: string[] = data.map((item) => item.snippet.title); //플레이리스트 제목
             console.log("플레이리스트 목록: ", playlistId, playlistTitle);
 
             //플레이리스트 안 영상 정보 가져오기
@@ -292,23 +272,17 @@ const LoadingPage = () => {
               try {
                 for (const playlistId of playlistIds) {
                   axios
-                    .get(
-                      "https://youtube.googleapis.com/youtube/v3/playlistItems",
-                      {
-                        params: {
-                          type: "video",
-                          maxResults: 50,
-                          part: "snippet",
-                          playlistId: playlistId,
-                        },
-                        headers: apiHeaders,
-                      }
-                    )
+                    .get("https://youtube.googleapis.com/youtube/v3/playlistItems", {
+                      params: {
+                        type: "video",
+                        maxResults: 50,
+                        part: "snippet",
+                        playlistId: playlistId,
+                      },
+                      headers: apiHeaders,
+                    })
                     .then((response) => {
-                      console.log(
-                        "플레이리스트 영상 정보: ",
-                        response.data.items
-                      );
+                      console.log("플레이리스트 영상 정보: ", response.data.items);
                       for (const item of response.data.items) {
                         appendToAllData(item.snippet.title);
                         appendToAllData(item.snippet.description);
@@ -317,7 +291,9 @@ const LoadingPage = () => {
                       // 모든 요청이 완료된 경우 sendDataToServer 호출
                       if (countToAdd() === playlistIds.length) {
                         console.log("데이터 fastapi에 보내기");
-                        sendDataToServer();
+                        setTimeout(() => {
+                          sendDataToServer();
+                        }, 5000); // 5000ms = 5s
                       }
                     })
                     .catch((error) => {
@@ -325,21 +301,22 @@ const LoadingPage = () => {
 
                       if (failCountToAdd() === playlistIds.length) {
                         console.log("데이터 fastapi에 보내기");
-                        sendDataToServer();
+                        setTimeout(() => {
+                          sendDataToServer();
+                        }, 6000); // 5000ms = 5s
                       }
                     });
                 }
               } catch (error) {
-                console.error(
-                  `Error fetching data for playlist ${playlistId}:`,
-                  error
-                );
+                console.error(`Error fetching data for playlist ${playlistId}:`, error);
               }
             };
 
             if (!playlistId || playlistId.length === 0) {
               console.log(`Skipping playlistId because it is empty or null.`);
-              sendDataToServer();
+              setTimeout(() => {
+                sendDataToServer();
+              }, 5000); // 5000ms = 5s
             } else sendPlaylistRequests(playlistId);
           })
           .catch((error) => {
@@ -347,6 +324,9 @@ const LoadingPage = () => {
           });
       })
       .catch((error) => {
+        setTimeout(() => {
+          sendDataToServer();
+        }, 10000); // 10000ms = 10s
         console.error("내 계정 정보 요청 실패:", error);
       });
   };
