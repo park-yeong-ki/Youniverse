@@ -5,6 +5,7 @@ from konlpy.tag import Okt
 from youniverse.recommend import contents
 import requests
 import json
+import random
 
 router = APIRouter(
     prefix="/youtube",
@@ -61,6 +62,9 @@ async def data_post(request_data: youtube):
     # top_keywords 배열에서 상위 키워드 10개만 추출
     top_send_keywords = top_keywords[:10]
 
+    # top_send_keywords 리스트를 랜덤하게 섞음
+    random.shuffle(top_send_keywords)
+
     # youtube 분석 상위 키워드 결과 보내기
     youtubeDataObject(top_send_keywords, request_data.email)
 
@@ -115,7 +119,8 @@ def preprocess(text):
                  "매일", "메리", "모닝", "몸종", "무한", "무드키", "무려", "무조건", "묶음", "바이",
                  "보유", "부리", "부수", "부스", "블러", "빨린", "삘받아", "사와코", "산신", "살짝",
                  "상놈", "상대", "서로", "세번", "소집", "수가", "수단", "수로", "쉬반", "저희", "유료", "광고", "영상", "저작권", "구독", "하루",
-                 "반응", "테크", "노마드", "브이", "튜브", "유", "허가", "댓글", "좋아요", "알람", "문제", "방법", "이유", "제품"
+                 "반응", "테크", "노마드", "브이", "튜브", "유", "허가", "댓글", "좋아요", "알람", "문제", "방법", "이유", "제품", "제품", "무상", "버전",
+                 "최적", "노출", "요소", "시스템", "작동"
                  ]
     words = okt.nouns(text)
     words = [word for word in words if word not in stopwords]
@@ -124,14 +129,18 @@ def preprocess(text):
 
 def youtubeDataObject(result_keywords, email):
     ranked_keywords = []
-
-    # 1부터 시작하는 순위 생성
+    print("result_keywords: " + ", ".join(result_keywords))
+    # 순위 생성
     for i, result_keyword in enumerate(result_keywords):
         keyword_data = {
             "youtubeKeywordName": result_keyword,
             "movieRank": i + 1  # 1부터 시작
         }
+        print(keyword_data)
         ranked_keywords.append(keyword_data)
+
+    # ranked_keywords 리스트를 랜덤하게 섞음
+    random.shuffle(ranked_keywords)
 
     data = {
         "youtubeKeywordList": ranked_keywords,
