@@ -49,7 +49,6 @@ const MovieItem: React.FC<MovieItemProps> = ({
 
   const handleLikePush = () => {
     if (!likeStatus) {
-      console.log("좋아요 버튼을 눌렀어요", memberId);
       if (memberId !== null && movie.movieId) {
         postHeart(memberId, movie.movieId)
           .then((res) => {
@@ -63,7 +62,6 @@ const MovieItem: React.FC<MovieItemProps> = ({
         console.error("memberId is null");
       }
     } else {
-      console.log("movie.heartMovieResDtos: ", movie.heartMovieResDtos);
       if (heartMovieId !== null) {
         deleteHeart(heartMovieId)
           .then(() => {

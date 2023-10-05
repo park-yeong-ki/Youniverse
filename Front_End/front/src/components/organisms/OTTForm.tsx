@@ -80,7 +80,7 @@ const OTTForm = () => {
           >
             <StyledEachPlanetContainer>
               <Planet
-                size="Standard"
+                size="AuthBtn"
                 planetId={ott.ottId}
                 src={ott.ottImage} // 백서버에서 받아온 이미지 URL
                 name={ott.ottName}

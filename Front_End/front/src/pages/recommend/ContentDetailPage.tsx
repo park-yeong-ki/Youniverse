@@ -39,8 +39,6 @@ const ContentDetailPage = () => {
   useEffect(() => {
     getMovie(Number(movieId))
       .then((response) => {
-        console.log("영화 상세정보 axios", response.data);
-        console.log("리뷰 정보", response.data.reviewResDtos);
         setMovie(response.data);
         setReviews(response.data.reviewResDtos);
       })
