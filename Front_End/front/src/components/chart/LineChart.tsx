@@ -66,6 +66,7 @@ const options = {
       ticks: {
         display: false, // y축의 눈금을 숨깁니다.
       },
+      reverse: true,
     },
   },
   elements: {
