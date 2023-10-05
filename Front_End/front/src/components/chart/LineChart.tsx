@@ -54,6 +54,7 @@ const options = {
       },
       ticks: {
         display: true, // x축의 눈금을 숨깁니다.
+        color: "black",
       },
     },
     y: {

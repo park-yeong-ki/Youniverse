@@ -84,16 +84,20 @@ const MyProfilePage = () => {
               {!followStatus && (
                 <>
                   <StyledRowWrap>
-                    <UserZodiacSign memberData={memberData} />
+                    <UserZodiacSign
+                      width="420%"
+                      height="200%"
+                      memberData={memberData}
+                    />
                     <MyOTTPlanet memberData={memberData} />
                   </StyledRowWrap>
                   <StyledRowWrap>
                     <MypageLikeContents memberData={memberData} />
                     <MyProfileReview memberId={Number(memberId)} />
                   </StyledRowWrap>
-                  <StyledSoulWrap>
+                  <div>
                     <SoulMovieItemList />
-                  </StyledSoulWrap>
+                  </div>
                 </>
               )}
 
@@ -120,8 +124,6 @@ const StyledContentWrap = styled.div`
   padding-right: 0.5rem;
 `;
 
-const StyledSoulWrap = styled.div``;
-
 export const StyledRowWrap = styled.div`
   ${FlexRowBetween}
   & > div:first-child {
@@ -132,6 +134,6 @@ export const StyledRowWrap = styled.div`
     width: 53%;
     height: 100%;
   }
-  margin-bottom: 1.25rem;
-  height: 44%;
+  margin-bottom: 2rem;
+  /* height: 70%; */
 `;
