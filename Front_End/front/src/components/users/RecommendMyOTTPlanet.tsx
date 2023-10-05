@@ -1,19 +1,12 @@
-// 마이페이지에서 ㅇㅇ님의 OTT 행성 컴포넌트
+// 추천페이지에서 ㅇㅇ님의 OTT 행성 컴포넌트
 
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import {
-  MY_PAGE_OTT,
-  MY_PAGE_OTT_RECOMMEND,
-  MY_PAGE_OTT_CHART,
-} from "../../commons/constants/String";
+import { MY_PAGE_OTT_CHART } from "../../commons/constants/String";
+import Planet from "../atoms/Planet";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
-import {
-  FlexColBetween,
-  FlexRowAround,
-  FlexRowBetween,
-} from "../../commons/style/SharedStyle";
+import { FlexColBetween, FlexRowAround } from "../../commons/style/SharedStyle";
 import { UserType } from "../../pages/profile/MyProfilePage";
 import { getAllOTTs } from "../../apis/FrontendApi";
 import OTTBarChart from "../chart/OTTBarChart";
@@ -34,7 +27,7 @@ interface RatioOTTData extends OTTData {
   ratio: number;
 }
 
-const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
+const RecommendMyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
   const recommendOttData = memberData?.recommendOttResDtos; // 가져온 user ott 정보
   const [completeOttData, setCompleteOttData] = useState<OTTData[]>([]);
   const [allOttData, setAllOttData] = useState([]); // 모든 ott 정보
@@ -77,19 +70,8 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
       ratio: totalCount === 0 ? 0 : ott.count / totalCount,
     }));
 
-    if (mostUsed.count === 0) {
-      const defaultOtt = {
-        ottName: "-",
-        ottImage: "/assets/Logo/All.png",
-        count: 0,
-        ottId: 0,
-        ottUrl: "",
-      };
-      setMostUsedOtt(defaultOtt);
-    } else {
-      setMostUsedOtt(mostUsed);
-    }
-
+    // 상태 업데이트
+    setMostUsedOtt(mostUsed);
     setOttWithRatios(ottRatios);
   }, [completeOttData]); // completeOttData가 변경될 때 데이터를 다시 계산
   console.log(allOttData);
@@ -99,32 +81,24 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
 
   return (
     <StyledAllWrapper>
-      <StyledTextWrapper>
-        <Text size="Medium" color="White" fontFamily="PyeongChang-Bold">
-          {memberData?.nickname}
-          {MY_PAGE_OTT}
-        </Text>
-        {/* 클릭하면 이동하게 변경 @@@ */}
-        <Text size="Small" color="White" fontFamily="YESGothic-Regular">
-          {MY_PAGE_OTT_RECOMMEND}
-        </Text>
-      </StyledTextWrapper>
       {/* OTT 행성 Wrapper */}
       <StyledOTTWrapper
         size="Standard"
         color="WhiteGhost"
-        padding="Narrow"
+        padding="Wide"
         className="mt-2"
       >
         {/* 행성 + 이름 (유저 정보에 따라 변경하기) */}
-        <StyledPlanetWrapper>
-          <StyledColCenter>
-            <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
-              {mostUsedOtt?.ottName}
-            </Text>
-            <img src={mostUsedOtt?.ottImage || ""} alt={mostUsedOtt?.ottName} />
-          </StyledColCenter>
-        </StyledPlanetWrapper>
+        <StyledColCenter>
+          <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
+            {mostUsedOtt?.ottName}
+          </Text>
+          <Planet
+            size="Medium"
+            src={mostUsedOtt?.ottImage || ""}
+            $mypage={true}
+          />
+        </StyledColCenter>
 
         {/* 중간 나누는 선 */}
         <StyledDivideLine />
@@ -144,11 +118,7 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
   );
 };
 
-export default MyOTTPlanet;
-
-const StyledTextWrapper = styled.div`
-  ${FlexRowBetween}
-`;
+export default RecommendMyOTTPlanet;
 
 const StyledDivideLine = styled.div`
   height: 90%;
@@ -172,9 +142,5 @@ export const StyledAllWrapper = styled.div`
 
 const StyledColCenter = styled.div`
   ${FlexColBetween}
-  height: 100%;
-`;
-
-const StyledPlanetWrapper = styled.div`
-  width: 30%;
+  height: 80%;
 `;

@@ -23,12 +23,12 @@ class Member(Base):
     __tablename__ = "member"
 
     member_id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
-    age = Column(Integer, nullable=False)
+    age = Column(Integer, nullable=True)
     email = Column(VARCHAR(30), nullable=False)
-    gender = Column(VARCHAR(2), nullable=False)
-    introduce = Column(VARCHAR(255), nullable=False)
+    gender = Column(VARCHAR(2), nullable=True)
+    introduce = Column(VARCHAR(255), nullable=True)
     member_image = Column(VARCHAR(255), nullable=True)
-    nickname = Column(VARCHAR(20), nullable=False)
+    nickname = Column(VARCHAR(20), nullable=True)
 
 class YoutubeKeyword(Base):
     __tablename__ = "youtube_keyword"
