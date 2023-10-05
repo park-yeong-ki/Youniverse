@@ -46,7 +46,7 @@ export const LIKE_SURVEY = "선호하는 단어를 선택해주세요";
 export const SEARCH_PAGE = " 검색 결과";
 
 // 추천페이지
-export const RECOMMEND_PAGE_CONTAINER_KEYWORD = "나의 유튜브 키워드";
+export const RECOMMEND_PAGE_CONTAINER_KEYWORD = "님의 유튜브 키워드";
 export const RECOMMEND_PAGE_CONTAINER_YOUTUBE = "나의 유튜브 정보";
 export const RECOMMEND_PAGE_YOUTUBE = "유튜브 기반 추천";
 export const RECOMMEND_PAGE_LIKE = "선호도 기반 추천";

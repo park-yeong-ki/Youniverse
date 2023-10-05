@@ -24,7 +24,8 @@ def get_top3_keyword(member_id_to_fetch):
 # 모든 회원의 키워드 가져오기 (내 것 제외)
 def get_member_keyword(member_id_to_fetch):
     all_members = session.query(models.YoutubeKeyword.member_id, models.YoutubeKeyword.youtube_keyword_name) \
-        .filter(models.YoutubeKeyword.member_id != member_id_to_fetch) \
+        .join(models.Member, models.Member.member_id == models.YoutubeKeyword.member_id) \
+        .filter(models.YoutubeKeyword.member_id != member_id_to_fetch, models.Member.nickname.isnot(None)) \
         .order_by(models.YoutubeKeyword.member_id, models.YoutubeKeyword.movie_rank) \
         .all()
     member_keywords = {}
@@ -37,22 +38,26 @@ def get_member_keyword(member_id_to_fetch):
     return member_keywords
 
 # 사용자 id를 이용해 사용자 정보 모두 뽑기
-def get_members_info(member_ids):
-    users = session.query(models.Member).filter(models.Member.member_id.in_(member_ids)).all()
+def get_members_info(result_users):
 
     users_info = []
 
-    for user in users:
-        user_info = {
-            "member_id": user.member_id,
-            "age": user.age,
-            "email": user.email,
-            "gender": user.gender,
-            "introduce": user.introduce,
-            "member_image": user.member_image,
-            "nickname": user.nickname,
-            "keyword": get_top3_keyword(user.member_id)
-        }
-        users_info.append(user_info)
+    for member_id, similarity_score in result_users:
+        user = session.query(models.Member).filter(models.Member.member_id == member_id).first()
+
+        if user:
+            user_info = {
+                "member_id": user.member_id,
+                "age": user.age,
+                "email": user.email,
+                "gender": user.gender,
+                "introduce": user.introduce,
+                "member_image": user.member_image,
+                "nickname": user.nickname,
+                "keyword": get_top3_keyword(user.member_id),
+                "similarity": similarity_score
+            }
+            users_info.append(user_info)
+
 
     return users_info

@@ -40,13 +40,15 @@ const RecommendYouTube = () => {
     >
       <StyledYouTubeStar>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
+          {memberData?.nickname}
           {RECOMMEND_PAGE_CONTAINER_KEYWORD}
         </Text>
         <LineChartWrapper chartWidth="100%" chartHeight="100%" />
       </StyledYouTubeStar>
       <StyledOTTPlanet>
         <Text size="Medium" color="White" fontFamily="PyeongChang-Light">
-          {memberData?.nickname} {MY_PAGE_OTT}
+          {memberData?.nickname}
+          {MY_PAGE_OTT}
         </Text>
         <RecommendMyOTTPlanet memberData={memberData} />
       </StyledOTTPlanet>
@@ -68,7 +70,6 @@ const StyledYouTubeStar = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-bottom: 8px;
 `;
 
 const StyledOTTPlanet = styled.div`

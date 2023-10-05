@@ -10,8 +10,14 @@ import LineChart from "../chart/LineChart";
 import { UserType } from "../../pages/profile/MyProfilePage";
 interface UserZodiacSignProps {
   memberData?: UserType | null;
+  width: string | number;
+  height: string | number;
 }
-const UserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
+const UserZodiacSign: React.FC<UserZodiacSignProps> = ({
+  memberData,
+  width,
+  height,
+}) => {
   return (
     <>
       <StyledAllWrapper>
@@ -27,7 +33,7 @@ const UserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
           className="mt-2"
         >
           <StyledZodiacWrapper>
-            <LineChart />
+            <LineChart width={width} height={height} />
           </StyledZodiacWrapper>
         </Wrapper>
       </StyledAllWrapper>

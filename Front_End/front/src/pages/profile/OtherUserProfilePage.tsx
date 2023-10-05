@@ -11,11 +11,13 @@ import {
 } from "../../commons/style/SharedStyle";
 import { getMember } from "../../apis/FrontendApi";
 import { UserType } from "../../pages/profile/MyProfilePage";
+import { useRecoilState } from "recoil";
+import { SelectStatusState } from "../store/State";
 
 const OtherUserProfilePage = () => {
   const { userId } = useParams<{ userId: string }>();
   const [memberData, setMemberData] = useState<UserType | null>(null);
-  const [selectStatus, setSelectStatus] = useState<string>("");
+  const [selectStatus, setSelectStatus] = useRecoilState(SelectStatusState);
   const memberId = userId;
 
   const refreshMemberData = () => {
