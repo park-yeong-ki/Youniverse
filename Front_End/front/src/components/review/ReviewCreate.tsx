@@ -72,6 +72,11 @@ const ReviewCreate: React.FC<ReviewCreateProps> = ({
   };
 
   const handleReviewSave = async () => {
+    if (reviewContent.length >= 31) {
+      alert("리뷰는 30자까지 작성 가능합니다.");
+      return;
+    }
+
     if (!reviewContent.trim()) {
       alert("리뷰 내용을 입력해주세요.");
       return;
