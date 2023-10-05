@@ -43,7 +43,7 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
   setFollowStatus,
 }) => {
   const navigate = useNavigate();
-  const basicImage = useRecoilValue(UserInfoState).image;
+  const basicImage = "/assets/DefaultProfile.png";
   const email = useRecoilValue(UserInfoState).email;
   const setDataState = useSetRecoilState(DataState);
 
