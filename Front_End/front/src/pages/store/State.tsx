@@ -36,6 +36,8 @@ type UserInfo = {
 type UserDetailInfo = {
   nickname: string | null;
   memberId: number | null;
+  gender: string | null;
+  age: number | null;
 };
 
 type UserJoinInfo = {
@@ -71,6 +73,8 @@ export const UserDetailInfoState = atom<UserDetailInfo>({
   default: {
     nickname: null,
     memberId: null,
+    gender: null,
+    age: null,
   },
   effects_UNSTABLE: [persistAtom],
 });

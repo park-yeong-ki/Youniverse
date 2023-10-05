@@ -102,7 +102,11 @@ const MovieDetail: React.FC<MovieItemProps> = ({ movie }) => {
             </span>
           ))}
         </div>
-        <div>{movie?.overView}</div>
+        <div>
+          {movie?.overView?.length > 200
+            ? movie.overView.substring(0, 200) + "..."
+            : movie?.overView}
+        </div>
 
         {/* 감독 정보 */}
         <ListHorizontal>

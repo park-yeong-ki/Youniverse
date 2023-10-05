@@ -134,27 +134,30 @@ const MovieItem: React.FC<MovieItemProps> = ({
             size={$profile ? "Medium" : "Large"}
             color="White"
             fontFamily="PyeongChang-Bold"
+            title={movie.title}
             onClick={() => {
               if (movie.movieId) {
                 handleTitleClick(movie.movieId);
               }
             }}
           >
-            {movie.title}
+            {movie.title.length > 4
+              ? movie.title.slice(0, 4) + "..."
+              : movie.title}
           </StyledTitle>
           {!$profile && (
             <>
               <Text size="Small" color="White" fontFamily="YESGothic-Regular">
                 ⭐ {movie.rate}
               </Text>
-              <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+              {/* <Text size="Small" color="White" fontFamily="YESGothic-Regular">
                 {movie.runtime}분
-              </Text>
+              </Text> */}
               <StyledDetailInRow>
-                {movie.keywordResDtos.slice(0, 3).map((keyword) => (
+                {movie.keywordResDtos.slice(0, 2).map((keyword) => (
                   <HashTag
                     key={keyword.keywordId}
-                    size="MovieKeyword"
+                    size="Standard"
                     color="WhiteGhost"
                   >
                     {keyword.keywordName}
@@ -259,17 +262,32 @@ const StyledDetailInCol = styled.div`
   ${FlexColBetween}
   width: 60%;
   text-align: center;
+  & > * {
+    margin-top: 0.5rem;
+  }
 `;
 
 /** 해시태그 가로 정렬 ~~~수정필요 */
 const StyledDetailInRow = styled.div`
   ${FlexRowBetween}
-  width: 60%;
+  width: 80%;
   text-align: center;
   flex-wrap: wrap;
+  & > * {
+    width: 48%;
+    margin: 1%;
+  }
 `;
 
 /** 영화제목 커서 포인터.. */
 const StyledTitle = styled(Text)`
   cursor: pointer;
+  width: fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
+
+// const StyledHashTagMargin = styled.div`
+//   margin: 0.25rem;
+// `;

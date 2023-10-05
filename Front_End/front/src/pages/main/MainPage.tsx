@@ -43,7 +43,9 @@ const MainPage = () => {
           console.log(res.data);
           const nickname = res.data.nickname;
           const memberId = res.data.memberId;
-          setUserDetailInfo({ nickname, memberId });
+          const gender = res.data.gender;
+          const age = res.data.age;
+          setUserDetailInfo({ nickname, memberId, gender, age });
         })
         .catch((err) => {
           console.error(err);
