@@ -24,7 +24,8 @@ def get_top3_keyword(member_id_to_fetch):
 # 모든 회원의 키워드 가져오기 (내 것 제외)
 def get_member_keyword(member_id_to_fetch):
     all_members = session.query(models.YoutubeKeyword.member_id, models.YoutubeKeyword.youtube_keyword_name) \
-        .filter(models.YoutubeKeyword.member_id != member_id_to_fetch) \
+        .join(models.Member, models.Member.member_id == models.YoutubeKeyword.member_id) \
+        .filter(models.YoutubeKeyword.member_id != member_id_to_fetch, models.Member.nickname.isnot(None)) \
         .order_by(models.YoutubeKeyword.member_id, models.YoutubeKeyword.movie_rank) \
         .all()
     member_keywords = {}
