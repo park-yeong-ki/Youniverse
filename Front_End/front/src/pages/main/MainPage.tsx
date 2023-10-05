@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import {
-  LoginState,
-  UserDetailInfoState,
-  UserInfoState,
-} from "../store/State";
+import { LoginState, UserDetailInfoState, UserInfoState } from "../store/State";
 import { ROUTES } from "./../../commons/constants/Routes";
 import GoogleLoginBtn from "../../components/@commons/GoogleLoginBtn";
 import Text from "../../components/atoms/Text";
@@ -23,6 +19,10 @@ import { MainPaddingContainer } from "../../commons/style/layoutStyle";
 import LineChart from "../../components/chart/LineChart";
 import Wrapper from "../../components/atoms/Wrapper";
 import Btn from "../../components/atoms/Btn";
+import RandomUserStar from "../../components/users/RandomUserStar";
+
+
+
 
 const MainPage = () => {
   const isLoggedIn = useRecoilValue(LoginState);
@@ -30,7 +30,6 @@ const MainPage = () => {
     useRecoilState(UserDetailInfoState);
 
   const email = useRecoilValue(UserInfoState).email;
-  const memberId = useRecoilValue(UserDetailInfoState).memberId;
 
   const navigate = useNavigate(); // useNavigate Hook 사용
 
@@ -82,17 +81,14 @@ const MainPage = () => {
       {/* 로그인 했을 때 (회원 화면) */}
       {isLoggedIn && (
         <StyledIsLoggedinWrap>
+          <RandomUserStar/>
           <StyledIsLoggedin>
             <Text size="X-Large" color="White" fontFamily="PyeongChang-Bold">
               {userDetailInfo.nickname}님의 별자리
             </Text>
 
             <StyledWrapper size="Standard" padding="Narrow" color="WhiteGhost">
-              <LineChart
-                width={940}
-                height={400}
-                otherMemberId={memberId ?? undefined}
-              />
+              <LineChart width={940} height={400} />
             </StyledWrapper>
             <StyledBtn
               size="X-Large"
@@ -131,7 +127,6 @@ const StyledIsLoggedinWrap = styled.div`
 `;
 const StyledIsLoggedin = styled.div`
   ${FlexColBetween}
-  width: 70%;
   height: 80%;
 `;
 
