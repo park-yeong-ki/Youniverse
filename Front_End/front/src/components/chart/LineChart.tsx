@@ -13,6 +13,8 @@ import { Line } from "react-chartjs-2";
 import { useRecoilValue } from "recoil";
 import { UserDetailInfoState } from "../../pages/store/State";
 import { getMember } from "../../apis/FrontendApi";
+import { Loader } from "../../pages/main/LoadingPage";
+import styled from "styled-components";
 
 ChartJS.register(
   CategoryScale,
@@ -96,6 +98,7 @@ const LineChart: React.FC<LineChartProps> = ({
 }) => {
   const defaultMemberId = useRecoilValue(UserDetailInfoState).memberId;
   const [memberId, setMemberId] = useState<number | null>(defaultMemberId);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩여부
 
   useEffect(() => {
     if (otherMemberId) {
@@ -122,9 +125,11 @@ const LineChart: React.FC<LineChartProps> = ({
           console.error("memberId is null or undefined");
           return;
         }
+        setIsLoading(true);
         const response = await getMember(memberId);
         const youtubeKeywords: YoutubeKeyword[] =
           response.data.youtubeKeywordResDtos;
+
         const labels = youtubeKeywords.map(
           (k: YoutubeKeyword) => k.youtubeKeywordName
         );
@@ -143,15 +148,36 @@ const LineChart: React.FC<LineChartProps> = ({
         });
       } catch (error) {
         console.error("Error fetching the chart data", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     getChartData();
   }, [memberId]);
 
-  return (
-    <Line options={options} data={chartData} width={width} height={height} />
-  );
+  if (isLoading) {
+    // 로딩 중이면, 로딩 스피너나 다른 로딩 UI를 반환합니다.
+    return (
+      <StyledLoaderWrapper>
+        <Loader />
+      </StyledLoaderWrapper>
+    );
+  } else {
+    // 로딩이 완료되면, 차트를 렌더링합니다.
+    return (
+      <Line options={options} data={chartData} width={width} height={height} />
+    );
+  }
 };
 
 export default LineChart;
+
+const StyledLoaderWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  & > * {
+    width: 100%;
+    height: 100%;
+  }
+`;

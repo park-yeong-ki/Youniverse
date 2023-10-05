@@ -122,6 +122,7 @@ const StyledIsLoggedinWrap = styled.div`
 `;
 const StyledIsLoggedin = styled.div`
   ${FlexColBetween}
+  width: 70%;
   height: 80%;
 `;
 
