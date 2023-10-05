@@ -217,7 +217,11 @@ const OtherProfileContainer: React.FC<ProfileUserInfoProps> = ({
         {!selectStatus && (
           <>
             <StyledRowBetween>
-              <OtherUserZodiacSign memberData={memberData} />
+              <OtherUserZodiacSign
+                memberData={memberData}
+                width="460%"
+                height="220%"
+              />
               <ProfileReview memberId={memberData?.memberId} />
             </StyledRowBetween>
             <StyledRowWrap>

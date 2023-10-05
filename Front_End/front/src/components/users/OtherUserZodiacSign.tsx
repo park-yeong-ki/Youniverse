@@ -10,8 +10,14 @@ import { UserType } from "../../pages/profile/MyProfilePage";
 
 interface UserZodiacSignProps {
   memberData?: UserType | null;
+  width: string | number;
+  height: string | number;
 }
-const OtherUserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
+const OtherUserZodiacSign: React.FC<UserZodiacSignProps> = ({
+  memberData,
+  width,
+  height,
+}) => {
   return (
     <>
       <StyledAllWrapper>
@@ -27,7 +33,11 @@ const OtherUserZodiacSign: React.FC<UserZodiacSignProps> = ({ memberData }) => {
           className="mt-2"
         >
           <StyledZodiacWrapper>
-            <LineChart otherMemberId={memberData?.memberId} />
+            <LineChart
+              otherMemberId={memberData?.memberId}
+              width={width}
+              height={height}
+            />
           </StyledZodiacWrapper>
         </Wrapper>
       </StyledAllWrapper>
@@ -49,8 +59,8 @@ const StyledZodiacWrapper = styled.div`
     rgba(83, 22, 132, 0.54) 60.42%,
     rgba(194, 180, 222, 0.3) 99.97%,
     rgba(176, 164, 202, 0.25) 99.98%,
-    rgba(150, 123, 208, 0.18) 99.99%,
-    rgba(145, 114, 211, 0) 100%
+    rgba(27, 6, 71, 0.18) 99.99%,
+    rgba(145, 114, 211, 1) 100%
   );
 `;
 
