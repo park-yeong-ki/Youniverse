@@ -18,7 +18,6 @@ import { UserType } from "../../pages/profile/MyProfilePage";
 import { getAllOTTs } from "../../apis/FrontendApi";
 import OTTBarChart from "../chart/OTTBarChart";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../commons/constants/Routes";
 
 interface MyOTTPlanetProps {
   memberData: UserType | null;
@@ -101,7 +100,7 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
   console.log("ott 사용 비율", ottWithRatios);
 
   const handleNavigateMore = () => {
-    navigate(ROUTES.RECOMMEND_MORE);
+    navigate('/recommend/more/3');
   };
 
   return (
