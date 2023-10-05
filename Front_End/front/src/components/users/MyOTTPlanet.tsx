@@ -7,7 +7,6 @@ import {
   MY_PAGE_OTT_RECOMMEND,
   MY_PAGE_OTT_CHART,
 } from "../../commons/constants/String";
-import Planet from "../atoms/Planet";
 import Text from "../atoms/Text";
 import Wrapper from "../atoms/Wrapper";
 import {
@@ -78,8 +77,19 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
       ratio: totalCount === 0 ? 0 : ott.count / totalCount,
     }));
 
-    // 상태 업데이트
-    setMostUsedOtt(mostUsed);
+    if (mostUsed.count === 0) {
+      const defaultOtt = {
+        ottName: "-",
+        ottImage: "/assets/Logo/All.png",
+        count: 0,
+        ottId: 0,
+        ottUrl: "",
+      };
+      setMostUsedOtt(defaultOtt);
+    } else {
+      setMostUsedOtt(mostUsed);
+    }
+
     setOttWithRatios(ottRatios);
   }, [completeOttData]); // completeOttData가 변경될 때 데이터를 다시 계산
   console.log(allOttData);
@@ -107,16 +117,14 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
         className="mt-2"
       >
         {/* 행성 + 이름 (유저 정보에 따라 변경하기) */}
-        <StyledColCenter>
-          <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
-            {mostUsedOtt?.ottName}
-          </Text>
-          <Planet
-            size="Medium"
-            src={mostUsedOtt?.ottImage || ""}
-            $mypage={true}
-          />
-        </StyledColCenter>
+        <StyledPlanetWrapper>
+          <StyledColCenter>
+            <Text size="Medium" color="Black" fontFamily="YESGothic-Bold">
+              {mostUsedOtt?.ottName}
+            </Text>
+            <img src={mostUsedOtt?.ottImage || ""} alt={mostUsedOtt?.ottName} />
+          </StyledColCenter>
+        </StyledPlanetWrapper>
 
         {/* 중간 나누는 선 */}
         <StyledDivideLine />
@@ -165,4 +173,8 @@ export const StyledAllWrapper = styled.div`
 const StyledColCenter = styled.div`
   ${FlexColBetween}
   height: 100%;
+`;
+
+const StyledPlanetWrapper = styled.div`
+  width: 30%;
 `;
