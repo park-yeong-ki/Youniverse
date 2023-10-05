@@ -12,6 +12,7 @@ import { RecommendUser } from "../organisms/UserRecommendContainer";
 import { getMember } from "../../apis/FrontendApi";
 import { useSetRecoilState } from "recoil";
 import { SelectStatusState } from "../../pages/store/State";
+import Text from "../atoms/Text";
 interface Props {
   user: RecommendUser;
   isSelected: boolean;
@@ -55,7 +56,12 @@ const RecommendUserItem = ({ user, isSelected }: Props) => {
             />
           </StyledProfileImageContainer>
           <StyledColBetweenContainer>
-            <div>{user.nickname}</div>
+            <StyledRowBetweenContainer>
+              <div> {user.nickname}</div>
+              <Text size="X-Small" fontFamily="PyeongChang-Bold" color="Black">
+                {user.similarity} 💜
+              </Text>
+            </StyledRowBetweenContainer>
             <StyledHashTagRowBetweenContainer>
               {user.keyword.slice(0, 2).map((hashtag, index) => (
                 <HashTag
