@@ -32,8 +32,12 @@ async def get_Test():
     top_send_keywords = top_keywords[:10]
 
     # youtube 분석 상위 키워드 결과 보내기
-    youtubeDataObject(top_send_keywords, 'gkathaud4884@gmail.com')
-    # top_keywords = ["인스타그램", "생활", "운동", "리수", "낭술", "간지", "할머니", "영어", "일상", "한국"]
+    result = youtubeDataObject(top_send_keywords, 'gkathaud4884@gmail.com')
+    # 결과 확인
+    if result == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
+    top_keywords = ["영상", "광고", "운동", "리수", "낭술", "간지", "할머니", "영어", "일상", "한국"]
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
@@ -44,7 +48,12 @@ async def get_Test():
     print("추천 영화 목록 개수: "+str(len(movie_ids))+", 영화 id 목록:", movie_ids)
 
     # 코사인 유사도 결과 키워드 결과 보내기
-    movieDataObject(movie_ids,  'gkathaud4884@gmail.com')
+    result2 = movieDataObject(movie_ids,  'gkathaud4884@gmail.com')
+    if result2 == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
+
+    return "success"
 
 @router.post("/data")
 async def data_post(request_data: youtube):
@@ -67,7 +76,10 @@ async def data_post(request_data: youtube):
     random.shuffle(top_send_keywords)
 
     # youtube 분석 상위 키워드 결과 보내기
-    youtubeDataObject(top_send_keywords, request_data.email)
+    result = youtubeDataObject(top_send_keywords, request_data.email)
+    if result == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
 
     # 코사인 유사도 계산
     result_keywords = contents.similarily(top_keywords)
@@ -78,7 +90,10 @@ async def data_post(request_data: youtube):
     print("추천 영화 목록 개수: "+str(len(movie_ids))+", 영화 id 목록:", movie_ids)
 
     # 코사인 유사도 결과 키워드 결과 보내기
-    movieDataObject(movie_ids,  request_data.email)
+    result2 = movieDataObject(movie_ids,  request_data.email)
+    if result2 == "fail":
+        print("작업이 실패하였습니다.")
+        return "fail"
 
     return "success"
 
@@ -147,14 +162,14 @@ def youtubeDataObject(result_keywords, email):
         "youtubeKeywordList": ranked_keywords,
         "email": email
     }
-    axiosRequest(data,"/youtube-keyword/update")
+    return axiosRequest(data,"/youtube-keyword/update")
 
 def movieDataObject(dataList, email):
     data = {
         "movieIdList": dataList,
         "email": email
     }
-    axiosRequest(data,"/recommend-movies/update")
+    return axiosRequest(data,"/recommend-movies/update")
 
 
 def axiosRequest(data, url):
@@ -167,5 +182,7 @@ def axiosRequest(data, url):
     # 응답 확인
     if response.status_code == 200:
         print("요청 성공")
+        return "success"
     else:
         print("요청 실패. 상태 코드:", response.status_code)
+        return "fail"
