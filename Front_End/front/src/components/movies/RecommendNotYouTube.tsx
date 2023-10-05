@@ -10,7 +10,7 @@ const RecommendNotYouTube: React.FC<Props> = ({ lists }) => {
   return (
     <Text size="Large" color="White" fontFamily="PyeongChang-Bold">
       {lists.map((list) => (
-        <MovieItemList showMoreButton={true} key={list} listType={list} />
+        <MovieItemList key={list} listType={list} />
       ))}
     </Text>
   );
