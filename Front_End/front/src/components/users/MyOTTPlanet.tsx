@@ -17,6 +17,8 @@ import {
 import { UserType } from "../../pages/profile/MyProfilePage";
 import { getAllOTTs } from "../../apis/FrontendApi";
 import OTTBarChart from "../chart/OTTBarChart";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../commons/constants/Routes";
 
 interface MyOTTPlanetProps {
   memberData: UserType | null;
@@ -35,6 +37,7 @@ interface RatioOTTData extends OTTData {
 }
 
 const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
+  const navigate = useNavigate();
   const recommendOttData = memberData?.recommendOttResDtos; // 가져온 user ott 정보
   const [completeOttData, setCompleteOttData] = useState<OTTData[]>([]);
   const [allOttData, setAllOttData] = useState([]); // 모든 ott 정보
@@ -97,6 +100,10 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
   console.log("가장 많이 추천된", mostUsedOtt);
   console.log("ott 사용 비율", ottWithRatios);
 
+  const handleNavigateMore = () => {
+    navigate(ROUTES.RECOMMEND_MORE);
+  };
+
   return (
     <StyledAllWrapper>
       <StyledTextWrapper>
@@ -105,7 +112,12 @@ const MyOTTPlanet: React.FC<MyOTTPlanetProps> = ({ memberData }) => {
           {MY_PAGE_OTT}
         </Text>
         {/* 클릭하면 이동하게 변경 @@@ */}
-        <Text size="Small" color="White" fontFamily="YESGothic-Regular">
+        <Text
+          size="Small"
+          color="White"
+          fontFamily="YESGothic-Regular"
+          onClick={handleNavigateMore}
+        >
           {MY_PAGE_OTT_RECOMMEND}
         </Text>
       </StyledTextWrapper>
