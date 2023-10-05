@@ -113,8 +113,6 @@ const StyledFlexColBetween = styled.div`
 `;
 
 const StyledWrapper = styled(Wrapper)`
-  /* height: 600px;
-  width: 980px; */
   ${FlexCenter}
   width: 100%;
   height: 100%;
@@ -139,9 +137,10 @@ const StyledMainWrapper = styled.div`
   ${FlexCenter}
   flex-direction: column;
   width: 50%;
-  height: 80%;
+  height: 90%;
   margin: 0 auto;
   & > button {
-    margin-top: 24px;
+    margin-top: 44px;
+    width: 80%;
   }
 `;

@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Wrapper from "../atoms/Wrapper";
+import { StyledIconBox } from "../../pages/recommend/ContentDetailPage";
+import { useNavigate } from "react-router-dom";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 
 type Props = {
   onSelectOTT: (ottName: string) => void;
 };
 
 const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
-  const [selectedOTT, setSelectedOTT] = useState<string | null>(null);
 
+  const [selectedOTT, setSelectedOTT] = useState<string | null>(null);
+ const navigate = useNavigate();
+
+  /** 뒤로가기 */
+  const handleNavigateBack = () => {
+    navigate(-1);
+  };
   const handleClick = (ottName: string) => {
     onSelectOTT(ottName);
     setSelectedOTT(ottName);
@@ -19,6 +28,11 @@ const MoreRecommendOTT: React.FC<Props> = ({ onSelectOTT }) => {
   }, [onSelectOTT]);
   return (
     <StyledWrapper size="Standard" color="WhiteGhost" padding="Thin">
+      <StyledIconBox
+        Icon={HiOutlineChevronLeft}
+        size={32}
+        onClick={handleNavigateBack}
+      />
       <CircleButton
         onClick={() => handleClick("All")}
         selected={selectedOTT === "All"}
@@ -106,4 +120,5 @@ const StyledWrapper = styled(Wrapper)`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
 `;

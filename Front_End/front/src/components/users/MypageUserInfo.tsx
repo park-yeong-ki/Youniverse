@@ -217,9 +217,11 @@ const MypageUserInfo: React.FC<MypageUserInfoProps> = ({
             {/* 해시태그 (키워드) wrapper */}
             <StyledKeywordWrap>
               {selectedKeywords?.slice(0, 4).map((keyword, index) => (
-                <HashTag size="Standard" color="White" key={index}>
-                  # {keyword.youtubeKeywordName}
-                </HashTag>
+                <StyledHashTag key={index}>
+                  <HashTag size="Standard" color="White">
+                    # {keyword.youtubeKeywordName}
+                  </HashTag>
+                </StyledHashTag>
               ))}
             </StyledKeywordWrap>
 
@@ -449,4 +451,8 @@ const StyledBtnWrap = styled.div`
   & > * {
     margin-top: 2%;
   }
+`;
+
+const StyledHashTag = styled.div`
+  margin: 0.25rem 0.5rem;
 `;
