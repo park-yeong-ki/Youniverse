@@ -1,0 +1,26 @@
+
+1. FrontEnd
+- VisualCode : 최신판 (1.82.2)
+- React - 18.2.0
+    - npx create-react-app
+- axios - 1.5.0
+- recoil - 0.7.7
+- styled-components - 6.0.7
+- NodeJS - 18.16.1
+
+2. SpringBoot
+- IntelliJ IDEA Ultimate
+- SpringBoot - 2.7.15
+- Java - openjdk 11
+- SpringSecurity
+- JPA
+- MySql - 8.0.33
+- redis - 3.0.504
+- gradle - 8.2.1
+
+3. FastAPI
+- Python 3.11.5
+- requirements.txt 파일
+```
+    `annotated-types==0.5.0anyio==3.7.1asgiref==3.7.2attrs==23.1.0blis==0.7.11cachetools==5.3.1catalogue==2.0.10certifi==2023.7.22cffi==1.15.1charset-normalizer==3.2.0click==8.1.7colorama==0.4.6confection==0.1.3contourpy==1.1.1cycler==0.12.0cymem==2.0.8exceptiongroup==1.1.3fastapi==0.68.2filelock==3.12.4fonttools==4.43.0fsspec==2023.9.1gensim==4.3.2google-api-core==2.11.1google-api-python-client==2.97.0google-auth==2.22.0google-auth-httplib2==0.1.0google-auth-oauthlib==1.0.0googleapis-common-protos==1.60.0greenlet==2.0.2h11==0.14.0httplib2==0.22.0huggingface-hub==0.17.2idna==3.4Jinja2==3.1.2joblib==1.3.2JPype1==1.4.1kiwisolver==1.4.5konlpy==0.6.0langcodes==3.3.0lxml==4.9.3MarkupSafe==2.1.3matplotlib==3.8.0mpmath==1.3.0murmurhash==1.0.10mysql==0.0.3mysqlclient==2.2.0networkx==3.1nltk==3.8.1numpy==1.26.0oauthlib==3.2.2outcome==1.2.0packaging==23.1pandas==2.1.1pathy==0.10.2Pillow==10.0.1preshed==3.0.9protobuf==4.24.2pyasn1==0.5.0pyasn1-modules==0.3.0pycparser==2.21pydantic==1.10.12pydantic_core==2.6.3PyMySQL==1.1.0pyparsing==3.1.1PySocks==1.7.1python-dateutil==2.8.2pytz==2023.3.post1PyYAML==6.0.1regex==2023.8.8requests==2.31.0requests-oauthlib==1.3.1rsa==4.9safetensors==0.3.3scikit-learn==1.3.1scipy==1.11.3seaborn==0.13.0selenium==4.12.0six==1.16.0sklearn==0.0.post9smart-open==6.4.0sniffio==1.3.0sortedcontainers==2.4.0spacy==3.6.1spacy-legacy==3.0.12spacy-loggers==1.0.5SQLAlchemy==2.0.21srsly==2.4.8starlette==0.14.2sympy==1.12thinc==8.1.12threadpoolctl==3.2.0tokenizers==0.13.3torch==2.0.1tqdm==4.66.1transformers==4.33.2trio==0.22.2trio-websocket==0.10.3typer==0.9.0typing_extensions==4.8.0tzdata==2023.3undetected-chromedriver==3.5.3uritemplate==4.1.1urllib3==1.26.16uvicorn==0.15.0wasabi==1.1.2websockets==11.0.3wsproto==1.2.0`
+```
