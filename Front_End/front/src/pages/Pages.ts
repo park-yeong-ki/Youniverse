@@ -1,0 +1,12 @@
+export { default as MAIN } from './main/MainPage';
+export { default as LOADING } from './main/LoadingPage';
+export { default as ADDINFO } from './auth/AdditionalInfoPage';
+export { default as SURVEY } from './auth/LikeSurveyPage';
+export { default as OTTSELECT } from './auth/OTTSelectionPage';
+export { default as MYPAGE } from './profile/MyProfilePage';
+export { default as PROFILE } from './profile/OtherUserProfilePage';
+export { default as SEARCH } from './recommend/SearchResultPage';
+export { default as RECOMMEND } from './recommend/RecommendationMainPage';
+export { default as RECOMMEND_MORE } from './recommend/MoreRecommendationPage';
+export { default as MOVIE_DETAIL } from './recommend/ContentDetailPage';
+export { default as NOTFOUND } from './notfound/NotFoundPage';
