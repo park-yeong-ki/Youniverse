@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="assets/team/youniverse_main.png">
+    <img width="70%" src="assets/team/youniverse_main.png">
     <h2>✨Youniverse✨</h2>
     <p>사용자의 유튜브 취향을 반영한 최적의 OTT, 영화 추천 플랫폼</p>
     <hr>
@@ -12,11 +12,11 @@
 
 ### 🧑‍🤝‍🧑 멤버 구성
 
-|이은경|박영기|선다영|이수연|정동교|함소명|
-|:--:|:--:|:--:|:--:|:--:|:--:|
-|<img src="assets/team/이은경.png">|<img src="assets/team/박영기.png">|<img src="assets/team/선다영.png">|<img src="assets/team/이수연.png">|<img src="assets/team/정동교.png">|<img src="assets/team/함소명.png">
-|팀장(FE)|팀원(BE)|팀원(FE)|팀원(FE)|팀원(BE)|팀원(BE)|
-|[Holdm2t1ght](https://github.com/Holdm2t1ght)|[gangins](https://github.com/gangins)|[DongIkkk](https://github.com/DongIkkk)|[hunsunsoo](https://github.com/hunsunsoo)|[HanSungHyeon](https://github.com/HanSungHyeon)|[Hamsomyeong](https://github.com/Hamsomyeong)
+|                  이은경                   |                      박영기                       |               선다영                |               이수연                |               정동교               |                    함소명                     |
+| :---------------------------------------: | :-----------------------------------------------: | :---------------------------------: | :---------------------------------: | :--------------------------------: | :-------------------------------------------: |
+|    <img src="assets/team/이은경.png">     |        <img src="assets/team/박영기.png">         | <img src="assets/team/선다영.png">  | <img src="assets/team/이수연.png">  | <img src="assets/team/정동교.png"> |      <img src="assets/team/함소명.png">       |
+|                 팀장(FE)                  |                     팀원(BE)                      |              팀원(FE)               |              팀원(FE)               |              팀원(BE)              |                   팀원(BE)                    |
+| [rileyleee](https://github.com/rileyleee) | [park-yeong-ki](https://github.com/park-yeong-ki) | [seondy](https://github.com/seondy) | [bagoye](https://github.com/bagoye) | [dngyj](https://github.com/dngyj)  | [Hamsomyeong](https://github.com/Hamsomyeong) |
 
 ---
 
@@ -165,17 +165,24 @@
 
 ---
 
-## 1. WebRTC
+### 1. 텍스트데이터 분석
+#### TF-IDF란?
+- TF (단어 빈도, term frequency)
+특정 단어가 문서 내에 얼마나 자주 등장하는지 나타내는 값
+- DF (문서 빈도, document fequency)
+다른 문서에서 특정 단어가 얼마나 자주 등장하는지 나타내는 값, 특정 단어를 가진 문서의 수
+    - 여러 문서가 있을 때 하나의 문서에서만이 아니라 여러 문서에서 자주 등장하는 단어일 경우 중요도가 낮아짐
+    - 하나의 문서에서만 많이 나오고 다른 문서에서 적게 등장할 경우 그 문서에서 해당 단어의 중요도가 높음을 알 수 있음
+- 점수가 높은 단어일수록 다른 문서에는 많지 않고(IDF가 작고) 해당 문서에서 자주 등장하는(TF가 높은) 단어임을 의미
 
-### WebRTC란?
+### 2. 유사도 구하기
+#### 코사인 유사도 
+<img width="50%" src="assets/skill/cos.png">
+- 두 벡터값 사이 코사인 각도
 
-사진+설명
-
-## 2. WebSocket
-
-### WebSocket이란?
-
-사진+설명
+#### 유클리디안 유사도 
+<img width="50%" src="assets/skill/유클리드.png">
+- 가장 기본적인 거리를 측정하는 유사도 공식
 
 ---
 
