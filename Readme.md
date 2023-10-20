@@ -79,9 +79,6 @@
     </td>
     </tr>
 </table>
-
-## ![시스템 아키텍쳐](assets/stack.png)
-
 </div>
 
 
@@ -208,7 +205,10 @@
 
 ## 🏗️**서비스 아키텍쳐**
 
-## <img width="100%" src="https://github.com/dngyj/Algorithm/assets/123816489/a2e9b4fe-7f2b-4d0d-919c-2ef6b97ff79d"/> 
+<div align="center">
+<img width="70%" src="https://github.com/dngyj/Algorithm/assets/123816489/a2e9b4fe-7f2b-4d0d-919c-2ef6b97ff79d"/> 
+</div>
+
 </br>
 
 ## 👨‍💻 **프로젝트 진행**
@@ -240,14 +240,6 @@ GitLab, Jira, DB의 컨벤션 규칙을 문서화 시켜 놓았습니다
 전체 일정 관리를 점검하며 프로젝트를 점검하였습니다.
 
 팀원 모두가 공유해얗는 자료 및 링크는 노션에 정리 하여 쉽게 찾아 볼 수 있도록 하였습니다
-
-### UI/UX
-
-<!-- ![image-20220408111429288](README.assets/image-20220408111429288.png) -->
-
-사진추가
-
-`Figma` 를 사용하여 페이지 단위로 상세 UI/UX를 작성했습니다.
 
 ### ERD
 
