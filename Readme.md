@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="assets/youniverse_main.png">
+    <img src="assets/team/youniverse_main.png">
     <h2>✨Youniverse✨</h2>
     <p>사용자의 유튜브 취향을 반영한 최적의 OTT, 영화 추천 플랫폼</p>
     <hr>
