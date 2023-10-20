@@ -126,39 +126,58 @@
 
 ## **3. 서비스 메인화면**
 
-<details>
-<summary>서비스 메인 화면 보기</summary>
-<div markdown="1">
-
 <table>
     <tr> 
-        <td> <img src="https://github.com/fire4bird/oz/assets/105307294/1e013500-1bb3-4142-9e5f-d01123d6db15"> </td>
-        <td> <img src="https://github.com/fire4bird/oz/assets/105307294/a0cd7e8a-9e4c-48e0-b0db-9c4801a637f6"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/5501e6f9-b80a-42b6-9262-63a9fa183da3"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/504c179f-b1cf-4215-b538-f75d55a72ccf"> </td>
     </tr>
     <tr> 
         <td> 회원가입 </td>
-        <td> 로그인 </td>
+        <td> 회원가입 - ott 선택 </td>
     </tr>
     <tr> 
-        <td> <img src="https://github.com/fire4bird/oz/assets/105307294/c1102e3d-46c9-4b2e-91d5-71357264c335"> </td>
-        <td> <img src="https://github.com/fire4bird/oz/assets/105307294/534c72ca-bcb2-4df9-a371-8c2ecf85fbc5"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/56dba3dc-f8e8-48ff-8133-f31417678ebf"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/f6ead26f-ad42-4ea3-a2be-34afac6509ff"> </td>
     </tr>
     <tr> 
-        <td> 카카오 로그인 </td>
-        <td> 비밀번호 변경 </td>
+        <td> 회원가입 - 선호도조사 </td>
+        <td> 메인페이지 </td>
+    </tr>
+        <tr> 
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/c224480d-c620-4f23-8461-919c97f12361"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/42630cc4-45fd-47f9-9692-43330a271cec"> </td>
     </tr>
     <tr> 
-        <td> <img src="https://github.com/fire4bird/oz/assets/105307294/8a3f7653-bc63-47b3-bffd-7324b0a9e15d"> </td>
-        <td>  </td>
+        <td> 추천페이지 - 유튜브 기반 추천 </td>
+        <td> 추천페이지 - 선호도, 나이, 성별 기반 추천 </td>
     </tr>
     <tr> 
-        <td> 마이페이지 </td>
-        <td>  </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/3a521961-8ab4-47fd-87ba-da4da6e49423"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/03d4fe89-7a0e-4598-9544-51c7057f9d0b"> </td>
     </tr>
-</table>
+    <tr> 
+        <td> 더보기 페이지 - ott 필터링 </td>
+        <td> 마이페이지 - 인생영화등록 </td>
+    </tr>
+    <tr> 
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/3a6dc0e7-1e28-4fad-84ce-901789c6ab66"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/ffb9c94c-542a-4795-9c1d-3d68706d1c16"> </td>
+    </tr>
+    <tr> 
+        <td> 마이페이지 - 인생영화등록완료 </td>
+        <td> 마이페이지 - 전체페이지 </td>
+    </tr>
+     <tr> 
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/588b1cb6-21fc-4302-ad2f-123a82034044"> </td>
+        <td> <img src="https://github.com/dngyj/Algorithm/assets/123816489/9d73b102-505a-4c88-9ba7-fe3e0bb638f7"> </td>
+    </tr>
+    <tr> 
+        <td> 유저추천페이지 - 초기화면 </td>
+        <td> 유저추천페이지 - 검색화면 </td>
+    </tr>
 
-</div>
-</details>
+
+</table>
 
 <br/>
 
@@ -189,7 +208,7 @@
 
 ## 🏗️**서비스 아키텍쳐**
 
-## <img width="100%" src="https://github.com/fire4bird/oz/assets/105307294/638538b9-2e68-439b-9e0f-bde1dd65dbf7"/> 
+## <img width="100%" src="https://github.com/dngyj/Algorithm/assets/123816489/a2e9b4fe-7f2b-4d0d-919c-2ef6b97ff79d"/> 
 </br>
 
 ## 👨‍💻 **프로젝트 진행**
@@ -232,7 +251,7 @@ GitLab, Jira, DB의 컨벤션 규칙을 문서화 시켜 놓았습니다
 
 ### ERD
 
-![erd](assets/erd.png)
+![erd](https://github.com/dngyj/Algorithm/assets/123816489/91abe981-6a7b-495f-8395-91d26a4335e0)
 
 `erdCloud` 를 사용하여 erd 설계를 하였습니다.
 
