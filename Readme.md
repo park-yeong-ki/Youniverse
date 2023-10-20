@@ -21,9 +21,8 @@
 ---
 
 <div align=left>
-<h3><a href="https://www.notion.so/Team-Project-Template-c50ae63a026c47e4aa6f611574b6b59c">팀 노션</a>　|　
-<a href="https://www.figma.com/file/MqXyd1p6142HDoqEEcQyIa/(%EC%99%B8%EB%B6%80)-B204-%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?type=design&node-id=0%3A1&mode=design&t=tGzxNjrPYKSLeuSM-1"> FIGMA </a>　|　　
-<a href="https://www.erdcloud.com/d/XsHtrgRmMj7ewtZEZ"> erdcloud </a>　|　
+<h3><a href="https://www.figma.com/file/MqXyd1p6142HDoqEEcQyIa/(%EC%99%B8%EB%B6%80)-B204-%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?type=design&node-id=0%3A1&mode=design&t=tGzxNjrPYKSLeuSM-1"> FIGMA </a>　|　　
+<a href="https://www.erdcloud.com/d/YbwD4oKDgd2waWLa6"> erdcloud </a>　|　
 
 ---
 
