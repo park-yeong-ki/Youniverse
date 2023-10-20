@@ -98,6 +98,8 @@
 ### **개요**
 
 한줄 소개 : 사용자의 유튜브 취향을 반영한 최적의 OTT, 영화 추천 플랫폼
+</br>
+
 서비스 명 : **Youniverse**
 
 ### **타겟 🎯**
@@ -176,13 +178,12 @@
 
 ### 2. 유사도 구하기
 #### 코사인 유사도 
+<img width="50%" src="assets/skill/cos.png">
 - 두 벡터값 사이 코사인 각도
-<img width="300px" src="assets/skill/cos.png">
-
 
 #### 유클리디안 유사도 
+<img width="50%" src="assets/skill/유클리드.png">
 - 가장 기본적인 거리를 측정하는 유사도 공식
-<img width="300px" src="assets/skill/유클리드.png">
 
 ---
 
