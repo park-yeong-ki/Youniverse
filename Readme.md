@@ -98,8 +98,8 @@
 
 ### **개요**
 
-한줄 소개 : WebRTC와 WebSocket을 이용한 실시간 협동 게임
-서비스 명 : **Oz**
+한줄 소개 : 사용자의 유튜브 취향을 반영한 최적의 OTT, 영화 추천 플랫폼
+서비스 명 : **Youniverse**
 
 ### **타겟 🎯**
 
@@ -237,13 +237,10 @@ GitLab, Jira, DB의 컨벤션 규칙을 문서화 시켜 놓았습니다
 
 ## API
 
-<!-- ![image-20220408111504992](README.assets/image-20220408111504992.png) -->
-
-사진추가
 `Postman` 을 활용하여 API 문서를 작성하였습니다.
 
 API문서
-https://documenter.getpostman.com/view/23655032/2s946idrdQ
+https://documenter.getpostman.com/view/22574154/2s9YJdXNqG#intro
 
 ## 🗂️ 프로젝트 파일 구조
 
