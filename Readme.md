@@ -12,10 +12,10 @@
 
 ### 🧑‍🤝‍🧑 멤버 구성
 
-|김주하|강경인|김동익|김정훈|한성현|함소명|
+|이은경|박영기|선다영|이수연|정동교|함소명|
 |:--:|:--:|:--:|:--:|:--:|:--:|
-|<img src="assets/team/김주하.png">|<img src="assets/team/강경인.png">|<img src="assets/team/김동익.png">|<img src="assets/team/김정훈.png">|<img src="assets/team/한성현.png">|<img src="assets/team/함소명.png">
-|팀장(FE/BE)|팀원(FE)|팀원(FE/BE)|팀원(FE/BE)|팀원(BE)|팀원(FE/BE)|
+|<img src="assets/team/이은경.png">|<img src="assets/team/박영기.png">|<img src="assets/team/선다영.png">|<img src="assets/team/이수연.png">|<img src="assets/team/정동교.png">|<img src="assets/team/함소명.png">
+|팀장(FE)|팀원(BE)|팀원(FE)|팀원(FE)|팀원(BE)|팀원(BE)|
 |[Holdm2t1ght](https://github.com/Holdm2t1ght)|[gangins](https://github.com/gangins)|[DongIkkk](https://github.com/DongIkkk)|[hunsunsoo](https://github.com/hunsunsoo)|[HanSungHyeon](https://github.com/HanSungHyeon)|[Hamsomyeong](https://github.com/Hamsomyeong)
 
 ---
@@ -33,16 +33,19 @@
 <table>
     <tr>
         <td><b>Back-end</b></td>
-        <td><img src="https://img.shields.io/badge/Java-17.0.8-007396?style=flat&logo=Java&logoColor=white"/>
-<img src="https://img.shields.io/badge/Spring Boot-3.0.6-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/>
-<img src="https://img.shields.io/badge/Spring Security-3.0.4-6DB33F?style=flat-square&logo=Spring Security&logoColor=white"/>
+        <td><img src="https://img.shields.io/badge/Java-11-007396?style=flat&logo=Java&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Boot-2.7.15-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=Spring Security&logoColor=white"/>
 <br>
 <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
-<img src="https://img.shields.io/badge/H2-1.4.199-4479A1?style=flat-square&logo=H2&logoColor=white"/>
 <img src="https://img.shields.io/badge/JPA-59666C?style=flat-square&logo=Hibernate&logoColor=white"/>
 <br>
-<img src="https://img.shields.io/badge/Gradle-C71A36?style=flat-square&logo=Gradle&logoColor=white"/>
-<img src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=JSON Web Tokens&logoColor=white"/>
+<img src="https://img.shields.io/badge/Gradle-8.2.1-C71A36?style=flat-square&logo=Gradle&logoColor=white"/>
+<img src="https://img.shields.io/badge/Redis-3.0.5-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
+<img src="https://img.shields.io/badge/Fastapi-009688?style=flat-square&logo=Fastapi&logoColor=white"/>
+<img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white"/>
+<img src="https://img.shields.io/badge/python-3.11.5-3776AB?style=flat-square&logo=python&logoColor=white"/>
+
 
 </td>
     </tr>
@@ -50,13 +53,14 @@
     <td><b>Front-end</b></td>
     <td>
 <img src="https://img.shields.io/badge/Npm-6.14.18-CB3837?style=flat-square&logo=Npm&logoColor=white"/>
-<img src="https://img.shields.io/badge/Node-14.21.3-339933?style=flat-square&logo=Node.js&logoColor=white"/>
+<img src="https://img.shields.io/badge/Node-18.16.1-339933?style=flat-square&logo=Node.js&logoColor=white"/>
 <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?style=flat-square&logo=React&logoColor=white"/>
-<img src="https://img.shields.io/badge/Redux-4.2.1-764ABC?style=flat-square&logo=Redux&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"/>
+<img src="https://img.shields.io/badge/Recoil-0.7.7-3578E5?style=flat-square&logo=recoil&logoColor=white"/>
+<img src="https://img.shields.io/badge/TypeScript-F7DF1E?style=flat-square&logo=typescript&logoColor=black"/>
 <img src="https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white"/>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
+<img src="https://img.shields.io/badge/styledcomponents-6.0.7-DB7093?style=flat-square&logo=styledcomponents&logoColor=white"/>
     </td>
     </tr>
     <tr>
