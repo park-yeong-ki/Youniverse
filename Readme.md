@@ -14,7 +14,7 @@
 
 |                  이은경                   |                      박영기                       |               선다영                |               이수연                |               정동교               |                    함소명                     |
 | :---------------------------------------: | :-----------------------------------------------: | :---------------------------------: | :---------------------------------: | :--------------------------------: | :-------------------------------------------: |
-|    <img src="assets/team/이은경.png">     |        <img src="assets/team/박영기.png">         | <img src="assets/team/선다영.png">  | <img src="assets/team/이수연.png">  | <img src="assets/team/정동교.png"> |      <img src="assets/team/함소명.png">       |
+|    <img src="assets/team/이은경.png" width="100" height="150" >     |        <img src="assets/team/박영기.png" width="100" height="150">         | <img src="assets/team/선다영.png" width="100" height="150">  | <img src="assets/team/이수연.png" width="100" height="150">  | <img src="assets/team/정동교.png" width="100" height="150"> |      <img src="assets/team/함소명.png" width="100" height="150">       |
 |                 팀장(FE)                  |                     팀원(BE)                      |              팀원(FE)               |              팀원(FE)               |              팀원(BE)              |                   팀원(BE)                    |
 | [rileyleee](https://github.com/rileyleee) | [park-yeong-ki](https://github.com/park-yeong-ki) | [seondy](https://github.com/seondy) | [bagoye](https://github.com/bagoye) | [dngyj](https://github.com/dngyj)  | [Hamsomyeong](https://github.com/Hamsomyeong) |
 
