@@ -39,7 +39,7 @@ public class KeywordService {
     //키워드 전체 조회
     public List<Keyword> readKeywords(boolean isRandom) {
         if (isRandom) {
-            return keywordRepository.findAllByRandom();
+            return keywordRepository.findAllByRandomQueryDsl();
         } else {
             return keywordRepository.findAll();
         }
