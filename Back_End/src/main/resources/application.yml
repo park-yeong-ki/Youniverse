@@ -16,20 +16,20 @@ spring:
     activate:
       on-profile: "local"
   redis:
-#    host: localhost
-    host: j9b204.p.ssafy.io
+    host: localhost
+#    host: j9b204.p.ssafy.io
     port: 6379
   datasource:
 #       배포된 db
-    url: jdbc:mysql://j9b204.p.ssafy.io:3306/youniverse?allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true&characterEncoding=utf8
-    username: youniverse
-    password: youniverse204
+#    url: jdbc:mysql://j9b204.p.ssafy.io:3306/youniverse?allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true&characterEncoding=utf8
+#    username: youniverse
+#    password: youniverse204
 
 ##   로컬 db
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/youniverse?serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true&characterEncoding=utf8
-#    username: youniverse
-#    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/youniverse?serverTimezone=Asia/Seoul&useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: ssafy
+    password: ssafy
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
