@@ -49,7 +49,7 @@ public class MemberService {
     //회원조회
     public Member readMember(int memberId) {
         if (memberId == 0) { //인생영화 5개 이상인 랜덤 회원 전송
-            Integer randomId = memberRepository.findByRandom();
+            Integer randomId = memberRepository.findByRandomQueryDsl();
             if (randomId != null) memberId = randomId; //랜덤 회원이 존재하는 경우
         }
 
@@ -65,17 +65,20 @@ public class MemberService {
 
     //회원 리스트 조회
     public Page<Member> readMembers(Pageable pageable, String keyword, String nickname, String total) {
-        Page<Member> memberPage = null;
-        if (StringUtils.hasText(keyword)) { //키워드로 조회하는 경우
-            memberPage = memberRepository.findAllByKeyword(keyword, pageable);
-        } else if (StringUtils.hasText(nickname)) { //닉네임으로 조회하는 경우
-            memberPage = memberRepository.findAllByNicknameContains(nickname, pageable);
-        } else if (StringUtils.hasText(total)) { //입력어로 키워드와 닉네임 모두 조회
-            memberPage = memberRepository.findAllByTotal(total, pageable);
-        } else { // 회원 전체 조회
-            memberPage = memberRepository.findAllByNicknameIsNotNull(pageable);
-        }
-        return memberPage;
+//        Page<Member> memberPage = null;
+//        if (StringUtils.hasText(keyword)) { //키워드로 조회하는 경우
+//            memberPage = memberRepository.findAllByKeyword(keyword, pageable);
+//        } else if (StringUtils.hasText(nickname)) { //닉네임으로 조회하는 경우
+//            memberPage = memberRepository.findAllByNicknameContains(nickname, pageable);
+//        } else if (StringUtils.hasText(total)) { //입력어로 키워드와 닉네임 모두 조회
+//            memberPage = memberRepository.findAllByTotal(total, pageable);
+//        } else { // 회원 전체 조회
+//            memberPage = memberRepository.findAllByNicknameIsNotNull(pageable);
+//        }
+//
+//        return memberPage;
+
+        return memberRepository.findAllQueryDsl(pageable, keyword, nickname, total);
     }
 
     //회원정보 수정 -> 수정 후 지연 조회 해결(@ManyToOne 관계에서의 변경이 아닌 @OneToMany를 통해 해결)
