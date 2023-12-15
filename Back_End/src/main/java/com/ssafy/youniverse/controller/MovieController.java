@@ -42,7 +42,7 @@ public class MovieController {
     //선호도 조사 영화 조회시 로그인된 회원 식별자 전송
     //감독, 배우, 타이틀별 조회
     @GetMapping
-    public ResponseEntity<?> findMovies(@PageableDefault() Pageable pageable,
+    public ResponseEntity<?> findMovies(@PageableDefault(sort = "movieId", direction = Sort.Direction.ASC) Pageable pageable,
                                         @RequestParam(name = "member-id", required = false) Integer memberId,
                                         @RequestParam(name = "director", required = false) String director,
                                         @RequestParam(name = "actor", required = false) String actor,
