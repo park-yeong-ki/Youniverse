@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.youniverse.entity.*;
+import com.ssafy.youniverse.util.PageSort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ import static com.ssafy.youniverse.entity.QMember.member;
 @RequiredArgsConstructor
 @Repository
 @Slf4j
-public class MemberRepositoryImpl implements MemberRepositoryCustom {
+public class MemberRepositoryImpl extends PageSort implements MemberRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
@@ -38,7 +39,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .join(member.keywordMembers, keywordMember)
                 .join(keywordMember.keyword, QKeyword.keyword)
                 .where(member.nickname.isNotNull(), eqKeyword(keyword), containNickname(nickname), searchTotal(total))
-                .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
+                .orderBy(getOrderSpecifier(pageable.getSort(), member.getType(), member.getMetadata()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -87,19 +88,5 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
 
         return null;
-    }
-
-    //pageable 동적 정렬
-    private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
-        List<OrderSpecifier> orders = new ArrayList<>();
-
-        sort.stream().forEach(order -> {
-            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-            String prop = order.getProperty();
-            PathBuilder orderByExpression = new PathBuilder<>(member.getType(), member.getMetadata());
-            orders.add(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
-        });
-
-        return orders;
     }
 }
