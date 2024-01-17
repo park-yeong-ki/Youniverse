@@ -15,7 +15,6 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class YoutubeKeywordService {
-    private final YoutubeKeywordRepository youtubeKeywordRepository;
     private final MemberService memberService;
 
     //유튜브키워드 10개 업데이트

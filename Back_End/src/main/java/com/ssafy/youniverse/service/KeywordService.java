@@ -27,6 +27,7 @@ public class KeywordService {
     }
 
     //키워드 개별 조회
+    @Transactional(readOnly = true)
     public Keyword readKeyword(int keywordId) {
         Optional<Keyword> optionalKeyword = keywordRepository.findById(keywordId);
         if (!optionalKeyword.isPresent()) { //키워드가 존재하지 않는 경우
@@ -37,6 +38,7 @@ public class KeywordService {
     }
 
     //키워드 전체 조회
+    @Transactional(readOnly = true)
     public List<Keyword> readKeywords(boolean isRandom) {
         if (isRandom) {
             return keywordRepository.findAllByRandomQueryDsl();

@@ -21,6 +21,7 @@ public class GenreService {
     }
 
     //조회
+    @Transactional(readOnly = true)
     public Genre readGenre(int genreId) {
         Optional<Genre> optionalGenre = genreRepository.findById(genreId);
         if (!optionalGenre.isPresent()) { //존재하지 않는 경우
@@ -30,6 +31,7 @@ public class GenreService {
     }
 
     //전체조회
+    @Transactional(readOnly = true)
     public List<Genre> readGenres() {
         return genreRepository.findAll();
     }

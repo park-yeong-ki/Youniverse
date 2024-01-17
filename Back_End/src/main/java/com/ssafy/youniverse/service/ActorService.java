@@ -21,6 +21,7 @@ public class ActorService {
     }
 
     //조회
+    @Transactional(readOnly = true)
     public Actor readActor(int actorId) {
         Optional<Actor> optionalActor = actorRepository.findById(actorId);
         if (!optionalActor.isPresent()) { //존재하지 않는 경우
@@ -30,6 +31,7 @@ public class ActorService {
     }
 
     //전체조회
+    @Transactional(readOnly = true)
     public List<Actor> readActors() {
         return actorRepository.findAll();
     }

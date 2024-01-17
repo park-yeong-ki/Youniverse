@@ -30,6 +30,7 @@ public class ReviewService {
     }
 
     //Review 개별 조회
+    @Transactional(readOnly = true)
     public Review readReview(int reviewId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
         if (!optionalReview.isPresent()) { //존재하지 않는 Review인 경우

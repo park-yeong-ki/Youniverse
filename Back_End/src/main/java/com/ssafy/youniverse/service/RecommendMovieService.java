@@ -15,8 +15,6 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class RecommendMovieService {
-    private final RecommendMovieRepository recommendMovieRepository;
-
     private final MemberService memberService;
     private final MovieService movieService;
 

@@ -32,6 +32,7 @@ public class FollowService {
     }
 
     //팔로우 조회
+    @Transactional(readOnly = true)
     public Follow readFollow(int followId) {
         Optional<Follow> optionalFollow = followRepository.findById(followId);
         if (!optionalFollow.isPresent()){ //존재하지 않는 팔로우인 경우
@@ -42,6 +43,7 @@ public class FollowService {
     }
 
     //팔로우 전체 조회
+    @Transactional(readOnly = true)
     public List<Follow> readFollows() {
         return followRepository.findAll();
     }

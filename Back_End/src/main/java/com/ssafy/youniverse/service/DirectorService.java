@@ -21,6 +21,7 @@ public class DirectorService {
     }
 
     //조회
+    @Transactional(readOnly = true)
     public Director readDirector(int directorId) {
         Optional<Director> optionalDirector = directorRepository.findById(directorId);
         if (!optionalDirector.isPresent()) { //존재하지 않는 경우
@@ -30,6 +31,7 @@ public class DirectorService {
     }
 
     //전체조회
+    @Transactional(readOnly = true)
     public List<Director> readDirectors() {
         return directorRepository.findAll();
     }

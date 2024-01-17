@@ -20,6 +20,7 @@ public class KeywordMovieService {
     }
 
     //키워드, 무비 개별 조회
+    @Transactional(readOnly = true)
     public KeywordMovie readKeywordMovie(int keywordMovieId) {
         Optional<KeywordMovie> optionalKeywordMovie = keywordMovieRepository.findById(keywordMovieId);
         if (!optionalKeywordMovie.isPresent()) { //존재하지 않는 경우
@@ -30,6 +31,7 @@ public class KeywordMovieService {
     }
 
     //키워드 무비 전체 조회
+    @Transactional(readOnly = true)
     public List<KeywordMovie> readKeywordMovies() {
         return keywordMovieRepository.findAll();
     }

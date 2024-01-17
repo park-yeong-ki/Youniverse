@@ -9,12 +9,10 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
-@AllArgsConstructor
 @Entity
-@Transactional
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +36,6 @@ public class Member extends Auditable {
     @Column(length = 255, nullable = true)
     private String memberImage;
 
-    @Lazy
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 

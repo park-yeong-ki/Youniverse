@@ -47,6 +47,7 @@ public class MemberService {
     }
 
     //회원조회
+    @Transactional(readOnly = true)
     public Member readMember(int memberId) {
         if (memberId == 0) { //인생영화 5개 이상인 랜덤 회원 전송
             Integer randomId = memberRepository.findByRandomQueryDsl();
@@ -64,20 +65,8 @@ public class MemberService {
     }
 
     //회원 리스트 조회
+    @Transactional(readOnly = true)
     public Page<Member> readMembers(Pageable pageable, String keyword, String nickname, String total) {
-//        Page<Member> memberPage = null;
-//        if (StringUtils.hasText(keyword)) { //키워드로 조회하는 경우
-//            memberPage = memberRepository.findAllByKeyword(keyword, pageable);
-//        } else if (StringUtils.hasText(nickname)) { //닉네임으로 조회하는 경우
-//            memberPage = memberRepository.findAllByNicknameContains(nickname, pageable);
-//        } else if (StringUtils.hasText(total)) { //입력어로 키워드와 닉네임 모두 조회
-//            memberPage = memberRepository.findAllByTotal(total, pageable);
-//        } else { // 회원 전체 조회
-//            memberPage = memberRepository.findAllByNicknameIsNotNull(pageable);
-//        }
-//
-//        return memberPage;
-
         return memberRepository.findAllQueryDsl(pageable, keyword, nickname, total);
     }
 
@@ -108,21 +97,14 @@ public class MemberService {
 
         //기존 키워드, 멤버 삭제
         updatedMember.getKeywordMembers().clear();
-//        updatedMember.getKeywordMembers().stream().forEach(keywordMember -> {
-//            keywordMemberService.deleteKeywordMember(keywordMember.getKeywordMemberId());
-//        });
 
         //기존 ott, 멤버 삭제
         updatedMember.getOttMembers().clear();
-//        updatedMember.getOttMembers().stream().forEach(ottMember -> {
-//            ottMemberService.deleteOttMember(ottMember.getOttMemberId());
-//        });
 
         //새로운 키워드, 멤버 등록
         member.getKeywordMembers().stream().forEach(keywordMember -> {
             keywordMember.setMember(updatedMember);
             keywordMember.setKeyword(keywordService.readKeyword(keywordMember.getKeyword().getKeywordId()));
-//            keywordMemberService.createKeywordMember(keywordMember);
             updatedMember.getKeywordMembers().add(keywordMember);
         });
 
@@ -130,7 +112,6 @@ public class MemberService {
         member.getOttMembers().stream().forEach(ottMember -> {
             ottMember.setMember(updatedMember);
             ottMember.setOtt(ottService.readOtt(ottMember.getOtt().getOttId()));
-//            ottMemberService.createOttMember(ottMember);
             updatedMember.getOttMembers().add(ottMember);
         });
 
@@ -150,6 +131,7 @@ public class MemberService {
     }
 
     //이메일로 회원 조회
+    @Transactional(readOnly = true)
     public Member readMemberByEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
@@ -160,6 +142,7 @@ public class MemberService {
     }
 
     //이메일로 회원 조회
+    @Transactional(readOnly = true)
     public Member checkMemberByEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember.orElse(null); // 회원이 존재하지 않으면 null 반환

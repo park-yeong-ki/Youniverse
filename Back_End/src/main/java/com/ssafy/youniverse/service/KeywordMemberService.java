@@ -21,6 +21,7 @@ public class KeywordMemberService {
     }
 
     //키워드, 멤버 개별 조회
+    @Transactional(readOnly = true)
     public KeywordMember readKeywordMember(int keywordMemberId) {
         Optional<KeywordMember> optionalKeywordMember = keywordMemberRepository.findById(keywordMemberId);
         if (!optionalKeywordMember.isPresent()) { //존재하지 않는 경우
@@ -31,6 +32,7 @@ public class KeywordMemberService {
     }
 
     //키워드 멤버 전체 조회
+    @Transactional(readOnly = true)
     public List<KeywordMember> readKeywordMembers() {
         return keywordMemberRepository.findAll();
     }

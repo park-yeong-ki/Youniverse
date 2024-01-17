@@ -1,10 +1,15 @@
 package com.ssafy.youniverse.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class DirectorMovie {
 
@@ -12,11 +17,11 @@ public class DirectorMovie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer directorMovieId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "director_id")
     private Director director;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 

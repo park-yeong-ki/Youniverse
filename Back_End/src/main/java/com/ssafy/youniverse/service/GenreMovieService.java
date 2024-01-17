@@ -20,6 +20,7 @@ public class GenreMovieService {
     }
 
     //조회
+    @Transactional(readOnly = true)
     public GenreMovie readGenreMovie(int genreMovieId) {
         Optional<GenreMovie> optionalGenreMovie = genreMovieRepository.findById(genreMovieId);
         if (!optionalGenreMovie.isPresent()) { //존재하지 않는 경우

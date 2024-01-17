@@ -2,10 +2,15 @@ package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class YoutubeKeyword extends Auditable {
     @Id
@@ -18,7 +23,7 @@ public class YoutubeKeyword extends Auditable {
     @Column(nullable = false)
     private Byte movieRank;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 }

@@ -2,10 +2,15 @@ package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Review extends Auditable {
 
@@ -19,11 +24,11 @@ public class Review extends Auditable {
     @Column(nullable = false)
     private Float reviewRate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 

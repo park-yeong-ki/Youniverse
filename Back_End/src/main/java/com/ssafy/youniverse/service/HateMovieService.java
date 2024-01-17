@@ -31,6 +31,7 @@ public class HateMovieService {
     }
 
     //HateMovie 개별 조회
+    @Transactional(readOnly = true)
     public HateMovie readHateMovie(int hateMovieId) {
         Optional<HateMovie> optionalHateMovie = hateMovieRepository.findById(hateMovieId);
         if (!optionalHateMovie.isPresent()) { //존재하지 않는 HateMovie인 경우
