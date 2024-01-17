@@ -30,6 +30,7 @@ public class HeartMovieService {
     }
 
     //HeartMovie 개별 조회
+    @Transactional(readOnly = true)
     public HeartMovie readHeartMovie(int heartMovieId) {
         Optional<HeartMovie> optionalHeartMovie = heartMovieRepository.findById(heartMovieId);
         if (!optionalHeartMovie.isPresent()) { //존재하지 않는 HeartMovie인 경우

@@ -20,6 +20,7 @@ public class OttMovieService {
     }
 
     //OttMovie 개별 조회
+    @Transactional(readOnly = true)
     public OttMovie readOttMovie(int ottMovieId) {
         Optional<OttMovie> optionalOttMovie = ottMovieRepository.findById(ottMovieId);
         if (!optionalOttMovie.isPresent()) { //존재하지 않는 OttMovie인 경우
@@ -30,6 +31,7 @@ public class OttMovieService {
     }
 
     //OttMovie 전체 조회
+    @Transactional(readOnly = true)
     public List<OttMovie> readOttMovies() {
         return ottMovieRepository.findAll();
     }

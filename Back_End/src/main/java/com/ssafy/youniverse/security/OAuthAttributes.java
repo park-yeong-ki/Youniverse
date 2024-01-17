@@ -45,14 +45,9 @@ public class OAuthAttributes {
      * role은 GUEST로 설정
      */
     public Member toEntity(OAuth2UserInfo oauth2UserInfo) {
-        return Member.builder()
-                .nickname(oauth2UserInfo.getNickname())
-                .email(oauth2UserInfo.getEmail())
-//                .gender()
-//                .age()
-//                .introduce()
-//                .member_image(oauth2UserInfo.getImageUrl())
-//                .role(Role.GUEST)
-                .build();
+        Member member = new Member();
+        member.setNickname(oauth2UserInfo.getNickname());
+        member.setEmail(oauth2UserInfo.getEmail());
+        return member;
     }
 }

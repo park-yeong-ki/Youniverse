@@ -9,7 +9,4 @@ import java.util.Optional;
 
 public interface KeywordRepository extends JpaRepository<Keyword, Integer>, KeywordRepositoryCustom {
     Optional<Keyword> findByKeywordName(String keywordName);
-
-//    @Query(value = "select * from keyword order by rand() limit 20", nativeQuery = true)
-//    List<Keyword> findAllByRandom();
 }

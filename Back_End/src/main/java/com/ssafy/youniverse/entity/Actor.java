@@ -1,13 +1,15 @@
 package com.ssafy.youniverse.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Actor {
 

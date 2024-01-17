@@ -20,6 +20,7 @@ public class ActorMovieService {
     }
 
     //조회
+    @Transactional(readOnly = true)
     public ActorMovie readActorMovie(int actorMovieId) {
         Optional<ActorMovie> optionalActorMovie = actorMovieRepository.findById(actorMovieId);
         if (!optionalActorMovie.isPresent()) { //존재하지 않는 경우

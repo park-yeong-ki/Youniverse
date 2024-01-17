@@ -1,10 +1,15 @@
 package com.ssafy.youniverse.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class KeywordMember {
 
@@ -12,11 +17,11 @@ public class KeywordMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer keywordMemberId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "keyword_id")
     private Keyword keyword;
 

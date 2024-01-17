@@ -20,6 +20,7 @@ public class DirectorMovieService {
     }
 
     //조회
+    @Transactional(readOnly = true)
     public DirectorMovie readDirectorMovie(int directorMovieId) {
         Optional<DirectorMovie> optionalDirectorMovie = directorMovieRepository.findById(directorMovieId);
         if (!optionalDirectorMovie.isPresent()) { //존재하지 않는 경우

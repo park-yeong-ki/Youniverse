@@ -26,6 +26,7 @@ public class OttService {
     }
 
     //Ott 개별 조회
+    @Transactional(readOnly = true)
     public Ott readOtt(int ottId) {
         Optional<Ott> optionalOtt = ottRepository.findById(ottId);
         if (!optionalOtt.isPresent()) { //Ott가 존재하지 않는 경우
@@ -35,6 +36,7 @@ public class OttService {
     }
 
     //Ott 전체 조회
+    @Transactional(readOnly = true)
     public List<Ott> readOtts() {
         return ottRepository.findAll();
     }

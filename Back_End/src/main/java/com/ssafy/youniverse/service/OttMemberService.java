@@ -21,6 +21,7 @@ public class OttMemberService {
     }
 
     //OttMember 개별 조회
+    @Transactional(readOnly = true)
     public OttMember readOttMember(int ottMemberId) {
         Optional<OttMember> optionalOttMember = ottMemberRepository.findById(ottMemberId);
         if (!optionalOttMember.isPresent()) { //존재하지 않는 OttMember인 경우
@@ -31,6 +32,7 @@ public class OttMemberService {
     }
 
     //OttMember 전체 조회
+    @Transactional(readOnly = true)
     public List<OttMember> readOttMembers() {
         return ottMemberRepository.findAll();
     }

@@ -20,6 +20,9 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${cloud.aws.s3.baseurl}")
+    private String baseURL;
+
     public String saveFile(MultipartFile multipartFile) throws IOException {
         String originalFilename = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
@@ -32,7 +35,6 @@ public class S3Service {
     }
 
     public void deleteFile(String originalFilename){
-        String baseURL = "https://yeongki.s3.ap-northeast-2.amazonaws.com/";
         originalFilename = originalFilename.substring(baseURL.length());
         amazonS3.deleteObject(bucket, originalFilename);
     }

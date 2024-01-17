@@ -36,6 +36,7 @@ public class BestMovieService {
     }
 
     //BestMovie 개별 조회
+    @Transactional(readOnly = true)
     public BestMovie readBestMovie(int bestMovieId) {
         Optional<BestMovie> optionalBestMovie = bestMovieRepository.findById(bestMovieId);
         if (!optionalBestMovie.isPresent()) { //존재하지 않는 BestMovie인 경우
