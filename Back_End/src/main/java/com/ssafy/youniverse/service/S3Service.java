@@ -20,7 +20,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.baseurl}")
+    @Value("${cloud.aws.baseURL}")
     private String baseURL;
 
     public String saveFile(MultipartFile multipartFile) throws IOException {

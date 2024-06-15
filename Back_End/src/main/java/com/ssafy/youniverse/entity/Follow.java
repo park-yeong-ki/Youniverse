@@ -1,12 +1,11 @@
 package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

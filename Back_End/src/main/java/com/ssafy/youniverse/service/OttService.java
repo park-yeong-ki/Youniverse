@@ -45,7 +45,6 @@ public class OttService {
     public Ott updateOtt(Ott ott, MultipartFile multipartFile) throws IOException {
         Ott findOtt = readOtt(ott.getOttId());
         findOtt.setOttName(ott.getOttName());
-        findOtt.setOttUrl(ott.getOttUrl());
 
         if (findOtt.getOttImage() != null) { //기존 OTT 이미지가 존재하는 경우
             String file = findOtt.getOttImage();

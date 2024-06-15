@@ -12,6 +12,6 @@ public class MovieSimpleResDto {
     private String title;
     private String movieImage;
     private List<KeywordResDto> keywordResDtos;
-    private Float rate;
+    private Double rate;
     private Integer runtime;
 }

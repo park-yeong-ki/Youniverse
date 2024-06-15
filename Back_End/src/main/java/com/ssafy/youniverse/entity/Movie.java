@@ -1,12 +1,10 @@
 package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
-import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,17 +17,17 @@ public class Movie extends Auditable {
     @Id
     private Integer movieId;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 200, nullable = false)
     private String title;
 
-    @Column(length = 2, nullable = false)
+    @Column(length = 5, nullable = false)
     private String language;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String overView;
 
     @Column(nullable = false)
-    private Float rate;
+    private Double rate;
 
     @Column(nullable = false)
     private Integer runtime;

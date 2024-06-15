@@ -12,7 +12,7 @@ public class MovieReqDto {
     private String title;
     private String language;
     private String overView;
-    private Float rate;
+    private Double rate;
     private Integer runtime;
     private String movieImage;
     private List<Integer> ottList; //영화와 관련된 Ott 식별자

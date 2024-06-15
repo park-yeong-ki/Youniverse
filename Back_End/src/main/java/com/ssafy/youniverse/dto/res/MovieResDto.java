@@ -12,7 +12,7 @@ public class MovieResDto {
     private String title;
     private String language;
     private String overView;
-    private Float rate;
+    private Double rate;
     private Integer runtime;
     private String movieImage;
     private List<OttResDto> ottResDtos;

@@ -118,7 +118,6 @@ public interface MovieMapper extends CustomMapper {
                     ottResDto.setOttId(ott.getOttId());
                     ottResDto.setOttName(ott.getOttName());
                     ottResDto.setOttImage(ott.getOttImage());
-                    ottResDto.setOttUrl(ott.getOttUrl());
 
                     return ottResDto;
                 })

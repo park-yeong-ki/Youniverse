@@ -1,11 +1,8 @@
 package com.ssafy.youniverse.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 public class Ott {
 
     @Id
@@ -23,9 +21,6 @@ public class Ott {
 
     @Column(length = 255, nullable = false)
     private String ottImage;
-
-    @Column(length = 255, nullable = false)
-    private String ottUrl;
 
     @OneToMany(mappedBy = "ott", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OttMovie> ottMovies = new ArrayList<>();

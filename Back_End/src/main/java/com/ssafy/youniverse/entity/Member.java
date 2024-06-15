@@ -1,11 +1,9 @@
 package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.context.annotation.Lazy;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
