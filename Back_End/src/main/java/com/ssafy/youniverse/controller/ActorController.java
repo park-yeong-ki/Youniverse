@@ -31,7 +31,7 @@ public class ActorController {
 
     //조회
     @GetMapping("/{actor-id}")
-    public ResponseEntity<?> findActor(@PathVariable("actor-id") int actorId) {
+    public ResponseEntity<?> findActor(@PathVariable("actor-id") long actorId) {
         Actor findActor = actorService.readActor(actorId);
         ActorResDto actorResDto = actorMapper.actorToActorResDto(findActor);
         return new ResponseEntity<>(actorResDto, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class ActorController {
 
     //수정
     @PutMapping("/{actor-id}")
-    public ResponseEntity<?> modifyActor(@PathVariable("actor-id") int actorId, @RequestBody ActorReqDto actorReqDto) {
+    public ResponseEntity<?> modifyActor(@PathVariable("actor-id") long actorId, @RequestBody ActorReqDto actorReqDto) {
         actorReqDto.setActorId(actorId);
         Actor actor = actorMapper.actorReqDtoToActor(actorReqDto);
         Actor updatedActor = actorService.updateActor(actor);
@@ -57,7 +57,7 @@ public class ActorController {
 
     //삭제
     @DeleteMapping("/{actor-id}")
-    public ResponseEntity<?> removeActor(@PathVariable("actor-id") int actorId) {
+    public ResponseEntity<?> removeActor(@PathVariable("actor-id") long actorId) {
         actorService.deleteActor(actorId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

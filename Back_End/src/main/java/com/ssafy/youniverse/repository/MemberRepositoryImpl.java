@@ -56,7 +56,7 @@ public class MemberRepositoryImpl extends PageSort implements MemberRepositoryCu
     }
 
     @Override
-    public Integer findByRandomQueryDsl() {
+    public Long findByRandomQueryDsl() {
         return jpaQueryFactory
                 .select(bestMovie.member.memberId)
                 .from(bestMovie)

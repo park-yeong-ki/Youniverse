@@ -31,7 +31,7 @@ public class FollowController {
 
     //팔로우 조회
     @GetMapping("/{follow-id}")
-    public ResponseEntity<?> findFollow(@PathVariable("follow-id") int followId) {
+    public ResponseEntity<?> findFollow(@PathVariable("follow-id") long followId) {
         Follow follow = followService.readFollow(followId);
         FollowResDto followResDto = followMapper.followToFollowResDto(follow);
         return new ResponseEntity<>(followResDto, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class FollowController {
 
     //팔로우 삭제
     @DeleteMapping("/{follow-id}")
-    public ResponseEntity<?> removeFollow(@PathVariable("follow-id") int followId) {
+    public ResponseEntity<?> removeFollow(@PathVariable("follow-id") long followId) {
         followService.deleteFollow(followId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

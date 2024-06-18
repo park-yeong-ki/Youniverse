@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class MovieResDto {
-    private Integer movieId;
+    private Long movieId;
     private String title;
     private String language;
     private String overView;

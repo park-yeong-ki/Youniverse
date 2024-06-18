@@ -14,7 +14,7 @@ public class ActorMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer actorMovieId;
+    private Long actorMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "actor_id")

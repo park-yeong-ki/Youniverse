@@ -15,7 +15,7 @@ import java.util.List;
 public class Movie extends Auditable {
 
     @Id
-    private Integer movieId;
+    private Long movieId;
 
     @Column(length = 200, nullable = false)
     private String title;

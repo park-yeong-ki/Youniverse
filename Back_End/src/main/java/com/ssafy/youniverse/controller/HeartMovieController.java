@@ -28,7 +28,7 @@ public class HeartMovieController {
 
     //좋아요 조회
     @GetMapping("/{heart-movie-id}")
-    public ResponseEntity<?> findHeartMovie(@PathVariable("heart-movie-id") int heartMovieId) {
+    public ResponseEntity<?> findHeartMovie(@PathVariable("heart-movie-id") long heartMovieId) {
         HeartMovie heartMovie = heartMovieService.readHeartMovie(heartMovieId);
         HeartMovieResDto heartMovieResDto = heartMovieMapper.heartMovieToHeartMovieResDto(heartMovie);
         return new ResponseEntity<>(heartMovieResDto, HttpStatus.OK);
@@ -36,7 +36,7 @@ public class HeartMovieController {
 
     //좋아요 삭제
     @DeleteMapping("/{heart-movie-id}")
-    public ResponseEntity<?> removeHeartMovie(@PathVariable("heart-movie-id") int heartMovieId) {
+    public ResponseEntity<?> removeHeartMovie(@PathVariable("heart-movie-id") long heartMovieId) {
         heartMovieService.deleteHeartMovie(heartMovieId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

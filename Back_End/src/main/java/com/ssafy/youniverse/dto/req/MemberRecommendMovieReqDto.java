@@ -9,5 +9,5 @@ import java.util.List;
 @Setter
 public class MemberRecommendMovieReqDto {
     private String email;
-    private List<Integer> movieIdList;
+    private List<Long> movieIdList;
 }

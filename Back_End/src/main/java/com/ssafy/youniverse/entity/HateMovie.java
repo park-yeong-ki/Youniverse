@@ -13,7 +13,7 @@ public class HateMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer hateMovieId;
+    private Long hateMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

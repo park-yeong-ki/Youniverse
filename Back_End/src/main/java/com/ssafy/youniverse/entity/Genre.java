@@ -14,7 +14,7 @@ import java.util.List;
 public class Genre {
 
     @Id
-    private Integer genreId;
+    private Long genreId;
 
     @Column(length = 20, nullable = false)
     private String genreName;

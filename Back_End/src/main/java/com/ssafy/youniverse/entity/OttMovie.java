@@ -17,7 +17,7 @@ public class OttMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ottMovieId;
+    private Long ottMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="ott_id")

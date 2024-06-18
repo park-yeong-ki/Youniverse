@@ -21,7 +21,7 @@ public class KeywordMovieService {
 
     //키워드, 무비 개별 조회
     @Transactional(readOnly = true)
-    public KeywordMovie readKeywordMovie(int keywordMovieId) {
+    public KeywordMovie readKeywordMovie(long keywordMovieId) {
         Optional<KeywordMovie> optionalKeywordMovie = keywordMovieRepository.findById(keywordMovieId);
         if (!optionalKeywordMovie.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -37,7 +37,7 @@ public class KeywordMovieService {
     }
 
     //키워드, 무비 삭제
-    public void deleteKeywordMovie(int keywordMovieId) {
+    public void deleteKeywordMovie(long keywordMovieId) {
         KeywordMovie keywordMovie = readKeywordMovie(keywordMovieId);
         keywordMovieRepository.delete(keywordMovie);
     }

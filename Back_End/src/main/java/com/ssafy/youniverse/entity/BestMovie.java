@@ -13,7 +13,7 @@ public class BestMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bestMovieId;
+    private Long bestMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

@@ -5,16 +5,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.youniverse.entity.*;
 import com.ssafy.youniverse.repository.*;
+import com.ssafy.youniverse.repository.bulk.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -23,11 +24,27 @@ import java.util.stream.IntStream;
 public class TmdbService {
     private final TmdbClient tmdbClient;
     private final ObjectMapper objectMapper;
-    private final MovieRepository movieRepository;
-    private final GenreRepository genreRepository;
-    private final ActorRepository actorRepository;
-    private final DirectorRepository directorRepository;
-    private final KeywordRepository keywordRepository;
+    private final MovieBulkRepository movieRepository;
+    private final GenreBulkRepository genreRepository;
+    private final ActorBulkRepository actorRepository;
+    private final DirectorBulkRepository directorRepository;
+    private final KeywordBulkRepository keywordRepository;
+    private final GenreMovieBulkRepository genreMovieRepository;
+    private final ActorMovieBulkRepository actorMovieRepository;
+    private final DirectorMovieBulkRepository directorMovieRepository;
+    private final KeywordMovieBulkRepository keywordMovieRepository;
+    private final OttMovieBulkRepository ottMovieRepository;
+
+    private Set<Movie> movieSet = ConcurrentHashMap.newKeySet();
+    private Set<Genre> genreSet = ConcurrentHashMap.newKeySet();
+    private Set<Actor> actorSet = ConcurrentHashMap.newKeySet();
+    private Set<Director> directorSet = ConcurrentHashMap.newKeySet();
+    private Set<Keyword> keywordSet = ConcurrentHashMap.newKeySet();
+    private Set<GenreMovie> genreMovieSet = ConcurrentHashMap.newKeySet();
+    private Set<ActorMovie> actorMovieSet = ConcurrentHashMap.newKeySet();
+    private Set<DirectorMovie> directorMovieSet = ConcurrentHashMap.newKeySet();
+    private Set<KeywordMovie> keywordMovieSet = ConcurrentHashMap.newKeySet();
+    private Set<OttMovie> ottMovieSet = ConcurrentHashMap.newKeySet();
 
     @Value("${tmdb.language}")
     private String lang;
@@ -39,25 +56,46 @@ public class TmdbService {
     private Set<Integer> ottList;
 
     /**
-     * 인기 영화 순으로 500페이지 조회(1페이지당 20개 영화 목록)
-     * 한 페이지에 스레드 한개
+     * 매일 오전 5시 갱신
+     * TDMB API를 활용해 영화, 장르, 배우, 감독, 키워드를 불러와 DB에 저장
+     * totalPage 설정
      */
-    @EventListener(ApplicationReadyEvent.class)
-    public void callApi() throws InterruptedException {
-        Queue<Movie> movieList = new ConcurrentLinkedQueue<>();
-        Set<Genre> genreSet = ConcurrentHashMap.newKeySet();
-        Set<Actor> actorSet = ConcurrentHashMap.newKeySet();
-        Set<Director> directorSet = ConcurrentHashMap.newKeySet();
-        Set<Keyword> keywordSet = ConcurrentHashMap.newKeySet();
+    @Scheduled(cron = "0 0 5 * * *", zone = "Asia/Seoul")
+    public void getMovieInfosFromTdmb() throws InterruptedException {
+        callTmdbApi(500);
+        saveDatabase();
+        setClear();
+    }
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+    private void setClear() {
+        movieSet.clear();
+        genreSet.clear();
+        actorSet.clear();
+        directorSet.clear();
+        keywordSet.clear();
+        genreMovieSet.clear();
+        actorMovieSet.clear();
+        directorMovieSet.clear();
+        keywordMovieSet.clear();
+        ottMovieSet.clear();
+    }
 
-        IntStream.rangeClosed(1, 500).forEach(page -> {
+    /**
+     * API 호출에 스레드 10개를 생성하여 병렬 처리
+     * 한 페이지당 20개의 영화 정보를 가지고 있는 페이지 totalPage만큼 호출
+     * @param totalPage
+     * @throws InterruptedException
+     */
+    private void callTmdbApi(int totalPage) throws InterruptedException {
+        int threadsCount = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
+
+        IntStream.rangeClosed(1, totalPage).forEach(page -> {
             executorService.submit(() -> {
                 try {
                     JsonNode results = objectMapper.readTree(tmdbClient.getPopularMoviesId(lang, page)).path("results");
                     for (JsonNode result : results) {
-                        getMovie(result.path("id").asInt(), movieList, genreSet, actorSet, directorSet, keywordSet);
+                        getMovie(result.path("id").asInt());
                     }
                     log.info("Success fetching page {}", page);
                 } catch (Exception e) {
@@ -66,15 +104,26 @@ public class TmdbService {
 
             });
         });
-
         executorService.shutdown();
-        executorService.awaitTermination(30, TimeUnit.MINUTES);
 
+        executorService.awaitTermination(60, TimeUnit.MINUTES);
+    }
+
+    /**
+     * Bulk insert를 활용해 batch size만큼의 insert 쿼리를 묶어 DB에 저장
+     */
+    private void saveDatabase() {
         genreRepository.saveAll(genreSet);
         actorRepository.saveAll(actorSet);
         directorRepository.saveAll(directorSet);
         keywordRepository.saveAll(keywordSet);
-        movieRepository.saveAll(movieList);
+        movieRepository.saveAll(movieSet);
+
+        genreMovieRepository.saveAll(genreMovieSet);
+        actorMovieRepository.saveAll(actorMovieSet);
+        directorMovieRepository.saveAll(directorMovieSet);
+        keywordMovieRepository.saveAll(keywordMovieSet);
+        ottMovieRepository.saveAll(ottMovieSet);
     }
 
     /**
@@ -83,10 +132,9 @@ public class TmdbService {
      * keywords 영화 키워드
      * watch providers OTT 정보
      * credits 영화 배우, 감독
-     * 각 객체를 페이지 단위로 담아 DB에 저장(하나의 페이지당 하나의 스레드 담당)
      * @param id
      */
-    private void getMovie(int id, Queue<Movie> movieList, Set<Genre> genreSet, Set<Actor> actorSet, Set<Director> directorSet, Set<Keyword> keywordSet) {
+    private void getMovie(int id) {
         try {
             String details = tmdbClient.getDetails(id, lang);
             Movie movie = toMovieEntity(details);
@@ -99,17 +147,7 @@ public class TmdbService {
             List<Keyword> keywords = toKeywordEntity(tmdbClient.getKeywords(id));
             Set<Ott> otts = toOttEntity(tmdbClient.getWatchProviders(id));
 
-            addGenreMovie(genres, movie);
-            addActorMovie(actors, movie);
-            addDirectorMovie(directors, movie);
-            addKeywordMovie(keywords, movie);
-            addOttMovie(otts, movie);
-
-            movieList.add(movie);
-            genreSet.addAll(genres);
-            actorSet.addAll(actors);
-            directorSet.addAll(directors);
-            keywordSet.addAll(keywords);
+            addEntity(genres, movie, actors, directors, keywords, otts);
 
             log.info("Success fetching movie {}", id);
         } catch (Exception e) {
@@ -117,56 +155,89 @@ public class TmdbService {
         }
     }
 
-    private void addOttMovie(Set<Ott> otts, Movie movie) {
-        otts.forEach(ott -> {
-            OttMovie ottMovie = new OttMovie();
-            ottMovie.setOtt(ott);
-            ottMovie.setMovie(movie);
-            movie.getOttMovies().add(ottMovie);
-        });
+    /**
+     * 영화 한 편의 정보를 여러 엔티티에 맞추어 각각의 Set에 저장
+     * @param genres
+     * @param movie
+     * @param actors
+     * @param directors
+     * @param keywords
+     * @param otts
+     */
+    private void addEntity(List<Genre> genres, Movie movie, List<Actor> actors, List<Director> directors, List<Keyword> keywords, Set<Ott> otts) {
+        genreMovieSet.addAll(makeGenreMovie(genres, movie));
+        actorMovieSet.addAll(makeActorMovie(actors, movie));
+        directorMovieSet.addAll(makeDirectorMovie(directors, movie));
+        keywordMovieSet.addAll(makeKeywordMovie(keywords, movie));
+        ottMovieSet.addAll(makeOttMovie(otts, movie));
+
+        movieSet.add(movie);
+        genreSet.addAll(genres);
+        actorSet.addAll(actors);
+        directorSet.addAll(directors);
+        keywordSet.addAll(keywords);
     }
 
-    private void addKeywordMovie(List<Keyword> keywords, Movie movie) {
-        keywords.forEach(keyword -> {
-            KeywordMovie keywordMovie = new KeywordMovie();
-            keywordMovie.setKeyword(keyword);
-            keywordMovie.setMovie(movie);
-            movie.getKeywordMovies().add(keywordMovie);
-        });
+    private List<OttMovie> makeOttMovie(Set<Ott> otts, Movie movie) {
+        return otts.stream()
+                .map(ott -> {
+                    OttMovie ottMovie = new OttMovie();
+                    ottMovie.setOtt(ott);
+                    ottMovie.setMovie(movie);
+                    return ottMovie;
+                })
+                .collect(Collectors.toList());
     }
 
-    private void addDirectorMovie(List<Director> directors, Movie movie) {
-        directors.forEach(director -> {
-            DirectorMovie directorMovie = new DirectorMovie();
-            directorMovie.setDirector(director);
-            directorMovie.setMovie(movie);
-            movie.getDirectorMovies().add(directorMovie);
-        });
+    private List<KeywordMovie> makeKeywordMovie(List<Keyword> keywords, Movie movie) {
+        return keywords.stream()
+                .map(keyword -> {
+                    KeywordMovie keywordMovie = new KeywordMovie();
+                    keywordMovie.setKeyword(keyword);
+                    keywordMovie.setMovie(movie);
+                    return keywordMovie;
+                })
+                .collect(Collectors.toList());
     }
 
-    private void addActorMovie(List<Actor> actors, Movie movie) {
-        actors.forEach(actor -> {
-            ActorMovie actorMovie = new ActorMovie();
-            actorMovie.setActor(actor);
-            actorMovie.setMovie(movie);
-            movie.getActorMovies().add(actorMovie);
-        });
+    private List<DirectorMovie> makeDirectorMovie(List<Director> directors, Movie movie) {
+        return directors.stream()
+                .map(director -> {
+                    DirectorMovie directorMovie = new DirectorMovie();
+                    directorMovie.setDirector(director);
+                    directorMovie.setMovie(movie);
+                    return directorMovie;
+                })
+                .collect(Collectors.toList());
     }
 
-    private void addGenreMovie(List<Genre> genres, Movie movie) {
-        genres.forEach(genre -> {
-            GenreMovie genreMovie = new GenreMovie();
-            genreMovie.setGenre(genre);
-            genreMovie.setMovie(movie);
-            movie.getGenreMovies().add(genreMovie);
-        });
+    private List<ActorMovie> makeActorMovie(List<Actor> actors, Movie movie) {
+        return actors.stream()
+                .map(actor -> {
+                    ActorMovie actorMovie = new ActorMovie();
+                    actorMovie.setActor(actor);
+                    actorMovie.setMovie(movie);
+                    return actorMovie;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<GenreMovie> makeGenreMovie(List<Genre> genres, Movie movie) {
+        return genres.stream()
+                .map(genre -> {
+                    GenreMovie genreMovie = new GenreMovie();
+                    genreMovie.setGenre(genre);
+                    genreMovie.setMovie(movie);
+                    return genreMovie;
+                })
+                .collect(Collectors.toList());
     }
 
     private Movie toMovieEntity(String json) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(json);
 
         Movie movie = new Movie();
-        movie.setMovieId(jsonNode.path("id").asInt());
+        movie.setMovieId(jsonNode.path("id").asLong());
 
         /**
          * title의 column type은 varchar(200)이므로 문자열의 길이를 최대 200까지만 저장
@@ -176,7 +247,7 @@ public class TmdbService {
 
         movie.setLanguage(jsonNode.path("original_language").textValue());
         movie.setOverView(jsonNode.path("overview").textValue());
-        movie.setRate(jsonNode.path("vote_average").asDouble() / 2);
+        movie.setRate(Math.round(jsonNode.path("vote_average").asDouble() / 2 * 10) / 10.0);
         movie.setRuntime(jsonNode.path("runtime").asInt());
         movie.setMovieImage(imageUrl + jsonNode.path("poster_path").textValue());
 
@@ -189,7 +260,7 @@ public class TmdbService {
         List<Genre> list = new ArrayList<>();
         for (JsonNode node : genres) {
             Genre genre = new Genre();
-            genre.setGenreId(node.path("id").asInt());
+            genre.setGenreId(node.path("id").asLong());
             genre.setGenreName(node.path("name").textValue());
             list.add(genre);
         }
@@ -203,7 +274,7 @@ public class TmdbService {
         List<Keyword> list = new ArrayList<>();
         for (JsonNode node : keywords) {
             Keyword keyword = new Keyword();
-            keyword.setKeywordId(node.path("id").asInt());
+            keyword.setKeywordId(node.path("id").asLong());
             keyword.setKeywordName(node.path("name").textValue());
             list.add(keyword);
         }
@@ -232,7 +303,7 @@ public class TmdbService {
                     continue;
                 }
                 Ott ott = new Ott();
-                ott.setOttId(node.path("provider_id").asInt());
+                ott.setOttId(node.path("provider_id").asLong());
                 ott.setOttName(node.path("provider_name").textValue());
                 ott.setOttImage(imageUrl + node.path("logo_path").textValue());
                 set.add(ott);
@@ -248,7 +319,7 @@ public class TmdbService {
         for (JsonNode node : cast) {
             if (node.path("known_for_department").textValue().equals("Acting")) {
                 Actor actor = new Actor();
-                actor.setActorId(node.path("id").asInt());
+                actor.setActorId(node.path("id").asLong());
                 actor.setActorName(node.path("name").textValue());
                 actor.setActorImage(imageUrl + node.path("profile_path").textValue());
                 list.add(actor);
@@ -264,7 +335,7 @@ public class TmdbService {
         for (JsonNode node : crew) {
             if (node.path("job").textValue().equals("Director")) {
                 Director director = new Director();
-                director.setDirectorId(node.path("id").asInt());
+                director.setDirectorId(node.path("id").asLong());
                 director.setDirectorName(node.path("name").textValue());
                 director.setDirectorImage(imageUrl + node.path("profile_path").textValue());
                 list.add(director);

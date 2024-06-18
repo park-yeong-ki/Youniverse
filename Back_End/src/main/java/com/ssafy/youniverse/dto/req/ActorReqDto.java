@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ActorReqDto {
-    private Integer actorId;
+    private Long actorId;
     private String actorName;
     private String actorImage;
 }

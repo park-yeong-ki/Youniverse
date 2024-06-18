@@ -14,7 +14,7 @@ import java.util.List;
 public class Keyword {
 
     @Id
-    private Integer keywordId;
+    private Long keywordId;
 
     @Column(length = 50, nullable = false)
     private String keywordName;

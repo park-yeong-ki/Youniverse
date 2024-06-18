@@ -30,7 +30,7 @@ public interface MovieMapper extends CustomMapper {
 
         if (movieReqDto.getOttList() != null) { //ott 목록이 존재하는 경우
             List<OttMovie> ottMovies = new ArrayList<>();
-            for (int ottId : movieReqDto.getOttList()) {
+            for (long ottId : movieReqDto.getOttList()) {
                 Ott ott = new Ott();
                 ott.setOttId(ottId);
                 OttMovie ottMovie = new OttMovie();
@@ -43,7 +43,7 @@ public interface MovieMapper extends CustomMapper {
 
         if (movieReqDto.getKeywordList() != null) { //키워드 목록이 존재하는 경우
             List<KeywordMovie> keywordMovies = new ArrayList<>();
-            for (int keywordId : movieReqDto.getKeywordList()) {
+            for (long keywordId : movieReqDto.getKeywordList()) {
                 Keyword keyword = new Keyword();
                 keyword.setKeywordId(keywordId);
                 KeywordMovie keywordMovie = new KeywordMovie();
@@ -56,7 +56,7 @@ public interface MovieMapper extends CustomMapper {
 
         if (movieReqDto.getActorList() != null) { //영화 배우 목록이 존재하는 경우
             List<ActorMovie> actorMovies = new ArrayList<>();
-            for (int actorId : movieReqDto.getActorList()) {
+            for (long actorId : movieReqDto.getActorList()) {
                 Actor actor = new Actor();
                 actor.setActorId(actorId);
                 ActorMovie actorMovie = new ActorMovie();
@@ -69,7 +69,7 @@ public interface MovieMapper extends CustomMapper {
 
         if (movieReqDto.getGenreList() != null) { // 영화 장르 목록이 존재하는 경우
             List<GenreMovie> genreMovies = new ArrayList<>();
-            for (int genreId : movieReqDto.getGenreList()) {
+            for (long genreId : movieReqDto.getGenreList()) {
                 Genre genre = new Genre();
                 genre.setGenreId(genreId);
                 GenreMovie genreMovie = new GenreMovie();
@@ -82,7 +82,7 @@ public interface MovieMapper extends CustomMapper {
 
         if (movieReqDto.getDirectorList() != null) { // 영화 감독 목록이 존재하는 경우
             List<DirectorMovie> directorMovies = new ArrayList<>();
-            for (int directorId : movieReqDto.getDirectorList()) {
+            for (long directorId : movieReqDto.getDirectorList()) {
                 Director director = new Director();
                 director.setDirectorId(directorId);
                 DirectorMovie directorMovie = new DirectorMovie();

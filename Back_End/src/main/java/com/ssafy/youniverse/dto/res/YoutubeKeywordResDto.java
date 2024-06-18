@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class YoutubeKeywordResDto {
-    private Integer youtubeKeywordId;
+    private Long youtubeKeywordId;
     private String youtubeKeywordName;
     private Byte movieRank;
 }

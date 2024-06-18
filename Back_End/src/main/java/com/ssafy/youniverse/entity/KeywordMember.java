@@ -14,7 +14,7 @@ public class KeywordMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer keywordMemberId;
+    private Long keywordMemberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

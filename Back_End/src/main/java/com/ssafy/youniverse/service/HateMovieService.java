@@ -32,7 +32,7 @@ public class HateMovieService {
 
     //HateMovie 개별 조회
     @Transactional(readOnly = true)
-    public HateMovie readHateMovie(int hateMovieId) {
+    public HateMovie readHateMovie(long hateMovieId) {
         Optional<HateMovie> optionalHateMovie = hateMovieRepository.findById(hateMovieId);
         if (!optionalHateMovie.isPresent()) { //존재하지 않는 HateMovie인 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -42,7 +42,7 @@ public class HateMovieService {
     }
 
     //HateMovie 삭제
-    public void deleteHateMovie(int hateMovieId) {
+    public void deleteHateMovie(long hateMovieId) {
         HateMovie hateMovie = readHateMovie(hateMovieId);
         hateMovieRepository.delete(hateMovie);
     }

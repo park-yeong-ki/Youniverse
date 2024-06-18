@@ -32,7 +32,7 @@ public interface MemberMapper extends CustomMapper {
 
         if (memberReqDto.getOttList() != null) { //ott 목록이 존재하는 경우
             List<OttMember> ottMembers = new ArrayList<>();
-            for (int ottId : memberReqDto.getOttList()) {
+            for (long ottId : memberReqDto.getOttList()) {
                 Ott ott = new Ott();
                 ott.setOttId(ottId);
                 OttMember ottMember = new OttMember();
@@ -45,7 +45,7 @@ public interface MemberMapper extends CustomMapper {
 
         if (memberReqDto.getKeywordList() != null) { //키워드 목록이 존재하는 경우
             List<KeywordMember> keywordMembers = new ArrayList<>();
-            for (int keywordId : memberReqDto.getKeywordList()) {
+            for (long keywordId : memberReqDto.getKeywordList()) {
                 Keyword keyword = new Keyword();
                 keyword.setKeywordId(keywordId);
                 KeywordMember keywordMember = new KeywordMember();
@@ -172,7 +172,7 @@ public interface MemberMapper extends CustomMapper {
         );
 
         //추천 OTT 순위
-        Map<Integer, RecommendOttResDto> map = new HashMap();
+        Map<Long, RecommendOttResDto> map = new HashMap();
 
         member.getRecommendMovies().stream()
                 .forEach(recommendMovie -> {

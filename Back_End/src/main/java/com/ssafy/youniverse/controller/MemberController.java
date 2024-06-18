@@ -42,7 +42,7 @@ public class MemberController {
 
     //개별 회원조회 -> 랜덤 회원 추천일 경우 회원 식별자에 0이 들어옴
     @GetMapping("/{member-id}")
-    public ResponseEntity<?> findMember(@PathVariable("member-id") int memberId) {
+    public ResponseEntity<?> findMember(@PathVariable("member-id") long memberId) {
         Member member = memberService.readMember(memberId);
         MemberResDto memberResDto = memberMapper.memberToMemberResDto(member);
         return new ResponseEntity<>(memberResDto, HttpStatus.OK);
@@ -62,7 +62,7 @@ public class MemberController {
 
     //회원정보 수정
     @PutMapping("/{member-id}")
-    public ResponseEntity<?> modifyMember(@PathVariable("member-id") int memberId,
+    public ResponseEntity<?> modifyMember(@PathVariable("member-id") long memberId,
                                           @RequestPart(value = "memberReqDto") MemberReqDto memberReqDto,
                                           @RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException {
         memberReqDto.setMemberId(memberId);
@@ -74,7 +74,7 @@ public class MemberController {
 
     //회원탈퇴
     @DeleteMapping("/{member-id}")
-    public ResponseEntity<?> leaveMember(@PathVariable("member-id") int memberId) {
+    public ResponseEntity<?> leaveMember(@PathVariable("member-id") long memberId) {
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

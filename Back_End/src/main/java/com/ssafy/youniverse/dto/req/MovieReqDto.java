@@ -8,16 +8,16 @@ import java.util.List;
 @Getter
 @Setter
 public class MovieReqDto {
-    private Integer movieId;
+    private Long movieId;
     private String title;
     private String language;
     private String overView;
     private Double rate;
     private Integer runtime;
     private String movieImage;
-    private List<Integer> ottList; //영화와 관련된 Ott 식별자
-    private List<Integer> keywordList; //영화와 관련된 Keyword 식별자
-    private List<Integer> actorList; //영화와 관련된 Actor 식별자
-    private List<Integer> genreList; //영화와 관련된 Genre 식별자
-    private List<Integer> directorList; //영화와 관련된 Director 식별자
+    private List<Long> ottList; //영화와 관련된 Ott 식별자
+    private List<Long> keywordList; //영화와 관련된 Keyword 식별자
+    private List<Long> actorList; //영화와 관련된 Actor 식별자
+    private List<Long> genreList; //영화와 관련된 Genre 식별자
+    private List<Long> directorList; //영화와 관련된 Director 식별자
 }

@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 public class RecommendMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer recommendMovieId;
+    private Long recommendMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

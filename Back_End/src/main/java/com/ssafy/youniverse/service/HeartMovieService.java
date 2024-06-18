@@ -31,7 +31,7 @@ public class HeartMovieService {
 
     //HeartMovie 개별 조회
     @Transactional(readOnly = true)
-    public HeartMovie readHeartMovie(int heartMovieId) {
+    public HeartMovie readHeartMovie(long heartMovieId) {
         Optional<HeartMovie> optionalHeartMovie = heartMovieRepository.findById(heartMovieId);
         if (!optionalHeartMovie.isPresent()) { //존재하지 않는 HeartMovie인 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -41,7 +41,7 @@ public class HeartMovieService {
     }
 
     //HeartMovie 삭제
-    public void deleteHeartMovie(int heartMovieId) {
+    public void deleteHeartMovie(long heartMovieId) {
         HeartMovie heartMovie = readHeartMovie(heartMovieId);
         heartMovieRepository.delete(heartMovie);
     }

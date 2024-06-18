@@ -33,7 +33,7 @@ public class OttController {
 
     //Ott 개별 조회
     @GetMapping("/{ott-id}")
-    public ResponseEntity<?> findOtt(@PathVariable("ott-id") int ottId) {
+    public ResponseEntity<?> findOtt(@PathVariable("ott-id") long ottId) {
         Ott ott = ottService.readOtt(ottId);
         OttResDto ottResDto = ottMapper.ottToOttResDto(ott);
         return new ResponseEntity<>(ottResDto, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class OttController {
 
     //Ott 수정
     @PutMapping("/{ott-id}")
-    public ResponseEntity<?> modifyOtt(@PathVariable("ott-id") int ottId,
+    public ResponseEntity<?> modifyOtt(@PathVariable("ott-id") long ottId,
                                        @RequestPart("ottReqDto") OttReqDto ottReqDto,
                                        @RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException {
         ottReqDto.setOttId(ottId);
@@ -60,7 +60,7 @@ public class OttController {
     }
 
     @DeleteMapping("/{ott-id}")
-    public ResponseEntity<?> removeOtt(@PathVariable("ott-id") int ottId) {
+    public ResponseEntity<?> removeOtt(@PathVariable("ott-id") long ottId) {
         ottService.deleteOtt(ottId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

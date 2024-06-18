@@ -14,7 +14,7 @@ public class OttMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer OttMemberId;
+    private Long OttMemberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

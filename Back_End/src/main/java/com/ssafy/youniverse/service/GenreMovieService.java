@@ -21,7 +21,7 @@ public class GenreMovieService {
 
     //조회
     @Transactional(readOnly = true)
-    public GenreMovie readGenreMovie(int genreMovieId) {
+    public GenreMovie readGenreMovie(long genreMovieId) {
         Optional<GenreMovie> optionalGenreMovie = genreMovieRepository.findById(genreMovieId);
         if (!optionalGenreMovie.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시예외
@@ -30,7 +30,7 @@ public class GenreMovieService {
     }
 
     //삭제
-    public void deleteGenreMovie(int genreMovieId) {
+    public void deleteGenreMovie(long genreMovieId) {
         GenreMovie genreMovie = readGenreMovie(genreMovieId);
         genreMovieRepository.delete(genreMovie);
     }

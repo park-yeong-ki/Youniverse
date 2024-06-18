@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 public class YoutubeKeyword extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer youtubeKeywordId;
+    private Long youtubeKeywordId;
 
     @Column(nullable = false, length = 30)
     private String youtubeKeywordName;

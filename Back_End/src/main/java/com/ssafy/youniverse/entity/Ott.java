@@ -14,7 +14,7 @@ import java.util.List;
 public class Ott {
 
     @Id
-    private Integer ottId;
+    private Long ottId;
 
     @Column(length = 30, nullable = false)
     private String ottName;

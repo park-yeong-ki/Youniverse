@@ -14,7 +14,7 @@ public class KeywordMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer keywordMovieId;
+    private Long keywordMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "keyword_id")

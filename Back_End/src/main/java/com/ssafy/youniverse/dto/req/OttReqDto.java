@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OttReqDto {
-    private Integer ottId;
+    private Long ottId;
     private String ottName;
     private String ottUrl;
 }

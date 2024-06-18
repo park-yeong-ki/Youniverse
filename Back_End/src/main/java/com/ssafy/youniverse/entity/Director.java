@@ -14,7 +14,7 @@ import java.util.List;
 public class Director {
 
     @Id
-    private Integer directorId;
+    private Long directorId;
 
     @Column(length = 60, nullable = false)
     private String directorName;

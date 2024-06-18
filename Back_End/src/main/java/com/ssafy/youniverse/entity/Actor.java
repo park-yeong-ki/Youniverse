@@ -14,7 +14,7 @@ import java.util.List;
 public class Actor {
 
     @Id
-    private Integer actorId;
+    private Long actorId;
 
     @Column(length = 60, nullable = false)
     private String actorName;

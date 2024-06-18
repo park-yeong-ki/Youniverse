@@ -48,9 +48,9 @@ public class MemberService {
 
     //회원조회
     @Transactional(readOnly = true)
-    public Member readMember(int memberId) {
+    public Member readMember(long memberId) {
         if (memberId == 0) { //인생영화 5개 이상인 랜덤 회원 전송
-            Integer randomId = memberRepository.findByRandomQueryDsl();
+            Long randomId = memberRepository.findByRandomQueryDsl();
             if (randomId != null) memberId = randomId; //랜덤 회원이 존재하는 경우
         }
 
@@ -119,7 +119,7 @@ public class MemberService {
     }
 
     //회원삭제
-    public void deleteMember(int memberId) {
+    public void deleteMember(long memberId) {
         Member findMember = readMember(memberId); //존재하는 회원인지 찾기
 
         if (findMember.getMemberImage() != null) { //회원 프로필 이미지 존재 여부 파악
