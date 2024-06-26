@@ -14,8 +14,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class KeywordBulkRepository {
     private final JdbcTemplate jdbcTemplate;
-    @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
-    private int batchSize;
 
     @Transactional
     public void saveAll(Set<Keyword> keywords) {
@@ -24,7 +22,7 @@ public class KeywordBulkRepository {
 
         jdbcTemplate.batchUpdate(sql,
                 keywords,
-                batchSize,
+                keywords.size(),
                 (PreparedStatement ps, Keyword keyword) -> {
                     ps.setLong(1, keyword.getKeywordId());
                     ps.setString(2, keyword.getKeywordName());

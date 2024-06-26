@@ -14,8 +14,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GenreBulkRepository {
     private final JdbcTemplate jdbcTemplate;
-    @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
-    private int batchSize;
 
     @Transactional
     public void saveAll(Set<Genre> genres) {
@@ -24,7 +22,7 @@ public class GenreBulkRepository {
 
         jdbcTemplate.batchUpdate(sql,
                 genres,
-                batchSize,
+                genres.size(),
                 (PreparedStatement ps, Genre genre) -> {
                     ps.setLong(1, genre.getGenreId());
                     ps.setString(2, genre.getGenreName());

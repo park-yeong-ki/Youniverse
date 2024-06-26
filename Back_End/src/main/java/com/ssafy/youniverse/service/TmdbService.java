@@ -4,14 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.youniverse.entity.*;
-import com.ssafy.youniverse.repository.*;
 import com.ssafy.youniverse.repository.bulk.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -34,6 +32,7 @@ public class TmdbService {
     private final DirectorMovieBulkRepository directorMovieRepository;
     private final KeywordMovieBulkRepository keywordMovieRepository;
     private final OttMovieBulkRepository ottMovieRepository;
+    private final ErrorStartPageService errorStartPageService;
 
     private Set<Movie> movieSet = ConcurrentHashMap.newKeySet();
     private Set<Genre> genreSet = ConcurrentHashMap.newKeySet();
@@ -55,19 +54,34 @@ public class TmdbService {
     @Value("${tmdb.ott-list}")
     private Set<Integer> ottList;
 
+    @Value("${tmdb.chunkSize}")
+    private int chunkSize;
+
+    @Value("${tmdb.maxPage}")
+    private int maxPage;
+
     /**
      * 매일 오전 5시 갱신
      * TDMB API를 활용해 영화, 장르, 배우, 감독, 키워드를 불러와 DB에 저장
-     * totalPage 설정
+     * maxPage = 500
      */
     @Scheduled(cron = "0 0 5 * * *", zone = "Asia/Seoul")
-    public void getMovieInfosFromTdmb() throws InterruptedException {
-        callTmdbApi(500);
-        saveDatabase();
-        setClear();
+    public void getMovieInfosFromTdmb() {
+        for (int i = 1; i <= maxPage; i+= chunkSize) {
+            try {
+                //트랜잭션 걸기
+                getChunkMovies(i);
+                saveInfos();
+            } catch (Exception e) {
+                log.info("error start page = {}", i);
+                errorStartPageService.saveError(i);
+            }finally {
+                setClear();
+            }
+        }
     }
 
-    private void setClear() {
+    public void setClear() {
         movieSet.clear();
         genreSet.clear();
         actorSet.clear();
@@ -81,38 +95,51 @@ public class TmdbService {
     }
 
     /**
-     * API 호출에 스레드 10개를 생성하여 병렬 처리
-     * 한 페이지당 20개의 영화 정보를 가지고 있는 페이지 totalPage만큼 호출
-     * @param totalPage
+     * chunkSize = 5
+     * API 호출에 스레드 chunkSize 수만큼 생성하여 병렬 처리
+     * 한 페이지당 20개의 영화 정보를 가지고 있는 페이지 chunkSize 만큼 호출
+     * @param startPage
      * @throws InterruptedException
      */
-    private void callTmdbApi(int totalPage) throws InterruptedException {
-        int threadsCount = 10;
+    public void getChunkMovies(int startPage) throws InterruptedException {
+        int threadsCount = chunkSize;
         ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
 
-        IntStream.rangeClosed(1, totalPage).forEach(page -> {
-            executorService.submit(() -> {
-                try {
-                    JsonNode results = objectMapper.readTree(tmdbClient.getPopularMoviesId(lang, page)).path("results");
-                    for (JsonNode result : results) {
-                        getMovie(result.path("id").asInt());
-                    }
-                    log.info("Success fetching page {}", page);
-                } catch (Exception e) {
-                    log.error("Error fetching page {}: {}", page, e.getMessage());
-                }
+        IntStream.range(startPage, Math.min(startPage + chunkSize, maxPage))
+                .forEach(page -> {
+                    executorService.submit(() -> {
+                        try {
+                            fetchPage(page);
+                            log.info("Success fetching page {}", page);
+                        } catch (Exception e) {
+                            log.error("Error fetching page {}: {}", page, e.getMessage());
+                            throw new RuntimeException(e);
+                        }
+                    });
+                });
 
-            });
-        });
         executorService.shutdown();
 
         executorService.awaitTermination(60, TimeUnit.MINUTES);
     }
 
     /**
+     * 각 페이지 호출 후 페이지 내의 영화 목록을 getMovie로 전송
+     * @param page
+     * @throws JsonProcessingException
+     */
+    private void fetchPage(int page) throws JsonProcessingException {
+        JsonNode results = objectMapper.readTree(tmdbClient.getPopularMoviesId(lang, page)).path("results");
+        for (JsonNode result : results) {
+            getMovie(result.path("id").asInt());
+        }
+    }
+
+    /**
      * Bulk insert를 활용해 batch size만큼의 insert 쿼리를 묶어 DB에 저장
      */
-    private void saveDatabase() {
+    public void saveInfos() {
+
         genreRepository.saveAll(genreSet);
         actorRepository.saveAll(actorSet);
         directorRepository.saveAll(directorSet);
@@ -152,6 +179,7 @@ public class TmdbService {
             log.info("Success fetching movie {}", id);
         } catch (Exception e) {
             log.error("Error fetching movie {}: {}", id, e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

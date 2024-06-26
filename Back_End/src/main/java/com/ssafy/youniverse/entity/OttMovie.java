@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ott_id", "movie_id"})})
 public class OttMovie {
 
     @Id

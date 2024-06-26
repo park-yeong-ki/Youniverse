@@ -14,8 +14,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ActorMovieBulkRepository {
     private final JdbcTemplate jdbcTemplate;
-    @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
-    private int batchSize;
 
     @Transactional
     public void saveAll(Set<ActorMovie> actorMovies) {
@@ -24,7 +22,7 @@ public class ActorMovieBulkRepository {
 
         jdbcTemplate.batchUpdate(sql,
                 actorMovies,
-                batchSize,
+                actorMovies.size(),
                 (PreparedStatement ps, ActorMovie actormovie) -> {
                     ps.setLong(1, actormovie.getActor().getActorId());
                     ps.setLong(2, actormovie.getMovie().getMovieId());
