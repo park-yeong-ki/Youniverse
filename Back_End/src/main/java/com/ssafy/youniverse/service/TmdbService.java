@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -22,28 +23,19 @@ import java.util.stream.IntStream;
 public class TmdbService {
     private final TmdbClient tmdbClient;
     private final ObjectMapper objectMapper;
-    private final MovieBulkRepository movieRepository;
-    private final GenreBulkRepository genreRepository;
-    private final ActorBulkRepository actorRepository;
-    private final DirectorBulkRepository directorRepository;
-    private final KeywordBulkRepository keywordRepository;
-    private final GenreMovieBulkRepository genreMovieRepository;
-    private final ActorMovieBulkRepository actorMovieRepository;
-    private final DirectorMovieBulkRepository directorMovieRepository;
-    private final KeywordMovieBulkRepository keywordMovieRepository;
-    private final OttMovieBulkRepository ottMovieRepository;
     private final ErrorStartPageService errorStartPageService;
+    private final TmdbSaveService tmdbSaveService;
 
-    private Set<Movie> movieSet = ConcurrentHashMap.newKeySet();
-    private Set<Genre> genreSet = ConcurrentHashMap.newKeySet();
-    private Set<Actor> actorSet = ConcurrentHashMap.newKeySet();
-    private Set<Director> directorSet = ConcurrentHashMap.newKeySet();
-    private Set<Keyword> keywordSet = ConcurrentHashMap.newKeySet();
-    private Set<GenreMovie> genreMovieSet = ConcurrentHashMap.newKeySet();
-    private Set<ActorMovie> actorMovieSet = ConcurrentHashMap.newKeySet();
-    private Set<DirectorMovie> directorMovieSet = ConcurrentHashMap.newKeySet();
-    private Set<KeywordMovie> keywordMovieSet = ConcurrentHashMap.newKeySet();
-    private Set<OttMovie> ottMovieSet = ConcurrentHashMap.newKeySet();
+    public Set<Movie> movieSet = ConcurrentHashMap.newKeySet();
+    public Set<Genre> genreSet = ConcurrentHashMap.newKeySet();
+    public Set<Actor> actorSet = ConcurrentHashMap.newKeySet();
+    public Set<Director> directorSet = ConcurrentHashMap.newKeySet();
+    public Set<Keyword> keywordSet = ConcurrentHashMap.newKeySet();
+    public Set<GenreMovie> genreMovieSet = ConcurrentHashMap.newKeySet();
+    public Set<ActorMovie> actorMovieSet = ConcurrentHashMap.newKeySet();
+    public Set<DirectorMovie> directorMovieSet = ConcurrentHashMap.newKeySet();
+    public Set<KeywordMovie> keywordMovieSet = ConcurrentHashMap.newKeySet();
+    public Set<OttMovie> ottMovieSet = ConcurrentHashMap.newKeySet();
 
     @Value("${tmdb.language}")
     private String lang;
@@ -65,22 +57,51 @@ public class TmdbService {
      * TDMB API를 활용해 영화, 장르, 배우, 감독, 키워드를 불러와 DB에 저장
      * maxPage = 500
      */
-    @Scheduled(cron = "0 0 5 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 5 * * MON", zone = "Asia/Seoul")
     public void getMovieInfosFromTdmb() {
         for (int i = 1; i <= maxPage; i+= chunkSize) {
             try {
-                //트랜잭션 걸기
                 getChunkMovies(i);
-                saveInfos();
+                tmdbSaveService.saveInfos(movieSet, genreSet, actorSet, directorSet, keywordSet,
+                        genreMovieSet, actorMovieSet, directorMovieSet, keywordMovieSet, ottMovieSet);
             } catch (Exception e) {
-                log.info("error start page = {}", i);
-                errorStartPageService.saveError(i);
+                log.error("error start page = {}", i, e);
+                errorStartPageService.saveError(i, 1);
             }finally {
                 setClear();
             }
         }
     }
 
+    /**
+     * 에러 횟수가 1번인 시작 페이지를 불러온 후, 영화 정보 저장 기능 실행
+     * 성공한 페이지는 에러 페이지 객체 삭제
+     * 실패한 페이지는 에러 횟수 2로 갱신
+     */
+    @Scheduled(cron = "0 0 5 * * TUE", zone = "Asia/Seoul")
+    public void getErrorMovieInfosFromTdmb() {
+
+        for (ErrorStartPage current : errorStartPageService.getErrorCountOnePages()) {
+            int startPage = current.getStartPage();
+            try {
+                getChunkMovies(startPage);
+                tmdbSaveService.saveInfos(movieSet, genreSet, actorSet, directorSet, keywordSet,
+                        genreMovieSet, actorMovieSet, directorMovieSet, keywordMovieSet, ottMovieSet);
+
+                log.info("Success error start page = {}", startPage);
+                errorStartPageService.deleteError(current);
+            } catch (Exception e) {
+                log.error("Fail error start page = {}", startPage, e);
+                errorStartPageService.updateErrorCount(current);
+            } finally {
+                setClear();
+            }
+        }
+    }
+
+    /**
+     * 엔티티를 담은 Set 메모리 초기화
+     */
     public void setClear() {
         movieSet.clear();
         genreSet.clear();
@@ -101,26 +122,31 @@ public class TmdbService {
      * @param startPage
      * @throws InterruptedException
      */
-    public void getChunkMovies(int startPage) throws InterruptedException {
+    public void getChunkMovies(int startPage) throws InterruptedException, ExecutionException {
         int threadsCount = chunkSize;
         ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
+        List<Future<?>> futures = new ArrayList<>();
 
         IntStream.range(startPage, Math.min(startPage + chunkSize, maxPage))
                 .forEach(page -> {
-                    executorService.submit(() -> {
+                    Future<?> future = executorService.submit(() -> {
                         try {
                             fetchPage(page);
                             log.info("Success fetching page {}", page);
-                        } catch (Exception e) {
-                            log.error("Error fetching page {}: {}", page, e.getMessage());
+                        } catch (JsonProcessingException e) {
+                            log.error("Error fetching page {}", page);
                             throw new RuntimeException(e);
                         }
                     });
+                    futures.add(future);
                 });
 
         executorService.shutdown();
-
         executorService.awaitTermination(60, TimeUnit.MINUTES);
+
+        for (Future<?> future : futures) {
+            future.get();
+        }
     }
 
     /**
@@ -136,24 +162,6 @@ public class TmdbService {
     }
 
     /**
-     * Bulk insert를 활용해 batch size만큼의 insert 쿼리를 묶어 DB에 저장
-     */
-    public void saveInfos() {
-
-        genreRepository.saveAll(genreSet);
-        actorRepository.saveAll(actorSet);
-        directorRepository.saveAll(directorSet);
-        keywordRepository.saveAll(keywordSet);
-        movieRepository.saveAll(movieSet);
-
-        genreMovieRepository.saveAll(genreMovieSet);
-        actorMovieRepository.saveAll(actorMovieSet);
-        directorMovieRepository.saveAll(directorMovieSet);
-        keywordMovieRepository.saveAll(keywordMovieSet);
-        ottMovieRepository.saveAll(ottMovieSet);
-    }
-
-    /**
      * 영화 관련 정보 모두 조회
      * details 영화 정보, 장르
      * keywords 영화 키워드
@@ -161,7 +169,7 @@ public class TmdbService {
      * credits 영화 배우, 감독
      * @param id
      */
-    private void getMovie(int id) {
+    private void getMovie(int id) throws JsonProcessingException {
         try {
             String details = tmdbClient.getDetails(id, lang);
             Movie movie = toMovieEntity(details);
@@ -179,7 +187,7 @@ public class TmdbService {
             log.info("Success fetching movie {}", id);
         } catch (Exception e) {
             log.error("Error fetching movie {}: {}", id, e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw e;
         }
     }
 
