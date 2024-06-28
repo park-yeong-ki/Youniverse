@@ -22,7 +22,7 @@ public class KeywordMemberService {
 
     //키워드, 멤버 개별 조회
     @Transactional(readOnly = true)
-    public KeywordMember readKeywordMember(int keywordMemberId) {
+    public KeywordMember readKeywordMember(long keywordMemberId) {
         Optional<KeywordMember> optionalKeywordMember = keywordMemberRepository.findById(keywordMemberId);
         if (!optionalKeywordMember.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -38,7 +38,7 @@ public class KeywordMemberService {
     }
 
     //키워드, 멤버 삭제
-    public void deleteKeywordMember(int keywordMemberId) {
+    public void deleteKeywordMember(long keywordMemberId) {
         KeywordMember keywordMember = readKeywordMember(keywordMemberId);
         keywordMemberRepository.delete(keywordMember);
     }

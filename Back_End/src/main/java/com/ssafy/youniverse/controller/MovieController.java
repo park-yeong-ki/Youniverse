@@ -32,7 +32,7 @@ public class MovieController {
 
     //영화 조회
     @GetMapping("/{movie-id}")
-    public ResponseEntity<?> findMovie(@PathVariable("movie-id") int movieId) {
+    public ResponseEntity<?> findMovie(@PathVariable("movie-id") long movieId) {
         Movie movie = movieService.readMovie(movieId);
         MovieResDto movieResDto = movieMapper.movieToMovieResDto(movie);
         return new ResponseEntity<>(movieResDto, HttpStatus.OK);
@@ -43,12 +43,12 @@ public class MovieController {
     //감독, 배우, 타이틀별 조회
     @GetMapping
     public ResponseEntity<?> findMovies(@PageableDefault(sort = "movieId", direction = Sort.Direction.ASC) Pageable pageable,
-                                        @RequestParam(name = "member-id", required = false) Integer memberId,
+                                        @RequestParam(name = "member-id", required = false) Long memberId,
                                         @RequestParam(name = "director", required = false) String director,
                                         @RequestParam(name = "actor", required = false) String actor,
                                         @RequestParam(name = "title", required = false) String title,
                                         @RequestParam(name = "type", required = false) Integer type,
-                                        @RequestParam(name = "ott-id", required = false) Integer ottId) {
+                                        @RequestParam(name = "ott-id", required = false) Long ottId) {
         Page<Movie> moviePage = movieService.readMovies(pageable, memberId, director, actor, title, type, ottId);
         Page<MovieResDto> movieResDtoPage = moviePage.map(movie -> movieMapper.movieToMovieResDto(movie));
         return new ResponseEntity<>(movieResDtoPage, HttpStatus.OK);
@@ -56,7 +56,7 @@ public class MovieController {
 
     //영화 수정
     @PutMapping("/{movie-id}")
-    public ResponseEntity<?> modifyMovie(@PathVariable("movie-id") int movieId, @RequestBody MovieReqDto movieReqDto) {
+    public ResponseEntity<?> modifyMovie(@PathVariable("movie-id") long movieId, @RequestBody MovieReqDto movieReqDto) {
         movieReqDto.setMovieId(movieId);
         Movie movie = movieMapper.movieReqDtoToMovie(movieReqDto);
         Movie updatedMovie = movieService.updateMovie(movie);
@@ -66,7 +66,7 @@ public class MovieController {
 
     //영화 삭제
     @DeleteMapping("/{movie-id}")
-    public ResponseEntity<?> removeMovie(@PathVariable("movie-id") int movieId) {
+    public ResponseEntity<?> removeMovie(@PathVariable("movie-id") long movieId) {
         movieService.deleteMovie(movieId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

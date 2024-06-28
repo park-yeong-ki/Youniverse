@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MyMovieReqDto {
-    private Integer memberId;
-    private Integer movieId;
+    private Long memberId;
+    private Long movieId;
     private String reviewContent;
     private float reviewRate;
 }

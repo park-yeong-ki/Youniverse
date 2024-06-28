@@ -27,7 +27,7 @@ public class OttService {
 
     //Ott 개별 조회
     @Transactional(readOnly = true)
-    public Ott readOtt(int ottId) {
+    public Ott readOtt(long ottId) {
         Optional<Ott> optionalOtt = ottRepository.findById(ottId);
         if (!optionalOtt.isPresent()) { //Ott가 존재하지 않는 경우
             throw new RuntimeException("존재하지 않는 OTT 입니다."); //임시 예외
@@ -45,7 +45,6 @@ public class OttService {
     public Ott updateOtt(Ott ott, MultipartFile multipartFile) throws IOException {
         Ott findOtt = readOtt(ott.getOttId());
         findOtt.setOttName(ott.getOttName());
-        findOtt.setOttUrl(ott.getOttUrl());
 
         if (findOtt.getOttImage() != null) { //기존 OTT 이미지가 존재하는 경우
             String file = findOtt.getOttImage();
@@ -63,7 +62,7 @@ public class OttService {
     }
 
     //Ott 삭제
-    public void deleteOtt(int ottId) {
+    public void deleteOtt(long ottId) {
         Ott findOtt = readOtt(ottId); //OTT 찾기
         if (findOtt.getOttImage() != null) { //OTT 프로필 이미지 존재 여부 파악
             String file = findOtt.getOttImage();

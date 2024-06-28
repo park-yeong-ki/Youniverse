@@ -1,9 +1,8 @@
 package com.ssafy.youniverse.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +10,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 public class Actor {
 
     @Id
-    private Integer actorId;
+    private Long actorId;
 
     @Column(length = 60, nullable = false)
     private String actorName;

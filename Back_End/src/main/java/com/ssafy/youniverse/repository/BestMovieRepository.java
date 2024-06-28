@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface BestMovieRepository extends JpaRepository<BestMovie, Integer> {
+public interface BestMovieRepository extends JpaRepository<BestMovie, Long> {
     List<BestMovie> findAllByMember(Member member);
 
     Optional<BestMovie> findByMovieAndMember(Movie movie, Member member);

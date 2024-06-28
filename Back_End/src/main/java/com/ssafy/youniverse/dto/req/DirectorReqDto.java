@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DirectorReqDto {
-    private Integer directorId;
+    private Long directorId;
     private String directorName;
     private String directorImage;
 }

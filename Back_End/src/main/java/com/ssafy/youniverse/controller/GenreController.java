@@ -30,7 +30,7 @@ public class GenreController {
 
     //조회
     @GetMapping("/{genre-id}")
-    public ResponseEntity<?> findGenre(@PathVariable("genre-id") int genreId) {
+    public ResponseEntity<?> findGenre(@PathVariable("genre-id") long genreId) {
         Genre findGenre = genreService.readGenre(genreId);
         GenreResDto genreResDto = genreMapper.genreToGenreResDto(findGenre);
         return new ResponseEntity<>(genreResDto, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class GenreController {
 
     //수정
     @PutMapping("/{genre-id}")
-    public ResponseEntity<?> modifyGenre(@PathVariable("genre-id") int genreId, @RequestBody GenreReqDto genreReqDto) {
+    public ResponseEntity<?> modifyGenre(@PathVariable("genre-id") long genreId, @RequestBody GenreReqDto genreReqDto) {
         genreReqDto.setGenreId(genreId);
         Genre genre = genreMapper.genreReqDtoToGenre(genreReqDto);
         Genre updatedGenre = genreService.updateGenre(genre);
@@ -56,7 +56,7 @@ public class GenreController {
 
     //삭제
     @DeleteMapping("/{genre-id}")
-    public ResponseEntity<?> removeGenre(@PathVariable("genre-id") int genreId) {
+    public ResponseEntity<?> removeGenre(@PathVariable("genre-id") long genreId) {
         genreService.deleteGenre(genreId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

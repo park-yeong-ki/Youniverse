@@ -1,11 +1,8 @@
 package com.ssafy.youniverse.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +10,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 public class Director {
 
     @Id
-    private Integer directorId;
+    private Long directorId;
 
     @Column(length = 60, nullable = false)
     private String directorName;

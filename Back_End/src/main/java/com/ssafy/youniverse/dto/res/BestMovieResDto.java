@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BestMovieResDto {
-    private Integer bestMovieId;
+    private Long bestMovieId;
     private MemberSimpleResDto memberSimpleResDto;
     private MovieSimpleResDto movieSimpleResDto;
 }

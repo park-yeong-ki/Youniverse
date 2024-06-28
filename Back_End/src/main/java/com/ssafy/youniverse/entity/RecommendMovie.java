@@ -1,11 +1,10 @@
 package com.ssafy.youniverse.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ import javax.persistence.*;
 public class RecommendMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer recommendMovieId;
+    private Long recommendMovieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

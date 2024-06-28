@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KeywordResDto {
-    private Integer keywordId;
+    private Long keywordId;
     private String keywordName;
 }

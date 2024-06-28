@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 @Setter
 public class MovieSimpleResDto {
-    private Integer movieId;
+    private Long movieId;
     private String title;
     private String movieImage;
     private List<KeywordResDto> keywordResDtos;
-    private Float rate;
+    private Double rate;
     private Integer runtime;
 }

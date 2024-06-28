@@ -28,7 +28,7 @@ public class ReviewController {
 
     //리뷰 조회
     @GetMapping("/{review-id}")
-    public ResponseEntity<?> findReview(@PathVariable("review-id") int reviewId) {
+    public ResponseEntity<?> findReview(@PathVariable("review-id") long reviewId) {
         Review review = reviewService.readReview(reviewId);
         ReviewResDto reviewResDto = reviewMapper.reviewToReviewResDto(review);
         return new ResponseEntity<>(reviewResDto, HttpStatus.OK);
@@ -36,7 +36,7 @@ public class ReviewController {
 
     //리뷰 수정
     @PutMapping("/{review-id}")
-    public ResponseEntity<?> modifyReview(@PathVariable("review-id") int reviewId, @RequestBody MyMovieReqDto myMovieReqDto) {
+    public ResponseEntity<?> modifyReview(@PathVariable("review-id") long reviewId, @RequestBody MyMovieReqDto myMovieReqDto) {
         Review review = reviewMapper.myMovieReqDtoToReview(myMovieReqDto);
         review.setReviewId(reviewId);
         Review updatedReview = reviewService.updateReview(review);
@@ -46,7 +46,7 @@ public class ReviewController {
 
     //리뷰 삭제
     @DeleteMapping("/{review-id}")
-    public ResponseEntity<?> removeHeartMovie(@PathVariable("review-id") int reviewId) {
+    public ResponseEntity<?> removeHeartMovie(@PathVariable("review-id") long reviewId) {
         reviewService.deleteReview(reviewId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

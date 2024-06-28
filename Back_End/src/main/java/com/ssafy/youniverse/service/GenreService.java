@@ -22,7 +22,7 @@ public class GenreService {
 
     //조회
     @Transactional(readOnly = true)
-    public Genre readGenre(int genreId) {
+    public Genre readGenre(long genreId) {
         Optional<Genre> optionalGenre = genreRepository.findById(genreId);
         if (!optionalGenre.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시예외
@@ -44,7 +44,7 @@ public class GenreService {
     }
 
     //삭제
-    public void deleteGenre(int genreId) {
+    public void deleteGenre(long genreId) {
         Genre genre = readGenre(genreId);
         genreRepository.delete(genre);
     }

@@ -31,7 +31,7 @@ public class ReviewService {
 
     //Review 개별 조회
     @Transactional(readOnly = true)
-    public Review readReview(int reviewId) {
+    public Review readReview(long reviewId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
         if (!optionalReview.isPresent()) { //존재하지 않는 Review인 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -49,7 +49,7 @@ public class ReviewService {
     }
 
     //Review 삭제
-    public void deleteReview(int reviewId) {
+    public void deleteReview(long reviewId) {
         Review review = readReview(reviewId);
         reviewRepository.delete(review);
     }

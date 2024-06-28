@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewResDto {
-    private Integer reviewId;
+    private Long reviewId;
     private MemberSimpleResDto memberSimpleResDto;
     private MovieSimpleResDto movieSimpleResDto;
     private String reviewContent;

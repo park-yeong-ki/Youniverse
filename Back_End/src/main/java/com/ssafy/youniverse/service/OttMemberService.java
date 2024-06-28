@@ -22,7 +22,7 @@ public class OttMemberService {
 
     //OttMember 개별 조회
     @Transactional(readOnly = true)
-    public OttMember readOttMember(int ottMemberId) {
+    public OttMember readOttMember(long ottMemberId) {
         Optional<OttMember> optionalOttMember = ottMemberRepository.findById(ottMemberId);
         if (!optionalOttMember.isPresent()) { //존재하지 않는 OttMember인 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -38,7 +38,7 @@ public class OttMemberService {
     }
 
     //OttMember 삭제
-    public void deleteOttMember(int ottMemberId) {
+    public void deleteOttMember(long ottMemberId) {
         OttMember ottMember = readOttMember(ottMemberId);
         ottMemberRepository.delete(ottMember);
     }

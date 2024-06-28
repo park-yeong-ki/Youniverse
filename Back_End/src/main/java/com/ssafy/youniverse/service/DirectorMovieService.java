@@ -21,7 +21,7 @@ public class DirectorMovieService {
 
     //조회
     @Transactional(readOnly = true)
-    public DirectorMovie readDirectorMovie(int directorMovieId) {
+    public DirectorMovie readDirectorMovie(long directorMovieId) {
         Optional<DirectorMovie> optionalDirectorMovie = directorMovieRepository.findById(directorMovieId);
         if (!optionalDirectorMovie.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시예외
@@ -30,7 +30,7 @@ public class DirectorMovieService {
     }
 
     //삭제
-    public void deleteDirectorMovie(int directorMovieId) {
+    public void deleteDirectorMovie(long directorMovieId) {
         DirectorMovie directorMovie = readDirectorMovie(directorMovieId);
         directorMovieRepository.delete(directorMovie);
     }

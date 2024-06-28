@@ -28,7 +28,7 @@ public class BestMovieController {
 
     //인생영화 조회
     @GetMapping("/{best-movie-id}")
-    public ResponseEntity<?> findBestMovie(@PathVariable("best-movie-id") int bestMovieId) {
+    public ResponseEntity<?> findBestMovie(@PathVariable("best-movie-id") long bestMovieId) {
         BestMovie bestMovie = bestMovieService.readBestMovie(bestMovieId);
         BestMovieResDto bestMovieResDto = bestMovieMapper.bestMovieToBestMovieResDto(bestMovie);
         return new ResponseEntity<>(bestMovieResDto, HttpStatus.OK);
@@ -36,7 +36,7 @@ public class BestMovieController {
 
     //인생영화 삭제
     @DeleteMapping("/{best-movie-id}")
-    public ResponseEntity<?> removeBestMovie(@PathVariable("best-movie-id") int bestMovieId) {
+    public ResponseEntity<?> removeBestMovie(@PathVariable("best-movie-id") long bestMovieId) {
         bestMovieService.deleteBestMovie(bestMovieId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
