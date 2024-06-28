@@ -28,7 +28,7 @@ public class HateMovieController {
 
     //싫어요 조회
     @GetMapping("/{hate-movie-id}")
-    public ResponseEntity<?> findHateMovie(@PathVariable("hate-movie-id") int hateMovieId) {
+    public ResponseEntity<?> findHateMovie(@PathVariable("hate-movie-id") long hateMovieId) {
         HateMovie hateMovie = hateMovieService.readHateMovie(hateMovieId);
         HateMovieResDto hateMovieResDto = hateMovieMapper.hateMovieToHateMovieResDto(hateMovie);
         return new ResponseEntity<>(hateMovieResDto, HttpStatus.OK);
@@ -36,7 +36,7 @@ public class HateMovieController {
 
     //싫어요 삭제
     @DeleteMapping("/{hate-movie-id}")
-    public ResponseEntity<?> removeHateMovie(@PathVariable("hate-movie-id") int hateMovieId) {
+    public ResponseEntity<?> removeHateMovie(@PathVariable("hate-movie-id") long hateMovieId) {
         hateMovieService.deleteHateMovie(hateMovieId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

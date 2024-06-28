@@ -22,7 +22,7 @@ public class ActorService {
 
     //조회
     @Transactional(readOnly = true)
-    public Actor readActor(int actorId) {
+    public Actor readActor(long actorId) {
         Optional<Actor> optionalActor = actorRepository.findById(actorId);
         if (!optionalActor.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시예외
@@ -45,7 +45,7 @@ public class ActorService {
     }
 
     //삭제
-    public void deleteActor(int actorId) {
+    public void deleteActor(long actorId) {
         Actor actor = readActor(actorId);
         actorRepository.delete(actor);
     }

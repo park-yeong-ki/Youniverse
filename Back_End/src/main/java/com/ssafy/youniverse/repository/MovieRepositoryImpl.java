@@ -34,7 +34,7 @@ public class MovieRepositoryImpl extends PageSort implements MovieRepositoryCust
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Movie> findAllQueryDsl(Pageable pageable, Integer memberId, String director, String actor, String title, Integer type, Integer ottId) {
+    public Page<Movie> findAllQueryDsl(Pageable pageable, Long memberId, String director, String actor, String title, Integer type, Long ottId) {
         List<Movie> content = jpaQueryFactory
                 .selectFrom(movie)
                 .where(eqDirector(director), eqActor(actor), containTitle(title), eqOttId(memberId, ottId), searchType(memberId, type))
@@ -52,7 +52,7 @@ public class MovieRepositoryImpl extends PageSort implements MovieRepositoryCust
         return new PageImpl<>(content, pageable, count);
     }
 
-    private BooleanExpression searchType(Integer memberId, Integer type) {
+    private BooleanExpression searchType(Long memberId, Integer type) {
         if (memberId != null && type != null) {
             switch (type) {
                 case 1: //선호도 조사 -> 로그인 회원 키워드와 일치하는 키워드를 가진 영화 목록 추천
@@ -104,7 +104,7 @@ public class MovieRepositoryImpl extends PageSort implements MovieRepositoryCust
         return null;
     }
 
-    private BooleanExpression eqOttId(Integer memberId, Integer ottId) {
+    private BooleanExpression eqOttId(Long memberId, Long ottId) {
         if (memberId != null && ottId != null) {
             return movie.movieId.in(
                     JPAExpressions

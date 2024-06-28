@@ -37,7 +37,7 @@ public class BestMovieService {
 
     //BestMovie 개별 조회
     @Transactional(readOnly = true)
-    public BestMovie readBestMovie(int bestMovieId) {
+    public BestMovie readBestMovie(long bestMovieId) {
         Optional<BestMovie> optionalBestMovie = bestMovieRepository.findById(bestMovieId);
         if (!optionalBestMovie.isPresent()) { //존재하지 않는 BestMovie인 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -47,7 +47,7 @@ public class BestMovieService {
     }
 
     //BestMovie 삭제
-    public void deleteBestMovie(int bestMovieId) {
+    public void deleteBestMovie(long bestMovieId) {
         BestMovie bestMovie = readBestMovie(bestMovieId);
         bestMovieRepository.delete(bestMovie);
     }

@@ -28,7 +28,7 @@ public class KeywordService {
 
     //키워드 개별 조회
     @Transactional(readOnly = true)
-    public Keyword readKeyword(int keywordId) {
+    public Keyword readKeyword(long keywordId) {
         Optional<Keyword> optionalKeyword = keywordRepository.findById(keywordId);
         if (!optionalKeyword.isPresent()) { //키워드가 존재하지 않는 경우
             throw new RuntimeException("존재하지 않는 키워드입니다."); //임시 예외
@@ -48,14 +48,14 @@ public class KeywordService {
     }
 
     //키워드 수정
-    public Keyword modifyKeyword(int keywordId, Keyword keyword) {
+    public Keyword modifyKeyword(long keywordId, Keyword keyword) {
         Keyword findKeyword = readKeyword(keywordId);
         findKeyword.setKeywordName(keyword.getKeywordName());
         return keywordRepository.save(findKeyword);
     }
 
     //키워드 삭제
-    public void deleteKeyword(int keywordId) {
+    public void deleteKeyword(long keywordId) {
         Keyword keyword = readKeyword(keywordId);
         keywordRepository.delete(keyword);
     }

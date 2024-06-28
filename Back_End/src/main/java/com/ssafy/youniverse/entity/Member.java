@@ -1,11 +1,9 @@
 package com.ssafy.youniverse.entity;
 
 import com.ssafy.youniverse.util.Auditable;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.context.annotation.Lazy;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer memberId;
+    private Long memberId;
 
     @Column(length = 20, nullable = true)
     private String nickname;

@@ -21,7 +21,7 @@ public class ActorMovieService {
 
     //조회
     @Transactional(readOnly = true)
-    public ActorMovie readActorMovie(int actorMovieId) {
+    public ActorMovie readActorMovie(long actorMovieId) {
         Optional<ActorMovie> optionalActorMovie = actorMovieRepository.findById(actorMovieId);
         if (!optionalActorMovie.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시예외
@@ -30,7 +30,7 @@ public class ActorMovieService {
     }
 
     //삭제
-    public void deleteActorMovie(int actorMovieId) {
+    public void deleteActorMovie(long actorMovieId) {
         ActorMovie actorMovie = readActorMovie(actorMovieId);
         actorMovieRepository.delete(actorMovie);
     }

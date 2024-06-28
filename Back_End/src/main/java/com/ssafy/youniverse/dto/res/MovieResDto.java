@@ -8,11 +8,11 @@ import java.util.List;
 @Getter
 @Setter
 public class MovieResDto {
-    private Integer movieId;
+    private Long movieId;
     private String title;
     private String language;
     private String overView;
-    private Float rate;
+    private Double rate;
     private Integer runtime;
     private String movieImage;
     private List<OttResDto> ottResDtos;

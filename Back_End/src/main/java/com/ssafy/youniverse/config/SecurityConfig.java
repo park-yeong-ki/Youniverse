@@ -18,6 +18,9 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,8 +56,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
 //                .formLogin().disable() // FormLogin 사용 X
-                .httpBasic().disable() // httpBasic 사용 X
-                .csrf().disable() // csrf 보안 사용 X
+                .httpBasic(HttpBasicConfigurer::disable) // httpBasic 사용 X
+                .csrf(AbstractHttpConfigurer::disable) // csrf 보안 사용 X
                 .cors(c -> {
                             CorsConfigurationSource source = request -> {
                                 // Cors 허용 패턴
@@ -73,13 +76,13 @@ public class SecurityConfig {
                             c.configurationSource(source);
                         }
                 )
-                .headers().frameOptions().disable()
-                .and()
+                .headers(httpSecurityHeadersConfigurer ->
+                        httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 
                 // 세션 사용하지 않으므로 STATELESS로 설정
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .and()
 
                 //== URL별 권한 관리 옵션 ==//URL 경로별로 접근 권한을 설정하는 메서드
                 .authorizeRequests()
@@ -89,26 +92,27 @@ public class SecurityConfig {
                  */
                 // 아이콘, css, js 관련
                 // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
-                .antMatchers("/","/login/**","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
+                .requestMatchers("/", "/login/**", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
                 //TODO : 현재 테스트용으로 모든 접근 허용해둠. 추후 엔드포인트 설정시 체크할 것!!!
 //                .antMatchers("/members/register","/otts/register", "/movies/register", "/keywords/register").permitAll() // 회원가입 접근 가능
-                .antMatchers("/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
-                .logout() // 로그아웃시
+                .logout(httpSecurityLogoutConfigurer
+                        -> httpSecurityLogoutConfigurer.logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()) // 로그아웃시
 //                .logoutUrl("/members/logout")
 //                .logoutSuccessHandler((request, response, authentication) -> {
 //                    response.setStatus(HttpStatus.OK.value());
 //                }) // 얘는 로그아웃시 리다이렉션을 방지하기 위함.
-                .logoutSuccessUrl("http://localhost:3000/")
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-                .and()
+//                .logoutSuccessUrl("http://localhost:3000/")
                 //== 소셜 로그인 설정 ==//
-                .oauth2Login()
-                .successHandler(oAuth2LoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정
-                .failureHandler(oAuth2LoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
-                .userInfoEndpoint().userService(customOAuth2UserService); // customUserService 설정
+                .oauth2Login(httpSecurityOAuth2LoginConfigurer ->
+                        httpSecurityOAuth2LoginConfigurer.successHandler(oAuth2LoginSuccessHandler)
+                                .failureHandler(oAuth2LoginFailureHandler)
+                                .userInfoEndpoint(userInfoEndpointConfig ->
+                                        userInfoEndpointConfig.userService(customOAuth2UserService)));
 
         // 원래 스프링 시큐리티 필터 순서가 LogoutFilter 이후에 로그인 필터 동작
         // 따라서, LogoutFilter 이후에 우리가 만든 필터 동작하도록 설정

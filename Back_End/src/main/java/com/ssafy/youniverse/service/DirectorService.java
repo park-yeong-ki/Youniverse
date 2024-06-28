@@ -22,7 +22,7 @@ public class DirectorService {
 
     //조회
     @Transactional(readOnly = true)
-    public Director readDirector(int directorId) {
+    public Director readDirector(long directorId) {
         Optional<Director> optionalDirector = directorRepository.findById(directorId);
         if (!optionalDirector.isPresent()) { //존재하지 않는 경우
             throw new RuntimeException("존재하지 않습니다."); //임시예외
@@ -45,7 +45,7 @@ public class DirectorService {
     }
 
     //삭제
-    public void deleteDirector(int directorId) {
+    public void deleteDirector(long directorId) {
         Director director = readDirector(directorId);
         directorRepository.delete(director);
     }

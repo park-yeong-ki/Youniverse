@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class MemberResDto {
-    private Integer memberId;
+    private Long memberId;
     private String nickname;
     private String email;
     private String gender;

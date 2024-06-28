@@ -30,7 +30,7 @@ public class KeywordController {
 
     //키워드 조회
     @GetMapping("/{keyword-id}")
-    public ResponseEntity<?> findKeyword(@PathVariable("keyword-id") int keywordId) {
+    public ResponseEntity<?> findKeyword(@PathVariable("keyword-id") long keywordId) {
         Keyword keyword = keywordService.readKeyword(keywordId);
         KeywordResDto keywordResDto = keywordMapper.keywordToKeywordResDto(keyword);
         return new ResponseEntity<>(keywordResDto, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class KeywordController {
 
     //키워드 삭제
     @DeleteMapping("/{keyword-id}")
-    public ResponseEntity<?> removeKeyword(@PathVariable("keyword-id") int keywordId) {
+    public ResponseEntity<?> removeKeyword(@PathVariable("keyword-id") long keywordId) {
         keywordService.deleteKeyword(keywordId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

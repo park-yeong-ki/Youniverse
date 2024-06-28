@@ -30,7 +30,7 @@ public class DirectorController {
 
     //조회
     @GetMapping("/{director-id}")
-    public ResponseEntity<?> findDirector(@PathVariable("director-id") int directorId) {
+    public ResponseEntity<?> findDirector(@PathVariable("director-id") long directorId) {
         Director findDirector = directorService.readDirector(directorId);
         DirectorResDto directorResDto = directorMapper.directorToDirectorResDto(findDirector);
         return new ResponseEntity<>(directorResDto, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class DirectorController {
 
     //수정
     @PutMapping("/{director-id}")
-    public ResponseEntity<?> modifyDirector(@PathVariable("director-id") int directorId, @RequestBody DirectorReqDto directorReqDto) {
+    public ResponseEntity<?> modifyDirector(@PathVariable("director-id") long directorId, @RequestBody DirectorReqDto directorReqDto) {
         directorReqDto.setDirectorId(directorId);
         Director director = directorMapper.directorReqDtoToDirector(directorReqDto);
         Director updatedDirector = directorService.updateDirector(director);
@@ -56,7 +56,7 @@ public class DirectorController {
 
     //삭제
     @DeleteMapping("/{director-id}")
-    public ResponseEntity<?> removeDirector(@PathVariable("director-id") int directorId) {
+    public ResponseEntity<?> removeDirector(@PathVariable("director-id") long directorId) {
         directorService.deleteDirector(directorId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

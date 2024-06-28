@@ -1,11 +1,10 @@
 package com.ssafy.youniverse.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
@@ -15,7 +14,7 @@ public class KeywordMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer keywordMemberId;
+    private Long keywordMemberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

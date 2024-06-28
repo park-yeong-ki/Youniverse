@@ -66,7 +66,7 @@ public class MovieService {
 
     //영화 조회
     @Transactional(readOnly = true)
-    public Movie readMovie(int movieId) {
+    public Movie readMovie(long movieId) {
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);
         if (!optionalMovie.isPresent()) { //영화 존재하지 않는 경우
             throw new RuntimeException("존재하지 않는 영화입니다."); //임시 예외
@@ -77,7 +77,7 @@ public class MovieService {
 
     //영화 전체 조회
     @Transactional(readOnly = true)
-    public Page<Movie> readMovies(Pageable pageable, Integer memberId, String director, String actor, String title, Integer type, Integer ottId) {
+    public Page<Movie> readMovies(Pageable pageable, Long memberId, String director, String actor, String title, Integer type, Long ottId) {
 
         return movieRepository.findAllQueryDsl(pageable, memberId, director, actor, title, type, ottId);
     }
@@ -138,7 +138,7 @@ public class MovieService {
     }
 
     //영화 삭제
-    public void deleteMovie(int movieId) {
+    public void deleteMovie(long movieId) {
         Movie movie = readMovie(movieId);
         movieRepository.delete(movie);
     }

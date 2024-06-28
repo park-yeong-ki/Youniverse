@@ -33,7 +33,7 @@ public class FollowService {
 
     //팔로우 조회
     @Transactional(readOnly = true)
-    public Follow readFollow(int followId) {
+    public Follow readFollow(long followId) {
         Optional<Follow> optionalFollow = followRepository.findById(followId);
         if (!optionalFollow.isPresent()){ //존재하지 않는 팔로우인 경우
             throw new RuntimeException("존재하지 않습니다."); //임시 예외
@@ -49,7 +49,7 @@ public class FollowService {
     }
 
     //팔로우 삭제
-    public void deleteFollow(int followId) {
+    public void deleteFollow(long followId) {
         Follow follow = readFollow(followId);
         followRepository.delete(follow);
     }
